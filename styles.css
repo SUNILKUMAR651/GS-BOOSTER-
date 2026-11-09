@@ -1,0 +1,447 @@
+/* ==========================================================================
+   GS POINTER TWO-COLUMN PDF GENERATOR - CORE STYLES & PRINT ENGINE
+   Strict A4 Millimeter Metric System (210mm x 297mm)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --font-devanagari: 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Document Typography Defaults */
+  --doc-font-size: 12px;
+  --doc-line-height: 1.45;
+  --doc-column-gap: 7mm;
+  --doc-item-spacing: 3.5px;
+  --doc-column-rule: 0.5px solid #d1d5db;
+  --doc-question-color: #000000;
+  --doc-answer-color: #dc2626;
+  --doc-bullet-color: #000000;
+}
+
+/* UI Base */
+body {
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Document content uses Noto Sans Devanagari */
+.gs-document-font {
+  font-family: var(--font-devanagari);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ==========================================================================
+   A4 SHEET DEFINITIONS (Screen & Preview Mode)
+   ========================================================================== */
+.a4-sheet {
+  width: 210mm;
+  height: 297mm;
+  min-height: 297mm;
+  max-height: 297mm;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  page-break-after: always;
+  break-after: page;
+}
+
+/* Inner Page Padding */
+.a4-sheet-inner {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 6mm 10mm 6mm 10mm; /* Strict margins giving maximum printable area */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 10;
+}
+
+/* Top Banner clickable link */
+.gs-top-banner {
+  text-align: center;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding-bottom: 2mm;
+  line-height: 1.2;
+}
+
+.gs-top-banner a {
+  color: #1d4ed8; /* Blue link */
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.gs-top-banner a:hover {
+  text-decoration: underline;
+  color: #1e40af;
+}
+
+/* Header & Footer Rules */
+.gs-header-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1.8mm;
+  border-bottom: 1.5px solid #000000;
+  font-weight: 700;
+  font-size: 12.5px;
+  color: #000000;
+  line-height: 1.2;
+}
+
+.gs-footer-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1.8mm;
+  border-top: 1.5px solid #000000;
+  font-weight: 700;
+  font-size: 12.5px;
+  color: #000000;
+  line-height: 1.2;
+  margin-top: auto; /* Locks to bottom */
+}
+
+/* Main Content Area (Two Columns) */
+.gs-columns-container {
+  height: 260mm;
+  max-height: 260mm;
+  width: 100%;
+  margin-top: 2.5mm;
+  margin-bottom: 2.5mm;
+  column-count: 2;
+  column-gap: var(--doc-column-gap);
+  column-fill: auto;
+  position: relative;
+  z-index: 12;
+  font-size: var(--doc-font-size);
+  line-height: var(--doc-line-height);
+  color: #050505;
+  overflow: hidden;
+}
+
+/* Column divider helper */
+.gs-columns-container.has-divider {
+  column-rule: var(--doc-column-rule);
+}
+
+/* Chapter / Topic Banner Spanning Both Columns */
+.gs-section-banner {
+  column-span: all;
+  -webkit-column-span: all;
+  text-align: center;
+  font-weight: 800;
+  font-size: 12.5px;
+  background-color: #f1f5f9;
+  border-top: 1.5px solid #000000;
+  border-bottom: 1.5px solid #000000;
+  padding: 2.5px 8px;
+  margin: 5px 0 6px 0;
+  color: #000000;
+  letter-spacing: 0.5px;
+  break-inside: avoid;
+  page-break-inside: avoid;
+  line-height: 1.3;
+}
+
+/* Outer Page Frame Styles */
+.a4-sheet.frame-single .a4-sheet-inner {
+  border: 1.2px solid #000000;
+}
+.a4-sheet.frame-double .a4-sheet-inner {
+  border: 3.5px double #000000;
+}
+
+/* Header Institute Logo */
+.header-logo-img {
+  max-height: 20px;
+  width: auto;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+/* ==========================================================================
+   A4 BOOKLET COVER PAGE STYLING
+   ========================================================================== */
+.a4-cover-sheet {
+  width: 210mm;
+  height: 297mm;
+  min-height: 297mm;
+  max-height: 297mm;
+  box-sizing: border-box;
+  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+  page-break-after: always;
+  break-after: page;
+}
+
+.a4-cover-inner {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 14mm 16mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 3.5px double #1e3a8a;
+  position: relative;
+  background: radial-gradient(circle at 50% 25%, #f8fafc 0%, #ffffff 80%);
+}
+
+.cover-logo-center {
+  max-height: 65px;
+  width: auto;
+  object-fit: contain;
+  margin: 0 auto 10px auto;
+  display: block;
+}
+
+.cover-hero-title {
+  font-size: 38px;
+  font-weight: 900;
+  color: #1e3a8a;
+  text-align: center;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+}
+
+.cover-subject-pill {
+  display: inline-block;
+  background: #dc2626;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 800;
+  padding: 6px 26px;
+  border-radius: 9999px;
+  margin: 12px auto 0 auto;
+  text-align: center;
+  box-shadow: 0 4px 10px -2px rgba(220, 38, 38, 0.3);
+}
+
+.cover-features-box {
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 14px 0;
+  box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+.cover-tag-banner {
+  background: #1e293b;
+  color: #ffffff;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 7px 12px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+/* Live Search Highlight */
+.search-highlight {
+  background-color: #fef08a !important;
+  color: #000000 !important;
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+/* Question-Answer Item Block */
+.gs-qa-item {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  margin-bottom: var(--doc-item-spacing);
+  display: block;
+  position: relative;
+  text-align: justify;
+  text-justify: inter-word;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+/* Arrow Bullet Styling */
+.gs-bullet {
+  font-weight: 700;
+  color: var(--doc-bullet-color);
+  display: inline-block;
+  margin-right: 3px;
+  user-select: none;
+}
+
+/* Mode 1: Authentic GS Pointer Right-Aligned Answer */
+.gs-qa-item.style-right .gs-question {
+  display: inline;
+  color: var(--doc-question-color);
+}
+
+.gs-qa-item.style-right .gs-answer {
+  display: block;
+  text-align: right;
+  font-weight: 700;
+  color: var(--doc-answer-color) !important;
+  margin-top: 1px;
+  padding-left: 12px;
+}
+
+/* Mode 2: Inline Bold Answer */
+.gs-qa-item.style-inline .gs-question {
+  display: inline;
+  color: var(--doc-question-color);
+}
+
+.gs-qa-item.style-inline .gs-answer {
+  display: inline;
+  font-weight: 700;
+  color: var(--doc-answer-color) !important;
+  margin-left: 2px;
+}
+
+/* Watermark */
+.gs-watermark-overlay {
+  position: absolute;
+  pointer-events: none;
+  z-index: 5;
+  font-family: var(--font-devanagari);
+  font-weight: 800;
+  color: #000000;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.gs-watermark-overlay.pos-bottom-right {
+  right: 14mm;
+  bottom: 16mm;
+  transform: rotate(-10deg);
+  font-size: 26px;
+  letter-spacing: 1px;
+}
+
+.gs-watermark-overlay.pos-center {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-35deg);
+  font-size: 42px;
+  letter-spacing: 2px;
+}
+
+.gs-watermark-overlay.pos-hidden {
+  display: none !important;
+}
+
+/* ==========================================================================
+   PRINT ENGINE STYLES (@media print)
+   ========================================================================== */
+@media print {
+  /* Set exact page boundary and eliminate browser chrome headers/footers */
+  @page {
+    size: A4 portrait;
+    margin: 0mm !important;
+  }
+
+  html, body {
+    width: 210mm !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide entire UI Application layer */
+  .no-print,
+  #app-sidebar,
+  #app-header,
+  #preview-toolbar,
+  #toast-container,
+  .print-hide {
+    display: none !important;
+  }
+
+  /* Unconstrain preview wrapper for full bleed print output */
+  #preview-scroll-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    display: block !important;
+    background: transparent !important;
+    transform: none !important;
+  }
+
+  #pages-render-target {
+    transform: none !important;
+    gap: 0 !important;
+    display: block !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* A4 Sheets & Cover in Print */
+  .a4-sheet,
+  .a4-cover-sheet {
+    box-shadow: none !important;
+    margin: 0 !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    max-height: 297mm !important;
+    min-height: 297mm !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    overflow: hidden !important;
+    background: #ffffff !important;
+  }
+
+  .a4-sheet:last-child {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  /* Preserve hyperlinks */
+  .gs-top-banner a {
+    color: #1d4ed8 !important;
+    text-decoration: underline !important;
+  }
+
+  /* Preserve answer colors in PDF export */
+  .gs-qa-item .gs-answer {
+    color: var(--doc-answer-color) !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
