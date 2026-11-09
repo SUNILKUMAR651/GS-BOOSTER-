@@ -434,6 +434,341 @@ sup {
 }
 
 /* ==========================================================================
+   MCQ TEST SERIES PRACTICE SET STYLES (Platform / Rukmini Exam Format)
+   ========================================================================== */
+
+/* Top Online App Download Promo Banner */
+.mcq-top-app-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 0 3px 0;
+  color: #111827;
+  border-bottom: 0.5px solid #cbd5e1;
+  margin-bottom: 2px;
+}
+.mcq-top-app-banner a {
+  color: #000000;
+  text-decoration: none;
+}
+.mcq-top-app-banner a:hover {
+  text-decoration: underline;
+}
+.mcq-top-app-banner .app-pill {
+  border: 1px solid #000000;
+  border-radius: 999px;
+  padding: 1px 8px;
+  font-size: 9.5px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Exam Header Box */
+.mcq-header-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 2px solid #000000;
+  padding-bottom: 3px;
+  margin-bottom: 4px;
+  position: relative;
+}
+
+/* Left Title with Red Accent Stripe */
+.mcq-header-left {
+  border-left: 6px solid #dc2626;
+  padding-left: 6px;
+  line-height: 1.15;
+}
+.mcq-header-left .series-sub {
+  font-size: 13px;
+  font-weight: 800;
+  color: #1f2937;
+  letter-spacing: -0.2px;
+}
+.mcq-header-left .exam-main {
+  font-size: 21px;
+  font-weight: 900;
+  color: #dc2626; /* Crimson Red for Bihar Police Constable Exam */
+  font-family: 'Noto Sans Devanagari', 'Segoe UI', Arial, sans-serif;
+  letter-spacing: -0.3px;
+}
+
+/* Right Red Ribbon SET Badge */
+.mcq-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.mcq-set-badge {
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+.mcq-set-badge .set-tag {
+  background-color: #dc2626;
+  color: #ffffff !important;
+  font-weight: 900;
+  font-size: 14px;
+  padding: 2px 10px;
+  letter-spacing: 0.5px;
+  clip-path: polygon(10px 0%, 100% 0%, 100% 100%, 0% 100%);
+  display: flex;
+  align-items: center;
+}
+.mcq-set-badge .set-number {
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: 900;
+  font-size: 18px;
+  padding: 1px 8px;
+  border: 2px solid #000000;
+  border-radius: 999px;
+  min-width: 32px;
+  text-align: center;
+  margin-left: 4px;
+  line-height: 1;
+}
+
+/* MCQ Two-Column Container */
+.mcq-columns-container {
+  column-count: 2;
+  column-gap: 6mm;
+  column-rule: 1px solid #000000;
+  column-fill: auto;
+  height: 260mm;
+  max-height: 260mm;
+  box-sizing: border-box;
+  overflow: hidden;
+  color: #000000;
+}
+
+/* MCQ Question Item */
+.mcq-item {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  margin-bottom: 5px;
+  font-size: 11.5px;
+  line-height: 1.35;
+  color: #050505;
+}
+
+.mcq-q-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  margin-bottom: 2px;
+}
+
+.mcq-qnum {
+  font-weight: 900;
+  color: #dc2626; /* Crimson red question number */
+  min-width: 18px;
+  flex-shrink: 0;
+}
+
+.mcq-qtext {
+  font-weight: 600;
+  color: #000000;
+  flex: 1;
+  text-align: justify;
+  line-height: 1.45;
+  white-space: pre-line;
+}
+
+#btn-mode-mcq.mode-tab-btn.active {
+  background-color: #dc2626 !important;
+  box-shadow: 0 1px 3px rgba(220,38,38,0.4);
+}
+
+/* Assertion - Reason Styling */
+.mcq-assertion-box {
+  margin: 3px 0 4px 18px;
+  font-size: 11px;
+  line-height: 1.3;
+}
+.mcq-assertion-box .badge-ar {
+  font-weight: 800;
+  color: #dc2626;
+  margin-right: 4px;
+}
+
+/* Question Diagram / Image Box */
+.mcq-diagram-wrapper {
+  margin: 3px 0 4px 18px;
+  text-align: center;
+}
+.mcq-diagram-img {
+  max-height: 42mm;
+  max-width: 100%;
+  object-fit: contain;
+  border: 1px solid #cbd5e1;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+/* Options Layouts */
+.mcq-options-container {
+  margin-left: 18px;
+  margin-top: 2px;
+  font-size: 11px;
+}
+
+/* 1. 2x2 Grid (Default in Platform / Rukmini) */
+.mcq-options-grid2x2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5px 8px;
+}
+
+/* 2. 4-Inline (For short numbers/words) */
+.mcq-options-inline4 {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+/* 3. Stacked (1 per line for long text) */
+.mcq-options-stacked {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5px;
+}
+
+.mcq-opt-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.mcq-opt-label {
+  font-weight: 800;
+  color: #000000;
+  flex-shrink: 0;
+  min-width: 18px;
+}
+
+.mcq-opt-text {
+  color: #111827;
+  font-weight: 500;
+}
+
+/* Matching Column Table */
+.mcq-match-container {
+  margin: 3px 0 4px 18px;
+  font-size: 10.5px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 3px 6px;
+  border-radius: 3px;
+}
+.mcq-match-col-title {
+  font-weight: 800;
+  color: #dc2626;
+  border-bottom: 1px dashed #cbd5e1;
+  padding-bottom: 1px;
+  margin-bottom: 2px;
+}
+
+/* Reading Comprehension / Passage Box */
+.mcq-passage-box {
+  background-color: #f8fafc;
+  border-left: 3px solid #dc2626;
+  border-top: 1px solid #e2e8f0;
+  border-right: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 4px 6px;
+  margin: 4px 0;
+  font-size: 10.5px;
+  line-height: 1.3;
+  break-inside: avoid;
+}
+
+/* Answer Key Table (At end of Practice Set) */
+.mcq-answer-key-section {
+  break-inside: avoid;
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1.5px solid #000000;
+}
+.mcq-answer-key-title {
+  text-align: center;
+  font-weight: 900;
+  font-size: 12px;
+  color: #ffffff !important;
+  background-color: #dc2626;
+  padding: 2px;
+  border-radius: 2px;
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+.mcq-answer-key-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9.5px;
+  text-align: center;
+}
+.mcq-answer-key-table th {
+  background-color: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  padding: 2px;
+  font-weight: 800;
+}
+.mcq-answer-key-table td {
+  border: 1px solid #cbd5e1;
+  padding: 2px;
+  font-weight: 700;
+}
+
+/* Page Footer */
+.mcq-footer-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1.5px solid #000000;
+  padding-top: 3px;
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #000000;
+  margin-top: 2px;
+}
+.mcq-footer-left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.mcq-footer-left a {
+  color: #000000;
+  text-decoration: none;
+}
+.mcq-footer-center {
+  flex: 1;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+.mcq-footer-right {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-weight: 900;
+}
+
+/* Mode Switcher Buttons Active States */
+.mode-tab-btn.active {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(37,99,235,0.4);
+}
+
+/* ==========================================================================
    PRINT ENGINE STYLES (@media print)
    ========================================================================== */
 @media print {
@@ -537,5 +872,37 @@ sup {
     background-color: #e2e8f0 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+  }
+
+  /* Preserve MCQ styles in print */
+  .mcq-header-left {
+    border-left-color: #dc2626 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .mcq-header-left .exam-main {
+    color: #dc2626 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .mcq-set-badge .set-tag {
+    background-color: #dc2626 !important;
+    color: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .mcq-qnum {
+    color: var(--mcq-qnum-color, #dc2626) !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .mcq-answer-key-title {
+    background-color: #dc2626 !important;
+    color: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .mcq-columns-container {
+    column-rule: 1px solid #000000 !important;
   }
 }

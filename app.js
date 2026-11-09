@@ -205,6 +205,296 @@ Q36. इंसुलिन की कमी से होने वाला र
 };
 
 // ==========================================
+// PRESET SAMPLE DATASETS FOR MCQ (Platform / Rukmini Practice Sets)
+// ==========================================
+const SAMPLE_MCQ_DATASETS = {
+  biharPolice: `1. 10 सेमी० व्यास का एक सिक्का, f फोकस दूरी वाले एक अवतल दर्पण के ध्रुव से 3.5f की दूरी पर रखा गया है। प्रतिबिंब का रैखिक आवर्धन और व्यास ज्ञात कीजिए।
+(A) क्रमशः 3/5 और 2 सेमी०
+(B) क्रमशः 2/5 और 4 सेमी०
+(C) क्रमशः 3/5 और 5 सेमी०
+(D) क्रमशः 4/5 और 8 सेमी०
+Ans: B
+
+2. प्रकाश वर्ष (Light year) निम्नलिखित में से किसकी इकाई है?
+(A) समय (Time)
+(B) दूरी (Distance)
+(C) प्रकाश की तीव्रता (Intensity of light)
+(D) द्रव्यमान (Mass)
+Ans: B
+
+3. नीचे दो कथन दिए गए हैं—अभिकथन (A) व कारण (R)। दिए गए कूटों में से सही कूट का चयन कीजिए।
+अभिकथन (A) : उत्तल दर्पण (Convex Mirror) का उपयोग वाहनों में पीछे देखने वाले दर्पण (rear-view mirror) के रूप में किया जाता है।
+कारण (R) : उत्तल दर्पण सदैव आभासी (virtual), सीधा (erect) और छोटा प्रतिबिंब बनाता है, जिससे दृष्टि क्षेत्र (field of view) बढ़ जाता है।
+(A) दोनों A व R सही हैं तथा R, A का सही स्पष्टीकरण है।
+(B) दोनों A व R सही हैं तथा R, A का सही स्पष्टीकरण नहीं है।
+(C) A सही है, लेकिन R गलत है।
+(D) A गलत है, लेकिन R सही है।
+Ans: A
+
+4. निम्नलिखित को सही उत्तर से मिलाएं:
+कॉलम-I (भौतिक राशियां)       कॉलम-II (मात्रक)
+a. विद्युत धारा (Electric Current)   1. ओम (Ohm)
+b. प्रतिरोध (Resistance)             2. ऐम्पियर (Ampere)
+c. कार्य (Work)                       3. हर्ट्ज (Hertz)
+d. आवृत्ति (Frequency)               4. जूल (Joule)
+(A) a-2, b-1, c-4, d-3
+(B) a-1, b-2, c-3, d-4
+(C) a-2, b-4, c-1, d-3
+(D) a-3, b-1, c-4, d-2
+Ans: A
+
+5. बेकिंग सोडा (Baking Soda) का रासायनिक सूत्र क्या है?
+(A) Na2CO3  (B) NaHCO3  (C) NaCl  (D) NaOH
+Ans: B
+
+6. आधुनिक आवर्त सारणी (Modern Periodic Table) में सर्वाधिक विद्युत ऋणात्मक (Electronegative) तत्व कौन-सा है?
+(A) फ्लोरीन (Fluorine)
+(B) क्लोरीन (Chlorine)
+(C) ऑक्सीजन (Oxygen)
+(D) नाइट्रोजन (Nitrogen)
+Ans: A
+
+7. मई 2026 में खबरों में रहा 'माउंट डुकोनो' (Mount Dukono) ज्वालामुखी, जिसमें हुए भीषण विस्फोट के कारण कई पर्वतारोहियों की जान चली गई, किस देश में स्थित है?
+(A) जापान  (B) इंडोनेशिया  (C) इटली  (D) फिलीपींस
+Ans: B
+
+8. 7 मई 2026 को भारत और किस देश के बीच 'रक्षा नीति वार्ता' (Defence Policy Talks) का 10वां संस्करण नई दिल्ली में आयोजित किया गया?
+(A) अमेरिका  (B) जापान  (C) ऑस्ट्रेलिया  (D) फ्रांस
+Ans: B
+
+9. विश्व रेड क्रॉस और रेड क्रेसेंट दिवस 2026 के संदर्भ में निम्नलिखित कथनों पर विचार करते हुए सही विकल्प चुनिए:
+1. यह दिवस हर साल 8 मई को इंटरनेशनल कमेटी ऑफ द रेड क्रॉस (ICRC) के संस्थापक हेनरी ड्यूनेंट के जन्मदिन के उपलक्ष्य में मनाया जाता है।
+2. पहला आधिकारिक अंतर्राष्ट्रीय रेड क्रॉस दिवस वर्ष 1984 में मनाया गया था।
+उपरोक्त में से कौन-सा/से कथन सत्य है/हैं?
+(A) केवल 1  (B) केवल 2  (C) 1 और 2  (D) न तो 1, न ही 2
+Ans: A
+
+10. वह छोटी से छोटी संख्या कौन-सी है, जिसे 435 में जोड़ने पर एक पूर्ण वर्ग प्राप्त होता है?
+(A) 3  (B) 8  (C) 6  (D) 4
+Ans: B
+
+11. एक पाइप एक टंकी को 2 घंटे में भर सकता है। एक जगह रिसाव होने के कारण टंकी भरने में 2⅓ घंटे का समय लग जाता है। यह रिसाव टंकी के पानी को कितने समय में खाली कर देगा?
+(A) 6 घंटे  (B) 11 घंटे  (C) 8 घंटे  (D) 15 घंटे
+Ans: D
+
+12. भारत के संविधान के अनुसार उच्चतम न्यायालय के न्यायाधीशों की सेवानिवृत्ति की आयु है—
+(A) 70 वर्ष  (B) 65 वर्ष  (C) 62 वर्ष  (D) 60 वर्ष
+Ans: B
+
+13. संस्कृत वाक्यांश 'सत्यमेव जयते' ................. से लिया गया है।
+(A) बाइबिल  (B) मुण्डकोपनिषद  (C) त्रिपिटक  (D) आगम साहित्य
+Ans: B
+
+14. भारतीय रेलवे बोर्ड अधिनियम किस वर्ष पारित किया गया था?
+(A) 1966  (B) 1905  (C) 1937  (D) 1890
+Ans: B
+
+15. किस विश्व विरासत स्थल में ली कोर्बुजिए के वास्तुशिल्प स्थित हैं?
+(A) कोच्चि  (B) पुदुचेरी  (C) चंडीगढ़  (D) गोवा
+Ans: C
+
+16. तीरंदाजी निम्नलिखित में से किस देश का राष्ट्रीय खेल है?
+(A) भूटान  (B) जापान  (C) तुर्की  (D) चीन
+Ans: A
+
+17. नीति आयोग के 'नीति' (NITI) का पूरा नाम है—
+(A) नेशनल इंस्टीट्यूट ऑफ ट्रांसफॉर्मिंग इंडिया
+(B) नेशनल इंस्टीट्यूशन फॉर ट्रांसफॉर्मिंग इंडियन्स
+(C) नेशनल इंडेक्स ऑफ ट्रांससोडिंग इंडियन
+(D) नेशनल इंस्टीट्यूशन फॉर ट्रांसफॉर्मिंग इंडिया
+Ans: D
+
+18. ................. भारत संघ की कार्यपालिका का संवैधानिक प्रमुख होता है।
+(A) मुख्य न्यायाधीश  (B) राष्ट्रपति  (C) प्रधानमंत्री  (D) मुख्य निर्वाचन आयुक्त
+Ans: B
+
+19. सिंधु घाटी सभ्यता एक ................. थी।
+(A) लौह युग की सभ्यता
+(B) कांस्य युग की सभ्यता
+(C) ताम्र युग की सभ्यता
+(D) अक्षीय युग की सभ्यता
+Ans: B
+
+20. 100 रुपये का सिक्का आर.एस.एस. के 100 वर्ष पूर्ण होने पर जारी किया गया।
+कथन (R) : भारतीय मुद्रा पर भारतमाता प्रथम बार दर्शायी गयी।
+(A) (A) तथा (R) दोनों सही हैं तथा (R) (A) की सही व्याख्या है।
+(B) (A) सही है लेकिन (R) गलत है।
+(C) (A) तथा (R) दोनों सही हैं तथा (R) (A) की सही व्याख्या नहीं है।
+(D) (A) गलत है लेकिन (R) सही है।
+Ans: A
+
+21. "इट शुल्ड हैव बीन यू" पुस्तक किसने लिखी है?
+(A) रोमिला थापर  (B) जेन डॉनीसन  (C) अरुंधति राय  (D) एंड्र्रिया मायरा
+Ans: D
+
+22. निर्देश (प्र०सं० 22-24): प्रकृति ने हमें जल, वायु, वनस्पति जैसी अमूल्य निधियां दी हैं। वृक्ष धरती के आभूषण हैं, जो न केवल प्राकृतिक सौंदर्य बढ़ाते हैं, बल्कि पर्यावरण का संतुलन भी बनाए रखते हैं।
+गद्यांश के अनुसार, धरती का आभूषण किसे कहा गया है?
+(A) नदियों को  (B) पहाड़ों को  (C) वृक्षों को  (D) वन्यजीवों को
+Ans: C
+
+23. पर्यावरण संतुलन बिगड़ने और ग्लोबल वार्मिंग का मुख्य कारण क्या है?
+(A) अत्यधिक वर्षा  (B) पेड़ों की अंधाधुंध कटाई  (C) कारखानों का निर्माण  (D) कृषि का विस्तार
+Ans: B
+
+24. भविष्य में मानव जीवन को खतरे से बचाने के लिए क्या आवश्यक है?
+(A) वनों का संरक्षण करना  (B) नदियों को सुखाना  (C) पहाड़ों को काटना  (D) नई इमारतें बनाना
+Ans: A
+
+25. सूची-I को सूची-II से सुमेलित कीजिए:
+सूची-I (मुहावरा)          सूची-II (अर्थ)
+a. आसमान सिर पर उठाना    1. वास्तविकता का बोध होना
+b. आंखें खुलना              2. बहुत शोर करना
+c. कान भरना              3. खुशियां मनाना
+d. घी के दिये जलाना        4. चुगली करना
+(A) a-2, b-1, c-4, d-3
+(B) a-1, b-2, c-3, d-4
+(C) a-4, b-3, c-2, d-1
+(D) a-3, b-4, c-1, d-2
+Ans: A
+
+26. अभिकथन (A) : प्रकृति में कार्बन बड़ी संख्या में यौगिकों का निर्माण करता है।
+कारण (R) : कार्बन में श्रृंखलन (Catenation) का अद्वितीय गुण पाया जाता है।
+(A) दोनों A व R सही हैं तथा R, A का सही स्पष्टीकरण है।
+(B) दोनों A व R सही हैं तथा R, A का सही स्पष्टीकरण नहीं है।
+(C) A सही है, लेकिन R गलत है।
+(D) A गलत है, लेकिन R सही है।
+Ans: A
+
+27. निम्नलिखित को सुमेलित कीजिए:
+कॉलम-I (प्राकृतिक स्रोत)    कॉलम-II (उपस्थित अम्ल)
+a. सिरका (Vinegar)          1. लैक्टिक अम्ल
+b. नींबू (Lemon)            2. ऑक्जेलिक अम्ल
+c. टमाटर (Tomato)          3. ऐसीटिक अम्ल
+d. खट्टा दूध (Sour Milk)     4. सिट्रिक अम्ल
+(A) a-3, b-4, c-2, d-1
+(B) a-1, b-2, c-3, d-4
+(C) a-4, b-3, c-1, d-2
+(D) a-3, b-2, c-4, d-1
+Ans: A
+
+28. कोशिका का ऊर्जा-गृह (Powerhouse of the Cell) किसे कहा जाता है?
+(A) राइबोसोम (Ribosome)
+(B) गॉल्जीकाय (Golgi Apparatus)
+(C) माइटोकॉन्ड्रिया (Mitochondria)
+(D) लाइसोसोम (Lysosome)
+Ans: C
+
+29. किस विटामिन की कमी के कारण स्कर्वी (Scurvy) रोग होता है?
+(A) विटामिन A  (B) विटामिन B  (C) विटामिन C  (D) विटामिन D
+Ans: C
+
+30. अभिकथन (A) : पौधों में जाइलम (Xylem) उत्तक मुख्य रूप से जल के परिवहन के लिए उत्तरदायी है।
+कारण (R) : फ्लोएम (Phloem) उत्तक पौधों में भोजन के परिवहन का कार्य करता है।
+(A) दोनों A व R सही हैं तथा R, A का सही स्पष्टीकरण है।
+(B) दोनों A व R सही हैं तथा R, A का सही स्पष्टीकरण नहीं है।
+(C) A सही है, लेकिन R गलत है।
+(D) A गलत है, लेकिन R सही है।
+Ans: B
+
+31. निम्नलिखित को सुमेलित कीजिए:
+कॉलम-I (रोग)        कॉलम-II (रोगजनक)
+a. मलेरिया (Malaria)   1. जीवाणु (Bacteria)
+b. टी.बी. (Tuberculosis) 2. विषाणु (Virus)
+c. एड्स (AIDS)        3. प्रोटोजोआ (Protozoa)
+d. दाद (Ringworm)      4. कवक (Fungi)
+(A) a-3, b-1, c-2, d-4
+(B) a-1, b-3, c-4, d-2
+(C) a-2, b-4, c-1, d-3
+(D) a-3, b-2, c-1, d-4
+Ans: A
+
+32. 'प्रोजेक्ट नारी-शक्ति' (Project Nari-Shakti), जिसे 8 मई को विस्तार दिया गया, किस क्षेत्र से संबंधित है?
+(A) महिला शिक्षा
+(B) ग्रामीण महिला उद्यमिता और ड्रोन प्रशिक्षण
+(C) महिला स्वास्थ्य और पोषण
+(D) सशस्त्र बलों में महिला भर्ती
+Ans: B
+
+33. 'राष्ट्रीय हरित हाइड्रोजन हब' योजना के तहत किस शहर को पहला हब घोषित किया गया?
+(A) जामनगर  (B) विशाखापत्तनम  (C) कोच्चि  (D) पारादीप
+Ans: B
+
+34. मई 2026 में नीति आयोग द्वारा जारी 'बियॉन्ड 2026' विजन डॉक्यूमेंट का प्राथमिक उद्देश्य क्या है?
+(A) भारत को दुनिया का सबसे बड़ा चावल निर्यातक बनाना।
+(B) जलवायु अनुकूल फसलों को बढ़ावा देना और कृषि में 'नेट-जीरो' उत्सर्जन प्राप्त करना।
+(C) रासायनिक उर्वरकों के उपयोग को दोगुना करना।
+(D) कृषि क्षेत्र का पूर्ण निजीकरण करना।
+Ans: B
+
+35. X, 94 प्रश्न का उत्तर देता है और उसे 141 अंक मिलते हैं। यदि प्रत्येक सही प्रश्न के लिए 4 अंक दिए जाते हैं और प्रत्येक गलत उत्तर के लिए 1 अंक काटा जाता है तो X द्वारा दिए गए गलत उत्तरों की संख्या है:
+(A) 47  (B) 40  (C) 57  (D) 45
+Ans: A
+
+36. कितने समय में ₹ 4400 ब्याज की 8% वार्षिक दर पर ₹ 4576 हो जायेंगे, जबकि यह चक्रवृद्धि ब्याज अर्धवार्षिक संयोजित होता है?
+(A) 6 माह  (B) 2 वर्ष  (C) 7 माह  (D) 1 वर्ष
+Ans: A
+
+37. मुद्राओं के बारे में सही विकल्प है:
+1. कुवैती दीनार मजबूत मुद्रा है
+2. ब्रिटेन में यूरो प्रयुक्त होता है
+3. जी.बी.पी. जिब्राल्टर पाउंड का कोड है
+4. स्विस फ्रैंक का कोड सी. एच. एफ. है
+(A) 1 एवं 2 सही हैं  (B) 1 एवं 4 सही हैं  (C) 2 एवं 3 सही हैं  (D) 1, 2 एवं 4 सही हैं
+Ans: B
+
+38. सूची-I को सूची-II से सुमेलित कीजिए:
+सूची-I (नदी)       सूची-II (उद्गम)
+I. महानंदा        (a) शिवपुरी श्रेणी (नेपाल)
+II. बागमती       (b) महाभारत श्रेणी (नेपाल)
+III. कमला        (c) तिब्बत का पठार
+IV. घाघरा        (d) पश्चिम बंगाल
+(A) I-d, II-b, III-a, IV-c
+(B) I-a, II-d, III-c, IV-b
+(C) I-b, II-a, III-d, IV-c
+(D) I-c, II-b, III-a, IV-d
+Ans: A
+
+39. निम्न में से कौन-सा कथन सही नहीं है?
+I. सतपुड़ा पश्चिम से पूर्व को फैली है।
+II. भारत के मध्य भाग में सतपुड़ा को महादेव श्रेणियों के रूप में जाना जाता है।
+III. सतपुड़ा प्रायद्वीपीय पठार की उत्तरी सीमा है।
+IV. सतपुड़ा श्रेणी विंध्यन श्रेणियों से लगी है।
+(A) I  (B) II  (C) III  (D) IV
+Ans: D
+
+40. कर्क रेखा का विचार करते हुए, निम्न में से कौन-सा लौह इस्पात संयंत्र भिन्न है?
+(A) राउरकेला  (B) बोकारो  (C) भिलाई  (D) जमशेदपुर
+Ans: A`,
+
+  science: `1. शक्ति (Power) का SI मात्रक क्या है?
+(A) वाट (Watt)  (B) जूल (Joule)  (C) न्यूटन (Newton)  (D) पास्कल (Pascal)
+Ans: A
+
+2. साधारण जल का रासायनिक सूत्र क्या है?
+(A) H2O  (B) D2O  (C) H2O2  (D) H2SO4
+Ans: A
+
+3. भारी जल (Heavy Water) का रासायनिक सूत्र क्या होता है?
+(A) H2O  (B) D2O  (C) CO2  (D) CH4
+Ans: B
+
+4. शुष्क बर्फ (Dry Ice) किसे कहा जाता है?
+(A) ठोस CO2  (B) ठोस N2  (C) ठोस H2O  (D) ठोस SO2
+Ans: A
+
+5. अम्लीय वर्षा (Acid Rain) के लिए मुख्य रूप से उत्तरदायी गैसें कौन-सी हैं?
+(A) SO2 तथा NO2  (B) CO तथा CO2  (C) CH4 तथा O3  (D) N2 तथा O2
+Ans: A
+
+6. रसायनों का सम्राट (King of Chemicals) किसे कहा जाता है?
+(A) हाइड्रोक्लोरिक अम्ल (HCl)  (B) सल्फ्यूरिक अम्ल (H2SO4)  (C) नाइट्रिक अम्ल (HNO3)  (D) एसिटिक अम्ल
+Ans: B
+
+7. चूना पत्थर तथा संगमरमर का रासायनिक सूत्र क्या है?
+(A) CaO  (B) Ca(OH)2  (C) CaCO3  (D) CaCl2
+Ans: C
+
+8. त्वरण (Acceleration) का मात्रक क्या है?
+(A) m/s  (B) m/s2  (C) m2/s  (D) kg/m
+Ans: B`
+};
+
+// ==========================================
 // DEFAULT APPLICATION STATE
 // ==========================================
 const DEFAULT_STATE = {
@@ -244,6 +534,32 @@ const DEFAULT_STATE = {
   // Content
   rawContent: SAMPLE_DATASETS.history,
 
+  // Mode Selection: "pointer" (One-Liner Studio) vs "mcq" (Practice Set Studio)
+  currentMode: "pointer",
+  mcqActiveTab: "content", // "content", "branding", "images", "layout"
+
+  // MCQ Practice Set Studio State (Platform / Rukmini Exam Format)
+  mcq: {
+    examTitle: "Bihar Police Constable Exam.",
+    seriesSubtitle: "Test Series for",
+    setNumber: "06",
+    topAppBannerText: "Online Test के लिए App अभी डाउनलोड करें➔",
+    topAppBannerUrl: "https://t.me/apnapdfs",
+    footerExamText: "BIHAR POLICE CONSTABLE EXAM., TEST SERIES VOL.-1",
+    footerWebText: "www.rukminiprakashan.com",
+    footerWebUrl: "https://www.rukminiprakashan.com",
+    watermarkText: "PLATFORM",
+    watermarkOpacity: 0.12,
+    startingPageNumber: 99,
+    qNumColor: "#dc2626", // Crimson Red for question numbers
+    optionsLayout: "auto", // "auto", "grid2x2", "inline4", "stacked"
+    colDivider: "solid", // "solid", "dashed", "none"
+    includeAnswerKey: true,
+    fontSize: 11.5,
+    rawMcqContent: SAMPLE_MCQ_DATASETS.biharPolice,
+    questionImages: {} // map of { 1: dataUrl, 4: dataUrl, ... }
+  },
+
   // UI state
   activeTab: "content", // "content", "branding", "layout"
   previewZoom: 100, // percentage
@@ -265,7 +581,14 @@ function loadSavedSettings() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       const parsed = JSON.parse(saved);
-      appState = { ...DEFAULT_STATE, ...parsed };
+      appState = {
+        ...DEFAULT_STATE,
+        ...parsed,
+        mcq: {
+          ...DEFAULT_STATE.mcq,
+          ...(parsed.mcq || {})
+        }
+      };
       return true;
     }
   } catch (err) {
@@ -288,7 +611,7 @@ function saveSettingsToStorage() {
 
 function resetSettingsToDefault() {
   if (confirm("Reset all settings and content back to standard defaults?")) {
-    appState = { ...DEFAULT_STATE };
+    appState = JSON.parse(JSON.stringify(DEFAULT_STATE));
     syncInputsFromState();
     renderDocument();
     showToast("Settings reset to default.", "info");
@@ -563,9 +886,22 @@ async function convertLanguageBatch(fromLang, toLang) {
 }
 
 // ==========================================
-// DOCUMENT RENDER ENGINE
+// DUAL DOCUMENT RENDER ENGINE
+// Mode 1: GS Pointer (One-Liner Two-Column Booklet)
+// Mode 2: MCQ Test Series (Platform / Rukmini Practice Set)
 // ==========================================
 function renderDocument() {
+  if (appState.currentMode === "mcq") {
+    renderMcqDocument();
+  } else {
+    renderPointerDocument();
+  }
+}
+
+/**
+ * Renders GS Pointer One-Liner Format
+ */
+function renderPointerDocument() {
   const container = document.getElementById("pages-render-target");
   if (!container) return;
 
@@ -637,6 +973,400 @@ function renderDocument() {
 
   // Apply preview zoom scale
   applyZoomScale();
+}
+
+/**
+ * 📝 Renders Platform / Rukmini Exam MCQ Practice Set Format
+ */
+function renderMcqDocument() {
+  const container = document.getElementById("pages-render-target");
+  if (!container) return;
+
+  const items = parseRawMcqContent(appState.mcq.rawMcqContent);
+
+  // Update typography
+  document.documentElement.style.setProperty("--doc-font-size", `${appState.mcq.fontSize || 11.5}px`);
+  document.documentElement.style.setProperty("--mcq-qnum-color", appState.mcq.qNumColor || "#dc2626");
+
+  container.innerHTML = "";
+
+  if (items.length === 0) {
+    updateStatisticsBadge(0, 1);
+    container.innerHTML = `
+      <div class="a4-sheet" style="justify-content: center; align-items: center; text-align: center; color: #94a3b8; font-family: var(--font-ui);">
+        <div class="p-8">
+          <div class="text-4xl mb-3">📝</div>
+          <div class="text-lg font-bold text-slate-700">No MCQ Questions to Display</div>
+          <div class="text-sm mt-1 text-slate-500 max-w-sm">Paste your questions with (A), (B), (C), (D) options or upload a Word/Text file to generate the practice set.</div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  // Auto-fit packing for MCQs
+  const pageChunks = packMcqItemsAutoFit(items);
+  const totalPages = Math.max(1, pageChunks.length);
+  const startPageNum = parseInt(appState.mcq.startingPageNumber) || 99;
+
+  for (let pageIdx = 0; pageIdx < totalPages; pageIdx++) {
+    const pageItems = pageChunks[pageIdx] || [];
+    const currentPageNum = startPageNum + pageIdx;
+    const isLast = (pageIdx === totalPages - 1);
+
+    const pageElement = createMcqA4PageElement(pageItems, currentPageNum, totalPages, isLast, items);
+    container.appendChild(pageElement);
+  }
+
+  updateStatisticsBadge(items.length, totalPages);
+  applyZoomScale();
+}
+
+/**
+ * Smart MCQ Parser: Extracts Question number, body, (A)/(B)/(C)/(D) options and Answer
+ */
+function parseRawMcqContent(rawText) {
+  if (!rawText || !rawText.trim()) return [];
+
+  const lines = rawText.split(/\r?\n/);
+  const qBlocks = [];
+  let currentBlock = null;
+
+  const qStartRegex = /^\s*(?:Q\.?\s*(\d+)|\((\d+)\)|(\d+)[\.\)\:\-])\s*(.*)$/;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const match = line.match(qStartRegex);
+
+    if (match) {
+      if (currentBlock) {
+        qBlocks.push(currentBlock);
+      }
+      const qNum = match[1] || match[2] || match[3] || (qBlocks.length + 1);
+      const rest = match[4] || "";
+      currentBlock = {
+        qNum: parseInt(qNum),
+        lines: rest.trim() ? [rest.trim()] : []
+      };
+    } else {
+      if (currentBlock) {
+        currentBlock.lines.push(line);
+      } else if (line.trim()) {
+        currentBlock = {
+          qNum: 1,
+          lines: [line.trim()]
+        };
+      }
+    }
+  }
+  if (currentBlock) qBlocks.push(currentBlock);
+
+  const items = [];
+  const ansRegex = /(?:Ans|उत्तर|Answer|Key)\s*[:\-\=]\s*\(?([A-Da-d1-4])\)?/i;
+  const markerRegex = /(?:(?:\r?\n\s*|\s{2,}|\b)(?:\(([A-Da-d])\)|([A-Da-d])[\.\)]|\(([1-4])\))\s*)/g;
+
+  for (let b = 0; b < qBlocks.length; b++) {
+    const block = qBlocks[b];
+    const fullText = block.lines.join("\n");
+    let answer = "";
+
+    const ansMatch = fullText.match(ansRegex);
+    if (ansMatch) {
+      answer = ansMatch[1].toUpperCase();
+    }
+    const textWithoutAns = fullText.replace(ansRegex, "").trim();
+
+    const markers = [];
+    let m;
+    while ((m = markerRegex.exec(textWithoutAns)) !== null) {
+      const label = (m[1] || m[2] || m[3]).toUpperCase();
+      markers.push({
+        label: label,
+        index: m.index,
+        length: m[0].length
+      });
+    }
+
+    if (markers.length < 2) {
+      items.push({
+        qNum: block.qNum,
+        question: textWithoutAns,
+        options: [],
+        answer: answer
+      });
+      continue;
+    }
+
+    const questionText = textWithoutAns.substring(0, markers[0].index).trim();
+    const options = [];
+    for (let i = 0; i < markers.length; i++) {
+      const start = markers[i].index + markers[i].length;
+      const end = (i + 1 < markers.length) ? markers[i + 1].index : textWithoutAns.length;
+      options.push({
+        label: markers[i].label,
+        text: textWithoutAns.substring(start, end).trim()
+      });
+    }
+
+    items.push({
+      qNum: block.qNum,
+      question: questionText,
+      options: options,
+      answer: answer
+    });
+  }
+
+  return items;
+}
+
+/**
+ * Measures and packs MCQ items into 2 columns of 260mm before moving to next A4 sheet
+ */
+function packMcqItemsAutoFit(items) {
+  if (!items || items.length === 0) return [];
+  if (typeof document === "undefined" || !document.body) {
+    const chunks = [];
+    const perPage = 18;
+    for (let i = 0; i < items.length; i += perPage) chunks.push(items.slice(i, i + perPage));
+    return chunks;
+  }
+
+  let measureSandbox = document.getElementById("gs-measure-sandbox");
+  if (!measureSandbox) {
+    measureSandbox = document.createElement("div");
+    measureSandbox.id = "gs-measure-sandbox";
+    measureSandbox.style.position = "absolute";
+    measureSandbox.style.left = "-9999px";
+    measureSandbox.style.top = "0";
+    measureSandbox.style.width = "91.5mm";
+    measureSandbox.style.visibility = "hidden";
+    measureSandbox.style.pointerEvents = "none";
+    document.body.appendChild(measureSandbox);
+  }
+
+  const heightProbe = document.createElement("div");
+  heightProbe.style.height = "260mm";
+  measureSandbox.appendChild(heightProbe);
+  const colCapacityPx = heightProbe.offsetHeight || 980;
+  measureSandbox.removeChild(heightProbe);
+
+  const maxColHeight = colCapacityPx - 6;
+  const itemHeights = [];
+
+  measureSandbox.innerHTML = "";
+  const frag = document.createDocumentFragment();
+
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    const itemEl = createMcqDomElement(item);
+    frag.appendChild(itemEl);
+  }
+  measureSandbox.appendChild(frag);
+
+  const children = measureSandbox.children;
+  for (let i = 0; i < children.length; i++) {
+    const h = children[i].offsetHeight + 5;
+    itemHeights.push(Math.max(24, h));
+  }
+  measureSandbox.innerHTML = "";
+
+  const pageChunks = [];
+  let currentPage = [];
+  let currentColHeight = 0;
+  let currentColIndex = 1;
+
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    const h = itemHeights[i] || 50;
+
+    if (currentColHeight + h <= maxColHeight) {
+      currentPage.push(item);
+      currentColHeight += h;
+    } else {
+      if (currentColIndex === 1) {
+        currentColIndex = 2;
+        currentColHeight = h;
+        currentPage.push(item);
+      } else {
+        pageChunks.push(currentPage);
+        currentPage = [item];
+        currentColIndex = 1;
+        currentColHeight = h;
+      }
+    }
+  }
+
+  if (currentPage.length > 0) {
+    pageChunks.push(currentPage);
+  }
+
+  return pageChunks;
+}
+
+/**
+ * Creates a single DOM element for an MCQ item with question, attached diagram, and options
+ */
+function createMcqDomElement(item) {
+  const div = document.createElement("div");
+  div.className = "mcq-item gs-document-font";
+
+  const qNum = item.qNum;
+  const diagramUrl = (appState.mcq && appState.mcq.questionImages) ? appState.mcq.questionImages[qNum] : "";
+
+  let optLayoutClass = "mcq-options-grid2x2";
+  if (appState.mcq && appState.mcq.optionsLayout === "grid2x2") {
+    optLayoutClass = "mcq-options-grid2x2";
+  } else if (appState.mcq && appState.mcq.optionsLayout === "inline4") {
+    optLayoutClass = "mcq-options-inline4";
+  } else if (appState.mcq && appState.mcq.optionsLayout === "stacked") {
+    optLayoutClass = "mcq-options-stacked";
+  } else {
+    const maxOptLen = (item.options && item.options.length > 0) 
+      ? Math.max(...(item.options.map(o => (o.text || "").length))) 
+      : 0;
+    if (maxOptLen <= 6 && item.options.length <= 4) {
+      optLayoutClass = "mcq-options-inline4";
+    } else if (maxOptLen <= 26 && item.options.length <= 4) {
+      optLayoutClass = "mcq-options-grid2x2";
+    } else {
+      optLayoutClass = "mcq-options-stacked";
+    }
+  }
+
+  let optionsHtml = "";
+  if (item.options && item.options.length > 0) {
+    optionsHtml = `
+      <div class="mcq-options-container ${optLayoutClass}">
+        ${item.options.map(opt => `
+          <div class="mcq-opt-item">
+            <span class="mcq-opt-label">(${escapeHtml(opt.label)})</span>
+            <span class="mcq-opt-text">${highlightFormattedText(opt.text)}</span>
+          </div>
+        `).join("")}
+      </div>
+    `;
+  }
+
+  let diagramHtml = "";
+  if (diagramUrl) {
+    diagramHtml = `
+      <div class="mcq-diagram-wrapper">
+        <img src="${diagramUrl}" class="mcq-diagram-img" alt="Diagram for Q${qNum}">
+      </div>
+    `;
+  }
+
+  let cleanQText = item.question.replace(/^\s*(?:Q\.?\s*\d+|\(\d+\)|\d+[\.\)\:\-])\s*/, "").trim();
+
+  div.innerHTML = `
+    <div class="mcq-q-header">
+      <span class="mcq-qnum" style="color: ${escapeHtml(appState.mcq.qNumColor || '#dc2626')};">${qNum}.</span>
+      <div class="mcq-qtext">${highlightFormattedText(cleanQText)}</div>
+    </div>
+    ${diagramHtml}
+    ${optionsHtml}
+  `;
+
+  return div;
+}
+
+/**
+ * Creates authentic Platform / Rukmini A4 Page with Set Ribbon Header and Center Rule
+ */
+function createMcqA4PageElement(pageItems, pageNum, totalPages, isLastPage, allItems) {
+  const sheet = document.createElement("div");
+  sheet.className = "a4-sheet";
+  sheet.dataset.page = pageNum;
+
+  const watermarkText = (appState.mcq.watermarkText || "").trim();
+  const watermarkHtml = watermarkText
+    ? `<div class="gs-watermark-overlay pos-center" style="opacity: ${appState.mcq.watermarkOpacity || 0.12};">${escapeHtml(watermarkText)}</div>`
+    : "";
+
+  const topAppText = (appState.mcq.topAppBannerText || "").trim();
+  const topAppUrl = (appState.mcq.topAppBannerUrl || "").trim() || "#";
+  const topBannerHtml = topAppText ? `
+    <div class="mcq-top-app-banner">
+      <span><a href="${escapeHtml(topAppUrl)}" target="_blank">${escapeHtml(topAppText)}</a></span>
+      <span class="app-pill">📱 Rukmini's Exam Prep App</span>
+    </div>
+  ` : "";
+
+  const headerHtml = `
+    <div class="mcq-header-box">
+      <div class="mcq-header-left">
+        <div class="series-sub">${escapeHtml(appState.mcq.seriesSubtitle || "Test Series for")}</div>
+        <div class="exam-main">${escapeHtml(appState.mcq.examTitle || "Bihar Police Constable Exam.")}</div>
+      </div>
+      <div class="mcq-header-right">
+        <div class="mcq-set-badge">
+          <div class="set-tag">SET</div>
+          <div class="set-number">${escapeHtml(appState.mcq.setNumber || "06")}</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const colDivider = appState.mcq.colDivider || "solid";
+  const dividerStyle = colDivider === "none" ? "column-rule: none;" : (colDivider === "dashed" ? "column-rule: 1px dashed #000;" : "column-rule: 1px solid #000;");
+
+  let itemsHtml = "";
+  for (const item of pageItems) {
+    const el = createMcqDomElement(item);
+    itemsHtml += el.outerHTML;
+  }
+
+  // Answer Key Section if on last page
+  let answerKeyHtml = "";
+  if (isLastPage && appState.mcq.includeAnswerKey && allItems && allItems.length > 0) {
+    const answered = allItems.filter(it => it.answer);
+    if (answered.length > 0) {
+      let rowsHtml = "";
+      const colsPerRow = 10;
+      for (let r = 0; r < answered.length; r += colsPerRow) {
+        const slice = answered.slice(r, r + colsPerRow);
+        rowsHtml += `<tr>${slice.map(a => `<th>Q${a.qNum}</th>`).join("")}</tr>`;
+        rowsHtml += `<tr>${slice.map(a => `<td>${a.answer}</td>`).join("")}</tr>`;
+      }
+      answerKeyHtml = `
+        <div class="mcq-answer-key-section">
+          <div class="mcq-answer-key-title">उत्तरमाला / ANSWER KEY (SET ${escapeHtml(appState.mcq.setNumber || "06")})</div>
+          <table class="mcq-answer-key-table">
+            <tbody>${rowsHtml}</tbody>
+          </table>
+        </div>
+      `;
+    }
+  }
+
+  const footerHtml = `
+    <div class="mcq-footer-box">
+      <div class="mcq-footer-left">
+        <a href="${escapeHtml(appState.mcq.footerWebUrl || '#')}" target="_blank">🌐 ${escapeHtml(appState.mcq.footerWebText || "www.rukminiprakashan.com")}</a>
+      </div>
+      <div class="mcq-footer-center">
+        ◆ ${escapeHtml(appState.mcq.footerExamText || "BIHAR POLICE CONSTABLE EXAM., TEST SERIES VOL.-1")} ◆
+      </div>
+      <div class="mcq-footer-right">
+        ◆ ${pageNum} ◆
+      </div>
+    </div>
+  `;
+
+  sheet.innerHTML = `
+    ${watermarkHtml}
+    <div class="a4-sheet-inner">
+      ${topBannerHtml}
+      ${headerHtml}
+      <div class="mcq-columns-container" style="${dividerStyle}">
+        ${itemsHtml}
+        ${answerKeyHtml}
+      </div>
+      ${footerHtml}
+    </div>
+  `;
+
+  return sheet;
 }
 
 /**
@@ -898,20 +1628,6 @@ function createA4PageElement(pageItems, pageNumber, totalPages, pageSequence) {
       <div class="footer-right">${pageNumber}</div>
     </div>
   `;
-
-  // Helper: Format and Highlight Text (Formulas + Search)
-  function highlightFormattedText(text) {
-    if (!text) return "";
-    let processed = text;
-    if (appState.autoFormatFormulas) {
-      processed = formatScienceFormulas(processed);
-    }
-    const safe = escapeHtmlPreservingTags(processed);
-    if (!appState.searchQuery || !appState.searchQuery.trim()) return safe;
-    const q = appState.searchQuery.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const regex = new RegExp(`(${q})`, "gi");
-    return safe.replace(regex, '<mark class="search-highlight">$1</mark>');
-  }
 
   // Two-Column Items Content
   const hasDividerClass = appState.columnDivider !== "none" ? "has-divider" : "";
@@ -1200,11 +1916,28 @@ function runFullCorrections(text) {
   return { text: str, formulaFixCount, spellingFixCount };
 }
 
+// Helper: Format and Highlight Text (Formulas + Search)
+function highlightFormattedText(text) {
+  if (!text) return "";
+  let processed = text;
+  if (appState.autoFormatFormulas) {
+    processed = formatScienceFormulas(processed);
+  }
+  const safe = escapeHtmlPreservingTags(processed);
+  if (!appState.searchQuery || !appState.searchQuery.trim()) return safe;
+  const q = appState.searchQuery.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const regex = new RegExp(`(${q})`, "gi");
+  return safe.replace(regex, '<mark class="search-highlight">$1</mark>');
+}
+
 // ==========================================
 // UI SYNCHRONIZATION & INTERACTION
 // ==========================================
 function syncInputsFromState() {
-  // Branding inputs
+  // Mode selection & view
+  updateModeView(appState.currentMode || "pointer");
+
+  // GS Pointer Branding inputs
   setValue("input-left-brand", appState.leftBrandText);
   setValue("input-center-subject", appState.centerSubjectText);
   setValue("input-top-banner-text", appState.topBannerText);
@@ -1216,7 +1949,7 @@ function syncInputsFromState() {
   setValue("input-start-page", appState.startingPageNumber);
   setChecked("check-include-cover", appState.includeCoverPage);
 
-  // Layout inputs
+  // GS Pointer Layout inputs
   setValue("select-pagination-mode", appState.paginationMode || "autofit");
   const sliderWrapper = document.getElementById("wrapper-items-slider");
   if (sliderWrapper) {
@@ -1259,8 +1992,32 @@ function syncInputsFromState() {
     }
   }
 
-  // Content textarea
+  // Pointer Content textarea
   setValue("textarea-content", appState.rawContent);
+
+  // MCQ Practice Set State Sync
+  if (!appState.mcq) appState.mcq = {};
+  setValue("textarea-mcq-content", appState.mcq.rawMcqContent || "");
+  setValue("input-mcq-series-sub", appState.mcq.seriesSubtitle || "Test Series for");
+  setValue("input-mcq-exam-title", appState.mcq.examTitle || "Bihar Police Constable Exam.");
+  setValue("input-mcq-set-num", appState.mcq.setNumber || "06");
+  setText("preview-set-badge", appState.mcq.setNumber || "06");
+  setValue("input-mcq-top-app-text", appState.mcq.topAppBannerText || "");
+  setValue("input-mcq-top-app-url", appState.mcq.topAppBannerUrl || "");
+  setValue("input-mcq-footer-text", appState.mcq.footerExamText || "");
+  setValue("input-mcq-footer-web", appState.mcq.footerWebText || "");
+  setValue("input-mcq-start-page", appState.mcq.startingPageNumber || 99);
+  setValue("input-mcq-watermark", appState.mcq.watermarkText || "");
+  setValue("select-mcq-options-layout", appState.mcq.optionsLayout || "auto");
+  setValue("select-mcq-qnum-color", appState.mcq.qNumColor || "#dc2626");
+  setValue("select-mcq-col-divider", appState.mcq.colDivider || "solid");
+  setChecked("check-mcq-answer-key", appState.mcq.includeAnswerKey !== false);
+  setValue("input-mcq-font-size", appState.mcq.fontSize || 11.5);
+  setText("val-mcq-font-size", `${appState.mcq.fontSize || 11.5}px`);
+
+  // Active MCQ Tab & Attached Diagrams
+  switchMcqTab(appState.mcqActiveTab || "content");
+  renderAttachedImagesList();
 }
 
 function setValue(id, val) {
@@ -1281,10 +2038,11 @@ function setChecked(id, bool) {
 function updateStatisticsBadge(itemsCount, totalPages) {
   const statsEl = document.getElementById("document-stats-badge");
   if (statsEl) {
+    const isMcq = appState.currentMode === "mcq";
     statsEl.innerHTML = `
       <span class="inline-flex items-center gap-1.5 font-medium text-slate-700">
-        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-        <strong>${itemsCount}</strong> Q&A Items
+        <span class="w-2 h-2 rounded-full ${isMcq ? 'bg-red-500' : 'bg-emerald-500'}"></span>
+        <strong>${itemsCount}</strong> ${isMcq ? 'MCQ Questions' : 'Q&A Items'}
       </span>
       <span class="text-slate-300">•</span>
       <span class="text-slate-600"><strong>${totalPages}</strong> A4 Page${totalPages === 1 ? "" : "s"}</span>
@@ -1773,6 +2531,245 @@ function setupEventListeners() {
     });
   });
 
+  // Dual Engine Mode Switcher
+  const btnModePointer = document.getElementById("btn-mode-pointer");
+  if (btnModePointer) {
+    btnModePointer.addEventListener("click", () => setAppMode("pointer"));
+  }
+
+  const btnModeMcq = document.getElementById("btn-mode-mcq");
+  if (btnModeMcq) {
+    btnModeMcq.addEventListener("click", () => setAppMode("mcq"));
+  }
+
+  // MCQ Tab Switching
+  document.querySelectorAll(".mcq-tab-button").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const tab = e.currentTarget.dataset.mcqTab;
+      switchMcqTab(tab);
+    });
+  });
+
+  // MCQ Content Textarea
+  const textareaMcq = document.getElementById("textarea-mcq-content");
+  if (textareaMcq) {
+    textareaMcq.addEventListener("input", (e) => {
+      if (!appState.mcq) appState.mcq = {};
+      appState.mcq.rawMcqContent = e.target.value;
+      renderDocument();
+    });
+  }
+
+  // MCQ Word (.docx / .doc) and Text File Upload
+  const inputMcqUpload = document.getElementById("input-mcq-file-upload");
+  if (inputMcqUpload) {
+    inputMcqUpload.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const fileName = file.name.toLowerCase();
+      if (fileName.endsWith(".docx") || fileName.endsWith(".doc")) {
+        if (typeof mammoth !== "undefined") {
+          const reader = new FileReader();
+          reader.onload = (loadEvt) => {
+            const arrayBuffer = loadEvt.target.result;
+            mammoth.extractRawText({ arrayBuffer: arrayBuffer })
+              .then((result) => {
+                const text = result.value || "";
+                if (!text.trim()) {
+                  showToast(`Word file "${file.name}" contained no readable text.`, "error");
+                  return;
+                }
+                if (!appState.mcq) appState.mcq = {};
+                appState.mcq.rawMcqContent = text;
+                setValue("textarea-mcq-content", text);
+                renderDocument();
+                showToast(`📄 Extracted questions from "${file.name}"!`, "success");
+              })
+              .catch((err) => {
+                console.error("Mammoth error:", err);
+                showToast("Error extracting Word document: " + err.message, "error");
+              });
+          };
+          reader.readAsArrayBuffer(file);
+        } else {
+          showToast("Word parsing library loading. Please retry.", "error");
+        }
+      } else {
+        const reader = new FileReader();
+        reader.onload = (loadEvt) => {
+          const text = loadEvt.target.result || "";
+          if (!appState.mcq) appState.mcq = {};
+          appState.mcq.rawMcqContent = text;
+          setValue("textarea-mcq-content", text);
+          renderDocument();
+          showToast(`📄 Loaded "${file.name}" successfully!`, "success");
+        };
+        reader.readAsText(file);
+      }
+    });
+  }
+
+  // 1-Click Fix Formulas & Spellings in MCQ
+  const btnFixMcq = document.getElementById("btn-fix-mcq-formulas");
+  if (btnFixMcq) {
+    btnFixMcq.addEventListener("click", () => {
+      if (!appState.mcq) appState.mcq = {};
+      const cur = appState.mcq.rawMcqContent || "";
+      if (!cur.trim()) {
+        showToast("Please enter or paste MCQ questions first!", "info");
+        return;
+      }
+      const res = runFullCorrections(cur);
+      appState.mcq.rawMcqContent = res.text;
+      setValue("textarea-mcq-content", res.text);
+      renderDocument();
+      const total = res.formulaFixCount + res.spellingFixCount;
+      if (total > 0) {
+        showToast(`✨ ${res.formulaFixCount} formulas (H₂O, CO₂ etc.) & ${res.spellingFixCount} spellings auto-corrected in MCQ!`, "success");
+      } else {
+        showToast("All formulas (H₂O) and spellings are already clean and correct!", "info");
+      }
+    });
+  }
+
+  // Clear MCQ Content
+  const btnClearMcq = document.getElementById("btn-clear-mcq-content");
+  if (btnClearMcq) {
+    btnClearMcq.addEventListener("click", () => {
+      if (confirm("Clear all MCQ questions from the input area?")) {
+        if (!appState.mcq) appState.mcq = {};
+        appState.mcq.rawMcqContent = "";
+        setValue("textarea-mcq-content", "");
+        renderDocument();
+        showToast("MCQ content cleared.", "info");
+      }
+    });
+  }
+
+  // MCQ Presets
+  document.querySelectorAll("[data-mcq-preset]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const presetKey = e.currentTarget.dataset.mcqPreset;
+      if (SAMPLE_MCQ_DATASETS[presetKey]) {
+        if (!appState.mcq) appState.mcq = {};
+        appState.mcq.rawMcqContent = SAMPLE_MCQ_DATASETS[presetKey];
+        if (presetKey === "biharPolice") {
+          appState.mcq.examTitle = "Bihar Police Constable Exam.";
+          appState.mcq.seriesSubtitle = "Test Series for";
+          appState.mcq.setNumber = "06";
+          appState.mcq.startingPageNumber = 99;
+          appState.mcq.footerExamText = "BIHAR POLICE CONSTABLE EXAM., TEST SERIES VOL.-1";
+          appState.mcq.footerWebText = "www.rukminiprakashan.com";
+          appState.mcq.watermarkText = "PLATFORM";
+        } else if (presetKey === "science") {
+          appState.mcq.examTitle = "General Science MCQ Test";
+          appState.mcq.seriesSubtitle = "Special Practice Set for";
+          appState.mcq.setNumber = "01";
+          appState.mcq.startingPageNumber = 1;
+          appState.mcq.footerExamText = "GENERAL SCIENCE PRACTICE SET VOL.-1";
+          appState.mcq.footerWebText = "www.apnapdfs.com";
+          appState.mcq.watermarkText = "Join @Apnapdfs";
+        }
+        syncInputsFromState();
+        renderDocument();
+        showToast(`Loaded "${presetKey === 'biharPolice' ? 'बिहार पुलिस सेट-06' : 'सामान्य विज्ञान MCQ'}"!`, "success");
+      }
+    });
+  });
+
+  // MCQ Exam & Set Branding inputs
+  bindMcqInput("input-mcq-series-sub", "seriesSubtitle");
+  bindMcqInput("input-mcq-exam-title", "examTitle");
+
+  const setNumInput = document.getElementById("input-mcq-set-num");
+  if (setNumInput) {
+    setNumInput.addEventListener("input", (e) => {
+      const val = e.target.value.trim() || "01";
+      if (!appState.mcq) appState.mcq = {};
+      appState.mcq.setNumber = val;
+      const previewBadge = document.getElementById("preview-set-badge");
+      if (previewBadge) previewBadge.innerText = val;
+      renderDocument();
+    });
+  }
+
+  bindMcqInput("input-mcq-top-app-text", "topAppBannerText");
+  bindMcqInput("input-mcq-top-app-url", "topAppBannerUrl");
+  bindMcqInput("input-mcq-footer-text", "footerExamText");
+  bindMcqInput("input-mcq-footer-web", "footerWebText");
+  bindMcqInput("input-mcq-start-page", "startingPageNumber", true);
+  bindMcqInput("input-mcq-watermark", "watermarkText");
+  bindMcqInput("select-mcq-options-layout", "optionsLayout");
+  bindMcqInput("select-mcq-qnum-color", "qNumColor");
+  bindMcqInput("select-mcq-col-divider", "colDivider");
+
+  const checkAnswerKey = document.getElementById("check-mcq-answer-key");
+  if (checkAnswerKey) {
+    checkAnswerKey.addEventListener("change", (e) => {
+      if (!appState.mcq) appState.mcq = {};
+      appState.mcq.includeAnswerKey = e.target.checked;
+      renderDocument();
+    });
+  }
+
+  const mcqFontSizeInput = document.getElementById("input-mcq-font-size");
+  if (mcqFontSizeInput) {
+    mcqFontSizeInput.addEventListener("input", (e) => {
+      const size = parseFloat(e.target.value) || 11.5;
+      if (!appState.mcq) appState.mcq = {};
+      appState.mcq.fontSize = size;
+      setText("val-mcq-font-size", `${size}px`);
+      renderDocument();
+    });
+  }
+
+  // Diagram / Photo Inserter
+  const diagramFileInput = document.getElementById("input-diagram-file");
+  const diagramPreviewImg = document.getElementById("img-diagram-preview");
+  const diagramPreviewWrapper = document.getElementById("wrapper-diagram-preview");
+  const btnAttachDiagram = document.getElementById("btn-attach-diagram");
+  let currentDiagramDataUrl = "";
+
+  if (diagramFileInput) {
+    diagramFileInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) {
+        currentDiagramDataUrl = "";
+        if (diagramPreviewWrapper) diagramPreviewWrapper.classList.add("hidden");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        currentDiagramDataUrl = evt.target.result;
+        if (diagramPreviewImg) diagramPreviewImg.src = currentDiagramDataUrl;
+        if (diagramPreviewWrapper) diagramPreviewWrapper.classList.remove("hidden");
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  if (btnAttachDiagram) {
+    btnAttachDiagram.addEventListener("click", () => {
+      const qNumInput = document.getElementById("input-diagram-qnum");
+      const qNum = parseInt(qNumInput ? qNumInput.value : 1, 10);
+      if (!currentDiagramDataUrl) {
+        showToast("Please select an image file first!", "error");
+        return;
+      }
+      if (!appState.mcq) appState.mcq = {};
+      if (!appState.mcq.questionImages) appState.mcq.questionImages = {};
+      appState.mcq.questionImages[qNum] = currentDiagramDataUrl;
+      renderAttachedImagesList();
+      renderDocument();
+      showToast(`📸 Diagram attached to Question #${qNum}!`, "success");
+
+      currentDiagramDataUrl = "";
+      if (diagramFileInput) diagramFileInput.value = "";
+      if (diagramPreviewWrapper) diagramPreviewWrapper.classList.add("hidden");
+    });
+  }
+
   // Zoom Controls
   const btnZoomIn = document.getElementById("btn-zoom-in");
   if (btnZoomIn) {
@@ -1867,6 +2864,145 @@ function switchTab(tabName) {
     } else {
       panel.classList.add("hidden");
     }
+  });
+}
+
+// ==========================================
+// DUAL ENGINE MODE & MCQ WORKSPACE HELPERS
+// ==========================================
+function updateModeView(mode) {
+  appState.currentMode = mode;
+  const btnPointer = document.getElementById("btn-mode-pointer");
+  const btnMcq = document.getElementById("btn-mode-mcq");
+  const panelPointer = document.getElementById("panel-studio-pointer");
+  const panelMcq = document.getElementById("panel-studio-mcq");
+  const presetsPointer = document.getElementById("wrapper-presets-pointer");
+  const presetsMcq = document.getElementById("wrapper-presets-mcq");
+
+  if (mode === "mcq") {
+    if (btnPointer) {
+      btnPointer.classList.remove("active", "text-white", "bg-slate-700/80");
+      btnPointer.classList.add("text-slate-300", "hover:text-white");
+    }
+    if (btnMcq) {
+      btnMcq.classList.add("active", "text-white", "bg-red-600/90");
+      btnMcq.classList.remove("text-slate-300", "hover:text-white");
+    }
+    if (panelPointer) panelPointer.classList.add("hidden");
+    if (panelMcq) panelMcq.classList.remove("hidden");
+    if (presetsPointer) presetsPointer.classList.add("hidden");
+    if (presetsMcq) {
+      presetsMcq.classList.remove("hidden");
+      presetsMcq.classList.add("xl:flex");
+    }
+  } else {
+    if (btnPointer) {
+      btnPointer.classList.add("active", "text-white", "bg-slate-700/80");
+      btnPointer.classList.remove("text-slate-300", "hover:text-white");
+    }
+    if (btnMcq) {
+      btnMcq.classList.remove("active", "text-white", "bg-red-600/90");
+      btnMcq.classList.add("text-slate-300", "hover:text-white");
+    }
+    if (panelPointer) panelPointer.classList.remove("hidden");
+    if (panelMcq) panelMcq.classList.add("hidden");
+    if (presetsPointer) {
+      presetsPointer.classList.remove("hidden");
+      presetsPointer.classList.add("xl:flex");
+    }
+    if (presetsMcq) presetsMcq.classList.add("hidden");
+  }
+}
+
+function setAppMode(mode, showNotification = true) {
+  updateModeView(mode);
+  renderDocument();
+  if (showNotification) {
+    if (mode === "mcq") {
+      showToast("📝 Switched to MCQ Practice Set Studio (Platform Exam Style)", "info");
+    } else {
+      showToast("📖 Switched to GS Pointer One-Liner Studio", "info");
+    }
+  }
+}
+
+function switchMcqTab(tabName) {
+  if (!appState.mcq) appState.mcq = {};
+  appState.mcqActiveTab = tabName;
+
+  document.querySelectorAll(".mcq-tab-button").forEach((btn) => {
+    if (btn.dataset.mcqTab === tabName) {
+      btn.classList.add("active-tab", "border-red-600", "text-red-600", "bg-white", "shadow-sm");
+      btn.classList.remove("text-slate-600", "border-transparent", "hover:text-slate-800");
+    } else {
+      btn.classList.remove("active-tab", "border-red-600", "text-red-600", "bg-white", "shadow-sm");
+      btn.classList.add("text-slate-600", "border-transparent", "hover:text-slate-800");
+    }
+  });
+
+  document.querySelectorAll(".mcq-tab-content-panel").forEach((panel) => {
+    if (panel.id === `mcq-tab-panel-${tabName}`) {
+      panel.classList.remove("hidden");
+    } else {
+      panel.classList.add("hidden");
+    }
+  });
+}
+
+function renderAttachedImagesList() {
+  const listEl = document.getElementById("list-attached-images");
+  const countBadge = document.getElementById("badge-attached-images-count");
+  if (!listEl) return;
+
+  const imagesMap = (appState.mcq && appState.mcq.questionImages) ? appState.mcq.questionImages : {};
+  const qNums = Object.keys(imagesMap).map(Number).sort((a, b) => a - b);
+
+  if (countBadge) {
+    countBadge.innerText = `${qNums.length} Attached`;
+  }
+
+  if (qNums.length === 0) {
+    listEl.innerHTML = `<p class="text-xs text-slate-400 italic">No images attached yet. Select a question above to insert a diagram.</p>`;
+    return;
+  }
+
+  listEl.innerHTML = qNums.map(qNum => {
+    const dataUrl = imagesMap[qNum];
+    return `
+      <div class="flex items-center justify-between p-2 bg-slate-50 border border-slate-200 rounded-lg hover:border-red-300 transition">
+        <div class="flex items-center gap-2.5">
+          <img src="${dataUrl}" class="w-10 h-10 object-contain rounded border border-slate-300 bg-white" alt="Q${qNum}">
+          <div>
+            <span class="text-xs font-bold text-red-600">Question #${qNum}</span>
+            <div class="text-[10px] text-slate-500">Diagram / Figure Attached</div>
+          </div>
+        </div>
+        <button type="button" onclick="deleteAttachedDiagram(${qNum})" class="px-2 py-1 text-xs text-rose-600 hover:bg-rose-50 rounded transition font-semibold cursor-pointer">
+          ✕ Remove
+        </button>
+      </div>
+    `;
+  }).join("");
+}
+
+function deleteAttachedDiagram(qNum) {
+  if (appState.mcq && appState.mcq.questionImages && appState.mcq.questionImages[qNum]) {
+    delete appState.mcq.questionImages[qNum];
+    renderAttachedImagesList();
+    renderDocument();
+    showToast(`Removed diagram from Question #${qNum}`, "info");
+  }
+}
+window.deleteAttachedDiagram = deleteAttachedDiagram;
+
+function bindMcqInput(id, mcqKey, isNumber = false) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const eventType = el.tagName === "SELECT" ? "change" : "input";
+  el.addEventListener(eventType, (e) => {
+    if (!appState.mcq) appState.mcq = {};
+    appState.mcq[mcqKey] = isNumber ? (parseFloat(e.target.value) || 0) : e.target.value;
+    renderDocument();
   });
 }
 

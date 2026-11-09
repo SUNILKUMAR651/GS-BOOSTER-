@@ -16,6 +16,9 @@
   <!-- Custom Core & Print Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 
+  <!-- Mammoth.js for client-side Word .docx to text parsing -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+
   <script>
     tailwind.config = {
       theme: {
@@ -47,19 +50,29 @@
       <!-- Brand & Title -->
       <div class="flex items-center space-x-3">
         <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center font-black text-white text-lg shadow-md shadow-blue-500/20">
-          GS
+          EP
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <h1 class="text-sm font-bold tracking-tight text-white">GS Pointer PDF Generator</h1>
-            <span class="text-[10px] bg-blue-500/20 text-blue-300 border border-blue-500/30 font-semibold px-2 py-0.5 rounded-full">Two-Column A4</span>
+            <h1 class="text-sm font-bold tracking-tight text-white">EduPublish PDF Studio 2026</h1>
+            <span class="text-[10px] bg-blue-500/20 text-blue-300 border border-blue-500/30 font-semibold px-2 py-0.5 rounded-full">Dual Engine</span>
           </div>
-          <p class="text-[11px] text-slate-400">Automated Educational Publishing Studio for Ghatna Chakra Style Booklets</p>
+          <p class="text-[11px] text-slate-400">GS Pointer One-Liner + MCQ Test Series Practice Set Generator</p>
         </div>
       </div>
 
-      <!-- Quick Preset Loaders -->
-      <div class="hidden lg:flex items-center gap-1.5 bg-slate-800/80 p-1 rounded-lg border border-slate-700">
+      <!-- Dual Mode Switcher Tabs -->
+      <div class="flex items-center bg-slate-800/90 p-1 rounded-xl border border-slate-700 shadow-inner">
+        <button type="button" id="btn-mode-pointer" class="mode-tab-btn active px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-white">
+          <span>📖</span> GS Pointer (वन-लाइनर)
+        </button>
+        <button type="button" id="btn-mode-mcq" class="mode-tab-btn px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
+          <span>📝</span> MCQ Test Series (प्रैक्टिस सेट)
+        </button>
+      </div>
+
+      <!-- Quick Preset Loaders (GS Pointer Mode) -->
+      <div id="wrapper-presets-pointer" class="hidden xl:flex items-center gap-1.5 bg-slate-800/80 p-1 rounded-lg border border-slate-700">
         <span class="text-[11px] text-slate-400 font-medium px-2">Presets:</span>
         <button data-sample-preset="history" class="text-xs px-2.5 py-1 rounded bg-slate-700 hover:bg-slate-600 text-slate-200 transition font-medium flex items-center gap-1">
           <span>🏛️</span> इतिहास
@@ -67,11 +80,19 @@
         <button data-sample-preset="polity" class="text-xs px-2.5 py-1 rounded bg-slate-700 hover:bg-slate-600 text-slate-200 transition font-medium flex items-center gap-1">
           <span>⚖️</span> राजव्यवस्था
         </button>
-        <button data-sample-preset="hindi" class="text-xs px-2.5 py-1 rounded bg-slate-700 hover:bg-slate-600 text-slate-200 transition font-medium flex items-center gap-1">
-          <span>📖</span> सामान्य हिंदी
-        </button>
         <button data-sample-preset="science" class="text-xs px-2.5 py-1 rounded bg-slate-700 hover:bg-slate-600 text-slate-200 transition font-medium flex items-center gap-1">
           <span>🔬</span> विज्ञान
+        </button>
+      </div>
+
+      <!-- Quick Preset Loaders (MCQ Mode) -->
+      <div id="wrapper-presets-mcq" class="hidden xl:flex items-center gap-1.5 bg-slate-800/80 p-1 rounded-lg border border-slate-700">
+        <span class="text-[11px] text-slate-400 font-medium px-2">MCQ Sets:</span>
+        <button data-mcq-preset="biharPolice" class="text-xs px-2.5 py-1 rounded bg-red-700 hover:bg-red-600 text-white transition font-medium flex items-center gap-1">
+          <span>👮</span> बिहार पुलिस सेट-06
+        </button>
+        <button data-mcq-preset="science" class="text-xs px-2.5 py-1 rounded bg-slate-700 hover:bg-slate-600 text-slate-200 transition font-medium flex items-center gap-1">
+          <span>⚡</span> सामान्य विज्ञान MCQ
         </button>
       </div>
 
@@ -99,8 +120,12 @@
     <!-- LEFT SIDEBAR: CONTROL PANEL / DASHBOARD -->
     <aside id="app-sidebar" class="no-print w-full md:w-[460px] lg:w-[480px] bg-white border-r border-slate-200 flex flex-col z-20 flex-shrink-0 shadow-lg select-text">
       
-      <!-- Control Panel Tabs Header -->
-      <div class="border-b border-slate-200 bg-slate-50 flex items-center px-2 pt-2 gap-1 flex-shrink-0">
+      <!-- =========================================================================
+           STUDIO PANEL 1: GS POINTER ONE-LINER (Authentic Ghatna Chakra Format)
+           ========================================================================= -->
+      <div id="panel-studio-pointer" class="flex-1 flex flex-col overflow-hidden">
+        <!-- Control Panel Tabs Header -->
+        <div class="border-b border-slate-200 bg-slate-50 flex items-center px-2 pt-2 gap-1 flex-shrink-0">
         <button data-tab="content" class="tab-button active-tab flex-1 py-2 px-3 text-xs font-bold rounded-t-lg border-b-2 border-blue-600 text-blue-600 bg-white transition flex items-center justify-center gap-1.5 shadow-sm">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
           <span>Content & Data</span>
@@ -618,6 +643,262 @@
         </div>
 
       </div>
+      </div><!-- End #panel-studio-pointer -->
+
+      <!-- =========================================================================
+           STUDIO PANEL 2: MCQ PRACTICE SET GENERATOR (Platform / Rukmini Exam Format)
+           ========================================================================= -->
+      <div id="panel-studio-mcq" class="flex-1 flex flex-col overflow-hidden hidden">
+        <!-- MCQ Tabs Header -->
+        <div class="border-b border-slate-200 bg-slate-50 flex items-center px-2 pt-2 gap-1 flex-shrink-0">
+          <button data-mcq-tab="content" class="mcq-tab-button active-tab flex-1 py-2 px-1 text-[11px] font-bold rounded-t-lg border-b-2 border-red-600 text-red-600 bg-white transition flex items-center justify-center gap-1 shadow-sm">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            <span>Questions</span>
+          </button>
+          <button data-mcq-tab="branding" class="mcq-tab-button flex-1 py-2 px-1 text-[11px] font-semibold rounded-t-lg border-b-2 border-transparent text-slate-600 hover:text-slate-800 transition flex items-center justify-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+            <span>Exam & Set</span>
+          </button>
+          <button data-mcq-tab="images" class="mcq-tab-button flex-1 py-2 px-1 text-[11px] font-semibold rounded-t-lg border-b-2 border-transparent text-slate-600 hover:text-slate-800 transition flex items-center justify-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            <span>Photos</span>
+          </button>
+          <button data-mcq-tab="layout" class="mcq-tab-button flex-1 py-2 px-1 text-[11px] font-semibold rounded-t-lg border-b-2 border-transparent text-slate-600 hover:text-slate-800 transition flex items-center justify-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+            <span>Options</span>
+          </button>
+        </div>
+
+        <!-- MCQ Tab Content Area (Scrollable) -->
+        <div class="flex-1 overflow-y-auto p-4 space-y-4">
+          
+          <!-- TAB 1: MCQ QUESTIONS & DOC UPLOAD -->
+          <div id="mcq-tab-panel-content" class="mcq-tab-content-panel space-y-3">
+            <div class="flex items-center justify-between">
+              <label class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                <span>Bulk MCQ Input</span>
+                <span class="text-[10px] text-red-600 bg-red-50 border border-red-200 px-1.5 py-0.2 rounded font-semibold">Platform Style</span>
+              </label>
+              <button id="btn-clear-mcq-content" class="text-xs text-rose-600 hover:text-rose-700 font-medium hover:underline flex items-center gap-1 cursor-pointer">
+                <span>Clear</span>
+              </button>
+            </div>
+
+            <!-- Docx / Doc / Txt Upload Banner -->
+            <div class="border-2 border-dashed border-red-300 hover:border-red-500 bg-red-50/50 rounded-xl p-3 text-center transition cursor-pointer relative group">
+              <input type="file" id="input-mcq-file-upload" accept=".docx,.doc,.txt,.csv" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10">
+              <div class="flex flex-col items-center justify-center gap-1">
+                <svg class="w-6 h-6 text-red-500 group-hover:scale-110 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                <div class="text-xs font-bold text-slate-800">Upload Word (.docx) or Text (.txt) File</div>
+                <div class="text-[10px] text-slate-500">Click or drag & drop questions file. Auto-extracts instantly!</div>
+              </div>
+            </div>
+
+            <!-- Main MCQ Textarea -->
+            <div class="relative">
+              <textarea
+                id="textarea-mcq-content"
+                rows="14"
+                placeholder="Paste your bulk MCQs here in standard exam format:&#10;&#10;1. प्रकाश वर्ष (Light year) निम्नलिखित में से किसकी इकाई है?&#10;(A) समय (Time)&#10;(B) दूरी (Distance)&#10;(C) प्रकाश की तीव्रता&#10;(D) द्रव्यमान&#10;Ans: B&#10;&#10;2. बेकिंग सोडा का रासायनिक सूत्र है:&#10;(A) Na2CO3  (B) NaHCO3  (C) NaCl  (D) NaOH&#10;Ans: B"
+                class="w-full text-xs font-mono p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-slate-50/50 text-slate-800 leading-relaxed transition resize-y"
+                style="min-height: 260px;"
+              ></textarea>
+            </div>
+
+            <!-- Actions Bar -->
+            <div class="flex items-center gap-2">
+              <button type="button" id="btn-fix-mcq-formulas" class="w-full py-2 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-xs shadow-sm transition flex items-center justify-center gap-2 cursor-pointer">
+                <span>✨ 1-Click Fix Formulas (H₂O) & Spellings</span>
+              </button>
+            </div>
+
+            <!-- Quick Presets for MCQ -->
+            <div class="pt-2 border-t border-slate-200">
+              <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">Load Ready-made Test Series</div>
+              <div class="grid grid-cols-2 gap-2">
+                <button type="button" data-mcq-preset="biharPolice" class="p-2.5 border border-slate-200 rounded-lg bg-white hover:bg-red-50 hover:border-red-300 text-left transition group cursor-pointer">
+                  <div class="text-xs font-bold text-slate-800 group-hover:text-red-600">👮 बिहार पुलिस सेट-06</div>
+                  <div class="text-[10px] text-slate-500">Rukmini / Platform Format</div>
+                </button>
+                <button type="button" data-mcq-preset="science" class="p-2.5 border border-slate-200 rounded-lg bg-white hover:bg-red-50 hover:border-red-300 text-left transition group cursor-pointer">
+                  <div class="text-xs font-bold text-slate-800 group-hover:text-red-600">🔬 सामान्य विज्ञान MCQ</div>
+                  <div class="text-[10px] text-slate-500">Physics & Chemistry Set</div>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: EXAM BRANDING & SET RIBBON -->
+          <div id="mcq-tab-panel-branding" class="mcq-tab-content-panel space-y-4 hidden">
+            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider border-b border-slate-200 pb-2">
+              Platform Exam Header & Set Ribbon
+            </h3>
+
+            <!-- Series Subtitle -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Series Sub-Title</label>
+              <input type="text" id="input-mcq-series-sub" value="Test Series for" class="w-full text-xs p-2 border border-slate-300 rounded font-bold text-slate-800">
+            </div>
+
+            <!-- Exam Main Title -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1 flex items-center justify-between">
+                <span>Exam Main Title (Crimson Red)</span>
+                <span class="text-[10px] text-red-600 font-bold">Header Left</span>
+              </label>
+              <input type="text" id="input-mcq-exam-title" value="Bihar Police Constable Exam." class="w-full text-xs p-2 border border-red-300 rounded font-black text-red-600 bg-red-50/30">
+            </div>
+
+            <!-- Set Number Badge -->
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-3">
+              <label class="block text-xs font-bold text-slate-800 mb-1">Set Number / Badge</label>
+              <div class="flex items-center gap-3">
+                <input type="text" id="input-mcq-set-num" value="06" class="w-24 text-sm font-black p-2 border border-slate-300 rounded text-center text-slate-900 bg-white">
+                <div class="flex items-center shadow-sm">
+                  <div class="bg-red-600 text-white font-black text-xs px-2.5 py-1 rounded-l">SET</div>
+                  <div id="preview-set-badge" class="bg-white text-black font-black text-sm px-2.5 py-0.5 border-2 border-black rounded-full -ml-1">06</div>
+                </div>
+              </div>
+              <p class="text-[10px] text-slate-500 mt-1.5">Appears as the authentic red flag + oval number badge on the top right of every page.</p>
+            </div>
+
+            <!-- Top Promo Banner -->
+            <div class="space-y-2 pt-2 border-t border-slate-200">
+              <label class="block text-xs font-semibold text-slate-700">Top App Promo Banner</label>
+              <input type="text" id="input-mcq-top-app-text" value="Online Test के लिए App अभी डाउनलोड करें➔" class="w-full text-xs p-2 border border-slate-300 rounded">
+              <input type="text" id="input-mcq-top-app-url" value="https://t.me/apnapdfs" placeholder="https://..." class="w-full text-xs p-2 border border-slate-300 rounded font-mono text-[11px]">
+            </div>
+
+            <!-- Footer Details -->
+            <div class="space-y-3 pt-2 border-t border-slate-200">
+              <label class="block text-xs font-semibold text-slate-700">Footer Details</label>
+              <div>
+                <span class="text-[11px] text-slate-500 mb-1 block">Footer Center Title:</span>
+                <input type="text" id="input-mcq-footer-text" value="BIHAR POLICE CONSTABLE EXAM., TEST SERIES VOL.-1" class="w-full text-xs p-2 border border-slate-300 rounded font-bold text-slate-800">
+              </div>
+              <div>
+                <span class="text-[11px] text-slate-500 mb-1 block">Footer Website / Contact:</span>
+                <input type="text" id="input-mcq-footer-web" value="www.rukminiprakashan.com" class="w-full text-xs p-2 border border-slate-300 rounded font-mono text-[11px]">
+              </div>
+              <div>
+                <span class="text-[11px] text-slate-500 mb-1 block">Starting Page Number:</span>
+                <input type="number" id="input-mcq-start-page" value="99" min="1" class="w-28 text-xs p-2 border border-slate-300 rounded font-bold">
+              </div>
+            </div>
+
+            <!-- Watermark -->
+            <div class="space-y-2 pt-2 border-t border-slate-200">
+              <label class="block text-xs font-semibold text-slate-700">Watermark Text</label>
+              <input type="text" id="input-mcq-watermark" value="PLATFORM" class="w-full text-xs p-2 border border-slate-300 rounded">
+            </div>
+          </div>
+
+          <!-- TAB 3: PHOTO & DIAGRAM INSERT MANAGER -->
+          <div id="mcq-tab-panel-images" class="mcq-tab-content-panel space-y-4 hidden">
+            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider border-b border-slate-200 pb-2">
+              Question Diagram / Photo Inserter
+            </h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Attach diagrams, science figures, circuits, or maps to any specific question. It automatically renders centered below the question text before the options!
+            </p>
+
+            <div class="bg-red-50/50 border border-red-200 rounded-xl p-3.5 space-y-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-800 mb-1">Target Question Number:</label>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold text-red-600">Question #</span>
+                  <input type="number" id="input-diagram-qnum" min="1" max="200" value="1" class="w-20 text-xs p-1.5 border border-slate-300 rounded font-bold bg-white text-center">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-800 mb-1">Select Diagram / Photo:</label>
+                <input type="file" id="input-diagram-file" accept="image/*" class="w-full text-xs p-1.5 border border-slate-300 rounded bg-white file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-red-600 file:text-white hover:file:bg-red-700 cursor-pointer">
+              </div>
+
+              <div id="wrapper-diagram-preview" class="hidden text-center p-2 bg-white rounded border border-slate-200">
+                <img id="img-diagram-preview" src="" class="max-h-28 mx-auto object-contain rounded" alt="Preview">
+                <div class="text-[10px] text-slate-500 mt-1">Diagram Preview for Question</div>
+              </div>
+
+              <button type="button" id="btn-attach-diagram" class="w-full py-2 px-3 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-bold rounded-lg text-xs shadow transition flex items-center justify-center gap-1.5 cursor-pointer">
+                <span>➕ Attach Diagram to Question</span>
+              </button>
+            </div>
+
+            <!-- Attached Images List -->
+            <div class="space-y-2">
+              <div class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center justify-between">
+                <span>Currently Attached Images:</span>
+                <span id="badge-attached-images-count" class="text-[10px] bg-red-100 text-red-700 px-2 py-0.5 rounded font-bold">0 Attached</span>
+              </div>
+              <div id="list-attached-images" class="space-y-2">
+                <p class="text-xs text-slate-400 italic">No images attached yet. Select a question above to insert a diagram.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 4: OPTIONS & LAYOUT -->
+          <div id="mcq-tab-panel-layout" class="mcq-tab-content-panel space-y-4 hidden">
+            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider border-b border-slate-200 pb-2">
+              Options Layout & Column Formatting
+            </h3>
+
+            <!-- Options Layout Mode -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Options (A, B, C, D) Layout Mode</label>
+              <select id="select-mcq-options-layout" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                <option value="auto" selected>Auto-Detect (Smart Grid: 2x2, 4-Inline or Stacked)</option>
+                <option value="grid2x2">2 x 2 Grid (Authentic Platform Exam Style)</option>
+                <option value="inline4">4 In One Line (Horizontal)</option>
+                <option value="stacked">Stacked (1 Option Per Line)</option>
+              </select>
+            </div>
+
+            <!-- Question Number Color -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Question Number Color</label>
+              <select id="select-mcq-qnum-color" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                <option value="#dc2626" selected>Crimson Red (#dc2626 - Real Exam Book Style)</option>
+                <option value="#000000">Solid Black (#000000)</option>
+                <option value="#1d4ed8">Navy Blue (#1d4ed8)</option>
+              </select>
+            </div>
+
+            <!-- Central Column Dividing Line -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Central Column Divider Line</label>
+              <select id="select-mcq-col-divider" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                <option value="solid" selected>Solid Black Line (1px solid #000 - Authentic)</option>
+                <option value="dashed">Dashed Line</option>
+                <option value="none">None</option>
+              </select>
+            </div>
+
+            <!-- Answer Key Toggle -->
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-3">
+              <label class="flex items-start gap-2.5 cursor-pointer">
+                <input type="checkbox" id="check-mcq-answer-key" class="w-4 h-4 text-red-600 rounded border-slate-300 focus:ring-red-500 mt-0.5" checked>
+                <div>
+                  <span class="text-xs font-bold text-slate-800">Generate Compact Answer Key Grid</span>
+                  <p class="text-[11px] text-slate-500">Automatically creates an exam answer table (1-B, 2-B, 3-A...) at the end of the test booklet.</p>
+                </div>
+              </label>
+            </div>
+
+            <!-- Font Size -->
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-xs font-semibold text-slate-700">Font Size</label>
+                <span id="val-mcq-font-size" class="text-xs font-mono font-bold text-red-600 bg-red-100 px-1.5 py-0.5 rounded">11.5px</span>
+              </div>
+              <input type="range" id="input-mcq-font-size" min="10" max="14" step="0.5" value="11.5" class="w-full h-1.5 bg-slate-300 rounded-lg appearance-none cursor-pointer">
+            </div>
+
+          </div>
+
+        </div>
+      </div><!-- End #panel-studio-mcq -->
 
       <!-- Control Panel Bottom Action Footer -->
       <div class="p-3 bg-slate-50 border-t border-slate-200 space-y-2 flex-shrink-0">
@@ -705,6 +986,8 @@
         </div>
 
       </div>
+
+      <!-- Preview Scrollable Canvas (Contains Rendered A4 Sheets) -->
 
       <!-- Preview Scrollable Canvas (Contains Rendered A4 Sheets) -->
       <div id="preview-scroll-container" class="flex-1 overflow-auto p-6 md:p-8 flex justify-center items-start">
