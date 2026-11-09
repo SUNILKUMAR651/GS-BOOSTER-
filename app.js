@@ -161,42 +161,47 @@ Q34. मोक्ष की इच्छा रखने वाला व्य�
 Q35. जीने की प्रबल इच्छा क्या कहलाती है === जिजीविषा
 Q36. जंगल में लगने वाली आग को क्या कहते हैं === दावानल`,
 
-  science: `Q1. शक्ति का SI मात्रक क्या है === वाट (Watt)
+  science: `### भौतिक विज्ञान (मात्रक एवं भौतिक राशियां)
+Q1. शक्ति का SI मात्रक क्या है === वाट (Watt)
 Q2. बल का SI मात्रक क्या होता है === न्यूटन (Newton)
 Q3. कार्य और ऊर्जा का मात्रक क्या है === जूल (Joule)
 Q4. प्रकाश वर्ष किसकी इकाई है === दूरी की (Distance)
 Q5. एक पारसेक (Parsec) कितने प्रकाश वर्ष के बराबर होता है === लगभग 3.26 प्रकाश वर्ष
-Q6. ध्वनि की तीव्रता मापने की इकाई है === डेसिबल (Decibel)
-Q7. वायुमंडलीय दाब मापने का यंत्र क्या कहलाता है === बैरोमीटर (Barometer)
-Q8. सोनार (SONAR) अधिकांशतः प्रयोग में लाया जाता है === नौसंचालकों द्वारा
+Q6. त्वरण का मात्रक क्या होता है === m/s² (मीटर प्रति सेकंड²)
+Q7. ध्वनि की तीव्रता मापने की इकाई है === डेसिबल (Decibel)
+Q8. वायुमंडलीय दाब मापने का यंत्र क्या कहलाता है === बैरोमीटर (Barometer)
 Q9. दूध के घनत्व को किसके द्वारा मापा जाता है === लैक्टोमीटर द्वारा
 Q10. वायु की आर्द्रता मापने हेतु प्रयुक्त यंत्र है === हाइग्रोमीटर (Hygrometer)
 Q11. भूकंप की तीव्रता किस पैमाने पर मापी जाती है === रिक्टर पैमाना (Richter Scale)
 Q12. वाशिंग मशीन का कार्य सिद्धांत किस पर आधारित है === अपकेंद्रण (Centrifugation)
 Q13. गुरुत्वाकर्षण का सार्वभौमिक नियम किसने दिया था === सर आइजक न्यूटन ने
-Q14. पृथ्वी के केंद्र पर किसी वस्तु का भार होता है === शून्य (Zero)
-Q15. पेंडुलम घड़ी तीव्र गति से चल सकती है === शीतकाल में
-Q16. वर्षा की बूंद गोलाकार होती है, इसका कारण है === पृष्ठ तनाव (Surface Tension)
-Q17. बत्ती वाले स्टोव में केरोसिन का ऊपर चढ़ना किस कारण होता है === केशिकत्व (Capillarity)
-Q18. साबुन के बुलबुले के अंदर का दाब वायुमंडलीय दाब से === अधिक होता है
-Q19. बादलों के वायुमंडल में तैरने का कारण है उनका === कम घनत्व
-Q20. जल का अधिकतम घनत्व किस तापमान पर होता है === 4°C पर
-Q21. प्रकाश की चाल अधिकतम होती है === निर्वात (Vacuum) में
-Q22. सूर्य का प्रकाश पृथ्वी पर पहुँचने में समय लेता है === लगभग 8 मिनट 20 सेकंड
-Q23. आकाश का रंग नीला दिखाई देने का प्रमुख कारण है === प्रकाश का प्रकीर्णन (Scattering)
-Q24. अंतरिक्ष यात्री को आकाश का रंग दिखाई देता है === काला (Black)
-Q25. इंद्रधनुष बनने का कारण है === परावर्तन, अपवर्तन एवं पूर्ण आंतरिक परावर्तन
-Q26. दाढ़ी बनाने के लिए किस दर्पण का उपयोग किया जाता है === अवतल दर्पण (Concave Mirror)
-Q27. वाहनों में पीछे का दृश्य (Rear View) देखने के लिए प्रयुक्त दर्पण है === उत्तल दर्पण (Convex Mirror)
-Q28. मानव आँख की रेटिना पर बनने वाला प्रतिबिंब होता है === वास्तविक तथा उल्टा
-Q29. निकट दृष्टि दोष (Myopia) के निवारण के लिए प्रयुक्त लेंस है === अवतल लेंस (Concave Lens)
-Q30. दूर दृष्टि दोष (Hypermetropia) के निवारण के लिए प्रयुक्त लेंस है === उत्तल लेंस (Convex Lens)
-Q31. प्राथमिक रंग (Primary Colors) कौन-से हैं === लाल, हरा और नीला (RGB)
-Q32. परमाणु के नाभिक में कौन-से कण उपस्थित होते हैं === प्रोटॉन तथा न्यूट्रॉन
-Q33. इलेक्ट्रॉन की खोज किसने की थी === जे. जे. थॉमसन ने
-Q34. न्यूट्रॉन की खोज किसने की थी === जेम्स चैडविक ने
-Q35. सबसे हल्की धातु कौन-सी है === लिथियम (Lithium)
-Q36. सबसे भारी प्राकृतिक धातु कौन-सी है === ऑस्मियम (Osmium)`
+Q14. वर्षा की बूंद गोलाकार होती है, इसका कारण है === पृष्ठ तनाव (Surface Tension)
+Q15. बादलों के वायुमंडल में तैरने का कारण है उनका === कम घनत्व
+Q16. जल का अधिकतम घनत्व किस तापमान पर होता है === 4°C पर
+Q17. प्रकाश की चाल निर्वात में होती है === 3 × 10⁸ m/s
+
+### रसायन विज्ञान (रासायनिक सूत्र एवं महत्वपूर्ण यौगिक)
+Q18. साधारण जल का रासायनिक सूत्र एवं अणुभार है === H₂O (अणुभार 18)
+Q19. भारी जल का रासायनिक सूत्र एवं उपयोग === D₂O (परमाणु भट्टी में मंदक के रूप में)
+Q20. शुष्क बर्फ (Dry Ice) क्या कहलाता है === ठोस कार्बन डाइऑक्साइड (CO₂)
+Q21. अम्लीय वर्षा (Acid Rain) के प्रमुख घटक हैं === SO₂ तथा NO₂ गैसें
+Q22. रसायनों का सम्राट (King of Chemicals) किसे कहा जाता है === सल्फ्यूरिक अम्ल (H₂SO₄)
+Q23. चूना पत्थर तथा संगमरमर का रासायनिक सूत्र है === कैल्शियम कार्बोनेट (CaCO₃)
+Q24. खाने का सोडा (बेकिंग सोडा) का सूत्र है === सोडियम बाइकार्बोनेट (NaHCO₃)
+Q25. धावन सोडा (वाशिंग सोडा) का सूत्र है === Na₂CO₃·10H₂O
+Q26. प्लास्टर ऑफ पेरिस का रासायनिक सूत्र है === CaSO₄·½H₂O
+Q27. जिप्सम का रासायनिक सूत्र क्या है === CaSO₄·2H₂O
+Q28. गोबर गैस तथा बायोगैस का मुख्य घटक है === मिथेन (CH₄)
+Q29. रक्त शर्करा (ग्लूकोज) का रासायनिक सूत्र है === C₆H₁₂O₆
+Q30. ओजोन परत में पाई जाने वाली गैस का सूत्र है === O₃ (ऑक्सीजन का अपररूप)
+Q31. हास्य गैस (लाफिंग गैस) का रासायनिक नाम है === नाइट्रस ऑक्साइड (N₂O)
+Q32. विरंजक चूर्ण (Bleaching Powder) का रासायनिक सूत्र === CaOCl₂
+
+### जीव विज्ञान एवं मानव शरीर
+Q33. मानव शरीर की सबसे बड़ी ग्रंथि कौन-सी है === यकृत (Liver)
+Q34. मास्टर ग्रंथि (Master Gland) किसे कहा जाता है === पीयूष ग्रंथि (Pituitary Gland)
+Q35. रक्त का pH मान कितना होता है === लगभग 7.4 (हल्का क्षारीय)
+Q36. इंसुलिन की कमी से होने वाला रोग है === मधुमेह (Diabetes)`
 };
 
 // ==========================================
@@ -229,6 +234,8 @@ const DEFAULT_STATE = {
   columnGap: "7",
   columnDivider: "none", // "none", "solid", "dashed"
   answerStyle: "style-right", // "style-right" (Mode 1), "style-inline" (Mode 2)
+  topicBannerMode: "single-column", // "single-column" (Authentic GS Pointer 1-side), "span-both" (Full-width)
+  autoFormatFormulas: true,
   answerColor: "#dc2626", // Red default for answer as requested!
   questionColor: "#000000", // Black for question!
   bulletStyle: "➢", // "➢", "•", "◆", "➔", "none"
@@ -746,15 +753,27 @@ function packItemsAutoFit(items) {
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
     if (item.isHeading) {
+      const isSpanBoth = appState.topicBannerMode === "span-both";
       const headingDiv = document.createElement("div");
-      headingDiv.className = "gs-section-banner gs-document-font";
-      headingDiv.innerText = `❖ ${item.title} ❖`;
+      headingDiv.className = `gs-topic-banner ${isSpanBoth ? "span-both" : "single-col"} gs-document-font`;
+      headingDiv.innerHTML = `
+        <div class="banner-decor-left"><span></span><span></span></div>
+        <div class="banner-title">${escapeHtml(item.title)}</div>
+        <div class="banner-decor-right"><span></span><span></span></div>
+      `;
+      headingDiv.style.marginBottom = `${itemSpacingPx}px`;
       frag.appendChild(headingDiv);
       continue;
     }
 
-    const qText = escapeHtml(item.question);
-    const aText = escapeHtml(item.answer);
+    let qText = item.question;
+    let aText = item.answer;
+    if (appState.autoFormatFormulas) {
+      qText = formatScienceFormulas(qText);
+      aText = formatScienceFormulas(aText);
+    }
+    qText = escapeHtmlPreservingTags(qText);
+    aText = escapeHtmlPreservingTags(aText);
     const div = document.createElement("div");
 
     if (appState.answerStyle === "style-right") {
@@ -880,10 +899,14 @@ function createA4PageElement(pageItems, pageNumber, totalPages, pageSequence) {
     </div>
   `;
 
-  // Helper: Search Highlight
-  function highlightText(text) {
+  // Helper: Format and Highlight Text (Formulas + Search)
+  function highlightFormattedText(text) {
     if (!text) return "";
-    const safe = escapeHtml(text);
+    let processed = text;
+    if (appState.autoFormatFormulas) {
+      processed = formatScienceFormulas(processed);
+    }
+    const safe = escapeHtmlPreservingTags(processed);
     if (!appState.searchQuery || !appState.searchQuery.trim()) return safe;
     const q = appState.searchQuery.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     const regex = new RegExp(`(${q})`, "gi");
@@ -897,16 +920,20 @@ function createA4PageElement(pageItems, pageNumber, totalPages, pageSequence) {
   let itemsHtml = "";
   for (const item of pageItems) {
     if (item.isHeading) {
+      const isSpanBoth = appState.topicBannerMode === "span-both";
+      const bannerClass = isSpanBoth ? "gs-topic-banner span-both" : "gs-topic-banner single-col";
       itemsHtml += `
-        <div class="gs-section-banner gs-document-font">
-          ❖ ${highlightText(item.title)} ❖
+        <div class="${bannerClass} gs-document-font">
+          <div class="banner-decor-left"><span></span><span></span></div>
+          <div class="banner-title">${highlightFormattedText(item.title)}</div>
+          <div class="banner-decor-right"><span></span><span></span></div>
         </div>
       `;
       continue;
     }
 
-    const questionText = highlightText(item.question);
-    const answerText = highlightText(item.answer);
+    const questionText = highlightFormattedText(item.question);
+    const answerText = highlightFormattedText(item.answer);
 
     if (appState.answerStyle === "style-right") {
       // Mode 1: Authentic GS Pointer Right-Aligned
@@ -953,6 +980,226 @@ function escapeHtml(str) {
     .replace(/'/g, "&#039;");
 }
 
+// Utility: HTML Escaping with Safe Tag Preservation (sub, sup, b, i, u)
+function escapeHtmlPreservingTags(str) {
+  if (!str) return "";
+  let safe = str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+  // Restore allowed safe formatting tags: sub, sup, b, i, u
+  safe = safe
+    .replace(/&lt;(\/?)sub&gt;/gi, "<$1sub>")
+    .replace(/&lt;(\/?)sup&gt;/gi, "<$1sup>")
+    .replace(/&lt;(\/?)b&gt;/gi, "<$1b>")
+    .replace(/&lt;(\/?)i&gt;/gi, "<$1i>")
+    .replace(/&lt;(\/?)u&gt;/gi, "<$1u>");
+
+  return safe;
+}
+
+// Superscript digit mapping
+const SUPERSCRIPT_MAP = {
+  "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴",
+  "5": "⁵", "6": "⁶", "7": "⁷", "8": "⁸", "9": "⁹",
+  "+": "⁺", "-": "⁻"
+};
+
+/**
+ * 🧪 Advanced Scientific Formula & Subscript Beautifier
+ * - Auto-corrects typos: H20 -> H₂O, D20 -> D₂O
+ * - Converts chemical formulas into true Unicode subscripts: H₂O, CO₂, SO₂, H₂SO₄, CaCO₃, etc.
+ * - Formats units and exponents: m/s² (from m/s2 or m/s^2), m², cm³, 10⁵, 10⁻³
+ */
+function formatScienceFormulas(text) {
+  if (!text) return "";
+  let str = text;
+
+  // 1. Auto-correct common typos (typing zero '0' instead of capital 'O')
+  str = str.replace(/\bH20\b/gi, "H₂O");
+  str = str.replace(/\bD20\b/gi, "D₂O");
+  str = str.replace(/\bCO0\b/gi, "CO₂");
+
+  // 2. Comprehensive Chemical Formulas in General Science / GS Pointer
+  const formulaReplacements = [
+    // Water, Heavy Water, Peroxide
+    [/\bH2O\b/gi, "H₂O"],
+    [/\bD2O\b/gi, "D₂O"],
+    [/\bT2O\b/gi, "T₂O"],
+    [/\bH2O2\b/gi, "H₂O₂"],
+    // Carbon, Sulfur, Nitrogen Oxides & Gases
+    [/\bCO2\b/gi, "CO₂"],
+    [/\bSO2\b/gi, "SO₂"],
+    [/\bSO3\b/gi, "SO₃"],
+    [/\bNO2\b/gi, "NO₂"],
+    [/\bN2O\b/gi, "N₂O"],
+    [/\bO2\b/g, "O₂"],
+    [/\bN2\b/g, "N₂"],
+    [/\bO3\b/gi, "O₃"],
+    [/\bCl2\b/gi, "Cl₂"],
+    [/\bH2\b/g, "H₂"],
+    [/\bF2\b/gi, "F₂"],
+    [/\bBr2\b/gi, "Br₂"],
+    [/\bI2\b/gi, "I₂"],
+    // Hydrocarbons & Organic Compounds
+    [/\bCH4\b/gi, "CH₄"],
+    [/\bC2H6\b/gi, "C₂H₆"],
+    [/\bC2H4\b/gi, "C₂H₄"],
+    [/\bC2H2\b/gi, "C₂H₂"],
+    [/\bC3H8\b/gi, "C₃H₈"],
+    [/\bC4H10\b/gi, "C₄H₁₀"],
+    [/\bC6H6\b/gi, "C₆H₆"],
+    [/\bC2H5OH\b/gi, "C₂H₅OH"],
+    [/\bCH3OH\b/gi, "CH₃OH"],
+    [/\bCH3COOH\b/gi, "CH₃COOH"],
+    [/\bC6H12O6\b/gi, "C₆H₁₂O₆"],
+    [/\bC12H22O11\b/gi, "C₁₂H₂₂O₁₁"],
+    // Acids
+    [/\bH2SO4\b/gi, "H₂SO₄"],
+    [/\bHNO3\b/gi, "HNO₃"],
+    [/\bH3PO4\b/gi, "H₃PO₄"],
+    [/\bH2CO3\b/gi, "H₂CO₃"],
+    // Salts, Minerals, Bases
+    [/\bCaCO3\b/gi, "CaCO₃"],
+    [/\bNaHCO3\b/gi, "NaHCO₃"],
+    [/\bNa2CO3\b/gi, "Na₂CO₃"],
+    [/\bCaOCl2\b/gi, "CaOCl₂"],
+    [/\bCa\(OH\)2\b/gi, "Ca(OH)₂"],
+    [/\bMg\(OH\)2\b/gi, "Mg(OH)₂"],
+    [/\bAl\(OH\)3\b/gi, "Al(OH)₃"],
+    [/\bNH3\b/gi, "NH₃"],
+    [/\bNH4Cl\b/gi, "NH₄Cl"],
+    [/\b\(NH4\)2SO4\b/gi, "(NH₄)₂SO₄"],
+    [/\bKMnO4\b/gi, "KMnO₄"],
+    [/\bKClO3\b/gi, "KClO₃"],
+    [/\bFe2O3\b/gi, "Fe₂O₃"],
+    [/\bFe3O4\b/gi, "Fe₃O₄"],
+    [/\bAl2O3\b/gi, "Al₂O₃"],
+    [/\bMgSO4\b/gi, "MgSO₄"],
+    [/\bCaCl2\b/gi, "CaCl₂"],
+    [/\bCuSO4\b/gi, "CuSO₄"],
+    [/\bZnSO4\b/gi, "ZnSO₄"],
+    [/\bFeSO4\b/gi, "FeSO₄"],
+    [/\bPbO2\b/gi, "PbO₂"],
+    [/\bP2O5\b/gi, "P₂O₅"],
+    [/\bAgNO3\b/gi, "AgNO₃"],
+    [/\bAgCl\b/gi, "AgCl"],
+    [/\bCa3\(PO4\)2\b/gi, "Ca₃(PO₄)₂"],
+    // Hydrates
+    [/\bCaSO4[\.·]2H2O\b/gi, "CaSO₄·2H₂O"],
+    [/\bCaSO4[\.·]1\/2H2O\b/gi, "CaSO₄·½H₂O"],
+    [/\bNa2CO3[\.·]10H2O\b/gi, "Na₂CO₃·10H₂O"],
+    [/\bCuSO4[\.·]5H2O\b/gi, "CuSO₄·5H₂O"],
+    [/\bFeSO4[\.·]7H2O\b/gi, "FeSO₄·7H₂O"]
+  ];
+
+  for (let i = 0; i < formulaReplacements.length; i++) {
+    str = str.replace(formulaReplacements[i][0], formulaReplacements[i][1]);
+  }
+
+  // 3. Units & Exponents (m/s2 -> m/s², m2 -> m², cm3 -> cm³, etc.)
+  str = str.replace(/\b(m|cm|mm|km)\/s\^?2\b/gi, "$1/s²");
+  str = str.replace(/\b(m|cm|mm|km)\^?2\b/gi, "$1²");
+  str = str.replace(/\b(m|cm|mm|km)\^?3\b/gi, "$1³");
+
+  // Power of 10: 10^5 -> 10⁵, 10^-3 -> 10⁻³
+  str = str.replace(/10\^([\+\-]?[0-9]+)/g, (match, exp) => {
+    return "10" + exp.split("").map((c) => SUPERSCRIPT_MAP[c] || c).join("");
+  });
+
+  return str;
+}
+
+// Hindi Spelling Dictionary for Competitive Exams & GS
+const HINDI_SPELLING_DICTIONARY = [
+  ["हाईड्रोजन", "हाइड्रोजन"],
+  ["आक्सीजन", "ऑक्सीजन"],
+  ["नाईट्रोजन", "नाइट्रोजन"],
+  ["सल्फ्यूरीक", "सल्फ्यूरिक"],
+  ["कैलशियम", "कैल्शियम"],
+  ["कैल्सियम", "कैल्शियम"],
+  ["पोटेसियम", "पोटैशियम"],
+  ["पोटाशियम", "पोटैशियम"],
+  ["मैगनीशियम", "मैग्नीशियम"],
+  ["मैग्नेशियम", "मैग्नीशियम"],
+  ["एल्युमिनियम", "ऐलुमिनियम"],
+  ["एल्यूमिनियम", "ऐलुमिनियम"],
+  ["गुरूत्वाकर्षण", "गुरुत्वाकर्षण"],
+  ["वायुमण्डल", "वायुमंडल"],
+  ["डाईऑक्साइड", "डाइऑक्साइड"],
+  ["डेसीबल", "डेसिबल"],
+  ["न्युटन", "न्यूटन"],
+  ["आइंस्टाइन", "आइंस्टीन"],
+  ["ऐतिहासीक", "ऐतिहासिक"],
+  ["मोहनजोदारो", "मोहनजोदड़ो"],
+  ["मोहनजोदडो", "मोहनजोदड़ो"],
+  ["ऋगवेद", "ऋग्वेद"],
+  ["यजुरवेद", "यजुर्वेद"],
+  ["अथर्ववेद", "अथर्ववेद"],
+  ["उपनीषद", "उपनिषद"],
+  ["बौध", "बौद्ध"],
+  ["जैनधर्म", "जैन धर्म"],
+  ["संस्क्रति", "संस्कृति"],
+  ["पुरातत्वविद", "पुरातत्वविद्"]
+];
+
+/**
+ * 1-Click Spelling & Formula Batch Corrector
+ * Cleans user's raw pasted text, fixes H20 -> H₂O, formulas and Hindi typos.
+ */
+function runFullCorrections(text) {
+  if (!text) return { text: "", formulaFixCount: 0, spellingFixCount: 0 };
+  let str = text;
+  let formulaFixCount = 0;
+  let spellingFixCount = 0;
+
+  // Typo checks & counts
+  str = str.replace(/\bH20\b/gi, () => { formulaFixCount++; return "H₂O"; });
+  str = str.replace(/\bD20\b/gi, () => { formulaFixCount++; return "D₂O"; });
+  str = str.replace(/\bCO0\b/gi, () => { formulaFixCount++; return "CO₂"; });
+
+  // Standard chemical formulas
+  const chemList = [
+    [/\bH2O\b/g, "H₂O"], [/\bD2O\b/g, "D₂O"], [/\bCO2\b/g, "CO₂"], [/\bSO2\b/g, "SO₂"],
+    [/\bNO2\b/g, "NO₂"], [/\bO2\b/g, "O₂"], [/\bN2\b/g, "N₂"], [/\bO3\b/g, "O₃"],
+    [/\bCH4\b/g, "CH₄"], [/\bNH3\b/g, "NH₃"], [/\bH2SO4\b/g, "H₂SO₄"], [/\bHNO3\b/g, "HNO₃"],
+    [/\bCaCO3\b/g, "CaCO₃"], [/\bNaHCO3\b/g, "NaHCO₃"], [/\bNa2CO3\b/g, "Na₂CO₃"],
+    [/\bC6H12O6\b/g, "C₆H₁₂O₆"], [/\bKMnO4\b/g, "KMnO₄"], [/\bFe2O3\b/g, "Fe₂O₃"],
+    [/\bAl2O3\b/g, "Al₂O₃"], [/\bMgSO4\b/g, "MgSO₄"], [/\bCaCl2\b/g, "CaCl₂"],
+    [/\bCuSO4\b/g, "CuSO₄"], [/\bH2O2\b/g, "H₂O₂"]
+  ];
+  for (let i = 0; i < chemList.length; i++) {
+    const [re, rep] = chemList[i];
+    str = str.replace(re, () => { formulaFixCount++; return rep; });
+  }
+
+  // Units
+  str = str.replace(/\b(m|cm|mm|km)\/s\^?2\b/gi, (m, u) => { formulaFixCount++; return u + "/s²"; });
+  str = str.replace(/\b(m|cm|mm|km)\^?2\b/gi, (m, u) => { formulaFixCount++; return u + "²"; });
+  str = str.replace(/\b(m|cm|mm|km)\^?3\b/gi, (m, u) => { formulaFixCount++; return u + "³"; });
+  str = str.replace(/10\^([\+\-]?[0-9]+)/g, (match, exp) => {
+    formulaFixCount++;
+    return "10" + exp.split("").map((c) => SUPERSCRIPT_MAP[c] || c).join("");
+  });
+
+  // Hindi Spellings
+  for (let i = 0; i < HINDI_SPELLING_DICTIONARY.length; i++) {
+    const [wrong, right] = HINDI_SPELLING_DICTIONARY[i];
+    const re = new RegExp("(^|[^\\u0900-\\u097F])" + wrong + "(?=[^\\u0900-\\u097F]|$)", "g");
+    if (re.test(str)) {
+      str = str.replace(re, (m, p1) => {
+        spellingFixCount++;
+        return p1 + right;
+      });
+    }
+  }
+
+  return { text: str, formulaFixCount, spellingFixCount };
+}
+
 // ==========================================
 // UI SYNCHRONIZATION & INTERACTION
 // ==========================================
@@ -989,11 +1236,13 @@ function syncInputsFromState() {
   setValue("select-column-gap", appState.columnGap);
   setValue("select-column-divider", appState.columnDivider);
   setValue("select-answer-style", appState.answerStyle);
+  setValue("select-topic-banner-mode", appState.topicBannerMode || "single-column");
   setValue("input-answer-color", appState.answerColor || "#dc2626");
   setValue("input-question-color", appState.questionColor || "#000000");
   setValue("select-bullet-style", appState.bulletStyle);
   setValue("select-outer-frame", appState.outerFrame || "none");
   setChecked("check-strip-q", appState.stripQNumbers);
+  setChecked("check-auto-formulas", appState.autoFormatFormulas !== false);
 
   // Logo status indicator
   const logoStatus = document.getElementById("label-logo-status");
@@ -1260,6 +1509,7 @@ function setupEventListeners() {
   bindInput("select-column-gap", "columnGap");
   bindInput("select-column-divider", "columnDivider");
   bindInput("select-answer-style", "answerStyle");
+  bindInput("select-topic-banner-mode", "topicBannerMode");
   bindInput("select-bullet-style", "bulletStyle");
 
   // Answer & Question Color Controls
@@ -1433,6 +1683,38 @@ function setupEventListeners() {
     stripQCheck.addEventListener("change", (e) => {
       appState.stripQNumbers = e.target.checked;
       renderDocument();
+    });
+  }
+
+  const autoFormulasCheck = document.getElementById("check-auto-formulas");
+  if (autoFormulasCheck) {
+    autoFormulasCheck.addEventListener("change", (e) => {
+      appState.autoFormatFormulas = e.target.checked;
+      renderDocument();
+    });
+  }
+
+  // 1-Click Fix Formulas (H₂O, CO₂ etc.) & Hindi Spellings
+  const btnFixFormulas = document.getElementById("btn-fix-formulas");
+  if (btnFixFormulas) {
+    btnFixFormulas.addEventListener("click", () => {
+      const textarea = document.getElementById("textarea-content");
+      if (!textarea) return;
+      const currentVal = textarea.value || "";
+      if (!currentVal.trim()) {
+        showToast("Please enter or paste questions first!", "info");
+        return;
+      }
+      const res = runFullCorrections(currentVal);
+      textarea.value = res.text;
+      appState.rawContent = res.text;
+      renderDocument();
+      const total = res.formulaFixCount + res.spellingFixCount;
+      if (total > 0) {
+        showToast(`✨ ${res.formulaFixCount} formulas (H₂O, CO₂ etc.) & ${res.spellingFixCount} spellings auto-corrected!`, "success");
+      } else {
+        showToast("All formulas (H₂O) and spellings are already clean and correct!", "info");
+      }
     });
   }
 

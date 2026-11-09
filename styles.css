@@ -151,23 +151,94 @@ body {
   column-rule: var(--doc-column-rule);
 }
 
-/* Chapter / Topic Banner Spanning Both Columns */
+/* Subscript and Superscript Baseline Normalization */
+sub, sup {
+  font-size: 72%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sub {
+  bottom: -0.25em;
+}
+sup {
+  top: -0.5em;
+}
+
+/* ===================================================
+   AUTHENTIC GS POINTER TOPIC BANNER (Single-Column & Span)
+   Matches official Ghatna Chakra book layout exactly
+   =================================================== */
+.gs-topic-banner,
 .gs-section-banner {
-  column-span: all;
-  -webkit-column-span: all;
-  text-align: center;
-  font-weight: 800;
-  font-size: 12.5px;
-  background-color: #f1f5f9;
-  border-top: 1.5px solid #000000;
-  border-bottom: 1.5px solid #000000;
-  padding: 2.5px 8px;
-  margin: 5px 0 6px 0;
-  color: #000000;
-  letter-spacing: 0.5px;
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #424242; /* Authentic GS dark charcoal slate */
+  color: #ffffff !important;
+  padding: 3px 8px;
+  margin: 6px 0 5px 0;
+  border-radius: 2px;
   break-inside: avoid;
   page-break-inside: avoid;
-  line-height: 1.3;
+  -webkit-column-break-inside: avoid;
+  line-height: 1.25;
+}
+
+/* Default: Single Column Mode (Stays on ONE side inside current column) */
+.gs-topic-banner.single-col,
+.gs-section-banner.single-col {
+  column-span: none !important;
+  -webkit-column-span: none !important;
+}
+
+/* Optional: Full Width Mode (Spans both columns) */
+.gs-topic-banner.span-both,
+.gs-section-banner.span-both {
+  column-span: all;
+  -webkit-column-span: all;
+  padding: 4px 12px;
+  margin: 8px 0 7px 0;
+}
+
+/* Decorative Vertical Pillars on Left & Right */
+.gs-topic-banner .banner-decor-left,
+.gs-topic-banner .banner-decor-right,
+.gs-section-banner .banner-decor-left,
+.gs-section-banner .banner-decor-right {
+  display: flex;
+  align-items: center;
+  gap: 2.5px;
+  height: 12px;
+  opacity: 0.85;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.gs-topic-banner .banner-decor-left span,
+.gs-topic-banner .banner-decor-right span,
+.gs-section-banner .banner-decor-left span,
+.gs-section-banner .banner-decor-right span {
+  display: inline-block;
+  width: 2px;
+  height: 100%;
+  background-color: #e2e8f0;
+  border-radius: 0.5px;
+}
+
+.gs-topic-banner .banner-title,
+.gs-section-banner .banner-title {
+  flex: 1;
+  text-align: center;
+  font-weight: 800;
+  font-size: 11.5px;
+  color: #ffffff !important;
+  letter-spacing: 0.4px;
+  padding: 0 6px;
+  white-space: normal;
+  word-break: break-word;
 }
 
 /* Outer Page Frame Styles */
@@ -441,6 +512,29 @@ body {
   /* Preserve answer colors in PDF export */
   .gs-qa-item .gs-answer {
     color: var(--doc-answer-color) !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Preserve topic banners in PDF export */
+  .gs-topic-banner,
+  .gs-section-banner {
+    background-color: #424242 !important;
+    color: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .gs-topic-banner .banner-title,
+  .gs-section-banner .banner-title {
+    color: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .gs-topic-banner .banner-decor-left span,
+  .gs-topic-banner .banner-decor-right span,
+  .gs-section-banner .banner-decor-left span,
+  .gs-section-banner .banner-decor-right span {
+    background-color: #e2e8f0 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }

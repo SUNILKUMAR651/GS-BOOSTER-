@@ -180,6 +180,14 @@
             ></textarea>
           </div>
 
+          <!-- Formula & Spelling Corrector Bar -->
+          <div class="flex items-center gap-2">
+            <button type="button" id="btn-fix-formulas" class="w-full py-2 px-3 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold rounded-lg text-xs shadow-sm transition flex items-center justify-center gap-2 cursor-pointer">
+              <svg class="w-4 h-4 text-emerald-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+              <span>✨ 1-Click Fix Formulas & Spellings (H₂O / वर्तनी सुधार)</span>
+            </button>
+          </div>
+
           <!-- File Upload & Quick Tools Bar -->
           <div class="flex items-center gap-2">
             <label class="flex-1 py-1.5 px-2.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer">
@@ -198,8 +206,15 @@
           </div>
 
           <!-- Parser Options -->
-          <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 space-y-2">
+          <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 space-y-3">
             <label class="flex items-start gap-2.5 cursor-pointer">
+              <input type="checkbox" id="check-auto-formulas" class="w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500 mt-0.5" checked>
+              <div>
+                <span class="text-xs font-bold text-slate-800">Auto-Format Science Formulas (H₂O, CO₂, D₂O, H₂SO₄, m/s²)</span>
+                <p class="text-[11px] text-slate-500">Auto-fixes <code class="bg-slate-200 px-1 rounded text-red-600">H20</code> typo to <code class="font-bold text-emerald-700">H₂O</code> and converts chemical numbers and units (<code class="bg-slate-200 px-1 rounded">m/s2</code> ➔ <code class="font-bold text-slate-800">m/s²</code>, <code class="bg-slate-200 px-1 rounded">10^5</code> ➔ <code class="font-bold text-slate-800">10⁵</code>) into crisp vector subscripts.</p>
+              </div>
+            </label>
+            <label class="flex items-start gap-2.5 cursor-pointer border-t border-slate-200 pt-2.5">
               <input type="checkbox" id="check-strip-q" class="w-4 h-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500 mt-0.5" checked>
               <div>
                 <span class="text-xs font-bold text-slate-800">Auto-Remove Question Numbers</span>
@@ -457,6 +472,21 @@
               </select>
               <p class="text-[10px] text-slate-500 mt-1">
                 Mode 1 formats answers right-aligned under the question, matching Ghatna Chakra Samanya Adhyayan Pointer books.
+              </p>
+            </div>
+
+            <!-- Topic Heading Banner Mode (Single Column vs Span Both) -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1 flex items-center justify-between">
+                <span>Topic Banner Style (###)</span>
+                <span class="text-[10px] text-emerald-700 font-bold bg-emerald-100 px-1.5 py-0.5 rounded">Ghatna Chakra Style</span>
+              </label>
+              <select id="select-topic-banner-mode" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                <option value="single-column" selected>Mode 1: Single Column (एक साइड - Authentic GS Pointer)</option>
+                <option value="span-both">Mode 2: Span Both Columns (दोनों साइड - Full Width)</option>
+              </select>
+              <p class="text-[10px] text-slate-500 mt-1">
+                <strong>Single Column:</strong> Keeps the topic header inside that specific column with ornate book pillars, matching authentic exam books.
               </p>
             </div>
 
