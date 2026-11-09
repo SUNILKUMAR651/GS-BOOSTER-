@@ -126,17 +126,21 @@
       <div id="panel-studio-pointer" class="flex-1 flex flex-col overflow-hidden">
         <!-- Control Panel Tabs Header -->
         <div class="border-b border-slate-200 bg-slate-50 flex items-center px-2 pt-2 gap-1 flex-shrink-0">
-        <button data-tab="content" class="tab-button active-tab flex-1 py-2 px-3 text-xs font-bold rounded-t-lg border-b-2 border-blue-600 text-blue-600 bg-white transition flex items-center justify-center gap-1.5 shadow-sm">
+        <button data-tab="content" class="tab-button active-tab flex-1 py-2 px-2 text-xs font-bold rounded-t-lg border-b-2 border-blue-600 text-blue-600 bg-white transition flex items-center justify-center gap-1 shadow-sm">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-          <span>Content & Data</span>
+          <span>Content</span>
         </button>
-        <button data-tab="branding" class="tab-button flex-1 py-2 px-3 text-xs font-semibold rounded-t-lg border-b-2 border-transparent text-slate-600 hover:text-slate-800 transition flex items-center justify-center gap-1.5">
+        <button data-tab="branding" class="tab-button flex-1 py-2 px-2 text-xs font-semibold rounded-t-lg border-b-2 border-transparent text-slate-600 hover:text-slate-800 transition flex items-center justify-center gap-1">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path></svg>
-          <span>Institute & Branding</span>
+          <span>Branding</span>
         </button>
-        <button data-tab="layout" class="tab-button flex-1 py-2 px-3 text-xs font-semibold rounded-t-lg border-b-2 border-transparent text-slate-600 hover:text-slate-800 transition flex items-center justify-center gap-1.5">
+        <button data-tab="layout" class="tab-button flex-1 py-2 px-2 text-xs font-semibold rounded-t-lg border-b-2 border-transparent text-slate-600 hover:text-slate-800 transition flex items-center justify-center gap-1">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
-          <span>Layout & Style</span>
+          <span>Layout</span>
+        </button>
+        <button data-tab="posters" class="tab-button flex-1 py-2 px-2 text-xs font-semibold rounded-t-lg border-b-2 border-transparent text-slate-600 hover:text-slate-800 transition flex items-center justify-center gap-1">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          <span>Posters</span>
         </button>
       </div>
 
@@ -640,6 +644,57 @@
 
           </div>
 
+          <!-- ==================== TAB 4: FULL A4 POSTERS & COVERS ==================== -->
+          <div id="tab-panel-posters" class="tab-content-panel space-y-4 hidden">
+            <div class="border border-blue-200 bg-blue-50/40 rounded-xl p-3.5 space-y-3">
+              <div class="flex items-center justify-between">
+                <label class="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                  <span>🌟 Full A4 Size Poster Pages</span>
+                </label>
+                <span class="text-[10px] font-bold bg-blue-600 text-white px-2 py-0.5 rounded shadow-sm">210 × 297 mm</span>
+              </div>
+              <p class="text-[11px] text-slate-600 leading-snug">
+                Upload full-page images (Coaching batch ads, course posters, front & back covers). Fills the <strong>entire A4 sheet edge-to-edge with 0 margins</strong>!
+              </p>
+
+              <!-- Top Full A4 Poster(s) (Front Cover) -->
+              <div class="space-y-2 pt-2 border-t border-blue-200/80">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-blue-700">1. Top / Front Full A4 Poster(s)</span>
+                  <span class="text-[10px] text-slate-500 font-semibold">(Appears before Q1 on Page 1, 2...)</span>
+                </div>
+                <div class="border-2 border-dashed border-blue-300 hover:border-blue-500 bg-white rounded-lg p-2.5 text-center cursor-pointer relative group transition">
+                  <input type="file" id="input-pointer-fullpage-top-file" accept="image/*" multiple class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10">
+                  <div class="flex items-center justify-center gap-2 text-xs font-bold text-blue-600">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <span>+ Add Top Full A4 Poster (1 or more)</span>
+                  </div>
+                </div>
+                <div id="list-pointer-top-fullpage-photos" class="space-y-1.5">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+
+              <!-- Bottom Full A4 Poster(s) (Back Cover) -->
+              <div class="space-y-2 pt-2 border-t border-blue-200/80">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-blue-700">2. Bottom / Back Full A4 Poster(s)</span>
+                  <span class="text-[10px] text-slate-500 font-semibold">(Appears after all content at end)</span>
+                </div>
+                <div class="border-2 border-dashed border-blue-300 hover:border-blue-500 bg-white rounded-lg p-2.5 text-center cursor-pointer relative group transition">
+                  <input type="file" id="input-pointer-fullpage-bottom-file" accept="image/*" multiple class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10">
+                  <div class="flex items-center justify-center gap-2 text-xs font-bold text-blue-600">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <span>+ Add Bottom Full A4 Poster (1 or more)</span>
+                  </div>
+                </div>
+                <div id="list-pointer-bottom-fullpage-photos" class="space-y-1.5">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
 
       </div>
@@ -661,7 +716,7 @@
           </button>
           <button data-mcq-tab="images" class="mcq-tab-button flex-1 py-2 px-1 text-[11px] font-semibold rounded-t-lg border-b-2 border-transparent text-slate-600 hover:text-slate-800 transition flex items-center justify-center gap-1">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-            <span>Photos</span>
+            <span>Photos & Posters</span>
           </button>
           <button data-mcq-tab="layout" class="mcq-tab-button flex-1 py-2 px-1 text-[11px] font-semibold rounded-t-lg border-b-2 border-transparent text-slate-600 hover:text-slate-800 transition flex items-center justify-center gap-1">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
@@ -793,16 +848,101 @@
             </div>
           </div>
 
-          <!-- TAB 3: PHOTO & DIAGRAM INSERT MANAGER -->
+          <!-- TAB 3: PHOTO & POSTER STUDIO (FULL A4 + BANNERS + DIAGRAMS) -->
           <div id="mcq-tab-panel-images" class="mcq-tab-content-panel space-y-4 hidden">
-            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider border-b border-slate-200 pb-2">
-              Question Diagram / Photo Inserter
-            </h3>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              Attach diagrams, science figures, circuits, or maps to any specific question. It automatically renders centered below the question text before the options!
-            </p>
+            
+            <!-- SECTION A: FULL A4 SIZE POSTER PAGES (FRONT COVER & BACK COVER) -->
+            <div class="border border-red-200 bg-red-50/40 rounded-xl p-3.5 space-y-3">
+              <div class="flex items-center justify-between">
+                <label class="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                  <span>🌟 Full A4 Size Poster Pages</span>
+                </label>
+                <span class="text-[10px] font-bold bg-red-600 text-white px-2 py-0.5 rounded shadow-sm">210 × 297 mm</span>
+              </div>
+              <p class="text-[11px] text-slate-600 leading-snug">
+                Upload full-page images (Coaching batch ads, course posters, front & back covers). Fills the <strong>entire A4 sheet edge-to-edge with 0 margins</strong>!
+              </p>
 
-            <div class="bg-red-50/50 border border-red-200 rounded-xl p-3.5 space-y-3">
+              <!-- Top Full A4 Poster(s) (Front Cover) -->
+              <div class="space-y-2 pt-2 border-t border-red-200/80">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-red-700">1. Top / Front Full A4 Poster(s)</span>
+                  <span class="text-[10px] text-slate-500 font-semibold">(Appears before Q1 on Page 1, 2...)</span>
+                </div>
+                <div class="border-2 border-dashed border-red-300 hover:border-red-500 bg-white rounded-lg p-2.5 text-center cursor-pointer relative group transition">
+                  <input type="file" id="input-fullpage-top-file" accept="image/*" multiple class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10">
+                  <div class="flex items-center justify-center gap-2 text-xs font-bold text-red-600">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <span>+ Add Top Full A4 Poster (1 or more)</span>
+                  </div>
+                </div>
+                <div id="list-top-fullpage-photos" class="space-y-1.5">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+
+              <!-- Bottom Full A4 Poster(s) (Back Cover) -->
+              <div class="space-y-2 pt-2 border-t border-red-200/80">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-red-700">2. Bottom / Back Full A4 Poster(s)</span>
+                  <span class="text-[10px] text-slate-500 font-semibold">(Appears after test set at end)</span>
+                </div>
+                <div class="border-2 border-dashed border-red-300 hover:border-red-500 bg-white rounded-lg p-2.5 text-center cursor-pointer relative group transition">
+                  <input type="file" id="input-fullpage-bottom-file" accept="image/*" multiple class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10">
+                  <div class="flex items-center justify-center gap-2 text-xs font-bold text-red-600">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <span>+ Add Bottom Full A4 Poster (1 or more)</span>
+                  </div>
+                </div>
+                <div id="list-bottom-fullpage-photos" class="space-y-1.5">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION B: IN-PAGE PROMO STRIP BANNERS (IMAGE 1 STYLE) -->
+            <div class="border border-slate-200 bg-white rounded-xl p-3.5 space-y-3">
+              <label class="text-xs font-bold text-slate-800 uppercase tracking-wider block">
+                📱 In-Page Promo Strip Banners
+              </label>
+              <p class="text-[11px] text-slate-500 leading-snug">
+                Embed small promotional strip banners (App download, QR code, Telegram link) inside question pages.
+              </p>
+
+              <!-- Top In-Page Banner -->
+              <div class="space-y-1.5">
+                <span class="text-xs font-semibold text-slate-700 block">Top Header Strip Banner Image:</span>
+                <div class="flex items-center gap-2">
+                  <input type="file" id="input-inpage-header-file" accept="image/*" class="w-full text-xs p-1 border border-slate-300 rounded bg-slate-50 cursor-pointer file:mr-2 file:py-0.5 file:px-2 file:rounded file:border-0 file:text-xs file:bg-blue-600 file:text-white">
+                  <button type="button" id="btn-remove-inpage-header" class="text-xs text-rose-600 hover:text-rose-700 font-semibold px-2 py-1 rounded border border-rose-200 hidden">Remove</button>
+                </div>
+                <div id="wrapper-inpage-header-preview" class="hidden p-1.5 bg-slate-50 rounded border border-slate-200 text-center">
+                  <img id="img-inpage-header-preview" src="" class="max-h-16 mx-auto object-contain rounded" alt="Top Banner Preview">
+                </div>
+              </div>
+
+              <!-- Bottom In-Page Banner -->
+              <div class="space-y-1.5 pt-2 border-t border-slate-100">
+                <span class="text-xs font-semibold text-slate-700 block">Bottom Footer Strip Banner Image:</span>
+                <div class="flex items-center gap-2">
+                  <input type="file" id="input-inpage-footer-file" accept="image/*" class="w-full text-xs p-1 border border-slate-300 rounded bg-slate-50 cursor-pointer file:mr-2 file:py-0.5 file:px-2 file:rounded file:border-0 file:text-xs file:bg-blue-600 file:text-white">
+                  <button type="button" id="btn-remove-inpage-footer" class="text-xs text-rose-600 hover:text-rose-700 font-semibold px-2 py-1 rounded border border-rose-200 hidden">Remove</button>
+                </div>
+                <div id="wrapper-inpage-footer-preview" class="hidden p-1.5 bg-slate-50 rounded border border-slate-200 text-center">
+                  <img id="img-inpage-footer-preview" src="" class="max-h-16 mx-auto object-contain rounded" alt="Bottom Banner Preview">
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION C: QUESTION DIAGRAM / FIGURE INSERTER -->
+            <div class="border border-slate-200 bg-white rounded-xl p-3.5 space-y-3">
+              <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider border-b border-slate-100 pb-1.5">
+                📐 Question Diagram / Photo Inserter
+              </h4>
+              <p class="text-[11px] text-slate-500 leading-snug">
+                Attach circuits, maps, diagrams, or biology figures to any specific question number.
+              </p>
+
               <div>
                 <label class="block text-xs font-bold text-slate-800 mb-1">Target Question Number:</label>
                 <div class="flex items-center gap-2">
@@ -816,7 +956,7 @@
                 <input type="file" id="input-diagram-file" accept="image/*" class="w-full text-xs p-1.5 border border-slate-300 rounded bg-white file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-red-600 file:text-white hover:file:bg-red-700 cursor-pointer">
               </div>
 
-              <div id="wrapper-diagram-preview" class="hidden text-center p-2 bg-white rounded border border-slate-200">
+              <div id="wrapper-diagram-preview" class="hidden text-center p-2 bg-slate-50 rounded border border-slate-200">
                 <img id="img-diagram-preview" src="" class="max-h-28 mx-auto object-contain rounded" alt="Preview">
                 <div class="text-[10px] text-slate-500 mt-1">Diagram Preview for Question</div>
               </div>
@@ -824,25 +964,41 @@
               <button type="button" id="btn-attach-diagram" class="w-full py-2 px-3 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-bold rounded-lg text-xs shadow transition flex items-center justify-center gap-1.5 cursor-pointer">
                 <span>➕ Attach Diagram to Question</span>
               </button>
+
+              <!-- Attached Images List -->
+              <div class="space-y-2 pt-2 border-t border-slate-100">
+                <div class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center justify-between">
+                  <span>Attached Diagrams:</span>
+                  <span id="badge-attached-images-count" class="text-[10px] bg-red-100 text-red-700 px-2 py-0.5 rounded font-bold">0 Attached</span>
+                </div>
+                <div id="list-attached-images" class="space-y-1.5 max-h-48 overflow-y-auto">
+                  <p class="text-xs text-slate-400 italic">No diagrams attached yet.</p>
+                </div>
+              </div>
             </div>
 
-            <!-- Attached Images List -->
-            <div class="space-y-2">
-              <div class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center justify-between">
-                <span>Currently Attached Images:</span>
-                <span id="badge-attached-images-count" class="text-[10px] bg-red-100 text-red-700 px-2 py-0.5 rounded font-bold">0 Attached</span>
-              </div>
-              <div id="list-attached-images" class="space-y-2">
-                <p class="text-xs text-slate-400 italic">No images attached yet. Select a question above to insert a diagram.</p>
-              </div>
-            </div>
           </div>
 
           <!-- TAB 4: OPTIONS & LAYOUT -->
           <div id="mcq-tab-panel-layout" class="mcq-tab-content-panel space-y-4 hidden">
             <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider border-b border-slate-200 pb-2">
-              Options Layout & Column Formatting
+              Options Layout & Explanations
             </h3>
+
+            <!-- Explanations / Solutions Display (Image 1 & 3) -->
+            <div class="bg-red-50/60 border border-red-200 rounded-lg p-3">
+              <label class="block text-xs font-bold text-red-800 mb-1 flex items-center gap-1.5">
+                <span>💡 Question Explanations / Solutions Display</span>
+                <span class="text-[9px] bg-red-600 text-white px-1.5 py-0.2 rounded font-bold">NEW</span>
+              </label>
+              <select id="select-mcq-solutions-display" class="w-full text-xs p-2 border border-red-300 rounded bg-white font-semibold text-slate-800">
+                <option value="below" selected>Show Below Question (Authentic Practice Set with Solution)</option>
+                <option value="hide">Hide Solutions (Questions & Options Only)</option>
+              </select>
+              <p class="text-[10px] text-slate-500 mt-1.5">
+                Automatically formats solutions/explanations with red badge, clean borders, and bullet points. Never overlaps options!
+              </p>
+            </div>
 
             <!-- Options Layout Mode -->
             <div>

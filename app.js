@@ -243,11 +243,29 @@ d. आवृत्ति (Frequency)               4. जूल (Joule)
 (D) a-3, b-1, c-4, d-2
 Ans: A
 
-5. बेकिंग सोडा (Baking Soda) का रासायनिक सूत्र क्या है?
+5. महात्मा गांधी की पुस्तक 'हिंद स्वराज' के संदर्भ में निम्नलिखित कथनों पर विचार कीजिए:
+1. हिंद स्वराज को महात्मा गांधी ने 1909 में लंदन से दक्षिण अफ्रीका की अपनी वापसी यात्रा के दौरान लिखा था।
+2. गांधीजी ने मूल रूप से यह पाठ गुजराती में लिखा था, और बाद में इसका अंग्रेजी में अनुवाद किया गया।
+3. हिंद स्वराज में, गांधी ने ब्रिटिश संसद को "बाँझ महिला और वेश्या" के रूप में वर्णित किया।
+(A) केवल 1 और 2
+(B) केवल 2 और 3
+(C) 1, 2 और 3
+(D) केवल 1 और 3
+
+Answer: C
+
+Solution:
+1 हिंद स्वराज को महात्मा गांधी ने 1909 में लंदन से दक्षिण अफ्रीका की अपनी वापसी यात्रा के दौरान लिखा था।
+2 गांधीजी ने मूल रूप से यह पाठ गुजराती में लिखा था, और बाद में इसका अंग्रेजी में अनुवाद किया गया।
+3 हिंद स्वराज में, गांधी ने ब्रिटिश संसद को "बाँझ महिला और वेश्या" के रूप में वर्णित किया। 4 इस पुस्तक को उपनिवेशवाद विरोधी सामग्री के कारण भारत में ब्रिटिश औपनिवेशिक सरकार द्वारा प्रतिबंधित कर दिया गया था। 5 गुजराती संस्करण इंडियन ओपिनियन में प्रकाशित हुआ, जबकि अंग्रेजी अनुवाद 1910 में प्रकाशित हुआ। 6 गांधीजी ने स्वयं इस कार्य का अंग्रेजी में अनुवाद किया और इसे इंडियन होम रूल शीर्षक दिया। 7 यह पुस्तक आधुनिक सभ्यता की आलोचना करती है और स्व-शासन और अहिंसा पर आधारित स्वराज की वकालत करती है। 8 सभी तीन कथन तथ्यात्मक रूप से सही हैं, इसलिए विकल्प C सही उत्तर है।
+
+6. बेकिंग सोडा (Baking Soda) का रासायनिक सूत्र क्या है?
 (A) Na2CO3  (B) NaHCO3  (C) NaCl  (D) NaOH
 Ans: B
+Solution:
+बेकिंग सोडा का रासायनिक नाम सोडियम बाइकार्बोनेट (Sodium Bicarbonate) है तथा इसका रासायनिक सूत्र NaHCO₃ है। यह एक सफेद क्रिस्टलीय ठोस पदार्थ है जो एंटासिड तथा बेकिंग पाउडर बनाने में प्रयुक्त होता है।
 
-6. आधुनिक आवर्त सारणी (Modern Periodic Table) में सर्वाधिक विद्युत ऋणात्मक (Electronegative) तत्व कौन-सा है?
+7. आधुनिक आवर्त सारणी (Modern Periodic Table) में सर्वाधिक विद्युत ऋणात्मक (Electronegative) तत्व कौन-सा है?
 (A) फ्लोरीन (Fluorine)
 (B) क्लोरीन (Chlorine)
 (C) ऑक्सीजन (Oxygen)
@@ -534,6 +552,18 @@ const DEFAULT_STATE = {
   // Content
   rawContent: SAMPLE_DATASETS.history,
 
+  // Full A4 Poster Pages (Zero-Margin Edge-to-Edge Cover & Back Pages - Image 2)
+  fullA4Photos: {
+    topPages: [],    // Array of { id: string, name: string, dataUrl: string }
+    bottomPages: []  // Array of { id: string, name: string, dataUrl: string }
+  },
+
+  // In-Page Strip Banners (Image 1 style)
+  inPageBanners: {
+    headerBanner: "", // Data URL for top promo strip
+    footerBanner: ""  // Data URL for bottom promo strip
+  },
+
   // Mode Selection: "pointer" (One-Liner Studio) vs "mcq" (Practice Set Studio)
   currentMode: "pointer",
   mcqActiveTab: "content", // "content", "branding", "images", "layout"
@@ -555,6 +585,7 @@ const DEFAULT_STATE = {
     optionsLayout: "auto", // "auto", "grid2x2", "inline4", "stacked"
     colDivider: "solid", // "solid", "dashed", "none"
     includeAnswerKey: true,
+    showSolutions: "below", // "below" (show below question), "hide" (questions only)
     fontSize: 11.5,
     rawMcqContent: SAMPLE_MCQ_DATASETS.biharPolice,
     questionImages: {} // map of { 1: dataUrl, 4: dataUrl, ... }
@@ -584,6 +615,14 @@ function loadSavedSettings() {
       appState = {
         ...DEFAULT_STATE,
         ...parsed,
+        fullA4Photos: {
+          topPages: (parsed.fullA4Photos && parsed.fullA4Photos.topPages) || [],
+          bottomPages: (parsed.fullA4Photos && parsed.fullA4Photos.bottomPages) || []
+        },
+        inPageBanners: {
+          headerBanner: (parsed.inPageBanners && parsed.inPageBanners.headerBanner) || "",
+          footerBanner: (parsed.inPageBanners && parsed.inPageBanners.footerBanner) || ""
+        },
         mcq: {
           ...DEFAULT_STATE.mcq,
           ...(parsed.mcq || {})
@@ -953,6 +992,14 @@ function renderPointerDocument() {
   const totalPages = Math.max(1, pageChunks.length);
   const startPageNum = parseInt(appState.startingPageNumber) || 1;
 
+  const topPhotos = (appState.fullA4Photos && appState.fullA4Photos.topPages) || [];
+  const bottomPhotos = (appState.fullA4Photos && appState.fullA4Photos.bottomPages) || [];
+
+  // Top Full A4 Poster Pages (Image 2)
+  topPhotos.forEach((photo, idx) => {
+    container.appendChild(createFullPagePhotoElement(photo, `Top Poster #${idx + 1}`));
+  });
+
   // Optional Booklet Cover Page
   if (appState.includeCoverPage) {
     const coverElement = createCoverPageElement();
@@ -967,8 +1014,13 @@ function renderPointerDocument() {
     container.appendChild(pageElement);
   }
 
-  // Update UI Stats (include cover page in total count)
-  const displayPages = appState.includeCoverPage ? totalPages + 1 : totalPages;
+  // Bottom Full A4 Poster Pages
+  bottomPhotos.forEach((photo, idx) => {
+    container.appendChild(createFullPagePhotoElement(photo, `Bottom Poster #${idx + 1}`));
+  });
+
+  // Update UI Stats (include cover page & posters in total count)
+  const displayPages = (appState.includeCoverPage ? 1 : 0) + topPhotos.length + totalPages + bottomPhotos.length;
   updateStatisticsBadge(items.length, displayPages);
 
   // Apply preview zoom scale
@@ -982,6 +1034,8 @@ function renderMcqDocument() {
   const container = document.getElementById("pages-render-target");
   if (!container) return;
 
+  if (!appState.mcq) appState.mcq = {};
+
   const items = parseRawMcqContent(appState.mcq.rawMcqContent);
 
   // Update typography
@@ -990,40 +1044,69 @@ function renderMcqDocument() {
 
   container.innerHTML = "";
 
-  if (items.length === 0) {
-    updateStatisticsBadge(0, 1);
+  const topPhotos = (appState.fullA4Photos && appState.fullA4Photos.topPages) || [];
+  const bottomPhotos = (appState.fullA4Photos && appState.fullA4Photos.bottomPages) || [];
+
+  // 1. Render Top Full A4 Poster Pages (Front Cover / Posters - Image 2)
+  topPhotos.forEach((photo, idx) => {
+    container.appendChild(createFullPagePhotoElement(photo, `Top Poster #${idx + 1}`));
+  });
+
+  // 2. Render MCQ Question Pages
+  let questionPagesCount = 0;
+  if (items.length > 0) {
+    const pageChunks = packMcqItemsAutoFit(items);
+    questionPagesCount = Math.max(1, pageChunks.length);
+    const startPageNum = parseInt(appState.mcq.startingPageNumber) || 99;
+
+    for (let pageIdx = 0; pageIdx < questionPagesCount; pageIdx++) {
+      const pageItems = pageChunks[pageIdx] || [];
+      const currentPageNum = startPageNum + pageIdx;
+      const isLast = (pageIdx === questionPagesCount - 1);
+
+      const pageElement = createMcqA4PageElement(pageItems, currentPageNum, questionPagesCount, isLast, items);
+      container.appendChild(pageElement);
+    }
+  } else if (topPhotos.length === 0 && bottomPhotos.length === 0) {
     container.innerHTML = `
       <div class="a4-sheet" style="justify-content: center; align-items: center; text-align: center; color: #94a3b8; font-family: var(--font-ui);">
         <div class="p-8">
           <div class="text-4xl mb-3">📝</div>
           <div class="text-lg font-bold text-slate-700">No MCQ Questions to Display</div>
-          <div class="text-sm mt-1 text-slate-500 max-w-sm">Paste your questions with (A), (B), (C), (D) options or upload a Word/Text file to generate the practice set.</div>
+          <div class="text-sm mt-1 text-slate-500 max-w-sm">Paste your questions or upload Word/Text file or Full A4 Posters.</div>
         </div>
       </div>
     `;
-    return;
   }
 
-  // Auto-fit packing for MCQs
-  const pageChunks = packMcqItemsAutoFit(items);
-  const totalPages = Math.max(1, pageChunks.length);
-  const startPageNum = parseInt(appState.mcq.startingPageNumber) || 99;
+  // 3. Render Bottom Full A4 Poster Pages (Back Cover / Posters)
+  bottomPhotos.forEach((photo, idx) => {
+    container.appendChild(createFullPagePhotoElement(photo, `Bottom Poster #${idx + 1}`));
+  });
 
-  for (let pageIdx = 0; pageIdx < totalPages; pageIdx++) {
-    const pageItems = pageChunks[pageIdx] || [];
-    const currentPageNum = startPageNum + pageIdx;
-    const isLast = (pageIdx === totalPages - 1);
-
-    const pageElement = createMcqA4PageElement(pageItems, currentPageNum, totalPages, isLast, items);
-    container.appendChild(pageElement);
-  }
-
-  updateStatisticsBadge(items.length, totalPages);
+  const grandTotal = topPhotos.length + questionPagesCount + bottomPhotos.length;
+  updateStatisticsBadge(items.length, grandTotal);
   applyZoomScale();
 }
 
 /**
- * Smart MCQ Parser: Extracts Question number, body, (A)/(B)/(C)/(D) options and Answer
+ * Creates Full Bleed Edge-to-Edge A4 Size Photo Page (Image 2)
+ */
+function createFullPagePhotoElement(photo, label = "Full A4 Poster") {
+  const sheet = document.createElement("div");
+  sheet.className = "a4-sheet a4-fullpage-photo-sheet";
+  sheet.dataset.fullpagePhoto = "true";
+  sheet.title = label;
+
+  sheet.innerHTML = `
+    <img src="${photo.dataUrl}" class="a4-fullpage-photo-img" alt="${escapeHtml(photo.name || label)}">
+  `;
+  return sheet;
+}
+
+/**
+ * Smart MCQ Parser: Robustly extracts Question number, premises, (A)/(B)/(C)/(D) options, Answer and Solution
+ * Solves option-solution concatenation, assertion (A)/(R), match column items, and multi-statement questions.
  */
 function parseRawMcqContent(rawText) {
   if (!rawText || !rawText.trim()) return [];
@@ -1032,79 +1115,178 @@ function parseRawMcqContent(rawText) {
   const qBlocks = [];
   let currentBlock = null;
 
-  const qStartRegex = /^\s*(?:Q\.?\s*(\d+)|\((\d+)\)|(\d+)[\.\)\:\-])\s*(.*)$/;
+  const explicitQRegex = /^\s*(?:Q\.?\s*|Question\s*|प्रश्न\s*|प्र\.\s*)(\d+)[\.\)\:\-]?/i;
+  const numStartRegex = /^\s*(\d+)[\.\)\:\-]\s+(.*)$/;
+  const solHeaderRegex = /^\s*(?:Solution|व्याख्या|हल|Explanation|Exp|विस्तृत\s*हल|स्पष्टीकरण)\s*[:\-\—]?/i;
+  const optLineRegex = /^\s*(?:\([A-Da-d1-4]\)|[A-Da-d][\.\)]|[1-4]\))\s+/;
+
+  let inSolution = false;
+  let currentQNum = 0;
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
-    const match = line.match(qStartRegex);
+    const trimmed = line.trim();
+    if (!trimmed) {
+      if (currentBlock) currentBlock.lines.push(line);
+      continue;
+    }
 
-    if (match) {
+    if (solHeaderRegex.test(line)) {
+      inSolution = true;
+    }
+
+    const explicitMatch = line.match(explicitQRegex);
+    const numMatch = line.match(numStartRegex);
+
+    let isNewQ = false;
+    let detectedQNum = 0;
+
+    if (explicitMatch) {
+      isNewQ = true;
+      detectedQNum = parseInt(explicitMatch[1], 10);
+      inSolution = false;
+    } else if (numMatch && !optLineRegex.test(line)) {
+      const parsedNum = parseInt(numMatch[1], 10);
+      if (!currentBlock) {
+        isNewQ = true;
+        detectedQNum = parsedNum;
+      } else {
+        const blockText = currentBlock.lines.join("\n");
+        const hasOptions = /(?:\([A-Da-d]\)|(?:\r?\n\s*|\s{2,})[A-Da-d][\.\)])/.test(blockText);
+        const hasAns = /(?:Ans|Answer|उत्तर|Key)\s*[:\-\—\=]?/i.test(blockText);
+
+        if (inSolution || hasAns) {
+          // Previous question has answer or solution, so any numbered line starts a new question
+          isNewQ = true;
+          detectedQNum = parsedNum;
+          inSolution = false;
+        } else if (hasOptions) {
+          // Already has options, so next numbered line is a new question
+          isNewQ = true;
+          detectedQNum = parsedNum;
+        } else {
+          // No options and no answer yet: inside question body
+          if (parsedNum === currentQNum + 1 && parsedNum !== 1 && parsedNum !== 2) {
+            isNewQ = true;
+            detectedQNum = parsedNum;
+          }
+        }
+      }
+    }
+
+    if (isNewQ) {
       if (currentBlock) {
         qBlocks.push(currentBlock);
       }
-      const qNum = match[1] || match[2] || match[3] || (qBlocks.length + 1);
-      const rest = match[4] || "";
+      currentQNum = detectedQNum || (qBlocks.length + 1);
       currentBlock = {
-        qNum: parseInt(qNum),
-        lines: rest.trim() ? [rest.trim()] : []
+        qNum: currentQNum,
+        lines: [line]
       };
     } else {
       if (currentBlock) {
         currentBlock.lines.push(line);
-      } else if (line.trim()) {
+      } else {
         currentBlock = {
           qNum: 1,
-          lines: [line.trim()]
+          lines: [line]
         };
+        currentQNum = 1;
       }
     }
   }
   if (currentBlock) qBlocks.push(currentBlock);
 
+  // Parse each block
   const items = [];
-  const ansRegex = /(?:Ans|उत्तर|Answer|Key)\s*[:\-\=]\s*\(?([A-Da-d1-4])\)?/i;
-  const markerRegex = /(?:(?:\r?\n\s*|\s{2,}|\b)(?:\(([A-Da-d])\)|([A-Da-d])[\.\)]|\(([1-4])\))\s*)/g;
+  const solRegex = /(?:(?:\r?\n\s*|^)\s*(?:Solution|व्याख्या|हल|Explanation|Exp|विस्तृत\s*हल|स्पष्टीकरण)\s*[:\-\—]?\s*)/i;
+  const ansRegex = /(?:(?:\r?\n\s*|^)\s*(?:Ans(?:wer)?|उत्तर|Key)\s*[:\-\—\=]?\s*\(?([A-Ea-e1-5])\)?)/i;
 
   for (let b = 0; b < qBlocks.length; b++) {
     const block = qBlocks[b];
-    const fullText = block.lines.join("\n");
+    let fullText = block.lines.join("\n");
+    let solution = "";
     let answer = "";
 
+    // 1. Separate Solution
+    const solMatch = fullText.match(solRegex);
+    if (solMatch) {
+      solution = fullText.substring(solMatch.index + solMatch[0].length).trim();
+      fullText = fullText.substring(0, solMatch.index).trim();
+    }
+
+    // 2. Separate Answer
     const ansMatch = fullText.match(ansRegex);
     if (ansMatch) {
       answer = ansMatch[1].toUpperCase();
+      fullText = (fullText.substring(0, ansMatch.index) + "\n" + fullText.substring(ansMatch.index + ansMatch[0].length)).trim();
     }
-    const textWithoutAns = fullText.replace(ansRegex, "").trim();
 
-    const markers = [];
+    if (!answer && solution) {
+      const solAnsMatch = solution.match(ansRegex);
+      if (solAnsMatch) {
+        answer = solAnsMatch[1].toUpperCase();
+        solution = (solution.substring(0, solAnsMatch.index) + "\n" + solution.substring(solAnsMatch.index + solAnsMatch[0].length)).trim();
+      }
+    }
+
+    // 3. Extract Options from fullText
+    // Support (A), (B), (C), (D) or (a), (b), (c), (d) or A., B., C., D.
+    const markerRegex = /(?:(?:\r?\n\s*|^|\s{2,})(?:\(([A-Ea-e1-5])\)|([A-Ea-e])[\.\)]|\(([1-5])\))\s*)/g;
+    const allMatches = [];
     let m;
-    while ((m = markerRegex.exec(textWithoutAns)) !== null) {
+    while ((m = markerRegex.exec(fullText)) !== null) {
       const label = (m[1] || m[2] || m[3]).toUpperCase();
-      markers.push({
+      allMatches.push({
         label: label,
         index: m.index,
-        length: m[0].length
+        matchLen: m[0].length
       });
     }
 
-    if (markers.length < 2) {
+    // Find the best option sequence (A -> B -> C -> D or 1 -> 2 -> 3 -> 4)
+    let chosenMarkers = null;
+    if (allMatches.length >= 2) {
+      for (let i = allMatches.length - 1; i >= 0; i--) {
+        if (allMatches[i].label === 'D' || allMatches[i].label === '4' || allMatches[i].label === 'E' || allMatches[i].label === '5') {
+          const seq = [allMatches[i]];
+          let targetCharCode = allMatches[i].label.charCodeAt(0) - 1;
+          for (let j = i - 1; j >= 0; j--) {
+            if (allMatches[j].label.charCodeAt(0) === targetCharCode) {
+              seq.unshift(allMatches[j]);
+              targetCharCode--;
+            }
+          }
+          if (seq.length >= 2 && (seq[0].label === 'A' || seq[0].label === '1')) {
+            chosenMarkers = seq;
+            break;
+          }
+        }
+      }
+      if (!chosenMarkers) {
+        chosenMarkers = allMatches;
+      }
+    }
+
+    if (!chosenMarkers || chosenMarkers.length < 2) {
       items.push({
         qNum: block.qNum,
-        question: textWithoutAns,
+        question: fullText.trim(),
         options: [],
-        answer: answer
+        answer: answer,
+        solution: solution
       });
       continue;
     }
 
-    const questionText = textWithoutAns.substring(0, markers[0].index).trim();
+    const questionText = fullText.substring(0, chosenMarkers[0].index).trim();
     const options = [];
-    for (let i = 0; i < markers.length; i++) {
-      const start = markers[i].index + markers[i].length;
-      const end = (i + 1 < markers.length) ? markers[i + 1].index : textWithoutAns.length;
+    for (let i = 0; i < chosenMarkers.length; i++) {
+      const start = chosenMarkers[i].index + chosenMarkers[i].matchLen;
+      const end = (i + 1 < chosenMarkers.length) ? chosenMarkers[i + 1].index : fullText.length;
       options.push({
-        label: markers[i].label,
-        text: textWithoutAns.substring(start, end).trim()
+        label: chosenMarkers[i].label,
+        text: fullText.substring(start, end).trim()
       });
     }
 
@@ -1112,7 +1294,8 @@ function parseRawMcqContent(rawText) {
       qNum: block.qNum,
       question: questionText,
       options: options,
-      answer: answer
+      answer: answer,
+      solution: solution
     });
   }
 
@@ -1258,6 +1441,22 @@ function createMcqDomElement(item) {
 
   let cleanQText = item.question.replace(/^\s*(?:Q\.?\s*\d+|\(\d+\)|\d+[\.\)\:\-])\s*/, "").trim();
 
+  // Solution HTML Box (Image 1 & 3)
+  let solutionHtml = "";
+  const showSolutions = !(appState.mcq && appState.mcq.showSolutions === "hide");
+  if (item.solution && showSolutions) {
+    const formattedSol = highlightFormattedText(item.solution);
+    solutionHtml = `
+      <div class="mcq-solution-box">
+        <div class="mcq-solution-header">
+          ${item.answer ? `<span class="mcq-solution-ans-badge">उत्तर : (${escapeHtml(item.answer)})</span>` : ''}
+          <span class="mcq-solution-title">💡 व्याख्या / Solution :</span>
+        </div>
+        <div class="mcq-solution-body">${formattedSol}</div>
+      </div>
+    `;
+  }
+
   div.innerHTML = `
     <div class="mcq-q-header">
       <span class="mcq-qnum" style="color: ${escapeHtml(appState.mcq.qNumColor || '#dc2626')};">${qNum}.</span>
@@ -1265,6 +1464,7 @@ function createMcqDomElement(item) {
     </div>
     ${diagramHtml}
     ${optionsHtml}
+    ${solutionHtml}
   `;
 
   return div;
@@ -1353,15 +1553,25 @@ function createMcqA4PageElement(pageItems, pageNum, totalPages, isLastPage, allI
     </div>
   `;
 
+  // In-Page Promo Strip Banners (Image 1 style)
+  const inPageHeaderBanner = (appState.inPageBanners && appState.inPageBanners.headerBanner)
+    ? `<div class="mcq-inpage-banner"><img src="${appState.inPageBanners.headerBanner}" alt="Header Promo Banner"></div>`
+    : "";
+  const inPageFooterBanner = (appState.inPageBanners && appState.inPageBanners.footerBanner)
+    ? `<div class="mcq-inpage-banner"><img src="${appState.inPageBanners.footerBanner}" alt="Footer Promo Banner"></div>`
+    : "";
+
   sheet.innerHTML = `
     ${watermarkHtml}
     <div class="a4-sheet-inner">
       ${topBannerHtml}
       ${headerHtml}
+      ${inPageHeaderBanner}
       <div class="mcq-columns-container" style="${dividerStyle}">
         ${itemsHtml}
         ${answerKeyHtml}
       </div>
+      ${inPageFooterBanner}
       ${footerHtml}
     </div>
   `;
@@ -2014,10 +2224,13 @@ function syncInputsFromState() {
   setChecked("check-mcq-answer-key", appState.mcq.includeAnswerKey !== false);
   setValue("input-mcq-font-size", appState.mcq.fontSize || 11.5);
   setText("val-mcq-font-size", `${appState.mcq.fontSize || 11.5}px`);
+  setValue("select-mcq-solutions-display", (appState.mcq && appState.mcq.showSolutions) || "below");
 
-  // Active MCQ Tab & Attached Diagrams
+  // Active MCQ Tab & Attached Diagrams / Full A4 Posters
   switchMcqTab(appState.mcqActiveTab || "content");
   renderAttachedImagesList();
+  renderFullA4PhotosList();
+  renderInPageBannersPreview();
 }
 
 function setValue(id, val) {
@@ -2770,6 +2983,118 @@ function setupEventListeners() {
     });
   }
 
+  // Full A4 Poster File Inputs (Image 2 - Supported across GS Pointer & MCQ modes)
+  function handlePosterUpload(files, targetPosition, inputEl) {
+    if (!files || !files.length) return;
+    let loadedCount = 0;
+    if (!appState.fullA4Photos) appState.fullA4Photos = { topPages: [], bottomPages: [] };
+    if (!appState.fullA4Photos.topPages) appState.fullA4Photos.topPages = [];
+    if (!appState.fullA4Photos.bottomPages) appState.fullA4Photos.bottomPages = [];
+    const list = (targetPosition === 'top') ? appState.fullA4Photos.topPages : appState.fullA4Photos.bottomPages;
+
+    files.forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        list.push({
+          id: (targetPosition === 'top' ? 'top_' : 'bot_') + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+          name: file.name,
+          dataUrl: evt.target.result
+        });
+        loadedCount++;
+        if (loadedCount === files.length) {
+          renderFullA4PhotosList();
+          renderDocument();
+          showToast(`Added ${files.length} ${targetPosition === 'top' ? 'Top / Front' : 'Bottom / Back'} Full A4 Poster Page(s)!`, "success");
+          if (inputEl) inputEl.value = "";
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  ['input-fullpage-top-file', 'input-pointer-fullpage-top-file'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('change', (e) => {
+        handlePosterUpload(Array.from(e.target.files), 'top', el);
+      });
+    }
+  });
+
+  ['input-fullpage-bottom-file', 'input-pointer-fullpage-bottom-file'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('change', (e) => {
+        handlePosterUpload(Array.from(e.target.files), 'bottom', el);
+      });
+    }
+  });
+
+  // In-Page Promo Strip Banners (Image 1)
+  const inpageHeaderInput = document.getElementById("input-inpage-header-file");
+  const btnRemoveInpageHeader = document.getElementById("btn-remove-inpage-header");
+  if (inpageHeaderInput) {
+    inpageHeaderInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        if (!appState.inPageBanners) appState.inPageBanners = { headerBanner: "", footerBanner: "" };
+        appState.inPageBanners.headerBanner = evt.target.result;
+        renderInPageBannersPreview();
+        renderDocument();
+        showToast("Top In-Page Strip Banner uploaded!", "success");
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+  if (btnRemoveInpageHeader) {
+    btnRemoveInpageHeader.addEventListener("click", () => {
+      if (appState.inPageBanners) appState.inPageBanners.headerBanner = "";
+      if (inpageHeaderInput) inpageHeaderInput.value = "";
+      renderInPageBannersPreview();
+      renderDocument();
+      showToast("Top strip banner removed.", "info");
+    });
+  }
+
+  const inpageFooterInput = document.getElementById("input-inpage-footer-file");
+  const btnRemoveInpageFooter = document.getElementById("btn-remove-inpage-footer");
+  if (inpageFooterInput) {
+    inpageFooterInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        if (!appState.inPageBanners) appState.inPageBanners = { headerBanner: "", footerBanner: "" };
+        appState.inPageBanners.footerBanner = evt.target.result;
+        renderInPageBannersPreview();
+        renderDocument();
+        showToast("Bottom In-Page Strip Banner uploaded!", "success");
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+  if (btnRemoveInpageFooter) {
+    btnRemoveInpageFooter.addEventListener("click", () => {
+      if (appState.inPageBanners) appState.inPageBanners.footerBanner = "";
+      if (inpageFooterInput) inpageFooterInput.value = "";
+      renderInPageBannersPreview();
+      renderDocument();
+      showToast("Bottom strip banner removed.", "info");
+    });
+  }
+
+  // Explanations / Solutions Display Dropdown
+  const selectSolutions = document.getElementById("select-mcq-solutions-display");
+  if (selectSolutions) {
+    selectSolutions.addEventListener("change", (e) => {
+      if (!appState.mcq) appState.mcq = {};
+      appState.mcq.showSolutions = e.target.value;
+      renderDocument();
+    });
+  }
+
   // Zoom Controls
   const btnZoomIn = document.getElementById("btn-zoom-in");
   if (btnZoomIn) {
@@ -3004,6 +3329,141 @@ function bindMcqInput(id, mcqKey, isNumber = false) {
     appState.mcq[mcqKey] = isNumber ? (parseFloat(e.target.value) || 0) : e.target.value;
     renderDocument();
   });
+}
+
+function renderFullA4PhotosList() {
+  const topListEls = [
+    document.getElementById("list-top-fullpage-photos"),
+    document.getElementById("list-pointer-top-fullpage-photos")
+  ].filter(Boolean);
+
+  const bottomListEls = [
+    document.getElementById("list-bottom-fullpage-photos"),
+    document.getElementById("list-pointer-bottom-fullpage-photos")
+  ].filter(Boolean);
+
+  const topPages = (appState.fullA4Photos && appState.fullA4Photos.topPages) || [];
+  const bottomPages = (appState.fullA4Photos && appState.fullA4Photos.bottomPages) || [];
+
+  topListEls.forEach(topListEl => {
+    if (topPages.length === 0) {
+      topListEl.innerHTML = `<p class="text-[10px] text-slate-400 italic">No top full A4 posters added yet.</p>`;
+    } else {
+      topListEl.innerHTML = topPages.map((photo, idx) => `
+        <div class="flex items-center justify-between p-1.5 bg-white border border-red-200 rounded-lg shadow-xs">
+          <div class="flex items-center gap-2">
+            <img src="${photo.dataUrl}" class="w-8 h-11 object-cover rounded border border-slate-300 shadow-xs" alt="Poster ${idx+1}">
+            <div>
+              <span class="text-xs font-bold text-red-600 block">Top Poster Page #${idx + 1}</span>
+              <span class="text-[10px] text-slate-500 truncate max-w-[140px] block">${escapeHtml(photo.name || 'Cover Poster')}</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-1">
+            ${idx > 0 ? `<button type="button" onclick="moveTopFullPhoto(${idx}, -1)" class="text-xs text-slate-600 hover:text-black font-bold px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200 cursor-pointer" title="Move Up">▲</button>` : ''}
+            ${idx < topPages.length - 1 ? `<button type="button" onclick="moveTopFullPhoto(${idx}, 1)" class="text-xs text-slate-600 hover:text-black font-bold px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200 cursor-pointer" title="Move Down">▼</button>` : ''}
+            <button type="button" onclick="deleteTopFullPhoto('${photo.id}')" class="text-xs text-rose-600 hover:text-rose-800 font-bold px-2 py-1 rounded hover:bg-rose-50 cursor-pointer" title="Remove">✕</button>
+          </div>
+        </div>
+      `).join("");
+    }
+  });
+
+  bottomListEls.forEach(bottomListEl => {
+    if (bottomPages.length === 0) {
+      bottomListEl.innerHTML = `<p class="text-[10px] text-slate-400 italic">No bottom full A4 posters added yet.</p>`;
+    } else {
+      bottomListEl.innerHTML = bottomPages.map((photo, idx) => `
+        <div class="flex items-center justify-between p-1.5 bg-white border border-red-200 rounded-lg shadow-xs">
+          <div class="flex items-center gap-2">
+            <img src="${photo.dataUrl}" class="w-8 h-11 object-cover rounded border border-slate-300 shadow-xs" alt="Poster ${idx+1}">
+            <div>
+              <span class="text-xs font-bold text-red-600 block">Bottom Poster Page #${idx + 1}</span>
+              <span class="text-[10px] text-slate-500 truncate max-w-[140px] block">${escapeHtml(photo.name || 'Back Poster')}</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-1">
+            ${idx > 0 ? `<button type="button" onclick="moveBottomFullPhoto(${idx}, -1)" class="text-xs text-slate-600 hover:text-black font-bold px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200 cursor-pointer" title="Move Up">▲</button>` : ''}
+            ${idx < bottomPages.length - 1 ? `<button type="button" onclick="moveBottomFullPhoto(${idx}, 1)" class="text-xs text-slate-600 hover:text-black font-bold px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200 cursor-pointer" title="Move Down">▼</button>` : ''}
+            <button type="button" onclick="deleteBottomFullPhoto('${photo.id}')" class="text-xs text-rose-600 hover:text-rose-800 font-bold px-2 py-1 rounded hover:bg-rose-50 cursor-pointer" title="Remove">✕</button>
+          </div>
+        </div>
+      `).join("");
+    }
+  });
+}
+
+function moveTopFullPhoto(idx, dir) {
+  if (!appState.fullA4Photos || !appState.fullA4Photos.topPages) return;
+  const list = appState.fullA4Photos.topPages;
+  const target = idx + dir;
+  if (target < 0 || target >= list.length) return;
+  const temp = list[idx];
+  list[idx] = list[target];
+  list[target] = temp;
+  renderFullA4PhotosList();
+  renderDocument();
+}
+window.moveTopFullPhoto = moveTopFullPhoto;
+
+function moveBottomFullPhoto(idx, dir) {
+  if (!appState.fullA4Photos || !appState.fullA4Photos.bottomPages) return;
+  const list = appState.fullA4Photos.bottomPages;
+  const target = idx + dir;
+  if (target < 0 || target >= list.length) return;
+  const temp = list[idx];
+  list[idx] = list[target];
+  list[target] = temp;
+  renderFullA4PhotosList();
+  renderDocument();
+}
+window.moveBottomFullPhoto = moveBottomFullPhoto;
+
+function deleteTopFullPhoto(id) {
+  if (appState.fullA4Photos && appState.fullA4Photos.topPages) {
+    appState.fullA4Photos.topPages = appState.fullA4Photos.topPages.filter(p => p.id !== id);
+    renderFullA4PhotosList();
+    renderDocument();
+    showToast("Top Full A4 poster page removed.", "info");
+  }
+}
+window.deleteTopFullPhoto = deleteTopFullPhoto;
+
+function deleteBottomFullPhoto(id) {
+  if (appState.fullA4Photos && appState.fullA4Photos.bottomPages) {
+    appState.fullA4Photos.bottomPages = appState.fullA4Photos.bottomPages.filter(p => p.id !== id);
+    renderFullA4PhotosList();
+    renderDocument();
+    showToast("Bottom Full A4 poster page removed.", "info");
+  }
+}
+window.deleteBottomFullPhoto = deleteBottomFullPhoto;
+
+function renderInPageBannersPreview() {
+  const headerPreviewWrapper = document.getElementById("wrapper-inpage-header-preview");
+  const headerPreviewImg = document.getElementById("img-inpage-header-preview");
+  const btnRemoveHeader = document.getElementById("btn-remove-inpage-header");
+
+  const footerPreviewWrapper = document.getElementById("wrapper-inpage-footer-preview");
+  const footerPreviewImg = document.getElementById("img-inpage-footer-preview");
+  const btnRemoveFooter = document.getElementById("btn-remove-inpage-footer");
+
+  if (appState.inPageBanners && appState.inPageBanners.headerBanner) {
+    if (headerPreviewImg) headerPreviewImg.src = appState.inPageBanners.headerBanner;
+    if (headerPreviewWrapper) headerPreviewWrapper.classList.remove("hidden");
+    if (btnRemoveHeader) btnRemoveHeader.classList.remove("hidden");
+  } else {
+    if (headerPreviewWrapper) headerPreviewWrapper.classList.add("hidden");
+    if (btnRemoveHeader) btnRemoveHeader.classList.add("hidden");
+  }
+
+  if (appState.inPageBanners && appState.inPageBanners.footerBanner) {
+    if (footerPreviewImg) footerPreviewImg.src = appState.inPageBanners.footerBanner;
+    if (footerPreviewWrapper) footerPreviewWrapper.classList.remove("hidden");
+    if (btnRemoveFooter) btnRemoveFooter.classList.remove("hidden");
+  } else {
+    if (footerPreviewWrapper) footerPreviewWrapper.classList.add("hidden");
+    if (btnRemoveFooter) btnRemoveFooter.classList.add("hidden");
+  }
 }
 
 // ==========================================
