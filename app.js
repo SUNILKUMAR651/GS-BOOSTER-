@@ -2430,12 +2430,13 @@ function applyZoomScale() {
   if (!target) return;
 
   if (appState.fitToScreen) {
-    // Calculate fit to viewport width
+    // Calculate fit to viewport width across all device screens
     const scrollContainer = document.getElementById("preview-scroll-container");
     if (scrollContainer) {
-      const containerWidth = scrollContainer.clientWidth - 48; // padding
+      const padding = window.innerWidth < 768 ? 16 : 48;
+      const containerWidth = Math.max(180, scrollContainer.clientWidth - padding);
       const a4WidthPx = 794; // 210mm in standard 96dpi pixels approx
-      const fitZoom = Math.min(130, Math.max(35, Math.floor((containerWidth / a4WidthPx) * 100)));
+      const fitZoom = Math.min(130, Math.max(20, Math.floor((containerWidth / a4WidthPx) * 100)));
       appState.previewZoom = fitZoom;
     }
   }
@@ -2456,6 +2457,61 @@ function applyZoomScale() {
   if (zoomText) {
     zoomText.innerText = `${appState.previewZoom}%`;
   }
+}
+
+// ==========================================
+// RESPONSIVE DASHBOARD & SIDEBAR CONTROLS
+// ==========================================
+function setMobileView(view) {
+  appState.mobileView = view;
+  const btnControls = document.getElementById("btn-view-controls");
+  const btnPreview = document.getElementById("btn-view-preview");
+
+  if (view === "preview") {
+    document.body.classList.remove("mobile-view-controls");
+    document.body.classList.add("mobile-view-preview");
+    if (btnControls) {
+      btnControls.classList.remove("bg-blue-600", "text-white");
+      btnControls.classList.add("text-slate-300");
+    }
+    if (btnPreview) {
+      btnPreview.classList.add("bg-blue-600", "text-white");
+      btnPreview.classList.remove("text-slate-300");
+    }
+    appState.fitToScreen = true;
+    setTimeout(() => applyZoomScale(), 60);
+  } else {
+    document.body.classList.add("mobile-view-controls");
+    document.body.classList.remove("mobile-view-preview");
+    if (btnControls) {
+      btnControls.classList.add("bg-blue-600", "text-white");
+      btnControls.classList.remove("text-slate-300");
+    }
+    if (btnPreview) {
+      btnPreview.classList.remove("bg-blue-600", "text-white");
+      btnPreview.classList.add("text-slate-300");
+    }
+  }
+}
+
+function toggleSidebarCollapse() {
+  const sidebar = document.getElementById("app-sidebar");
+  if (!sidebar) return;
+  const isCollapsed = sidebar.classList.toggle("sidebar-collapsed");
+  appState.sidebarCollapsed = isCollapsed;
+
+  const btn = document.getElementById("btn-toggle-sidebar");
+  if (btn) {
+    btn.title = isCollapsed ? "Expand Sidebar (Alt+S)" : "Collapse Sidebar (Alt+S)";
+    btn.classList.toggle("bg-blue-600", isCollapsed);
+    btn.classList.toggle("text-white", isCollapsed);
+    btn.classList.toggle("border-blue-500", isCollapsed);
+  }
+
+  // Auto re-fit zoom preview when sidebar width collapses or expands
+  setTimeout(() => {
+    applyZoomScale();
+  }, 300);
 }
 
 // ==========================================
@@ -3311,11 +3367,37 @@ function setupEventListeners() {
     });
   }
 
-  // Keyboard shortcut: Ctrl+P or Cmd+P to trigger PDF print engine
+  // Desktop Sidebar Collapse Toggle
+  const btnToggleSidebar = document.getElementById("btn-toggle-sidebar");
+  if (btnToggleSidebar) {
+    btnToggleSidebar.addEventListener("click", toggleSidebarCollapse);
+  }
+
+  // Mobile View Toggles (Edit vs Preview)
+  const btnViewControls = document.getElementById("btn-view-controls");
+  if (btnViewControls) {
+    btnViewControls.addEventListener("click", () => setMobileView("controls"));
+  }
+
+  const btnViewPreview = document.getElementById("btn-view-preview");
+  if (btnViewPreview) {
+    btnViewPreview.addEventListener("click", () => setMobileView("preview"));
+  }
+
+  // Initial Responsive State Setup
+  if (window.innerWidth < 768) {
+    setMobileView("controls");
+  }
+
+  // Keyboard shortcut: Ctrl+P for PDF print, Alt+S or Ctrl+B to toggle sidebar
   window.addEventListener("keydown", (e) => {
     if ((e.ctrlKey || e.metaKey) && (e.key === "p" || e.key === "P")) {
       e.preventDefault();
       triggerPrintEngine();
+    }
+    if ((e.altKey && (e.key === "s" || e.key === "S")) || ((e.ctrlKey || e.metaKey) && (e.key === "b" || e.key === "B"))) {
+      e.preventDefault();
+      toggleSidebarCollapse();
     }
   });
 
@@ -3323,8 +3405,15 @@ function setupEventListeners() {
     renderDocument();
   };
 
-  // Window resize handler for fit to screen
+  // Window resize handler for responsive dashboard & fit to screen
   window.addEventListener("resize", () => {
+    if (window.innerWidth < 768) {
+      if (!document.body.classList.contains("mobile-view-controls") && !document.body.classList.contains("mobile-view-preview")) {
+        setMobileView("controls");
+      }
+    } else {
+      document.body.classList.remove("mobile-view-controls", "mobile-view-preview");
+    }
     if (appState.fitToScreen) {
       applyZoomScale();
     }
@@ -3370,41 +3459,29 @@ function updateModeView(mode) {
   const btnMcq = document.getElementById("btn-mode-mcq");
   const panelPointer = document.getElementById("panel-studio-pointer");
   const panelMcq = document.getElementById("panel-studio-mcq");
-  const presetsPointer = document.getElementById("wrapper-presets-pointer");
-  const presetsMcq = document.getElementById("wrapper-presets-mcq");
 
   if (mode === "mcq") {
     if (btnPointer) {
-      btnPointer.classList.remove("active", "text-white", "bg-slate-700/80");
+      btnPointer.classList.remove("active", "text-white", "bg-blue-600");
       btnPointer.classList.add("text-slate-300", "hover:text-white");
     }
     if (btnMcq) {
-      btnMcq.classList.add("active", "text-white", "bg-red-600/90");
+      btnMcq.classList.add("active", "text-white", "bg-red-600");
       btnMcq.classList.remove("text-slate-300", "hover:text-white");
     }
     if (panelPointer) panelPointer.classList.add("hidden");
     if (panelMcq) panelMcq.classList.remove("hidden");
-    if (presetsPointer) presetsPointer.classList.add("hidden");
-    if (presetsMcq) {
-      presetsMcq.classList.remove("hidden");
-      presetsMcq.classList.add("xl:flex");
-    }
   } else {
     if (btnPointer) {
-      btnPointer.classList.add("active", "text-white", "bg-slate-700/80");
+      btnPointer.classList.add("active", "text-white", "bg-blue-600");
       btnPointer.classList.remove("text-slate-300", "hover:text-white");
     }
     if (btnMcq) {
-      btnMcq.classList.remove("active", "text-white", "bg-red-600/90");
+      btnMcq.classList.remove("active", "text-white", "bg-red-600");
       btnMcq.classList.add("text-slate-300", "hover:text-white");
     }
     if (panelPointer) panelPointer.classList.remove("hidden");
     if (panelMcq) panelMcq.classList.add("hidden");
-    if (presetsPointer) {
-      presetsPointer.classList.remove("hidden");
-      presetsPointer.classList.add("xl:flex");
-    }
-    if (presetsMcq) presetsMcq.classList.add("hidden");
   }
 }
 
