@@ -587,6 +587,11 @@ const DEFAULT_STATE = {
     includeAnswerKey: true,
     showSolutions: "below", // "below" (show below question), "hide" (questions only)
     fontSize: 11.5,
+    paginationMode: "autofit", // "autofit" (100% full page pack) or "manual" (slider)
+    itemsPerPage: 16,
+    itemSpacing: "standard", // "tight", "standard", "relaxed", "justify"
+    lineHeight: "1.35", // "1.25", "1.35", "1.48"
+    outerFrame: "none", // "none", "single", "double"
     rawMcqContent: SAMPLE_MCQ_DATASETS.biharPolice,
     questionImages: {} // map of { 1: dataUrl, 4: dataUrl, ... }
   },
@@ -1039,7 +1044,12 @@ function renderMcqDocument() {
   const items = parseRawMcqContent(appState.mcq.rawMcqContent);
 
   // Update typography
+  document.documentElement.style.setProperty("--mcq-font-size", `${appState.mcq.fontSize || 11.5}px`);
   document.documentElement.style.setProperty("--doc-font-size", `${appState.mcq.fontSize || 11.5}px`);
+  document.documentElement.style.setProperty("--mcq-line-height", `${appState.mcq.lineHeight || 1.35}`);
+  const spacingMap = { tight: "2.5px", standard: "4px", relaxed: "6px", justify: "3.5px" };
+  const itemSpacingVal = spacingMap[appState.mcq.itemSpacing] || "4px";
+  document.documentElement.style.setProperty("--mcq-item-spacing", itemSpacingVal);
   document.documentElement.style.setProperty("--mcq-qnum-color", appState.mcq.qNumColor || "#dc2626");
 
   container.innerHTML = "";
@@ -1303,78 +1313,135 @@ function parseRawMcqContent(rawText) {
 }
 
 /**
- * Measures and packs MCQ items into 2 columns of 260mm before moving to next A4 sheet
+ * Measures and packs MCQ items into 2 columns with 100% full-page auto-packing (zero blank gap)
  */
 function packMcqItemsAutoFit(items) {
   if (!items || items.length === 0) return [];
   if (typeof document === "undefined" || !document.body) {
     const chunks = [];
-    const perPage = 18;
+    const perPage = Math.max(1, parseInt(appState.mcq.itemsPerPage) || 16);
     for (let i = 0; i < items.length; i += perPage) chunks.push(items.slice(i, i + perPage));
     return chunks;
   }
 
+  // If manual questions per page mode is selected
+  if (appState.mcq && appState.mcq.paginationMode === "manual") {
+    const perPage = Math.max(1, parseInt(appState.mcq.itemsPerPage) || 16);
+    const chunks = [];
+    for (let i = 0; i < items.length; i += perPage) {
+      chunks.push(items.slice(i, i + perPage));
+    }
+    return chunks;
+  }
+
+  // 🚀 Auto-Fit 100% Full-Page Packing Engine
   let measureSandbox = document.getElementById("gs-measure-sandbox");
   if (!measureSandbox) {
     measureSandbox = document.createElement("div");
     measureSandbox.id = "gs-measure-sandbox";
-    measureSandbox.style.position = "absolute";
-    measureSandbox.style.left = "-9999px";
-    measureSandbox.style.top = "0";
-    measureSandbox.style.width = "91.5mm";
-    measureSandbox.style.visibility = "hidden";
-    measureSandbox.style.pointerEvents = "none";
     document.body.appendChild(measureSandbox);
   }
 
+  const fontSize = appState.mcq.fontSize || 11.5;
+  const lineHeight = appState.mcq.lineHeight || 1.35;
+  const spacingMap = { tight: 2.5, standard: 4, relaxed: 6, justify: 3.5 };
+  const itemSpacingPx = spacingMap[appState.mcq.itemSpacing] || 4;
+
+  // Exact column width is 92mm (210mm A4 - 20mm horizontal margins - 6mm column gap = 184mm / 2 = 92mm)
+  measureSandbox.style.cssText = `
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    width: 92mm;
+    visibility: hidden;
+    pointer-events: none;
+    box-sizing: border-box;
+    font-family: var(--font-devanagari);
+    font-size: ${fontSize}px;
+    line-height: ${lineHeight};
+    padding: 0;
+    margin: 0;
+  `;
+
+  // Calculate available printable height for columns in mm:
+  // A4 = 297mm. Sheet top+bottom padding = 12mm (6mm + 6mm).
+  // Header box = ~13mm. Footer box = ~7mm.
+  // Printable column area = 265mm default.
+  let colHeightMm = 265;
+  if (appState.mcq.topAppBannerText && appState.mcq.topAppBannerText.trim()) {
+    colHeightMm -= 5;
+  }
+  if (appState.inPageBanners && appState.inPageBanners.headerBanner) {
+    colHeightMm -= 25;
+  }
+  if (appState.inPageBanners && appState.inPageBanners.footerBanner) {
+    colHeightMm -= 25;
+  }
+
   const heightProbe = document.createElement("div");
-  heightProbe.style.height = "260mm";
+  heightProbe.style.height = `${colHeightMm}mm`;
+  heightProbe.style.margin = "0";
+  heightProbe.style.padding = "0";
   measureSandbox.appendChild(heightProbe);
-  const colCapacityPx = heightProbe.offsetHeight || 980;
+  const colCapacityPx = (heightProbe.offsetHeight && heightProbe.offsetHeight > 500) ? heightProbe.offsetHeight : 982;
   measureSandbox.removeChild(heightProbe);
 
-  const maxColHeight = colCapacityPx - 6;
-  const itemHeights = [];
+  // Tiny buffer to prevent subpixel overflow
+  const maxColHeight = colCapacityPx - 4;
 
+  // Render items into measureSandbox to get their exact rendered heights
   measureSandbox.innerHTML = "";
   const frag = document.createDocumentFragment();
-
   for (let i = 0; i < items.length; i++) {
-    const item = items[i];
-    const itemEl = createMcqDomElement(item);
+    const itemEl = createMcqDomElement(items[i]);
     frag.appendChild(itemEl);
   }
   measureSandbox.appendChild(frag);
 
   const children = measureSandbox.children;
+  const itemHeights = [];
   for (let i = 0; i < children.length; i++) {
-    const h = children[i].offsetHeight + 5;
-    itemHeights.push(Math.max(24, h));
+    const h = children[i].offsetHeight + itemSpacingPx;
+    itemHeights.push(Math.max(18, h));
   }
   measureSandbox.innerHTML = "";
 
+  // Pack items across columns:
+  // Col 1 fills up to maxColHeight, then Col 2 fills up to maxColHeight.
+  // When Col 2 is full, that page is 100% full, and the next item goes to Page 2!
   const pageChunks = [];
   let currentPage = [];
-  let currentColHeight = 0;
-  let currentColIndex = 1;
+  let col1Height = 0;
+  let col2Height = 0;
+  let inCol2 = false;
 
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
-    const h = itemHeights[i] || 50;
+    const h = itemHeights[i] || 45;
 
-    if (currentColHeight + h <= maxColHeight) {
-      currentPage.push(item);
-      currentColHeight += h;
-    } else {
-      if (currentColIndex === 1) {
-        currentColIndex = 2;
-        currentColHeight = h;
+    if (!inCol2) {
+      if (col1Height + h <= maxColHeight) {
         currentPage.push(item);
+        col1Height += h;
       } else {
+        // Col 1 is 100% full! Move to Col 2 of this page
+        inCol2 = true;
+        currentPage.push(item);
+        col2Height = h;
+      }
+    } else {
+      if (col2Height + h <= maxColHeight) {
+        currentPage.push(item);
+        col2Height += h;
+      } else {
+        // Col 2 is also 100% full! This A4 page is completely packed with zero gap!
         pageChunks.push(currentPage);
+
+        // Start next page in Col 1
         currentPage = [item];
-        currentColIndex = 1;
-        currentColHeight = h;
+        col1Height = h;
+        col2Height = 0;
+        inCol2 = false;
       }
     }
   }
@@ -1384,6 +1451,47 @@ function packMcqItemsAutoFit(items) {
   }
 
   return pageChunks;
+}
+
+/**
+ * Formats question body with clean Devanagari typography, formulas, and styled statements / assertion-reason
+ */
+function formatMcqQuestionBody(rawQuestion) {
+  let cleanQText = (rawQuestion || "").replace(/^\s*(?:Q\.?\s*\d+|\(\d+\)|\d+[\.\)\:\-])\s*/, "").trim();
+  if (!cleanQText) return "";
+
+  // Split into lines to detect Assertion/Reason and Statements
+  const lines = cleanQText.split(/\r?\n/);
+  const formattedLines = [];
+
+  for (let l = 0; l < lines.length; l++) {
+    const line = lines[l].trim();
+    if (!line) continue;
+
+    const arMatch = line.match(/^((?:अभिकथन|कारण|कथन)\s*(?:\([A-Za-z0-9]+\)|[A-Za-z0-9]+)\s*[:\-\—]?)\s*(.*)$/i) ||
+                    line.match(/^((?:Assertion|Reason|Statement)\s*(?:\([A-Za-z0-9]+\)|[A-Za-z0-9]+)\s*[:\-\—]?)\s*(.*)$/i);
+    const stmtMatch = line.match(/^(\d+[\.\)])\s+(.*)$/);
+
+    if (arMatch) {
+      formattedLines.push(`
+        <div class="mcq-assertion-row">
+          <span class="badge-ar">${escapeHtml(arMatch[1])}</span>
+          <span>${highlightFormattedText(arMatch[2])}</span>
+        </div>
+      `);
+    } else if (stmtMatch && (l > 0 || lines.length > 2)) {
+      formattedLines.push(`
+        <div class="mcq-stmt-row">
+          <span class="badge-stmt">${escapeHtml(stmtMatch[1])}</span>
+          <span>${highlightFormattedText(stmtMatch[2])}</span>
+        </div>
+      `);
+    } else {
+      formattedLines.push(`<div>${highlightFormattedText(line)}</div>`);
+    }
+  }
+
+  return formattedLines.join("");
 }
 
 /**
@@ -1407,9 +1515,9 @@ function createMcqDomElement(item) {
     const maxOptLen = (item.options && item.options.length > 0) 
       ? Math.max(...(item.options.map(o => (o.text || "").length))) 
       : 0;
-    if (maxOptLen <= 6 && item.options.length <= 4) {
+    if (maxOptLen <= 10 && item.options.length === 4) {
       optLayoutClass = "mcq-options-inline4";
-    } else if (maxOptLen <= 26 && item.options.length <= 4) {
+    } else if (maxOptLen <= 32 && item.options.length === 4) {
       optLayoutClass = "mcq-options-grid2x2";
     } else {
       optLayoutClass = "mcq-options-stacked";
@@ -1439,7 +1547,7 @@ function createMcqDomElement(item) {
     `;
   }
 
-  let cleanQText = item.question.replace(/^\s*(?:Q\.?\s*\d+|\(\d+\)|\d+[\.\)\:\-])\s*/, "").trim();
+  const questionBodyHtml = formatMcqQuestionBody(item.question);
 
   // Solution HTML Box (Image 1 & 3)
   let solutionHtml = "";
@@ -1460,7 +1568,7 @@ function createMcqDomElement(item) {
   div.innerHTML = `
     <div class="mcq-q-header">
       <span class="mcq-qnum" style="color: ${escapeHtml(appState.mcq.qNumColor || '#dc2626')};">${qNum}.</span>
-      <div class="mcq-qtext">${highlightFormattedText(cleanQText)}</div>
+      <div class="mcq-qtext">${questionBodyHtml}</div>
     </div>
     ${diagramHtml}
     ${optionsHtml}
@@ -1475,7 +1583,9 @@ function createMcqDomElement(item) {
  */
 function createMcqA4PageElement(pageItems, pageNum, totalPages, isLastPage, allItems) {
   const sheet = document.createElement("div");
-  sheet.className = "a4-sheet";
+  const outerFrame = (appState.mcq && appState.mcq.outerFrame) || "none";
+  const frameClass = outerFrame === "single" ? "frame-single" : (outerFrame === "double" ? "frame-double" : "");
+  sheet.className = `a4-sheet ${frameClass}`.trim();
   sheet.dataset.page = pageNum;
 
   const watermarkText = (appState.mcq.watermarkText || "").trim();
@@ -1522,7 +1632,7 @@ function createMcqA4PageElement(pageItems, pageNum, totalPages, isLastPage, allI
     const answered = allItems.filter(it => it.answer);
     if (answered.length > 0) {
       let rowsHtml = "";
-      const colsPerRow = 10;
+      const colsPerRow = (answered.length > 25) ? 15 : 10;
       for (let r = 0; r < answered.length; r += colsPerRow) {
         const slice = answered.slice(r, r + colsPerRow);
         rowsHtml += `<tr>${slice.map(a => `<th>Q${a.qNum}</th>`).join("")}</tr>`;
@@ -1561,16 +1671,18 @@ function createMcqA4PageElement(pageItems, pageNum, totalPages, isLastPage, allI
     ? `<div class="mcq-inpage-banner"><img src="${appState.inPageBanners.footerBanner}" alt="Footer Promo Banner"></div>`
     : "";
 
+  const isBalanced = isLastPage && pageItems.length < 12;
+
   sheet.innerHTML = `
     ${watermarkHtml}
     <div class="a4-sheet-inner">
       ${topBannerHtml}
       ${headerHtml}
       ${inPageHeaderBanner}
-      <div class="mcq-columns-container" style="${dividerStyle}">
+      <div class="mcq-columns-container ${isBalanced ? 'mcq-balanced' : ''}" style="${dividerStyle}">
         ${itemsHtml}
-        ${answerKeyHtml}
       </div>
+      ${answerKeyHtml}
       ${inPageFooterBanner}
       ${footerHtml}
     </div>
@@ -2225,6 +2337,22 @@ function syncInputsFromState() {
   setValue("input-mcq-font-size", appState.mcq.fontSize || 11.5);
   setText("val-mcq-font-size", `${appState.mcq.fontSize || 11.5}px`);
   setValue("select-mcq-solutions-display", (appState.mcq && appState.mcq.showSolutions) || "below");
+  setValue("select-mcq-pagination-mode", appState.mcq.paginationMode || "autofit");
+  setValue("input-mcq-items-per-page", appState.mcq.itemsPerPage || 16);
+  setText("val-mcq-items-per-page", String(appState.mcq.itemsPerPage || 16));
+  const mcqItemsSlider = document.getElementById("wrapper-mcq-items-slider");
+  if (mcqItemsSlider) {
+    if (appState.mcq.paginationMode === "manual") {
+      mcqItemsSlider.classList.remove("hidden");
+    } else {
+      mcqItemsSlider.classList.add("hidden");
+    }
+  }
+  setValue("select-mcq-item-spacing", appState.mcq.itemSpacing || "standard");
+  const spacingTextMap = { tight: "Tight (2.5px)", standard: "Standard (4px)", relaxed: "Relaxed (6px)", justify: "Full-Page Stretch" };
+  setText("val-mcq-item-spacing", spacingTextMap[appState.mcq.itemSpacing] || "Standard (4px)");
+  setValue("select-mcq-line-height", appState.mcq.lineHeight || "1.35");
+  setValue("select-mcq-outer-frame", appState.mcq.outerFrame || "none");
 
   // Active MCQ Tab & Attached Diagrams / Full A4 Posters
   switchMcqTab(appState.mcqActiveTab || "content");
@@ -2936,6 +3064,47 @@ function setupEventListeners() {
       renderDocument();
     });
   }
+
+  const mcqPaginationModeSelect = document.getElementById("select-mcq-pagination-mode");
+  if (mcqPaginationModeSelect) {
+    mcqPaginationModeSelect.addEventListener("change", (e) => {
+      const mode = e.target.value;
+      if (!appState.mcq) appState.mcq = {};
+      appState.mcq.paginationMode = mode;
+      const sliderWrapper = document.getElementById("wrapper-mcq-items-slider");
+      if (sliderWrapper) {
+        if (mode === "manual") sliderWrapper.classList.remove("hidden");
+        else sliderWrapper.classList.add("hidden");
+      }
+      renderDocument();
+    });
+  }
+
+  const mcqItemsPerPageInput = document.getElementById("input-mcq-items-per-page");
+  if (mcqItemsPerPageInput) {
+    mcqItemsPerPageInput.addEventListener("input", (e) => {
+      const val = parseInt(e.target.value, 10) || 16;
+      if (!appState.mcq) appState.mcq = {};
+      appState.mcq.itemsPerPage = val;
+      setText("val-mcq-items-per-page", String(val));
+      renderDocument();
+    });
+  }
+
+  const mcqItemSpacingSelect = document.getElementById("select-mcq-item-spacing");
+  if (mcqItemSpacingSelect) {
+    mcqItemSpacingSelect.addEventListener("change", (e) => {
+      const spacing = e.target.value;
+      if (!appState.mcq) appState.mcq = {};
+      appState.mcq.itemSpacing = spacing;
+      const spacingTextMap = { tight: "Tight (2.5px)", standard: "Standard (4px)", relaxed: "Relaxed (6px)", justify: "Full-Page Stretch" };
+      setText("val-mcq-item-spacing", spacingTextMap[spacing] || "Standard (4px)");
+      renderDocument();
+    });
+  }
+
+  bindMcqInput("select-mcq-line-height", "lineHeight");
+  bindMcqInput("select-mcq-outer-frame", "outerFrame");
 
   // Diagram / Photo Inserter
   const diagramFileInput = document.getElementById("input-diagram-file");
