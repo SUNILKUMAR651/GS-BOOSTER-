@@ -70,13 +70,16 @@
         </div>
       </div>
 
-      <!-- Center: Dual Mode Switcher Tabs -->
+      <!-- Center: 3-Mode Switcher Tabs (Pointer vs MCQ vs Book) -->
       <div class="flex items-center bg-slate-800/90 p-1 rounded-xl border border-slate-700 shadow-inner">
-        <button type="button" id="btn-mode-pointer" class="mode-tab-btn active px-2.5 sm:px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-white bg-blue-600">
-          <span>📖</span> <span class="hidden sm:inline">GS Pointer (वन-लाइनर)</span><span class="sm:hidden">Pointer</span>
+        <button type="button" id="btn-mode-pointer" class="mode-tab-btn active px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-white bg-blue-600">
+          <span>📖</span> <span class="hidden sm:inline">GS Pointer</span><span class="sm:hidden">Pointer</span>
         </button>
-        <button type="button" id="btn-mode-mcq" class="mode-tab-btn px-2.5 sm:px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
-          <span>📝</span> <span class="hidden sm:inline">MCQ Test Series (प्रैक्टिस सेट)</span><span class="sm:hidden">MCQ</span>
+        <button type="button" id="btn-mode-mcq" class="mode-tab-btn px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
+          <span>📝</span> <span class="hidden sm:inline">MCQ Series</span><span class="sm:hidden">MCQ</span>
+        </button>
+        <button type="button" id="btn-mode-book" class="mode-tab-btn px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
+          <span>📚</span> <span class="hidden sm:inline">Book & Notes</span><span class="sm:hidden">Book</span>
         </button>
       </div>
 
@@ -1095,6 +1098,297 @@
 
         </div>
       </div><!-- End #panel-studio-mcq -->
+
+      <!-- =========================================================================
+           STUDIO PANEL 3: SMART BOOK & NOTES STUDIO (Text to Best Book Generator)
+           ========================================================================= -->
+      <div id="panel-studio-book" class="flex-1 flex flex-col overflow-hidden hidden">
+        <!-- Book Tabs Header -->
+        <div class="border-b border-slate-200 bg-slate-50 flex items-center px-2 pt-2 gap-1 flex-shrink-0">
+          <button data-book-tab="content" class="book-tab-button active-tab flex-1 py-2 px-1 text-[11px] font-bold rounded-t-lg border-b-2 border-emerald-600 text-emerald-700 bg-white transition flex items-center justify-center gap-1 shadow-sm">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+            <span>Notes & Content</span>
+          </button>
+          <button data-book-tab="branding" class="book-tab-button flex-1 py-2 px-1 text-[11px] font-semibold rounded-t-lg border-b-2 border-transparent text-slate-600 hover:text-slate-800 transition flex items-center justify-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+            <span>Header & Frame</span>
+          </button>
+          <button data-book-tab="posters" class="book-tab-button flex-1 py-2 px-1 text-[11px] font-semibold rounded-t-lg border-b-2 border-transparent text-slate-600 hover:text-slate-800 transition flex items-center justify-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            <span>Cover & End Photos</span>
+          </button>
+          <button data-book-tab="styling" class="book-tab-button flex-1 py-2 px-1 text-[11px] font-semibold rounded-t-lg border-b-2 border-transparent text-slate-600 hover:text-slate-800 transition flex items-center justify-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+            <span>Highlighter & Style</span>
+          </button>
+        </div>
+
+        <!-- Book Tab Content Area (Scrollable) -->
+        <div class="flex-1 overflow-y-auto p-4 space-y-4">
+          
+          <!-- TAB 1: NOTES & CONTENT -->
+          <div id="book-tab-panel-content" class="book-tab-content-panel space-y-3">
+            <div class="flex items-center justify-between">
+              <label class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                <span>Book Text & Notes Input</span>
+                <span class="text-[10px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.2 rounded font-semibold">Book Layout</span>
+              </label>
+              <button id="btn-clear-book-content" type="button" class="text-xs text-rose-600 hover:text-rose-700 font-medium hover:underline flex items-center gap-1 cursor-pointer">
+                <span>Clear Text</span>
+              </button>
+            </div>
+
+            <!-- Docx / Doc / Txt Upload Banner -->
+            <div class="border-2 border-dashed border-emerald-300 hover:border-emerald-500 bg-emerald-50/50 rounded-xl p-3 text-center transition cursor-pointer relative group">
+              <input type="file" id="input-book-file-upload" accept=".docx,.doc,.txt" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10">
+              <div class="flex flex-col items-center justify-center gap-1">
+                <svg class="w-6 h-6 text-emerald-600 group-hover:scale-110 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <div class="text-xs font-bold text-slate-800">Upload Notes File (.docx or .txt)</div>
+                <div class="text-[10px] text-slate-500">Auto-imports chapter notes, definitions & questions instantly!</div>
+              </div>
+            </div>
+
+            <!-- Action Buttons: 1-Click Auto Highlight & Sample Loader -->
+            <div class="grid grid-cols-2 gap-2">
+              <button type="button" id="btn-book-auto-format" class="py-2 px-2 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-slate-900 font-bold rounded-lg text-xs shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer">
+                <span>🖍️ Auto-Highlight Keywords</span>
+              </button>
+              <button type="button" id="btn-load-sample-book" class="py-2 px-2 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-lg text-xs shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer">
+                <span>📖 Load Class 10th Sample</span>
+              </button>
+            </div>
+
+            <!-- Main Book Notes Textarea -->
+            <div class="relative">
+              <textarea
+                id="textarea-book-content"
+                rows="14"
+                placeholder="Paste chapter notes, definitions, questions, points here...&#10;&#10;उपनिवेश:- जब कोई शक्तिशाली देश किसी कमजोर देश पर कब्ज़ा कर लेता है...&#10;➢ पहले भारत को सोने का चिड़िया कहा जाता था&#10;➢ भारत 200 वर्षों तक अंग्रेजी शासन का गुलाम रहा |&#10;&#10;वस्तुनिष्ठ प्रश्न:-&#10;1. इनमें किसको प्राथमिक क्षेत्र भी कहा जाता है?&#10;उत्तर:- कृषि क्षेत्र&#10;&#10;लघु उत्तरीय प्रश्न:-&#10;1. अर्थव्यवस्था किसे कहते हैं? [2013A, 2019AI]&#10;उत्तर :- अर्थव्यवस्था समाज के सभी आर्थिक क्रियाओं का योग है।"
+                class="w-full text-xs font-mono p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-slate-50/50 text-slate-800 leading-relaxed transition resize-y"
+                style="min-height: 260px;"
+              ></textarea>
+            </div>
+
+            <!-- Formatting Helper Tips -->
+            <div class="p-2.5 bg-amber-50 border border-amber-200 rounded-lg text-[11px] text-slate-700 space-y-1">
+              <div class="font-bold text-amber-900 flex items-center gap-1">
+                <span>💡 Quick Formatting Tips:</span>
+              </div>
+              <p>• Words ending with <code class="bg-yellow-200 px-1 rounded font-bold">:-</code> get automatically highlighted in <b>Yellow marker</b> (e.g. <code class="bg-yellow-200 px-1 rounded">उपनिवेश:-</code>).</p>
+              <p>• Exam years like <code class="bg-white border px-1 rounded text-red-600 font-bold">[2024AI]</code> get styled in crisp exam tags.</p>
+              <p>• Lines starting with <code class="bg-white px-1 rounded font-bold">➢</code> or <code class="bg-white px-1 rounded font-bold">✓</code> get styled with bullet arrows.</p>
+              <p>• Answers starting with <code class="text-red-600 font-bold">उत्तर:-</code> or <code class="text-red-600 font-bold">उत्तर :-</code> get bold red highlights.</p>
+            </div>
+          </div>
+
+          <!-- TAB 2: HEADER, BRANDING & OUTER FRAME -->
+          <div id="book-tab-panel-branding" class="book-tab-content-panel space-y-4 hidden">
+            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider border-b border-slate-200 pb-2">
+              Book Top Bar & Chapter Banner
+            </h3>
+
+            <!-- Class & Batch -->
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Class / Top-Left</label>
+                <input type="text" id="input-book-class" value="Class – 10th" class="w-full text-xs p-2 border border-slate-300 rounded font-bold text-slate-800">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Batch / Tag (Optional)</label>
+                <input type="text" id="input-book-batch" value="मंजिल बैच" class="w-full text-xs p-2 border border-slate-300 rounded font-semibold text-slate-800">
+              </div>
+            </div>
+
+            <!-- Subject Name -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Subject / Top-Right</label>
+              <input type="text" id="input-book-subject" value="Economics" class="w-full text-xs p-2 border border-slate-300 rounded font-bold text-slate-800">
+            </div>
+
+            <!-- Header Bar Color -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Header Bar Color</label>
+              <div class="flex items-center gap-2">
+                <input type="color" id="input-book-header-bg" value="#0b2545" class="w-8 h-8 rounded border border-slate-300 p-0.5 cursor-pointer">
+                <input type="text" id="input-book-header-bg-text" value="#0b2545" class="w-28 text-xs p-1.5 border border-slate-300 rounded font-mono font-bold">
+                <span class="text-[11px] text-slate-500">Dark Navy Blue (Authentic)</span>
+              </div>
+            </div>
+
+            <!-- Chapter Main Title -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Chapter Pill Title</label>
+              <input type="text" id="input-book-chapter-title" value="1. अर्थव्यवस्था एवं इसके विकास का इतिहास" class="w-full text-xs p-2 border border-slate-300 rounded font-bold text-red-600">
+            </div>
+
+            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider border-b border-slate-200 pb-2 pt-2">
+              Page Frame & Watermark
+            </h3>
+
+            <!-- Outer Frame -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Outer Page Box Border</label>
+              <select id="select-book-outer-frame" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                <option value="single" selected>Single Solid Black Box (1.5px - Exact Book Look)</option>
+                <option value="none">None (Borderless)</option>
+                <option value="double">Double Border (Booklet)</option>
+              </select>
+            </div>
+
+            <!-- Diagonal Watermark -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Diagonal Watermark Text</label>
+              <input type="text" id="input-book-watermark-text" value="JEE - FORM STUDY POINT" class="w-full text-xs p-2 border border-slate-300 rounded font-bold text-slate-800">
+            </div>
+
+            <!-- Watermark Opacity -->
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-xs font-semibold text-slate-700">Watermark Opacity</label>
+                <span id="val-book-watermark-opacity" class="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">0.15</span>
+              </div>
+              <input type="range" id="input-book-watermark-opacity" min="0.05" max="0.4" step="0.01" value="0.15" class="w-full h-1.5 bg-slate-300 rounded-lg appearance-none cursor-pointer">
+            </div>
+
+            <!-- Starting Page Number -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Starting Page Number</label>
+              <input type="number" id="input-book-start-page" min="1" max="999" value="2" class="w-24 text-xs p-1.5 border border-slate-300 rounded font-bold text-slate-800">
+            </div>
+          </div>
+
+          <!-- TAB 3: COVER & END A4 PHOTOS + INLINE THUMBNAILS -->
+          <div id="book-tab-panel-posters" class="book-tab-content-panel space-y-4 hidden">
+            
+            <!-- SECTION A: FRONT COVER A4 PHOTO (PAGE 1) -->
+            <div class="border border-slate-200 bg-white rounded-xl p-3.5 space-y-3">
+              <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                  <span>📕 Front Cover Page (Full A4 Photo)</span>
+                </h4>
+                <span class="text-[9px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-black">Page 1 Cover</span>
+              </div>
+              <p class="text-[11px] text-slate-500 leading-snug">
+                Upload your main Book Cover image (like the JEE-FORM Cover in Page 1 of the screenshot). Renders as a full borderless A4 cover page!
+              </p>
+
+              <input type="file" id="input-book-top-poster" accept="image/*" class="w-full text-xs p-1.5 border border-slate-300 rounded bg-white file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 cursor-pointer">
+
+              <!-- Top Posters List -->
+              <div id="list-book-top-posters" class="space-y-2 pt-1">
+                <p class="text-xs text-slate-400 italic">No Front Cover photo added yet.</p>
+              </div>
+            </div>
+
+            <!-- SECTION B: BACK COVER A4 PHOTO (ENDING PAGE) -->
+            <div class="border border-slate-200 bg-white rounded-xl p-3.5 space-y-3">
+              <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                  <span>📗 Back Cover / End Page (Full A4 Photo)</span>
+                </h4>
+                <span class="text-[9px] bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-black">End Page Poster</span>
+              </div>
+              <p class="text-[11px] text-slate-500 leading-snug">
+                Upload your Back Cover or ending promotional advertisement poster. Automatically added after all book content!
+              </p>
+
+              <input type="file" id="input-book-bottom-poster" accept="image/*" class="w-full text-xs p-1.5 border border-slate-300 rounded bg-white file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
+
+              <!-- Bottom Posters List -->
+              <div id="list-book-bottom-posters" class="space-y-2 pt-1">
+                <p class="text-xs text-slate-400 italic">No Back Cover photo added yet.</p>
+              </div>
+            </div>
+
+            <!-- SECTION C: INLINE TOPIC THUMBNAILS (E.G. COINS, ATM, FARMING ICONS) -->
+            <div class="border border-slate-200 bg-white rounded-xl p-3.5 space-y-3">
+              <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider border-b border-slate-100 pb-1.5">
+                🖼️ Inline Topic Illustrations & Photos
+              </h4>
+              <p class="text-[11px] text-slate-500 leading-snug">
+                Attach small illustrative photos to specific topics (e.g. money, ATM card, farming, industry, pie charts).
+              </p>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Target Keyword / Topic Title:</label>
+                <input type="text" id="input-book-inline-img-keyword" placeholder="e.g. पूंजीवादी अर्थव्यवस्था or ATM or बैंक" class="w-full text-xs p-1.5 border border-slate-300 rounded bg-white">
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Select Image File:</label>
+                <input type="file" id="input-book-inline-img-file" accept="image/*" class="w-full text-xs p-1.5 border border-slate-300 rounded bg-white file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-slate-700 file:text-white hover:file:bg-slate-800 cursor-pointer">
+              </div>
+
+              <button type="button" id="btn-attach-book-inline-img" class="w-full py-2 px-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-lg text-xs shadow transition flex items-center justify-center gap-1.5 cursor-pointer">
+                <span>➕ Attach Image to Topic</span>
+              </button>
+
+              <div id="list-book-inline-images" class="space-y-1.5 pt-1 max-h-40 overflow-y-auto">
+                <p class="text-xs text-slate-400 italic">No inline images attached yet.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- TAB 4: HIGHLIGHTER & STYLING -->
+          <div id="book-tab-panel-styling" class="book-tab-content-panel space-y-4 hidden">
+            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider border-b border-slate-200 pb-2">
+              Highlighter & Typography Settings
+            </h3>
+
+            <!-- Yellow Highlighter Color -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Highlighter Color (Yellow Marker)</label>
+              <div class="flex items-center gap-2">
+                <input type="color" id="input-book-highlight-color" value="#ffff00" class="w-8 h-8 rounded border border-slate-300 p-0.5 cursor-pointer">
+                <input type="text" id="input-book-highlight-color-text" value="#ffff00" class="w-28 text-xs p-1.5 border border-slate-300 rounded font-mono font-bold">
+                <span class="text-[11px] text-slate-500">Vibrant Yellow Highlighter</span>
+              </div>
+            </div>
+
+            <!-- Font Size -->
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-xs font-semibold text-slate-700">Content Font Size</label>
+                <span id="val-book-font-size" class="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">11.5px</span>
+              </div>
+              <input type="range" id="input-book-font-size" min="10" max="14" step="0.5" value="11.5" class="w-full h-1.5 bg-slate-300 rounded-lg appearance-none cursor-pointer">
+            </div>
+
+            <!-- Line Height -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Line Height / Text Spacing</label>
+              <select id="select-book-line-height" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                <option value="1.30">Compact (1.30 - Maximum content per page)</option>
+                <option value="1.38" selected>Standard Book (1.38 - Authentic Reading Style)</option>
+                <option value="1.45">Spacious (1.45 - Relaxed)</option>
+              </select>
+            </div>
+
+            <!-- Bullet Style -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Bullet Style for Points</label>
+              <select id="select-book-bullet-style" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                <option value="➢" selected>➢ Arrow Bullet (Exact Match to Screenshot)</option>
+                <option value="✓">✓ Checkmark</option>
+                <option value="•">• Solid Dot</option>
+                <option value="none">None</option>
+              </select>
+            </div>
+
+            <!-- Central Column Divider Line -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Central Column Divider Line</label>
+              <select id="select-book-col-divider" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                <option value="solid" selected>Solid Black Line (1px solid #000 - Authentic Book)</option>
+                <option value="dashed">Dashed Line</option>
+                <option value="none">None (Clean Spacing)</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- End #panel-studio-book -->
 
       <!-- Control Panel Bottom Action Footer -->
       <div class="p-3 bg-slate-50 border-t border-slate-200 space-y-2 flex-shrink-0">

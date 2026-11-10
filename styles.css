@@ -850,6 +850,283 @@ sup {
   white-space: pre-line;
 }
 
+/* ==========================================================================
+   SMART BOOK & NOTES STUDIO STYLES (Class Notes & Complete Booklet)
+   ========================================================================== */
+
+/* Outer Book Page Frame */
+.book-sheet-inner {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 5mm 7mm;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 10;
+}
+
+.book-frame-box {
+  border: 1.5px solid #000000;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+/* Book Top Navy Header Bar */
+.book-header-bar {
+  background-color: var(--book-header-bg, #0b2545);
+  color: #ffffff;
+  padding: 4px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-devanagari);
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.book-header-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 800;
+}
+
+.book-batch-tag {
+  font-size: 9.5px;
+  font-weight: 700;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 1px 6px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.book-header-right {
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+/* Red 3D Glossy Chapter Capsule Pill (Image 1 & 2) */
+.book-chapter-pill {
+  background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%);
+  color: #ffffff !important;
+  font-family: var(--font-devanagari);
+  font-size: 12.5px;
+  font-weight: 800;
+  text-align: center;
+  padding: 3.5px 16px;
+  border-radius: 9999px;
+  box-shadow: 0 3px 6px rgba(185, 28, 28, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+  margin: 2mm auto 2.5mm auto;
+  display: block;
+  width: fit-content;
+  max-width: 95%;
+  letter-spacing: 0.2px;
+  flex-shrink: 0;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Two Column Layout for Book */
+.book-two-column-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  box-sizing: border-box;
+  padding: 0 4mm 1mm 4mm;
+  gap: 0;
+  position: relative;
+  z-index: 12;
+}
+
+.book-col {
+  flex: 1;
+  width: 50%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow: hidden;
+  font-family: var(--font-devanagari);
+}
+
+.book-col-left {
+  padding-right: 3mm;
+}
+
+.book-col-right {
+  padding-left: 3mm;
+}
+
+.book-col-divider {
+  width: 1px;
+  background-color: #000000;
+  align-self: stretch;
+  flex-shrink: 0;
+}
+
+.book-col-divider.divider-dashed {
+  background: repeating-linear-gradient(to bottom, #000 0, #000 4px, transparent 4px, transparent 8px);
+}
+
+.book-col-divider.divider-none {
+  background-color: transparent;
+  width: 5mm;
+}
+
+/* Yellow Highlighter on Keyword/Definition (Image 1 & 2) */
+.book-highlight {
+  background-color: var(--book-highlight-color, #ffff00) !important;
+  color: #000000 !important;
+  font-weight: 800;
+  padding: 0.5px 4px;
+  border-radius: 2px;
+  display: inline;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Red Text for Key Numbers & Dates */
+.book-red-text {
+  color: #dc2626 !important;
+  font-weight: 800;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Sub-heading Pill Boxes */
+.book-subhead-red {
+  background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%);
+  color: #ffffff !important;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2.5px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin: 3px 0 2px 0;
+  width: fit-content;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.book-subhead-blue {
+  background: linear-gradient(180deg, #2563eb 0%, #1e40af 100%);
+  color: #ffffff !important;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2.5px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin: 3px 0 2px 0;
+  width: fit-content;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.book-subhead-yellow {
+  background-color: #fef08a !important;
+  color: #854d0e !important;
+  border: 1px solid #facc15;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 1.5px 6px;
+  border-radius: 3px;
+  display: inline-block;
+  margin: 2px 0;
+  width: fit-content;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Exam Years Tag [2013A, 2019AI] */
+.book-exam-tag {
+  color: #b91c1c !important;
+  font-weight: 700;
+  font-size: 10px;
+  margin-left: 4px;
+  letter-spacing: 0.2px;
+}
+
+/* Answer Label */
+.book-ans-label {
+  color: #dc2626 !important;
+  font-weight: 800;
+  margin-right: 4px;
+}
+
+/* Book Point Item */
+.book-item-block {
+  margin-bottom: var(--book-item-spacing, 3.5px);
+  font-size: var(--book-font-size, 11.5px);
+  line-height: var(--book-line-height, 1.38);
+  color: #050505;
+  position: relative;
+}
+
+.book-bullet-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  margin-bottom: 2.5px;
+  font-size: var(--book-font-size, 11.5px);
+  line-height: var(--book-line-height, 1.38);
+}
+
+.book-bullet-arrow {
+  font-weight: 900;
+  color: #000000;
+  flex-shrink: 0;
+  font-size: 11px;
+}
+
+/* Inline Thumbnail Image */
+.book-inline-thumbnail-wrapper {
+  float: right;
+  margin: 2px 0 4px 6px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 1.5px;
+  background-color: #ffffff;
+  max-width: 90px;
+}
+
+.book-inline-thumbnail-img {
+  max-height: 55px;
+  max-width: 85px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Book Footer */
+.book-footer-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 8px;
+  font-size: 9.5px;
+  color: #64748b;
+  border-top: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  flex-shrink: 0;
+}
+
 /* Full A4 Size Poster Page (Zero Margin Bleed - Image 2) */
 .a4-fullpage-photo-sheet {
   width: 210mm !important;
@@ -1181,6 +1458,107 @@ sup {
   .mcq-solution-ans-badge {
     background-color: #dc2626 !important;
     color: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Preserve Book & Notes Studio styles in print */
+  .book-frame-box {
+    border: 1.5px solid #000000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .book-header-bar {
+    background-color: var(--book-header-bg, #0b2545) !important;
+    color: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .book-batch-tag {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .book-chapter-pill {
+    background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%) !important;
+    color: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .book-two-column-layout {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    flex: 1 !important;
+  }
+  .book-col {
+    width: 50% !important;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+  }
+  .book-col-left {
+    padding-right: 3mm !important;
+  }
+  .book-col-right {
+    padding-left: 3mm !important;
+  }
+  .book-col-divider {
+    width: 1px !important;
+    background-color: #000000 !important;
+    align-self: stretch !important;
+    flex-shrink: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .book-col-divider.divider-dashed {
+    background: repeating-linear-gradient(to bottom, #000 0, #000 4px, transparent 4px, transparent 8px) !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .book-col-divider.divider-none {
+    background-color: transparent !important;
+    width: 5mm !important;
+  }
+  .book-highlight {
+    background-color: var(--book-highlight-color, #ffff00) !important;
+    color: #000000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .book-red-text {
+    color: #dc2626 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .book-subhead-red {
+    background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%) !important;
+    color: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .book-subhead-blue {
+    background: linear-gradient(180deg, #2563eb 0%, #1e40af 100%) !important;
+    color: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .book-subhead-yellow {
+    background-color: #fef08a !important;
+    color: #854d0e !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .book-exam-tag {
+    color: #b91c1c !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .book-ans-label {
+    color: #dc2626 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }

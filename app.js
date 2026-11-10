@@ -513,6 +513,98 @@ Ans: B`
 };
 
 // ==========================================
+// SAMPLE BOOK & NOTES DATASET (Authentic Class 10 Economics Notes)
+// ==========================================
+const SAMPLE_BOOK_DATASET = `# 1. अर्थव्यवस्था एवं इसके विकास का इतिहास
+
+उपनिवेश:- जब कोई शक्तिशाली देश किसी कमजोर देश पर अपना क़ब्ज़ा कर लेता है तो कमजोर देश की शक्तिशाली देश का उपनिवेश कहा जाता है।
+➢ पहले भारत को सोने का चिड़िया कहा जाता था।
+➢ भारत 200 वर्षों तक अंग्रेजी शासन का गुलाम रहा।
+➢ अंग्रेजो ने फूट डालो और शासन करो की नीति को अपना कर भारत को अपना दास बनाकर रखा।
+
+आर्थिक क्रियाएं :- वे सभी क्रियाएं जिससे हमें आय प्राप्त होती है उसे आर्थिक क्रियाएं कहते हैं।
+
+अर्थव्यवस्था :- ऐसा तंत्र जिसके अंतर्गत विभिन्न प्रकार के आर्थिक क्रियाएं संपादित की जाती है उसे अर्थव्यवस्था कहते हैं।
+या
+अर्थव्यवस्था :- अर्थव्यवस्था समाज के सभी आर्थिक क्रियाओं का योग है।
+➢ ब्राउन के अनुसार "अर्थव्यवस्था आजीविका अर्जन की एक प्रणाली है"
+
+[SUBHEAD] अर्थव्यवस्था के दो कार्य निम्नलिखित हैं :-
+1. लोगों की आवश्यकताओं की संतुष्टि के लिए विभिन्न प्रकार की वस्तुएं एवं सेवाओं का उत्पादन करना।
+2. लोगों को रोजगार के अवसर प्रदान करना।
+
+[SUBHEAD] अर्थव्यवस्था की संरचना :-
+1) प्राथमिक क्षेत्र
+2) द्वितीयक क्षेत्र
+3) तृतीयक क्षेत्र
+
+प्राथमिक क्षेत्र :- प्राथमिक क्षेत्र के अंतर्गत कृषि, पशुपालन, मछली पालन, जंगल से वस्तुओं को प्राप्त करना जैसे व्यवसाय आते हैं। प्राथमिक क्षेत्र को कृषि क्षेत्र कहा जाता है।
+
+द्वितीयक क्षेत्र :- द्वितीयक क्षेत्र के अंतर्गत खनिज, व्यवसाय, निर्माण कार्य, जनउपयोगी सेवा, जैसे गैस और बिजली आदि के व्यवसाय आते हैं। द्वितीयक क्षेत्र को औद्योगिक क्षेत्र भी कहा जाता है।
+
+तृतीयक क्षेत्र :- तृतीयक क्षेत्र के अंतर्गत बैंक एवं बीमा, परिवहन, संचार, एवं व्यापार आदि क्रियाएं सम्मिलित होती है। तृतीयक क्षेत्र को सेवा क्षेत्र भी कहा जाता है।
+
+[RED_PILL] अर्थव्यवस्था तीन प्रकार के होते हैं:-
+1. पूंजीवादी अर्थव्यवस्था
+2. समाजवादी अर्थव्यवस्था
+3. मिश्रित अर्थव्यवस्था
+
+1. पूंजीवादी अर्थव्यवस्था:- वैसा अर्थव्यवस्था जिसमें उत्पादन के साधन पर निजी व्यक्ति का अधिकार होता है उसे पूंजीवादी अर्थव्यवस्था कहते हैं।
+जैसे :- अमेरिका, जापान, ऑस्ट्रेलिया
+
+2. समाजवादी अर्थव्यवस्था:- वैसे अर्थव्यवस्था जिसमें उत्पादन साधन पर सरकार का नियंत्रण होता है उसे समाजवादी अर्थव्यवस्था कहते हैं।
+जैसे :- चीन, क्यूबा
+
+3. मिश्रित अर्थव्यवस्था:- वैसा अर्थव्यवस्था जिसमें उत्पादन के साधन पर सरकार और पूंजीपति दोनों का नियंत्रण होता है उसे मिश्रित अर्थव्यवस्था कहते हैं।
+जैसे :- भारत, कनाडा, इंग्लैंड
+
+आर्थिक विकास:- आर्थिक विकास एक ऐसी प्रक्रिया है जिसके द्वारा दीर्घकाल में किसी अर्थव्यवस्था की वास्तविक राष्ट्रीय आय में वृद्धि होती है।
+- प्रो० मेयर एवं बाल्डविन
+
+आर्थिक विकास:- आर्थिक विकास एक ओर श्रम शक्ति की वृद्धि की दर तथा दूसरी ओर जनसंख्या में वृद्धि के बीच का संबंध है।
+- प्रोफेसर रोस्टोव
+
+[RED_PILL] आर्थिक विकास और आर्थिक वृद्धि में अंतर:-
+➢ आर्थिक विकास:- आर्थिक विकास शब्द का प्रयोग विकासशील देशों के लिए किया जाता है।
+➢ आर्थिक वृद्धि:- आर्थिक वृद्धि शब्द का प्रयोग विकसित देशों के लिए किया जाता है।
+
+[RED_PILL] सतत विकास (Sustainable Development):-
+➢ वैसा विकास जो जारी रह सके, टिकाऊ बना रह सके सतत विकास कहलाता है।
+➢ सतत विकास में न केवल वर्तमान पीढ़ी बल्कि भावी पीढ़ी के विकास को भी ध्यान में रखा जाता है।
+
+[RED_PILL] आर्थिक नियोजन (Economic Planning):-
+➢ आर्थिक नियोजन का अर्थ एक समयबद्ध कार्यक्रम के अंतर्गत पूर्व निर्धारित सामाजिक एवं आर्थिक उद्देश्यों की प्राप्ति के लिए राष्ट्रीय संसाधनों का उपयोग करना है।
+➢ भारत में योजना आयोग का गठन 15 मार्च 1950 को किया गया था।
+➢ इसके पदेन अध्यक्ष प्रधानमंत्री होते हैं।
+➢ 1 जनवरी 2015 को योजना आयोग के स्थान पर नीति आयोग (NITI Aayog) का गठन किया गया।
+
+[RED_PILL] राष्ट्रीय विकास परिषद (NDC):-
+➢ राष्ट्रीय विकास परिषद का गठन 6 अगस्त 1952 को किया गया था।
+➢ इसका मुख्य उद्देश्य योजना आयोग द्वारा तैयार की गई योजनाओं का अनुमोदन एवं क्रियान्वयन सुनिश्चित करना है।
+
+[BLUE_PILL] महत्वपूर्ण बोर्ड परीक्षा प्रश्नोत्तर (Exam Focus)
+
+प्रश्न 1. अर्थव्यवस्था किसे कहते हैं? इसके दो प्रमुख कार्य बताएं। [2024AI, 2013A]
+उत्तर :- अर्थव्यवस्था एक ऐसा तंत्र या ढांचा है जिसके अंतर्गत विभिन्न प्रकार की आर्थिक क्रियाएं (जैसे कृषि, उद्योग, व्यापार, बैंकिंग आदि) संपादित की जाती हैं। इसके दो प्रमुख कार्य हैं:
+1. लोगों की आवश्यकताओं की संतुष्टि के लिए वस्तुओं एवं सेवाओं का उत्पादन करना।
+2. लोगों को रोजगार के अवसर प्रदान करना।
+
+प्रश्न 2. सतत विकास क्या है? [2022A, 2017A]
+उत्तर :- सतत विकास वह विकास है जो पर्यावरण को बिना नुकसान पहुंचाए वर्तमान पीढ़ी की आवश्यकताओं को पूरा करता है और भावी पीढ़ियों की आवश्यकताओं से समझौता नहीं करता है।
+
+प्रश्न 3. आर्थिक नियोजन क्या है? इसके दो उद्देश्य लिखें। [2020A, 2015A]
+उत्तर :- एक निश्चित समयावधि में देश के प्राकृतिक एवं मानवीय संसाधनों का राष्ट्रहित में विवेकपूर्ण उपयोग करना आर्थिक नियोजन कहलाता है। इसके प्रमुख उद्देश्य हैं: आर्थिक संवृद्धि दर बढ़ाना और सामाजिक न्याय सुनिश्चित करना।
+
+प्रश्न 4. प्राथमिक, द्वितीयक एवं तृतीयक क्षेत्र में अंतर स्पष्ट करें। [2023A, 2018A]
+उत्तर :-
+1. प्राथमिक क्षेत्र: इसे कृषि क्षेत्र भी कहते हैं, इसमें कृषि, पशुपालन, मछली पालन आदि आते हैं।
+2. द्वितीयक क्षेत्र: इसे औद्योगिक क्षेत्र भी कहते हैं, इसमें उद्योग, निर्माण, गैस व बिजली उत्पादन आदि आते हैं।
+3. तृतीयक क्षेत्र: इसे सेवा क्षेत्र भी कहते हैं, इसमें परिवहन, संचार, बैंक व बीमा सेवाएं आती हैं।
+
+प्रश्न 5. मिश्रित अर्थव्यवस्था क्या है? भारत में यह क्यों अपनाई गई? [2021A, 2014A]
+उत्तर :- मिश्रित अर्थव्यवस्था वह अर्थव्यवस्था है जहां उत्पादन के साधनों का स्वामित्व एवं संचालन निजी तथा सार्वजनिक (सरकार) दोनों क्षेत्रों के पास संयुक्त रूप से होता है। भारत ने तीव्र आर्थिक विकास और सामाजिक न्याय दोनों को साधने हेतु इसे अपनाया।`;
+
+// ==========================================
 // DEFAULT APPLICATION STATE
 // ==========================================
 const DEFAULT_STATE = {
@@ -564,9 +656,10 @@ const DEFAULT_STATE = {
     footerBanner: ""  // Data URL for bottom promo strip
   },
 
-  // Mode Selection: "pointer" (One-Liner Studio) vs "mcq" (Practice Set Studio)
+  // Mode Selection: "pointer" (One-Liner Studio), "mcq" (Practice Set Studio), "book" (Smart Book & Notes Studio)
   currentMode: "pointer",
   mcqActiveTab: "content", // "content", "branding", "images", "layout"
+  bookActiveTab: "content", // "content", "branding", "posters", "styling"
 
   // MCQ Practice Set Studio State (Platform / Rukmini Exam Format)
   mcq: {
@@ -594,6 +687,28 @@ const DEFAULT_STATE = {
     outerFrame: "none", // "none", "single", "double"
     rawMcqContent: SAMPLE_MCQ_DATASETS.biharPolice,
     questionImages: {} // map of { 1: dataUrl, 4: dataUrl, ... }
+  },
+
+  // Smart Book & Notes Studio State (53-Page Class Notes & Complete Booklet Format)
+  book: {
+    className: "Class – 10th",
+    batchTag: "BOARD 2024-25",
+    subjectName: "Economics",
+    chapterTitle: "1. अर्थव्यवस्था एवं इसके विकास का इतिहास",
+    headerBgColor: "#0b2545",
+    highlightColor: "#ffff00",
+    watermarkText: "JEE - FORM STUDY POINT",
+    watermarkOpacity: 0.12,
+    startingPageNumber: 2,
+    fontSize: 11.5,
+    lineHeight: "1.38",
+    bulletStyle: "➢",
+    colDivider: "solid",
+    outerFrame: "single",
+    footerLeftText: "Class - 10th Economics Notes",
+    footerRightText: "JEE-FORM STUDY POINT",
+    rawBookContent: SAMPLE_BOOK_DATASET,
+    inlineImages: {}
   },
 
   // UI state
@@ -631,6 +746,10 @@ function loadSavedSettings() {
         mcq: {
           ...DEFAULT_STATE.mcq,
           ...(parsed.mcq || {})
+        },
+        book: {
+          ...DEFAULT_STATE.book,
+          ...(parsed.book || {})
         }
       };
       return true;
@@ -930,13 +1049,16 @@ async function convertLanguageBatch(fromLang, toLang) {
 }
 
 // ==========================================
-// DUAL DOCUMENT RENDER ENGINE
+// TRIPLE DOCUMENT RENDER ENGINE
 // Mode 1: GS Pointer (One-Liner Two-Column Booklet)
 // Mode 2: MCQ Test Series (Platform / Rukmini Practice Set)
+// Mode 3: Smart Book & Notes Studio (53-Page Class Notes & Complete Booklet)
 // ==========================================
 function renderDocument() {
   if (appState.currentMode === "mcq") {
     renderMcqDocument();
+  } else if (appState.currentMode === "book") {
+    renderBookDocument();
   } else {
     renderPointerDocument();
   }
@@ -1748,6 +1870,594 @@ function createMcqA4PageElement(pageChunk, pageNum, totalPages, isLastPage, allI
   return sheet;
 }
 
+// ==========================================================================
+// SMART BOOK & NOTES STUDIO RENDER ENGINE (Class Notes & Complete Booklet)
+// ==========================================================================
+
+/**
+ * Renders Smart Book & Notes Studio Format (53-Page Authentic Textbook Layout)
+ */
+function renderBookDocument() {
+  const container = document.getElementById("pages-render-target");
+  if (!container) return;
+
+  if (!appState.book) appState.book = {};
+
+  const items = parseRawBookContent(appState.book.rawBookContent);
+
+  // Update dynamic root CSS variables for Book typography and styling
+  document.documentElement.style.setProperty("--book-font-size", `${appState.book.fontSize || 11.5}px`);
+  document.documentElement.style.setProperty("--book-line-height", `${appState.book.lineHeight || 1.38}`);
+  document.documentElement.style.setProperty("--book-header-bg", appState.book.headerBgColor || "#0b2545");
+  document.documentElement.style.setProperty("--book-highlight-color", appState.book.highlightColor || "#ffff00");
+
+  container.innerHTML = "";
+
+  const topPhotos = (appState.fullA4Photos && appState.fullA4Photos.topPages) || [];
+  const bottomPhotos = (appState.fullA4Photos && appState.fullA4Photos.bottomPages) || [];
+
+  // 1. Render Top Full A4 Poster Pages (Front Cover / Title Poster - Image 2)
+  topPhotos.forEach((photo, idx) => {
+    container.appendChild(createFullPagePhotoElement(photo, `Front Cover / Top Poster #${idx + 1}`));
+  });
+
+  // 2. Render Two-Column Book Notes Pages
+  let bookPagesCount = 0;
+  if (items.length > 0) {
+    const pageChunks = packBookItemsAutoFit(items);
+    bookPagesCount = Math.max(1, pageChunks.length);
+    const startPageNum = parseInt(appState.book.startingPageNumber) || 2;
+
+    for (let pageIdx = 0; pageIdx < bookPagesCount; pageIdx++) {
+      const pageChunk = pageChunks[pageIdx] || { leftItems: [], rightItems: [] };
+      const currentPageNum = startPageNum + pageIdx;
+      const isLast = (pageIdx === bookPagesCount - 1);
+
+      const pageElement = createBookA4PageElement(pageChunk, currentPageNum, bookPagesCount, isLast, items, pageIdx);
+      container.appendChild(pageElement);
+    }
+  } else if (topPhotos.length === 0 && bottomPhotos.length === 0) {
+    container.innerHTML = `
+      <div class="a4-sheet" style="justify-content: center; align-items: center; text-align: center; color: #94a3b8; font-family: var(--font-ui);">
+        <div class="p-8">
+          <div class="text-4xl mb-3">📚</div>
+          <div class="text-lg font-bold text-slate-700">No Book Notes Content to Display</div>
+          <div class="text-sm mt-1 text-slate-500 max-w-sm">Paste your chapter notes, upload a Word document (.docx), or click "Load Economics Sample Book" to get started.</div>
+        </div>
+      </div>
+    `;
+  }
+
+  // 3. Render Bottom Full A4 Poster Pages (Back Cover / End Posters)
+  bottomPhotos.forEach((photo, idx) => {
+    container.appendChild(createFullPagePhotoElement(photo, `Back Cover / Bottom Poster #${idx + 1}`));
+  });
+
+  const grandTotal = topPhotos.length + bookPagesCount + bottomPhotos.length;
+  updateStatisticsBadge(items.length, grandTotal);
+  applyZoomScale();
+}
+
+/**
+ * Creates an authentic Class Notes / Textbook A4 Page with Navy Header & Red Capsule Pill
+ */
+function createBookA4PageElement(pageChunk, pageNum, totalPages, isLastPage, allItems, pageIdx) {
+  const sheet = document.createElement("div");
+  sheet.className = "a4-sheet";
+  sheet.dataset.page = pageNum;
+
+  const dividerStyle = (appState.book && appState.book.colDivider) || "solid";
+  let dividerClass = "";
+  if (dividerStyle === "dashed") dividerClass = "divider-dashed";
+  else if (dividerStyle === "none") dividerClass = "divider-none";
+
+  const outerFrameStyle = (appState.book && appState.book.outerFrame) || "single";
+  let frameBorderCss = "border: 1.5px solid #000000;";
+  if (outerFrameStyle === "none") frameBorderCss = "border: none;";
+  else if (outerFrameStyle === "double") frameBorderCss = "border: 3px double #000000;";
+
+  // Chapter Pill: Show on first content page (pageIdx === 0) if chapterTitle is set
+  const showChapterPill = (pageIdx === 0 && appState.book.chapterTitle && appState.book.chapterTitle.trim());
+
+  sheet.innerHTML = `
+    <div class="book-sheet-inner">
+      <div class="book-frame-box" style="${frameBorderCss}">
+        <!-- Watermark -->
+        ${appState.book.watermarkText ? `
+          <div class="gs-watermark-overlay pos-center" style="opacity: ${appState.book.watermarkOpacity || 0.12}; pointer-events: none;">
+            ${escapeHtml(appState.book.watermarkText)}
+          </div>
+        ` : ''}
+
+        <!-- Top Dark Navy Blue Header Bar -->
+        <div class="book-header-bar" style="background-color: ${escapeHtml(appState.book.headerBgColor || '#0b2545')};">
+          <div class="book-header-left">
+            <span>${escapeHtml(appState.book.className || "Class – 10th")}</span>
+            ${appState.book.batchTag ? `<span class="book-batch-tag">${escapeHtml(appState.book.batchTag)}</span>` : ''}
+          </div>
+          <div class="book-header-right">
+            <span>${escapeHtml(appState.book.subjectName || "Economics")}</span>
+          </div>
+        </div>
+
+        <!-- Red 3D Glossy Capsule Pill for Chapter (Image 1 & 2) -->
+        ${showChapterPill ? `
+          <div class="book-chapter-pill">
+            ${escapeHtml(appState.book.chapterTitle)}
+          </div>
+        ` : ''}
+
+        <!-- Two-Column Flow: Left column completes 100% full first, then right column -->
+        <div class="book-two-column-layout">
+          <div class="book-col book-col-left" id="book-col-left-${pageIdx}"></div>
+          <div class="book-col-divider ${dividerClass}"></div>
+          <div class="book-col book-col-right" id="book-col-right-${pageIdx}"></div>
+        </div>
+
+        <!-- Book Footer -->
+        <div class="book-footer-box">
+          <span>${escapeHtml(appState.book.footerLeftText || "")}</span>
+          <span class="font-bold font-mono">Page ${pageNum}</span>
+          <span>${escapeHtml(appState.book.footerRightText || "")}</span>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const leftCol = sheet.querySelector(`#book-col-left-${pageIdx}`);
+  const rightCol = sheet.querySelector(`#book-col-right-${pageIdx}`);
+
+  if (leftCol && pageChunk.leftItems) {
+    pageChunk.leftItems.forEach(item => {
+      leftCol.appendChild(createBookDomElement(item));
+    });
+  }
+
+  if (rightCol && pageChunk.rightItems) {
+    pageChunk.rightItems.forEach(item => {
+      rightCol.appendChild(createBookDomElement(item));
+    });
+  }
+
+  return sheet;
+}
+
+/**
+ * Creates DOM node for an individual book note item (definition, bullet, pill, or Q&A)
+ */
+function createBookDomElement(item) {
+  const el = document.createElement("div");
+
+  if (item.type === "red_pill") {
+    el.className = "w-full text-center my-1.5";
+    el.innerHTML = `<div class="book-chapter-pill" style="margin: 1.5mm auto;">${escapeHtml(item.text)}</div>`;
+    return el;
+  }
+
+  if (item.type === "blue_pill") {
+    el.className = "w-full my-1";
+    el.innerHTML = `<div class="book-subhead-blue">${escapeHtml(item.text)}</div>`;
+    return el;
+  }
+
+  if (item.type === "subhead") {
+    el.className = "w-full my-1";
+    el.innerHTML = `<div class="font-bold text-slate-900 border-b border-slate-300 pb-0.5 mb-1 mt-1 text-[11px]">${formatBookInlineText(item.text)}</div>`;
+    return el;
+  }
+
+  if (item.type === "qa_item") {
+    el.className = "book-item-block";
+    el.innerHTML = `
+      <div class="mb-0.5 font-bold text-slate-900 leading-tight">
+        <span class="text-red-600 font-extrabold mr-1">✦</span>${formatBookInlineText(item.question)}
+      </div>
+      <div class="text-slate-800 pl-2 border-l-2 border-red-200 leading-snug">
+        <span class="book-ans-label">उत्तर :-</span>${formatBookInlineText(item.answer)}
+      </div>
+    `;
+    return el;
+  }
+
+  let imgHtml = "";
+  if (item.image) {
+    imgHtml = `
+      <div class="book-inline-thumbnail-wrapper">
+        <img src="${item.image}" class="book-inline-thumbnail-img" alt="Thumbnail">
+      </div>
+    `;
+  }
+
+  if (item.type === "bullet_item") {
+    el.className = "book-bullet-item";
+    const bullet = (appState.book && appState.book.bulletStyle && appState.book.bulletStyle !== "none") ? appState.book.bulletStyle : "➢";
+    el.innerHTML = `
+      <span class="book-bullet-arrow">${bullet}</span>
+      <div class="flex-1">${imgHtml}${formatBookInlineText(item.text)}</div>
+    `;
+    return el;
+  }
+
+  // Standard concept / note block
+  el.className = "book-item-block";
+  el.innerHTML = `${imgHtml}<div>${formatBookInlineText(item.text)}</div>`;
+  return el;
+}
+
+/**
+ * Formats inline text with yellow highlight on keywords, red dates/years, and exam tags
+ */
+function formatBookInlineText(text) {
+  if (!text) return "";
+  let formatted = escapeHtml(text);
+
+  // 1. Explicit yellow highlight markup: ==text== or [[text]]
+  formatted = formatted.replace(/(?:==|\[\[)(.*?)(?:==|\]\])/g, '<span class="book-highlight">$1</span>');
+
+  // 2. Keyword definitions at start of line: "उपनिवेश:-" or "1. पूंजीवादी अर्थव्यवस्था:-" or "प्राथमिक क्षेत्र :-"
+  formatted = formatted.replace(
+    /^((?:[0-9]+[\.\)]\s*)?[^\s:–\-][^:–\-\n]{1,35}?)(?:\s*:-\s*|\s*:\s*)/gm,
+    '<span class="book-highlight">$1:-</span> '
+  );
+
+  // 3. Exam tags: [2024AI, 2013A], [2022A], [BSEB 2018]
+  formatted = formatted.replace(
+    /\[(20[0-9]{2}[A-Za-z0-9,\s\-\/]*)\]/g,
+    '<span class="book-exam-tag">[$1]</span>'
+  );
+
+  // 4. Red text for key years/dates and historical numbers:
+  formatted = formatted.replace(/\{red:(.*?)\}/g, '<span class="book-red-text">$1</span>');
+  formatted = formatted.replace(
+    /(200\s*वर्षों|15\s*मार्च\s*1950|6\s*अगस्त\s*1952|1\s*जनवरी\s*2015)/g,
+    '<span class="book-red-text">$1</span>'
+  );
+
+  // 5. Bold markdown **text**
+  formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+  return formatted;
+}
+
+/**
+ * Smart Parser for Book Notes & Textbook Content
+ */
+function parseRawBookContent(rawText) {
+  if (!rawText || !rawText.trim()) return [];
+
+  const text = rawText.replace(/\r\n/g, "\n");
+  const paragraphs = text.split(/\n\s*\n/);
+  const items = [];
+  const inlineImages = (appState.book && appState.book.inlineImages) || {};
+
+  function findAttachedImage(str) {
+    if (!str) return "";
+    for (const key of Object.keys(inlineImages)) {
+      if (str.includes(key)) {
+        return inlineImages[key].dataUrl;
+      }
+    }
+    return "";
+  }
+
+  paragraphs.forEach((para) => {
+    const trimmed = para.trim();
+    if (!trimmed) return;
+
+    // Red capsule pill
+    if (trimmed.startsWith("[RED_PILL]") || trimmed.startsWith("[PILL]")) {
+      const clean = trimmed.replace(/^\[(RED_PILL|PILL)\]\s*/i, "").trim();
+      items.push({ type: "red_pill", text: clean });
+      return;
+    }
+
+    // Blue pill
+    if (trimmed.startsWith("[BLUE_PILL]")) {
+      const clean = trimmed.replace(/^\[BLUE_PILL\]\s*/i, "").trim();
+      items.push({ type: "blue_pill", text: clean });
+      return;
+    }
+
+    // Subhead
+    if (trimmed.startsWith("[SUBHEAD]") || trimmed.startsWith("### ")) {
+      const clean = trimmed.replace(/^(\[SUBHEAD\]|###\s*)\s*/i, "").trim();
+      items.push({ type: "subhead", text: clean });
+      return;
+    }
+
+    // Chapter header at start of file like "# 1. Chapter Name"
+    if (trimmed.startsWith("# ")) {
+      const clean = trimmed.replace(/^#\s*/, "").trim();
+      if (!appState.book.chapterTitle || appState.book.chapterTitle === clean) {
+        appState.book.chapterTitle = clean;
+      } else {
+        items.push({ type: "red_pill", text: clean });
+      }
+      return;
+    }
+
+    // Question & Answer block (e.g. "प्रश्न 1. ... \n उत्तर :- ...")
+    if (/^(प्रश्न|Q\.?|Q[0-9]+[\.\)])/i.test(trimmed) && /(उत्तर|Ans)/i.test(trimmed)) {
+      const lines = trimmed.split("\n");
+      let qText = lines[0].trim();
+      let aLines = [];
+      for (let i = 1; i < lines.length; i++) {
+        let l = lines[i].trim();
+        l = l.replace(/^(उत्तर\s*[:–\-]?|Ans\s*[:–\-]?)\s*/i, "");
+        if (l) aLines.push(l);
+      }
+      items.push({
+        type: "qa_item",
+        question: qText,
+        answer: aLines.join("\n"),
+        image: findAttachedImage(trimmed)
+      });
+      return;
+    }
+
+    // Check if paragraph contains multiple bullet points (➢, >, *, -)
+    const lines = trimmed.split("\n");
+    let hasBullets = lines.some(l => /^[➢>*•\-]\s+/.test(l.trim()));
+
+    if (hasBullets) {
+      lines.forEach((l) => {
+        const lineTrim = l.trim();
+        if (!lineTrim) return;
+
+        if (/^[➢>*•\-]\s+/.test(lineTrim)) {
+          const cleanBullet = lineTrim.replace(/^[➢>*•\-]\s+/, "");
+          items.push({
+            type: "bullet_item",
+            text: cleanBullet,
+            image: findAttachedImage(cleanBullet)
+          });
+        } else if (/^(.*?)(निम्नलिखित हैं|प्रकार के होते हैं|की संरचना)(.*?)[:-]?$/i.test(lineTrim)) {
+          items.push({ type: "subhead", text: lineTrim });
+        } else {
+          items.push({
+            type: "concept_block",
+            text: lineTrim,
+            image: findAttachedImage(lineTrim)
+          });
+        }
+      });
+      return;
+    }
+
+    // Standard concept definition or note block
+    items.push({
+      type: "concept_block",
+      text: trimmed,
+      image: findAttachedImage(trimmed)
+    });
+  });
+
+  return items;
+}
+
+/**
+ * 100% Full-Page Auto-Fit Two-Column Packing Engine for Book & Notes:
+ * Guarantees:
+ * 1. Column 1 (Left) fills 100% full height first!
+ * 2. Column 2 (Right) fills down to the bottom!
+ * 3. Page breaks ONLY when both columns are completely full!
+ */
+function packBookItemsAutoFit(items) {
+  if (!items || items.length === 0) return [];
+  if (typeof document === "undefined" || !document.body) {
+    const half = Math.ceil(items.length / 2);
+    return [{ leftItems: items.slice(0, half), rightItems: items.slice(half) }];
+  }
+
+  let measureSandbox = document.getElementById("gs-measure-sandbox");
+  if (!measureSandbox) {
+    measureSandbox = document.createElement("div");
+    measureSandbox.id = "gs-measure-sandbox";
+    document.body.appendChild(measureSandbox);
+  }
+
+  const fontSize = (appState.book && appState.book.fontSize) || 11.5;
+  const lineHeight = (appState.book && appState.book.lineHeight) || 1.38;
+
+  // Exact column width inside 210mm A4 sheet (210 - 14mm margins - 6mm divider = 190mm / 2 = 95mm)
+  measureSandbox.style.cssText = `
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    width: 93mm;
+    visibility: hidden;
+    pointer-events: none;
+    box-sizing: border-box;
+    font-family: var(--font-devanagari);
+    font-size: ${fontSize}px;
+    line-height: ${lineHeight};
+    padding: 0;
+    margin: 0;
+  `;
+
+  // Measure rendered heights of each item
+  measureSandbox.innerHTML = "";
+  const frag = document.createDocumentFragment();
+  for (let i = 0; i < items.length; i++) {
+    frag.appendChild(createBookDomElement(items[i]));
+  }
+  measureSandbox.appendChild(frag);
+
+  const children = measureSandbox.children;
+  const itemHeights = [];
+  for (let i = 0; i < children.length; i++) {
+    const h = children[i].offsetHeight + 4; // 4px spacing
+    itemHeights.push(Math.max(16, h));
+  }
+  measureSandbox.innerHTML = "";
+
+  // Printable column area calculation (A4 = 297mm):
+  // Page 1 has Chapter Pill (~10mm), header bar (~8mm), footer (~6mm), outer padding (10mm) -> ~260mm
+  // Subsequent pages don't have chapter pill -> ~270mm
+  const probe = document.createElement("div");
+  probe.style.cssText = "height: 258mm; margin: 0; padding: 0;";
+  measureSandbox.appendChild(probe);
+  const page1Capacity = (probe.offsetHeight && probe.offsetHeight > 500) ? probe.offsetHeight : 965;
+
+  probe.style.height = "268mm";
+  const subsequentCapacity = (probe.offsetHeight && probe.offsetHeight > 500) ? probe.offsetHeight : 1005;
+  measureSandbox.removeChild(probe);
+
+  const pages = [];
+  let currentPage = { leftItems: [], rightItems: [] };
+  let currentLeftHeight = 0;
+  let currentRightHeight = 0;
+  let isFillingRight = false;
+  let pageIdx = 0;
+  let maxColHeight = page1Capacity - 4;
+
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    const h = itemHeights[i] || 35;
+
+    if (!isFillingRight) {
+      // 100% filling LEFT column first!
+      if (currentLeftHeight + h <= maxColHeight || currentPage.leftItems.length === 0) {
+        currentPage.leftItems.push(item);
+        currentLeftHeight += h;
+      } else {
+        // Left column is 100% full! Switch to RIGHT column
+        isFillingRight = true;
+        currentPage.rightItems.push(item);
+        currentRightHeight += h;
+      }
+    } else {
+      // Filling RIGHT column!
+      if (currentRightHeight + h <= maxColHeight || currentPage.rightItems.length === 0) {
+        currentPage.rightItems.push(item);
+        currentRightHeight += h;
+      } else {
+        // Right column is also 100% full! Push complete A4 page!
+        pages.push(currentPage);
+
+        pageIdx++;
+        maxColHeight = subsequentCapacity - 4;
+        currentPage = {
+          leftItems: [item],
+          rightItems: []
+        };
+        currentLeftHeight = h;
+        currentRightHeight = 0;
+        isFillingRight = false;
+      }
+    }
+  }
+
+  if (currentPage.leftItems.length > 0 || currentPage.rightItems.length > 0) {
+    pages.push(currentPage);
+  }
+
+  return pages;
+}
+
+/**
+ * 1-Click Auto Format: Normalizes headings, subheads, and arrow bullets
+ */
+function autoFormatBookContent(text) {
+  if (!text) return "";
+  const lines = text.split("\n");
+  const formattedLines = lines.map(line => {
+    let l = line.trim();
+    if (!l) return "";
+
+    // If starts with bullet characters like *, -, >, standardize to ➢
+    if (/^[*\->]\s+/.test(l)) {
+      l = "➢ " + l.replace(/^[*\->]\s+/, "");
+    }
+
+    // Auto-detect chapter headings
+    if (/^(अध्याय|[0-9]+\.)\s*(अर्थव्यवस्था|इतिहास|भूगोल|विज्ञान|नागरिक)/i.test(l) && !l.includes(":-")) {
+      return `[RED_PILL] ${l}`;
+    }
+
+    // If subhead like "अर्थव्यवस्था के दो कार्य निम्नलिखित हैं :-" or "अर्थव्यवस्था की संरचना :-"
+    if (/^(.*?)(निम्नलिखित हैं|प्रकार के होते हैं|की संरचना)(.*?)[:-]?$/i.test(l)) {
+      return `[SUBHEAD] ${l}`;
+    }
+
+    return l;
+  });
+
+  return formattedLines.join("\n\n");
+}
+
+/**
+ * Switch Book Studio Tabs
+ */
+function switchBookTab(tabName) {
+  if (!appState.book) appState.book = {};
+  appState.bookActiveTab = tabName;
+
+  const buttons = document.querySelectorAll(".book-tab-button");
+  buttons.forEach((btn) => {
+    const t = btn.getAttribute("data-book-tab");
+    if (t === tabName) {
+      btn.className = "book-tab-button active-tab flex-1 py-2 px-1 text-[11px] font-bold rounded-t-lg border-b-2 border-emerald-600 text-emerald-700 bg-white transition flex items-center justify-center gap-1 shadow-sm";
+    } else {
+      btn.className = "book-tab-button flex-1 py-2 px-1 text-[11px] font-semibold rounded-t-lg border-b-2 border-transparent text-slate-600 hover:text-slate-800 transition flex items-center justify-center gap-1";
+    }
+  });
+
+  const panels = document.querySelectorAll(".book-tab-content-panel");
+  panels.forEach((p) => p.classList.add("hidden"));
+
+  const targetPanel = document.getElementById(`book-tab-panel-${tabName}`);
+  if (targetPanel) {
+    targetPanel.classList.remove("hidden");
+  }
+}
+
+/**
+ * Render Attached Book Inline Thumbnails
+ */
+function renderBookInlineImagesList() {
+  const listEl = document.getElementById("list-book-inline-images");
+  if (!listEl) return;
+
+  const images = (appState.book && appState.book.inlineImages) || {};
+  const keys = Object.keys(images);
+
+  if (keys.length === 0) {
+    listEl.innerHTML = `<p class="text-xs text-slate-400 italic">No inline images attached yet.</p>`;
+    return;
+  }
+
+  let html = "";
+  keys.forEach(k => {
+    const item = images[k];
+    html += `
+      <div class="flex items-center justify-between p-1.5 bg-slate-50 border border-slate-200 rounded text-xs">
+        <div class="flex items-center gap-2 overflow-hidden">
+          <img src="${item.dataUrl}" class="w-8 h-8 object-cover rounded border border-slate-300 flex-shrink-0" alt="${escapeHtml(k)}">
+          <div class="truncate">
+            <span class="font-bold text-slate-800">${escapeHtml(k)}</span>
+            <span class="text-[10px] text-slate-500 block truncate">${escapeHtml(item.name || "image")}</span>
+          </div>
+        </div>
+        <button type="button" onclick="deleteBookInlineImage('${escapeHtml(k)}')" class="text-red-500 hover:text-red-700 p-1 font-bold cursor-pointer" title="Delete">
+          ✕
+        </button>
+      </div>
+    `;
+  });
+  listEl.innerHTML = html;
+}
+
+function deleteBookInlineImage(keyword) {
+  if (appState.book && appState.book.inlineImages) {
+    delete appState.book.inlineImages[keyword];
+    renderBookInlineImagesList();
+    renderDocument();
+    showToast(`Removed attached image for "${keyword}"`, "info");
+  }
+}
+window.deleteBookInlineImage = deleteBookInlineImage;
+
 /**
  * Creates a professional A4 Booklet Cover Title Page
  */
@@ -2411,9 +3121,35 @@ function syncInputsFromState() {
   setValue("select-mcq-line-height", appState.mcq.lineHeight || "1.35");
   setValue("select-mcq-outer-frame", appState.mcq.outerFrame || "none");
 
-  // Active MCQ Tab & Attached Diagrams / Full A4 Posters
+  // Book & Notes Studio State Sync
+  if (!appState.book) appState.book = {};
+  setValue("input-book-raw-content", appState.book.rawBookContent || "");
+  setValue("input-book-class", appState.book.className || "Class – 10th");
+  setValue("input-book-batch", appState.book.batchTag || "BOARD 2024-25");
+  setValue("input-book-subject", appState.book.subjectName || "Economics");
+  setValue("input-book-chapter-title", appState.book.chapterTitle || "1. अर्थव्यवस्था एवं इसके विकास का इतिहास");
+  setValue("input-book-header-bg", appState.book.headerBgColor || "#0b2545");
+  setValue("input-book-header-bg-text", appState.book.headerBgColor || "#0b2545");
+  setValue("select-book-outer-frame", appState.book.outerFrame || "single");
+  setValue("input-book-watermark-text", appState.book.watermarkText || "JEE - FORM STUDY POINT");
+  setValue("input-book-watermark-opacity", appState.book.watermarkOpacity || 0.12);
+  setText("val-book-watermark-opacity", Math.round((appState.book.watermarkOpacity || 0.12) * 100) + "%");
+  setValue("input-book-starting-page", appState.book.startingPageNumber || 2);
+  setValue("input-book-footer-left", appState.book.footerLeftText || "Class - 10th Economics Notes");
+  setValue("input-book-footer-right", appState.book.footerRightText || "JEE-FORM STUDY POINT");
+  setValue("input-book-highlight-color", appState.book.highlightColor || "#ffff00");
+  setValue("input-book-highlight-color-text", appState.book.highlightColor || "#ffff00");
+  setValue("input-book-font-size", appState.book.fontSize || 11.5);
+  setText("val-book-font-size", `${appState.book.fontSize || 11.5}px`);
+  setValue("select-book-line-height", appState.book.lineHeight || "1.38");
+  setValue("select-book-bullet-style", appState.book.bulletStyle || "➢");
+  setValue("select-book-col-divider", appState.book.colDivider || "solid");
+
+  // Active Tab & Render lists
   switchMcqTab(appState.mcqActiveTab || "content");
+  switchBookTab(appState.bookActiveTab || "content");
   renderAttachedImagesList();
+  renderBookInlineImagesList();
   renderFullA4PhotosList();
   renderInPageBannersPreview();
 }
@@ -2436,11 +3172,20 @@ function setChecked(id, bool) {
 function updateStatisticsBadge(itemsCount, totalPages) {
   const statsEl = document.getElementById("document-stats-badge");
   if (statsEl) {
-    const isMcq = appState.currentMode === "mcq";
+    let modeLabel = "Q&A Items";
+    let dotColor = "bg-blue-600";
+    if (appState.currentMode === "mcq") {
+      modeLabel = "MCQ Questions";
+      dotColor = "bg-red-500";
+    } else if (appState.currentMode === "book") {
+      modeLabel = "Book Topics / Items";
+      dotColor = "bg-emerald-600";
+    }
+
     statsEl.innerHTML = `
       <span class="inline-flex items-center gap-1.5 font-medium text-slate-700">
-        <span class="w-2 h-2 rounded-full ${isMcq ? 'bg-red-500' : 'bg-emerald-500'}"></span>
-        <strong>${itemsCount}</strong> ${isMcq ? 'MCQ Questions' : 'Q&A Items'}
+        <span class="w-2 h-2 rounded-full ${dotColor}"></span>
+        <strong>${itemsCount}</strong> ${modeLabel}
       </span>
       <span class="text-slate-300">•</span>
       <span class="text-slate-600"><strong>${totalPages}</strong> A4 Page${totalPages === 1 ? "" : "s"}</span>
@@ -2996,6 +3741,11 @@ function setupEventListeners() {
     btnModeMcq.addEventListener("click", () => setAppMode("mcq"));
   }
 
+  const btnModeBook = document.getElementById("btn-mode-book");
+  if (btnModeBook) {
+    btnModeBook.addEventListener("click", () => setAppMode("book"));
+  }
+
   // MCQ Tab Switching
   document.querySelectorAll(".mcq-tab-button").forEach((btn) => {
     btn.addEventListener("click", (e) => {
@@ -3265,7 +4015,252 @@ function setupEventListeners() {
     });
   }
 
-  // Full A4 Poster File Inputs (Image 2 - Supported across GS Pointer & MCQ modes)
+  // ==========================================
+  // SMART BOOK & NOTES STUDIO EVENT LISTENERS
+  // ==========================================
+  function bindBookInput(id, key) {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener("input", (e) => {
+        if (!appState.book) appState.book = {};
+        appState.book[key] = e.target.value;
+        renderDocument();
+      });
+    }
+  }
+
+  // Book Tab Switching
+  document.querySelectorAll(".book-tab-button").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const tab = e.currentTarget.dataset.bookTab;
+      switchBookTab(tab);
+    });
+  });
+
+  // Book Content Textarea
+  const textareaBook = document.getElementById("input-book-raw-content");
+  if (textareaBook) {
+    textareaBook.addEventListener("input", (e) => {
+      if (!appState.book) appState.book = {};
+      appState.book.rawBookContent = e.target.value;
+      renderDocument();
+    });
+  }
+
+  // Book Word (.docx / .doc) and Text File Upload
+  const inputBookUpload = document.getElementById("input-book-file-upload");
+  if (inputBookUpload) {
+    inputBookUpload.addEventListener("change", (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+
+      if (file.name.endsWith(".docx")) {
+        if (typeof mammoth !== "undefined") {
+          const reader = new FileReader();
+          reader.onload = (loadEvt) => {
+            const arrayBuffer = loadEvt.target.result;
+            mammoth.extractRawText({ arrayBuffer: arrayBuffer })
+              .then((result) => {
+                const text = result.value || "";
+                if (!text.trim()) {
+                  showToast(`Word file "${file.name}" contained no readable text.`, "error");
+                  return;
+                }
+                if (!appState.book) appState.book = {};
+                appState.book.rawBookContent = text;
+                setValue("input-book-raw-content", text);
+                renderDocument();
+                showToast(`Imported "${file.name}" into Book Studio!`, "success");
+              })
+              .catch((err) => {
+                console.error("Mammoth error:", err);
+                showToast("Error extracting Word document: " + err.message, "error");
+              });
+          };
+          reader.readAsArrayBuffer(file);
+        } else {
+          showToast("Word parsing library loading. Please retry.", "error");
+        }
+      } else {
+        const reader = new FileReader();
+        reader.onload = (loadEvt) => {
+          const text = loadEvt.target.result;
+          if (!appState.book) appState.book = {};
+          appState.book.rawBookContent = text;
+          setValue("input-book-raw-content", text);
+          renderDocument();
+          showToast(`Imported "${file.name}" into Book Studio!`, "success");
+        };
+        reader.readAsText(file);
+      }
+    });
+  }
+
+  // 1-Click Auto Format Headings & Arrow Bullets
+  const btnBookAutoFormat = document.getElementById("btn-book-auto-format");
+  if (btnBookAutoFormat) {
+    btnBookAutoFormat.addEventListener("click", () => {
+      const currentText = (appState.book && appState.book.rawBookContent) || "";
+      if (!currentText.trim()) {
+        showToast("Please enter or paste notes first.", "info");
+        return;
+      }
+      const formatted = autoFormatBookContent(currentText);
+      if (!appState.book) appState.book = {};
+      appState.book.rawBookContent = formatted;
+      setValue("input-book-raw-content", formatted);
+      renderDocument();
+      showToast("⚡ Auto-formatted headings, keywords, and arrow bullets!", "success");
+    });
+  }
+
+  // Clear Book Content
+  const btnClearBook = document.getElementById("btn-clear-book-content");
+  if (btnClearBook) {
+    btnClearBook.addEventListener("click", () => {
+      if (confirm("Are you sure you want to clear all notes content in Book Studio?")) {
+        if (!appState.book) appState.book = {};
+        appState.book.rawBookContent = "";
+        setValue("input-book-raw-content", "");
+        renderDocument();
+        showToast("Book content cleared.", "info");
+      }
+    });
+  }
+
+  // Load Economics Sample Book (53-Page Authentic Format)
+  const btnLoadSampleBook = document.getElementById("btn-load-sample-book");
+  if (btnLoadSampleBook) {
+    btnLoadSampleBook.addEventListener("click", () => {
+      if (!appState.book) appState.book = {};
+      appState.book.rawBookContent = SAMPLE_BOOK_DATASET;
+      appState.book.className = "Class – 10th";
+      appState.book.batchTag = "BOARD 2024-25";
+      appState.book.subjectName = "Economics";
+      appState.book.chapterTitle = "1. अर्थव्यवस्था एवं इसके विकास का इतिहास";
+      appState.book.headerBgColor = "#0b2545";
+      appState.book.watermarkText = "JEE - FORM STUDY POINT";
+      appState.book.footerLeftText = "Class - 10th Economics Notes";
+      appState.book.footerRightText = "JEE-FORM STUDY POINT";
+      syncInputsFromState();
+      renderDocument();
+      showToast("📚 Loaded Class 10 Economics Sample Book (53-Page Authentic Layout)!", "success");
+    });
+  }
+
+  // Book Header & Branding Inputs
+  bindBookInput("input-book-class", "className");
+  bindBookInput("input-book-batch", "batchTag");
+  bindBookInput("input-book-subject", "subjectName");
+  bindBookInput("input-book-chapter-title", "chapterTitle");
+  bindBookInput("select-book-outer-frame", "outerFrame");
+  bindBookInput("input-book-watermark-text", "watermarkText");
+  bindBookInput("input-book-starting-page", "startingPageNumber");
+  bindBookInput("input-book-footer-left", "footerLeftText");
+  bindBookInput("input-book-footer-right", "footerRightText");
+
+  // Book Header Bg Color Pickers
+  const bookHeaderBgColor = document.getElementById("input-book-header-bg");
+  const bookHeaderBgText = document.getElementById("input-book-header-bg-text");
+  if (bookHeaderBgColor) {
+    bookHeaderBgColor.addEventListener("input", (e) => {
+      if (!appState.book) appState.book = {};
+      appState.book.headerBgColor = e.target.value;
+      if (bookHeaderBgText) bookHeaderBgText.value = e.target.value;
+      renderDocument();
+    });
+  }
+  if (bookHeaderBgText) {
+    bookHeaderBgText.addEventListener("input", (e) => {
+      if (!appState.book) appState.book = {};
+      appState.book.headerBgColor = e.target.value;
+      if (bookHeaderBgColor) bookHeaderBgColor.value = e.target.value;
+      renderDocument();
+    });
+  }
+
+  // Book Watermark Opacity Slider
+  const bookWatermarkOpacity = document.getElementById("input-book-watermark-opacity");
+  if (bookWatermarkOpacity) {
+    bookWatermarkOpacity.addEventListener("input", (e) => {
+      if (!appState.book) appState.book = {};
+      appState.book.watermarkOpacity = parseFloat(e.target.value);
+      setText("val-book-watermark-opacity", Math.round(appState.book.watermarkOpacity * 100) + "%");
+      renderDocument();
+    });
+  }
+
+  // Book Yellow Highlighter Color
+  const bookHighlightColor = document.getElementById("input-book-highlight-color");
+  const bookHighlightText = document.getElementById("input-book-highlight-color-text");
+  if (bookHighlightColor) {
+    bookHighlightColor.addEventListener("input", (e) => {
+      if (!appState.book) appState.book = {};
+      appState.book.highlightColor = e.target.value;
+      if (bookHighlightText) bookHighlightText.value = e.target.value;
+      renderDocument();
+    });
+  }
+  if (bookHighlightText) {
+    bookHighlightText.addEventListener("input", (e) => {
+      if (!appState.book) appState.book = {};
+      appState.book.highlightColor = e.target.value;
+      if (bookHighlightColor) bookHighlightColor.value = e.target.value;
+      renderDocument();
+    });
+  }
+
+  // Book Font Size Slider
+  const bookFontSizeSlider = document.getElementById("input-book-font-size");
+  if (bookFontSizeSlider) {
+    bookFontSizeSlider.addEventListener("input", (e) => {
+      if (!appState.book) appState.book = {};
+      appState.book.fontSize = parseFloat(e.target.value);
+      setText("val-book-font-size", `${appState.book.fontSize}px`);
+      renderDocument();
+    });
+  }
+
+  bindBookInput("select-book-line-height", "lineHeight");
+  bindBookInput("select-book-bullet-style", "bulletStyle");
+  bindBookInput("select-book-col-divider", "colDivider");
+
+  // Inline Thumbnail Topic Attacher
+  const btnAttachBookInlineImg = document.getElementById("btn-attach-book-inline-img");
+  const inputBookInlineImgFile = document.getElementById("input-book-inline-img-file");
+  const inputBookInlineImgKeyword = document.getElementById("input-book-inline-img-keyword");
+
+  if (btnAttachBookInlineImg) {
+    btnAttachBookInlineImg.addEventListener("click", () => {
+      const keyword = (inputBookInlineImgKeyword ? inputBookInlineImgKeyword.value : "").trim();
+      if (!keyword) {
+        showToast("Please enter a topic keyword (e.g. 'पूंजीवादी अर्थव्यवस्था')!", "error");
+        return;
+      }
+      const file = inputBookInlineImgFile && inputBookInlineImgFile.files && inputBookInlineImgFile.files[0];
+      if (!file) {
+        showToast("Please select an image file first!", "error");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        if (!appState.book) appState.book = {};
+        if (!appState.book.inlineImages) appState.book.inlineImages = {};
+        appState.book.inlineImages[keyword] = {
+          keyword: keyword,
+          name: file.name,
+          dataUrl: evt.target.result
+        };
+        renderBookInlineImagesList();
+        renderDocument();
+        showToast(`📸 Attached image to topic "${keyword}"!`, "success");
+        if (inputBookInlineImgFile) inputBookInlineImgFile.value = "";
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // Full A4 Poster File Inputs (Image 2 - Supported across GS Pointer, MCQ & Book modes)
   function handlePosterUpload(files, targetPosition, inputEl) {
     if (!files || !files.length) return;
     let loadedCount = 0;
@@ -3294,7 +4289,7 @@ function setupEventListeners() {
     });
   }
 
-  ['input-fullpage-top-file', 'input-pointer-fullpage-top-file'].forEach(id => {
+  ['input-fullpage-top-file', 'input-pointer-fullpage-top-file', 'input-book-top-poster'].forEach(id => {
     const el = document.getElementById(id);
     if (el) {
       el.addEventListener('change', (e) => {
@@ -3303,7 +4298,7 @@ function setupEventListeners() {
     }
   });
 
-  ['input-fullpage-bottom-file', 'input-pointer-fullpage-bottom-file'].forEach(id => {
+  ['input-fullpage-bottom-file', 'input-pointer-fullpage-bottom-file', 'input-book-bottom-poster'].forEach(id => {
     const el = document.getElementById(id);
     if (el) {
       el.addEventListener('change', (e) => {
@@ -3514,31 +4509,42 @@ function updateModeView(mode) {
   appState.currentMode = mode;
   const btnPointer = document.getElementById("btn-mode-pointer");
   const btnMcq = document.getElementById("btn-mode-mcq");
+  const btnBook = document.getElementById("btn-mode-book");
   const panelPointer = document.getElementById("panel-studio-pointer");
   const panelMcq = document.getElementById("panel-studio-mcq");
+  const panelBook = document.getElementById("panel-studio-book");
+
+  // Reset all mode buttons
+  [btnPointer, btnMcq, btnBook].forEach((btn) => {
+    if (btn) {
+      btn.classList.remove("active", "text-white", "bg-blue-600", "bg-red-600", "bg-emerald-600");
+      btn.classList.add("text-slate-300", "hover:text-white");
+    }
+  });
+
+  // Hide all studio panels
+  if (panelPointer) panelPointer.classList.add("hidden");
+  if (panelMcq) panelMcq.classList.add("hidden");
+  if (panelBook) panelBook.classList.add("hidden");
 
   if (mode === "mcq") {
-    if (btnPointer) {
-      btnPointer.classList.remove("active", "text-white", "bg-blue-600");
-      btnPointer.classList.add("text-slate-300", "hover:text-white");
-    }
     if (btnMcq) {
       btnMcq.classList.add("active", "text-white", "bg-red-600");
       btnMcq.classList.remove("text-slate-300", "hover:text-white");
     }
-    if (panelPointer) panelPointer.classList.add("hidden");
     if (panelMcq) panelMcq.classList.remove("hidden");
+  } else if (mode === "book") {
+    if (btnBook) {
+      btnBook.classList.add("active", "text-white", "bg-emerald-600");
+      btnBook.classList.remove("text-slate-300", "hover:text-white");
+    }
+    if (panelBook) panelBook.classList.remove("hidden");
   } else {
     if (btnPointer) {
       btnPointer.classList.add("active", "text-white", "bg-blue-600");
       btnPointer.classList.remove("text-slate-300", "hover:text-white");
     }
-    if (btnMcq) {
-      btnMcq.classList.remove("active", "text-white", "bg-red-600");
-      btnMcq.classList.add("text-slate-300", "hover:text-white");
-    }
     if (panelPointer) panelPointer.classList.remove("hidden");
-    if (panelMcq) panelMcq.classList.add("hidden");
   }
 }
 
@@ -3548,6 +4554,8 @@ function setAppMode(mode, showNotification = true) {
   if (showNotification) {
     if (mode === "mcq") {
       showToast("📝 Switched to MCQ Practice Set Studio (Platform Exam Style)", "info");
+    } else if (mode === "book") {
+      showToast("📚 Switched to Smart Book & Notes Studio (Class Notes & Complete Booklet)", "info");
     } else {
       showToast("📖 Switched to GS Pointer One-Liner Studio", "info");
     }
@@ -3637,12 +4645,14 @@ function bindMcqInput(id, mcqKey, isNumber = false) {
 function renderFullA4PhotosList() {
   const topListEls = [
     document.getElementById("list-top-fullpage-photos"),
-    document.getElementById("list-pointer-top-fullpage-photos")
+    document.getElementById("list-pointer-top-fullpage-photos"),
+    document.getElementById("list-book-top-poster-photos")
   ].filter(Boolean);
 
   const bottomListEls = [
     document.getElementById("list-bottom-fullpage-photos"),
-    document.getElementById("list-pointer-bottom-fullpage-photos")
+    document.getElementById("list-pointer-bottom-fullpage-photos"),
+    document.getElementById("list-book-bottom-poster-photos")
   ].filter(Boolean);
 
   const topPages = (appState.fullA4Photos && appState.fullA4Photos.topPages) || [];
