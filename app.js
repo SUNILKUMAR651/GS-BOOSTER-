@@ -1070,11 +1070,11 @@ function renderMcqDocument() {
     const startPageNum = parseInt(appState.mcq.startingPageNumber) || 99;
 
     for (let pageIdx = 0; pageIdx < questionPagesCount; pageIdx++) {
-      const pageItems = pageChunks[pageIdx] || [];
+      const pageChunk = pageChunks[pageIdx] || { leftItems: [], rightItems: [] };
       const currentPageNum = startPageNum + pageIdx;
       const isLast = (pageIdx === questionPagesCount - 1);
 
-      const pageElement = createMcqA4PageElement(pageItems, currentPageNum, questionPagesCount, isLast, items);
+      const pageElement = createMcqA4PageElement(pageChunk, currentPageNum, questionPagesCount, isLast, items);
       container.appendChild(pageElement);
     }
   } else if (topPhotos.length === 0 && bottomPhotos.length === 0) {
@@ -1314,27 +1314,26 @@ function parseRawMcqContent(rawText) {
 
 /**
  * Measures and packs MCQ items into 2 columns with 100% full-page auto-packing (zero blank gap)
+ * Strictly fills the Left Column to 100% full height first, then fills Right Column.
+ * Only moves to the next page when both columns are 100% completely full.
  */
 function packMcqItemsAutoFit(items) {
   if (!items || items.length === 0) return [];
   if (typeof document === "undefined" || !document.body) {
     const chunks = [];
     const perPage = Math.max(1, parseInt(appState.mcq.itemsPerPage) || 16);
-    for (let i = 0; i < items.length; i += perPage) chunks.push(items.slice(i, i + perPage));
-    return chunks;
-  }
-
-  // If manual questions per page mode is selected
-  if (appState.mcq && appState.mcq.paginationMode === "manual") {
-    const perPage = Math.max(1, parseInt(appState.mcq.itemsPerPage) || 16);
-    const chunks = [];
     for (let i = 0; i < items.length; i += perPage) {
-      chunks.push(items.slice(i, i + perPage));
+      const slice = items.slice(i, i + perPage);
+      const half = Math.ceil(slice.length / 2);
+      chunks.push({
+        leftItems: slice.slice(0, half),
+        rightItems: slice.slice(half)
+      });
     }
     return chunks;
   }
 
-  // 🚀 Auto-Fit 100% Full-Page Packing Engine
+  // 🚀 Measure sandbox matching exact column width (92mm)
   let measureSandbox = document.getElementById("gs-measure-sandbox");
   if (!measureSandbox) {
     measureSandbox = document.createElement("div");
@@ -1365,9 +1364,9 @@ function packMcqItemsAutoFit(items) {
 
   // Calculate available printable height for columns in mm:
   // A4 = 297mm. Sheet top+bottom padding = 12mm (6mm + 6mm).
-  // Header box = ~13mm. Footer box = ~7mm.
-  // Printable column area = 265mm default.
-  let colHeightMm = 265;
+  // Header box = ~14mm. Footer box = ~8mm.
+  // Printable column area = 263mm default.
+  let colHeightMm = 263;
   if (appState.mcq.topAppBannerText && appState.mcq.topAppBannerText.trim()) {
     colHeightMm -= 5;
   }
@@ -1386,7 +1385,7 @@ function packMcqItemsAutoFit(items) {
   const colCapacityPx = (heightProbe.offsetHeight && heightProbe.offsetHeight > 500) ? heightProbe.offsetHeight : 982;
   measureSandbox.removeChild(heightProbe);
 
-  // Tiny buffer to prevent subpixel overflow
+  // Tiny buffer of 4px to prevent any subpixel rounding overflow
   const maxColHeight = colCapacityPx - 4;
 
   // Render items into measureSandbox to get their exact rendered heights
@@ -1406,51 +1405,93 @@ function packMcqItemsAutoFit(items) {
   }
   measureSandbox.innerHTML = "";
 
-  // Pack items across columns:
-  // Col 1 fills up to maxColHeight, then Col 2 fills up to maxColHeight.
-  // When Col 2 is full, that page is 100% full, and the next item goes to Page 2!
-  const pageChunks = [];
-  let currentPage = [];
-  let col1Height = 0;
-  let col2Height = 0;
-  let inCol2 = false;
+  // If manual questions per page mode is selected
+  if (appState.mcq && appState.mcq.paginationMode === "manual") {
+    const perPage = Math.max(1, parseInt(appState.mcq.itemsPerPage) || 16);
+    const chunks = [];
+    for (let i = 0; i < items.length; i += perPage) {
+      const slice = items.slice(i, i + perPage);
+      const sliceHeights = itemHeights.slice(i, i + perPage);
+      const page = { leftItems: [], rightItems: [] };
+      let lH = 0;
+      let rH = 0;
+      let inR = false;
+      for (let j = 0; j < slice.length; j++) {
+        const it = slice[j];
+        const h = sliceHeights[j] || 45;
+        if (!inR) {
+          if (lH + h <= maxColHeight || page.leftItems.length === 0) {
+            page.leftItems.push(it);
+            lH += h;
+          } else {
+            inR = true;
+            page.rightItems.push(it);
+            rH += h;
+          }
+        } else {
+          page.rightItems.push(it);
+          rH += h;
+        }
+      }
+      chunks.push(page);
+    }
+    return chunks;
+  }
+
+  // 🚀 100% Full-Page Packing Engine:
+  // Col 1 (Left) fills 100% down to the bottom of the page first!
+  // Then Col 2 (Right) fills down to the bottom!
+  // ONLY when both Col 1 AND Col 2 on the current page are completely full does Page 2 start!
+  const pages = [];
+  let currentPage = {
+    leftItems: [],
+    rightItems: []
+  };
+  let currentLeftHeight = 0;
+  let currentRightHeight = 0;
+  let isFillingRight = false;
 
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
     const h = itemHeights[i] || 45;
 
-    if (!inCol2) {
-      if (col1Height + h <= maxColHeight) {
-        currentPage.push(item);
-        col1Height += h;
+    if (!isFillingRight) {
+      // Filling LEFT column
+      if (currentLeftHeight + h <= maxColHeight || currentPage.leftItems.length === 0) {
+        currentPage.leftItems.push(item);
+        currentLeftHeight += h;
       } else {
-        // Col 1 is 100% full! Move to Col 2 of this page
-        inCol2 = true;
-        currentPage.push(item);
-        col2Height = h;
+        // Left column is 100% full! Now switch to RIGHT column
+        isFillingRight = true;
+        currentPage.rightItems.push(item);
+        currentRightHeight += h;
       }
     } else {
-      if (col2Height + h <= maxColHeight) {
-        currentPage.push(item);
-        col2Height += h;
+      // Filling RIGHT column
+      if (currentRightHeight + h <= maxColHeight || currentPage.rightItems.length === 0) {
+        currentPage.rightItems.push(item);
+        currentRightHeight += h;
       } else {
-        // Col 2 is also 100% full! This A4 page is completely packed with zero gap!
-        pageChunks.push(currentPage);
+        // Right column is also 100% full! This A4 page is completely packed!
+        pages.push(currentPage);
 
-        // Start next page in Col 1
-        currentPage = [item];
-        col1Height = h;
-        col2Height = 0;
-        inCol2 = false;
+        // Start next page in LEFT column
+        currentPage = {
+          leftItems: [item],
+          rightItems: []
+        };
+        currentLeftHeight = h;
+        currentRightHeight = 0;
+        isFillingRight = false;
       }
     }
   }
 
-  if (currentPage.length > 0) {
-    pageChunks.push(currentPage);
+  if (currentPage.leftItems.length > 0 || currentPage.rightItems.length > 0) {
+    pages.push(currentPage);
   }
 
-  return pageChunks;
+  return pages;
 }
 
 /**
@@ -1581,7 +1622,7 @@ function createMcqDomElement(item) {
 /**
  * Creates authentic Platform / Rukmini A4 Page with Set Ribbon Header and Center Rule
  */
-function createMcqA4PageElement(pageItems, pageNum, totalPages, isLastPage, allItems) {
+function createMcqA4PageElement(pageChunk, pageNum, totalPages, isLastPage, allItems) {
   const sheet = document.createElement("div");
   const outerFrame = (appState.mcq && appState.mcq.outerFrame) || "none";
   const frameClass = outerFrame === "single" ? "frame-single" : (outerFrame === "double" ? "frame-double" : "");
@@ -1617,14 +1658,26 @@ function createMcqA4PageElement(pageItems, pageNum, totalPages, isLastPage, allI
     </div>
   `;
 
-  const colDivider = appState.mcq.colDivider || "solid";
-  const dividerStyle = colDivider === "none" ? "column-rule: none;" : (colDivider === "dashed" ? "column-rule: 1px dashed #000;" : "column-rule: 1px solid #000;");
+  // Support both { leftItems, rightItems } and fallback array
+  const leftItems = pageChunk.leftItems || (Array.isArray(pageChunk) ? pageChunk : []);
+  const rightItems = pageChunk.rightItems || [];
 
-  let itemsHtml = "";
-  for (const item of pageItems) {
+  let leftItemsHtml = "";
+  for (const item of leftItems) {
     const el = createMcqDomElement(item);
-    itemsHtml += el.outerHTML;
+    leftItemsHtml += el.outerHTML;
   }
+
+  let rightItemsHtml = "";
+  for (const item of rightItems) {
+    const el = createMcqDomElement(item);
+    rightItemsHtml += el.outerHTML;
+  }
+
+  const colDivider = appState.mcq.colDivider || "solid";
+  let dividerClass = "";
+  if (colDivider === "dashed") dividerClass = "divider-dashed";
+  else if (colDivider === "none") dividerClass = "divider-none";
 
   // Answer Key Section if on last page
   let answerKeyHtml = "";
@@ -1671,16 +1724,20 @@ function createMcqA4PageElement(pageItems, pageNum, totalPages, isLastPage, allI
     ? `<div class="mcq-inpage-banner"><img src="${appState.inPageBanners.footerBanner}" alt="Footer Promo Banner"></div>`
     : "";
 
-  const isBalanced = isLastPage && pageItems.length < 12;
-
   sheet.innerHTML = `
     ${watermarkHtml}
     <div class="a4-sheet-inner">
       ${topBannerHtml}
       ${headerHtml}
       ${inPageHeaderBanner}
-      <div class="mcq-columns-container ${isBalanced ? 'mcq-balanced' : ''}" style="${dividerStyle}">
-        ${itemsHtml}
+      <div class="mcq-two-column-layout">
+        <div class="mcq-col mcq-col-left">
+          ${leftItemsHtml}
+        </div>
+        <div class="mcq-col-divider ${dividerClass}"></div>
+        <div class="mcq-col mcq-col-right">
+          ${rightItemsHtml}
+        </div>
       </div>
       ${answerKeyHtml}
       ${inPageFooterBanner}

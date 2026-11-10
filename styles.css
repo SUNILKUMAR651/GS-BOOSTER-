@@ -603,24 +603,52 @@ sup {
   line-height: 1;
 }
 
-/* MCQ Two-Column Container - Stretches to fill full A4 printable height with zero empty gap */
-.mcq-columns-container {
-  column-count: 2;
-  column-gap: 6mm;
-  column-rule: 1px solid #000000;
-  column-fill: auto;
+/* MCQ Dedicated Two-Column Engine (Left Column Full First, Then Right Column) */
+.mcq-two-column-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
   flex: 1;
   min-height: 0;
-  width: 100%;
   box-sizing: border-box;
-  overflow: hidden;
-  color: #000000;
   margin-top: 1.5mm;
   margin-bottom: 1.5mm;
 }
 
-.mcq-columns-container.mcq-balanced {
-  column-fill: balance;
+.mcq-col {
+  flex: 1;
+  width: 50%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.mcq-col-left {
+  padding-right: 3mm;
+}
+
+.mcq-col-right {
+  padding-left: 3mm;
+}
+
+.mcq-col-divider {
+  width: 1px;
+  background-color: #000000;
+  align-self: stretch;
+  flex-shrink: 0;
+}
+
+.mcq-col-divider.divider-dashed {
+  background: repeating-linear-gradient(to bottom, #000 0, #000 4px, transparent 4px, transparent 8px);
+}
+
+.mcq-col-divider.divider-none {
+  background-color: transparent;
+  width: 6mm;
 }
 
 /* MCQ Question Item */
@@ -1092,11 +1120,42 @@ sup {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
-  .mcq-columns-container {
-    column-rule: 1px solid #000000 !important;
-    column-fill: auto !important;
-    height: 100% !important;
+  .mcq-two-column-layout {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
+    width: 100% !important;
     flex: 1 !important;
+  }
+  .mcq-col {
+    width: 50% !important;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+  }
+  .mcq-col-left {
+    padding-right: 3mm !important;
+  }
+  .mcq-col-right {
+    padding-left: 3mm !important;
+  }
+  .mcq-col-divider {
+    width: 1px !important;
+    background-color: #000000 !important;
+    align-self: stretch !important;
+    flex-shrink: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .mcq-col-divider.divider-dashed {
+    background: repeating-linear-gradient(to bottom, #000 0, #000 4px, transparent 4px, transparent 8px) !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .mcq-col-divider.divider-none {
+    background-color: transparent !important;
+    width: 6mm !important;
   }
 
   /* Full A4 Poster & Solution Print Preservation */
