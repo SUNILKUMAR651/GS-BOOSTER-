@@ -887,6 +887,118 @@ const SAMPLE_BOOK_DATASET = `# 1. अर्थव्यवस्था एवं
 प्रश्न 5. मिश्रित अर्थव्यवस्था क्या है? भारत में यह क्यों अपनाई गई? [2021A, 2014A]
 उत्तर :- मिश्रित अर्थव्यवस्था वह अर्थव्यवस्था है जहां उत्पादन के साधनों का स्वामित्व एवं संचालन निजी तथा सार्वजनिक (सरकार) दोनों क्षेत्रों के पास संयुक्त रूप से होता है। भारत ने तीव्र आर्थिक विकास और सामाजिक न्याय दोनों को साधने हेतु इसे अपनाया।`;
 
+const SAMPLE_BOOK_DATASETS = {
+  economics: {
+    label: "अर्थशास्त्र (Economics)",
+    className: "Class – 10th",
+    batchTag: "BOARD 2024-25",
+    subjectName: "Economics",
+    chapterTitle: "1. अर्थव्यवस्था एवं इसके विकास का इतिहास",
+    headerBgColor: "#0b2545",
+    watermarkText: "JEE - FORM STUDY POINT",
+    footerLeftText: "Class - 10th Economics Notes",
+    footerRightText: "JEE-FORM STUDY POINT",
+    content: SAMPLE_BOOK_DATASET
+  },
+  history: {
+    label: "इतिहास (History)",
+    className: "Class – 10th",
+    batchTag: "HISTORY NOTES",
+    subjectName: "History",
+    chapterTitle: "1. यूरोप में राष्ट्रवाद का उदय",
+    headerBgColor: "#450a0a",
+    watermarkText: "JEE - FORM STUDY POINT",
+    footerLeftText: "Class - 10th History Notes",
+    footerRightText: "JEE-FORM STUDY POINT",
+    content: `राष्ट्रवाद :- राष्ट्रवाद एक ऐसी भावना है जो किसी विशेष भौगोलिक, सांस्कृतिक या सामाजिक परिवेश में रहने वाले लोगों में एकता की वाहक बनती है।
+➢ यूरोप में आधुनिक राष्ट्रवाद की प्रथम स्पष्ट अभिकल्पना 1789 की फ्रांसीसी क्रांति के साथ हुई।
+➢ नेपोलियन संहिता (Civil Code) वर्ष 1804 में लागू की गई थी, जिसने जन्म पर आधारित विशेषाधिकार समाप्त कर दिए।
+"जब फ्रांस छींकता है तो बाकी यूरोप को सर्दी-जुकाम हो जाता है।"
+- मेटरनिख (ऑस्ट्रिया का चांसलर)
+
+वियना कांग्रेस (1815 ई०) :-
+➢ 1815 ई० में ब्रिटेन, रूस, प्रशा और ऑस्ट्रिया जैसी यूरोपीय शक्तियों ने नेपोलियन को हराने के बाद वियना में एक सम्मेलन आयोजित किया।
+➢ इसकी मेजबानी ऑस्ट्रिया के चांसलर ड्यूक मेटरनिख ने की थी।
+
+मेजिनी (Giuseppe Mazzini):- इटली के प्रसिद्ध क्रांतिकारी, जिनका जन्म 1807 ई० में जेनोआ में हुआ था।
+➢ उन्होंने 1831 ई० में 'यंग इटली' तथा 1834 ई० में 'यंग यूरोप' नामक गुप्त संगठनों की स्थापना की।
+
+जर्मनी के एकीकरण के प्रमुख चरण :-
+1. बिस्मार्क ने 'रक्त और लौह' (Blood & Iron) की नीति का अवलंबन किया।
+2. सेडोवा का युद्ध (1866 ई०): ऑस्ट्रिया और प्रशा के बीच हुआ।
+3. सेडान का युद्ध (1870 ई०): फ्रांस की हार हुई और 18 जनवरी 1871 को जर्मनी का एकीकरण पूर्ण हुआ।
+
+महत्वपूर्ण परीक्षा प्रश्नोत्तर (Exam Focus)
+प्रश्न 1. राष्ट्रवाद क्या है? [2023A, 2018A]
+उत्तर :- राष्ट्रवाद किसी राष्ट्र के प्रति प्रेम, निष्ठा और साझा सांस्कृतिक पहचान की भावना है जो नागरिकों को एक सूत्र में बांधती है।
+
+प्रश्न 2. 1848 ई० की फ्रांसीसी क्रांति के क्या कारण थे? [2021A, 2019A]
+उत्तर :- लुई फिलिप की असफल विदेश नीति, बढ़ती बेरोजगारी, भुखमरी और मध्यम वर्ग द्वारा मताधिकार की मांग इस क्रांति के मुख्य कारण थे।`
+  },
+  polity: {
+    label: "राजनीति (Polity)",
+    className: "GS Notes",
+    batchTag: "CONSTITUTION",
+    subjectName: "Indian Polity",
+    chapterTitle: "भारतीय संविधान एवं मूल अधिकार (भाग-3)",
+    headerBgColor: "#172554",
+    watermarkText: "GS BOOSTER NOTES",
+    footerLeftText: "Indian Polity & Constitution Notes",
+    footerRightText: "GS BOOSTER",
+    content: `संविधान सभा का गठन :- कैबिनेट मिशन योजना (1946) के अंतर्गत नवंबर 1946 में संविधान सभा का गठन किया गया।
+➢ संविधान सभा की प्रथम बैठक 9 दिसंबर 1946 को नई दिल्ली में हुई, जिसके अस्थायी अध्यक्ष डॉ० सच्चिदानंद सिन्हा थे।
+➢ 11 दिसंबर 1946 को डॉ० राजेंद्र प्रसाद को स्थायी अध्यक्ष चुना गया।
+➢ प्रारूप समिति (Drafting Committee) के अध्यक्ष डॉ० भीमराव अम्बेडकर थे।
+➢ भारतीय संविधान 26 नवंबर 1949 को अंगीकृत हुआ तथा 26 जनवरी 1950 को पूर्णतः लागू हुआ।
+
+प्रस्तावना के मुख्य तथ्य :-
+➢ 42वां संविधान संशोधन 1976 द्वारा प्रस्तावना में 'समाजवादी', 'पंथनिरपेक्ष' और 'अखंडता' तीन नए शब्द जोड़े गए।
+"प्रस्तावना संविधान का परिचय-पत्र (Identity Card) है।"
+- एन. ए. पालकीवाला
+
+मौलिक अधिकार (भाग-3, अनुच्छेद 12 से 35):-
+1. समता का अधिकार (अनुच्छेद 14 - 18)
+2. स्वतंत्रता का अधिकार (अनुच्छेद 19 - 22)
+3. शोषण के विरुद्ध अधिकार (अनुच्छेद 23 - 24)
+4. धार्मिक स्वतंत्रता का अधिकार (अनुच्छेद 25 - 28)
+5. संस्कृति और शिक्षा संबंधी अधिकार (अनुच्छेद 29 - 30)
+6. संवैधानिक उपचारों का अधिकार (अनुच्छेद 32)
+नोट :- डॉ० अम्बेडकर ने अनुच्छेद 32 को संविधान की 'आत्मा और हृदय' कहा है।
+
+महत्वपूर्ण प्रश्नोत्तर (Exam Focus)
+प्रश्न 1. मूल कर्तव्य किस समिति की अनुशंसा पर जोड़े गए?
+उत्तर :- सरदार स्वर्ण सिंह समिति की अनुशंसा पर 42वां संविधान संशोधन 1976 द्वारा भाग 4(क) एवं अनुच्छेद 51(क) के अंतर्गत जोड़े गए।`
+  },
+  science: {
+    label: "विज्ञान (Science)",
+    className: "Class – 10th",
+    batchTag: "SCIENCE NCERT",
+    subjectName: "Chemistry",
+    chapterTitle: "1. रासायनिक अभिक्रियाएँ एवं समीकरण",
+    headerBgColor: "#064e3b",
+    watermarkText: "NCERT SCIENCE NOTES",
+    footerLeftText: "Class - 10th Science Complete Notes",
+    footerRightText: "NCERT REVISION",
+    content: `रासायनिक अभिक्रिया :- जब कोई पदार्थ अकेले या किसी अन्य पदार्थ से क्रिया करके भिन्न गुण वाले एक या अधिक नए पदार्थों का निर्माण करता है, तो उसे रासायनिक अभिक्रिया कहते हैं।
+➢ दूध से दही बनना, लोहे में जंग लगना तथा भोजन का पाचन रासायनिक परिवर्तन के उदाहरण हैं।
+
+रासायनिक अभिक्रियाओं के प्रमुख प्रकार :-
+1. संयोजन अभिक्रिया :- दो या दो से अधिक अभिकारक मिलकर एकल उत्पाद बनाते हैं। जैसे :- CaO + H2O -> Ca(OH)2
+2. वियोजन अभिक्रिया :- एकल अभिकारक टूटकर छोटे-छोटे उत्पाद बनाता है। जैसे :- CaCO3 -> CaO + CO2
+3. विस्थापन अभिक्रिया :- अधिक क्रियाशील तत्व कम क्रियाशील तत्व को उसके यौगिक से विस्थापित कर देता है। जैसे :- Fe + CuSO4 -> FeSO4 + Cu
+4. द्विविस्थापन अभिक्रिया :- आयनों के आदान-प्रदान से नए यौगिक बनते हैं। जैसे :- Na2SO4 + BaCl2 -> BaSO4 + 2NaCl
+
+ऑक्सीकरण एवं अपचयन (Redox):-
+➢ ऑक्सीकरण :- किसी पदार्थ से O2 का जुड़ना या H2 का निष्कासन ऑक्सीकरण कहलाता है।
+➢ अपचयन :- किसी पदार्थ से H2 का जुड़ना या O2 का हटना अपचयन कहलाता है।
+नोट :- खाने के सोडा (NaHCO3) और धोने के सोडा (Na2CO3.10H2O) का सूत्र परीक्षा में अक्सर पूछा जाता है।
+
+महत्वपूर्ण प्रश्नोत्तर (Exam Focus)
+प्रश्न 1. श्वसन को ऊष्माक्षेपी अभिक्रिया क्यों कहते हैं? [2023A, 2020A]
+उत्तर :- श्वसन क्रिया में ग्लूकोज (C6H12O6) ऑक्सीजन से क्रिया करके CO2, H2O तथा ऊर्जा मुक्त करता है, इसलिए यह ऊष्माक्षेपी अभिक्रिया है।`
+  }
+};
+
 // ==========================================
 // DEFAULT APPLICATION STATE
 // ==========================================
@@ -1004,6 +1116,7 @@ const DEFAULT_STATE = {
     watermarkPos: "center",
     watermarkOpacity: 0.14,
     watermarkSize: 110,
+    pillTheme: "multi",
     startingPageNumber: 2,
     fontFamily: "'Noto Sans Devanagari', 'Inter', sans-serif",
     boldMode: "default",
@@ -1055,7 +1168,7 @@ function loadSavedSettings() {
         mcq: {
           ...DEFAULT_STATE.mcq,
           ...(parsed.mcq || {}),
-          rawMcqContent: (parsed.mcq && parsed.mcq.rawMcqContent && parsed.mcq.rawMcqContent.length >= 15000)
+          rawMcqContent: (parsed.mcq && typeof parsed.mcq.rawMcqContent === "string")
             ? parsed.mcq.rawMcqContent
             : DEFAULT_STATE.mcq.rawMcqContent
         },
@@ -1067,6 +1180,9 @@ function loadSavedSettings() {
       if (appState.watermarkPos === "diagonal") appState.watermarkPos = "center";
       if (appState.mcq.watermarkPos === "diagonal") appState.mcq.watermarkPos = "center";
       if (appState.book.watermarkPos === "diagonal") appState.book.watermarkPos = "center";
+      if (!["multi", "red", "blue", "emerald"].includes(appState.book.pillTheme)) {
+        appState.book.pillTheme = "multi";
+      }
       return true;
     }
   } catch (err) {
@@ -1078,18 +1194,33 @@ function loadSavedSettings() {
 function saveSettingsToStorage() {
   try {
     const toSave = { ...appState };
-    // We can preserve or exclude rawContent; keeping it saves user work!
     localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
     showToast("Template settings saved successfully!", "success");
   } catch (err) {
-    console.error("Failed to save to localStorage:", err);
-    showToast("Failed to save settings to browser storage.", "error");
+    // Graceful QuotaExceededError fallback when large Full-A4 Poster base64 images exceed 5MB limit
+    try {
+      const liteSave = {
+        ...appState,
+        fullA4Photos: { topPages: [], bottomPages: [] },
+        inPageBanners: { headerBanner: "", footerBanner: "" }
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(liteSave));
+      showToast("Settings & content saved! (Large A4 poster images skipped due to browser storage limit)", "info");
+    } catch (err2) {
+      console.error("Failed to save to localStorage:", err2);
+      showToast("Failed to save settings to browser storage (size limit exceeded).", "error");
+    }
   }
 }
 
 function resetSettingsToDefault() {
   if (confirm("Reset all settings and content back to standard defaults?")) {
+    try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
     appState = JSON.parse(JSON.stringify(DEFAULT_STATE));
+    const searchInput = document.getElementById("input-preview-search");
+    const btnClearSearch = document.getElementById("btn-clear-search");
+    if (searchInput) searchInput.value = "";
+    if (btnClearSearch) btnClearSearch.classList.add("hidden");
     syncInputsFromState();
     renderDocument();
     showToast("Settings reset to default.", "info");
@@ -1476,6 +1607,7 @@ function renderDocument() {
   } else {
     renderPointerDocument();
   }
+  assignPageSequenceNumbers(document.getElementById("pages-render-target"));
 }
 
 /**
@@ -2861,22 +2993,27 @@ function createBookDomElement(item) {
 
   if (item.type === "red_pill") {
     el.className = "w-full text-center my-1";
-    el.innerHTML = `<div class="book-chapter-pill" style="margin: 1mm auto;">${escapeHtml(item.text)}</div>`;
+    const redHtml = applySearchHighlightToHtml(escapeHtml(item.text), appState.searchQuery);
+    el.innerHTML = `<div class="book-chapter-pill" style="margin: 1mm auto;">${redHtml}</div>`;
     return el;
   }
 
   if (item.type === "sub_pill" || item.type === "blue_pill" || item.type === "subhead") {
-    const color = item.color || (item.type === "blue_pill" ? "blue" : "purple");
+    const pillTheme = (appState.book && appState.book.pillTheme) || "multi";
+    const rawColor = item.color || (item.type === "blue_pill" ? "blue" : "purple");
+    const effectiveColor = pillTheme === "multi" ? rawColor : pillTheme;
     const clsMap = {
       red: "book-subhead-red",
       blue: "book-subhead-blue",
       purple: "book-subhead-purple",
       pink: "book-subhead-pink",
-      teal: "book-subhead-teal"
+      teal: "book-subhead-teal",
+      emerald: "book-subhead-emerald"
     };
-    const pillClass = clsMap[color] || "book-subhead-blue";
+    const pillClass = clsMap[effectiveColor] || "book-subhead-blue";
+    const pillHtml = applySearchHighlightToHtml(escapeHtml(item.text), appState.searchQuery);
     el.className = "w-full my-0.5";
-    el.innerHTML = `<div class="${pillClass}">${escapeHtml(item.text)}</div>`;
+    el.innerHTML = `<div class="${pillClass}">${pillHtml}</div>`;
     return el;
   }
 
@@ -2888,7 +3025,7 @@ function createBookDomElement(item) {
 
   if (item.type === "author_quote") {
     el.className = "book-author-quote";
-    el.textContent = item.text;
+    el.innerHTML = applySearchHighlightToHtml(escapeHtml(item.text || ""), appState.searchQuery);
     return el;
   }
 
@@ -2980,6 +3117,9 @@ function formatSingleBookLine(rawLine) {
     .replace(/^([0-9]+[\.\)]\s*)?\*\*\s*([^\n*:–—]{2,48}?)\s*(?::-|:|–|—)\s*\*\*\s*/i, (_, num, term) => `${num || ""}${term}:- `)
     .replace(/^\*\*\s*([^\n*:–—]{2,48}?)\*\*\s*(?::-|:)\s*/i, "$1:- ");
 
+  if (appState.autoFormatFormulas !== false) {
+    cleanedLine = formatScienceFormulas(cleanedLine);
+  }
   let line = escapeHtml(cleanedLine);
 
   // 1. Explicit manual yellow highlight markup: ==text== or [[text]]
@@ -3044,6 +3184,11 @@ function formatSingleBookLine(rawLine) {
 
   // 8. Automatic Dates, Historical Years, Currency, Percentages, Articles & Counts+Units in Red
   line = mapUntaggedBookText(line, applyBookRedHighlights);
+
+  // 9. Tag-safe live preview search highlight
+  if (appState.searchQuery && appState.searchQuery.trim()) {
+    line = applySearchHighlightToHtml(line, appState.searchQuery);
+  }
 
   return line;
 }
@@ -4154,6 +4299,17 @@ function runFullCorrections(text) {
 }
 
 // Helper: Format and Highlight Text (Formulas + Search)
+function applySearchHighlightToHtml(html, query) {
+  const trimmed = (query || "").trim();
+  if (!trimmed || !html) return html || "";
+  const escapedQuery = trimmed.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const searchRegex = new RegExp(`(${escapedQuery})`, "gi");
+  return String(html).split(/(<[^>]+>)/g).map((seg, idx) => {
+    if (idx % 2 === 1) return seg; // Never corrupt HTML tags/attributes
+    return seg.replace(searchRegex, '<mark class="search-highlight">$1</mark>');
+  }).join("");
+}
+
 function highlightFormattedText(text) {
   if (!text) return "";
   let processed = text;
@@ -4162,9 +4318,7 @@ function highlightFormattedText(text) {
   }
   const safe = escapeHtmlPreservingTags(processed);
   if (!appState.searchQuery || !appState.searchQuery.trim()) return safe;
-  const q = appState.searchQuery.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const regex = new RegExp(`(${q})`, "gi");
-  return safe.replace(regex, '<mark class="search-highlight">$1</mark>');
+  return applySearchHighlightToHtml(safe, appState.searchQuery);
 }
 
 // ==========================================
@@ -4341,6 +4495,7 @@ function syncInputsFromState() {
   setValue("input-book-footer-right", appState.book.footerRightText || "JEE-FORM STUDY POINT");
   setValue("input-book-highlight-color", appState.book.highlightColor || "#ffff00");
   setValue("input-book-highlight-color-text", appState.book.highlightColor || "#ffff00");
+  setValue("select-book-pill-theme", appState.book.pillTheme || "multi");
   setValue("select-book-font-family", appState.book.fontFamily || "'Noto Sans Devanagari', 'Inter', sans-serif");
   setValue("select-book-bold-mode", appState.book.boldMode || "default");
   setValue("select-book-text-weight", appState.book.textWeight || "500");
@@ -4406,14 +4561,24 @@ function updateStatisticsBadge(itemsCount, totalPages) {
   }
 }
 
+function assignPageSequenceNumbers(container) {
+  if (!container) return;
+  const sheets = container.querySelectorAll(".a4-sheet, .a4-fullpage-photo-sheet");
+  sheets.forEach((sheet, idx) => {
+    sheet.dataset.pageSequence = String(idx + 1);
+  });
+}
+
 function scrollToPage(pageNum) {
-  const sheets = document.querySelectorAll(".a4-sheet");
+  const sheets = document.querySelectorAll(".a4-sheet, .a4-fullpage-photo-sheet");
   if (!sheets.length) return;
   const targetNum = Math.max(1, Math.min(pageNum, sheets.length));
   appState.currentViewPage = targetNum;
 
-  const targetSheet = document.querySelector(`.a4-sheet[data-page-sequence="${targetNum}"]`);
-  if (targetSheet) {
+  const targetSheet = document.querySelector(
+    `.a4-sheet[data-page-sequence="${targetNum}"], .a4-fullpage-photo-sheet[data-page-sequence="${targetNum}"]`
+  ) || sheets[targetNum - 1];
+  if (targetSheet && typeof targetSheet.scrollIntoView === "function") {
     targetSheet.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
@@ -5020,6 +5185,26 @@ function setupEventListeners() {
         else btnClearSearch.classList.add("hidden");
       }
       renderDocument();
+      if (appState.searchQuery && appState.searchQuery.trim()) {
+        const firstMark = document.querySelector("#pages-render-target mark.search-highlight");
+        if (firstMark) {
+          const parentSheet = firstMark.closest(".a4-sheet, .a4-fullpage-photo-sheet");
+          if (parentSheet && parentSheet.dataset.pageSequence) {
+            const matchedPage = parseInt(parentSheet.dataset.pageSequence, 10);
+            if (!isNaN(matchedPage)) {
+              const allSheets = document.querySelectorAll("#pages-render-target .a4-sheet, #pages-render-target .a4-fullpage-photo-sheet");
+              appState.currentViewPage = matchedPage;
+              const pageNavInfo = document.getElementById("page-nav-info");
+              if (pageNavInfo && allSheets.length > 0) {
+                pageNavInfo.innerText = `${matchedPage} / ${allSheets.length} Page${allSheets.length === 1 ? "" : "s"}`;
+              }
+            }
+          }
+          if (typeof firstMark.scrollIntoView === "function") {
+            firstMark.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        }
+      }
     });
   }
 
@@ -5551,25 +5736,82 @@ function setupEventListeners() {
     });
   }
 
+  function applyBookPreset(presetKey) {
+    const preset = SAMPLE_BOOK_DATASETS[presetKey];
+    if (!preset) return;
+    if (!appState.book) appState.book = {};
+    appState.book.rawBookContent = preset.content;
+    appState.book.className = preset.className;
+    appState.book.batchTag = preset.batchTag;
+    appState.book.subjectName = preset.subjectName;
+    appState.book.chapterTitle = preset.chapterTitle;
+    appState.book.headerBgColor = preset.headerBgColor;
+    appState.book.watermarkText = preset.watermarkText;
+    appState.book.footerLeftText = preset.footerLeftText;
+    appState.book.footerRightText = preset.footerRightText;
+    syncInputsFromState();
+    renderDocument();
+    showToast(`📚 Loaded ${preset.label} Sample Notes!`, "success");
+  }
+
   // Load Economics Sample Book (53-Page Authentic Format)
   const btnLoadSampleBook = document.getElementById("btn-load-sample-book");
   if (btnLoadSampleBook) {
-    btnLoadSampleBook.addEventListener("click", () => {
-      if (!appState.book) appState.book = {};
-      appState.book.rawBookContent = SAMPLE_BOOK_DATASET;
-      appState.book.className = "Class – 10th";
-      appState.book.batchTag = "BOARD 2024-25";
-      appState.book.subjectName = "Economics";
-      appState.book.chapterTitle = "1. अर्थव्यवस्था एवं इसके विकास का इतिहास";
-      appState.book.headerBgColor = "#0b2545";
-      appState.book.watermarkText = "JEE - FORM STUDY POINT";
-      appState.book.footerLeftText = "Class - 10th Economics Notes";
-      appState.book.footerRightText = "JEE-FORM STUDY POINT";
-      syncInputsFromState();
-      renderDocument();
-      showToast("📚 Loaded Class 10 Economics Sample Book (53-Page Authentic Layout)!", "success");
+    btnLoadSampleBook.addEventListener("click", () => applyBookPreset("economics"));
+  }
+
+  // Book Subject Presets (2x2 Grid)
+  document.querySelectorAll("[data-book-preset]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      applyBookPreset(e.currentTarget.dataset.bookPreset);
+    });
+  });
+
+  // 1-Click Clipboard Paste Helper across Pointer, MCQ & Book modes
+  function bindClipboardPasteButton(btnId, onPasteText) {
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+    btn.addEventListener("click", async () => {
+      if (!navigator.clipboard || typeof navigator.clipboard.readText !== "function") {
+        showToast("Clipboard access unavailable here — click inside box and press Ctrl+V!", "info");
+        return;
+      }
+      try {
+        const text = await navigator.clipboard.readText();
+        if (!text || !text.trim()) {
+          showToast("Clipboard is empty! Copy your text first.", "info");
+          return;
+        }
+        onPasteText(text);
+      } catch (err) {
+        showToast("Browser blocked clipboard read — click text box and press Ctrl+V!", "info");
+      }
     });
   }
+
+  bindClipboardPasteButton("btn-pointer-paste", (text) => {
+    appState.rawContent = text;
+    setValue("textarea-raw-content", text);
+    renderDocument();
+    showToast("📋 Pasted & formatted GS Pointer Q&As!", "success");
+  });
+
+  bindClipboardPasteButton("btn-mcq-paste", (text) => {
+    if (!appState.mcq) appState.mcq = {};
+    appState.mcq.rawMcqContent = text;
+    setValue("textarea-mcq-content", text);
+    renderDocument();
+    showToast("📋 Pasted & parsed MCQ questions!", "success");
+  });
+
+  bindClipboardPasteButton("btn-book-paste", (text) => {
+    if (!appState.book) appState.book = {};
+    appState.book.rawBookContent = text;
+    setValue("textarea-book-content", text);
+    setValue("input-book-raw-content", text);
+    renderDocument();
+    showToast("📋 Pasted & formatted Book notes automatically!", "success");
+  });
 
   // Book Header & Branding Inputs
   bindBookInput("input-book-class", "className");
@@ -5596,6 +5838,7 @@ function setupEventListeners() {
     sizeValId: "val-book-wm-size"
   });
 
+  bindBookInput("select-book-pill-theme", "pillTheme");
   bindBookInput("select-book-font-family", "fontFamily");
   bindBoldControls({
     section: "book",
@@ -5988,8 +6231,14 @@ function updateModeView(mode) {
 }
 
 function setAppMode(mode, showNotification = true) {
+  appState.currentViewPage = 1;
   updateModeView(mode);
   renderDocument();
+  const scrollEl = document.getElementById("preview-scroll-container");
+  if (scrollEl) {
+    scrollEl.scrollTop = 0;
+    scrollEl.scrollLeft = 0;
+  }
   if (showNotification) {
     if (mode === "mcq") {
       showToast("📝 Switched to MCQ Practice Set Studio (Platform Exam Style)", "info");
