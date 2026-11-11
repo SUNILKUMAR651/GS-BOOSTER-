@@ -8,10 +8,10 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Google Fonts: Noto Sans Devanagari & Inter -->
+  <!-- Google Fonts: Multi-Weight Devanagari & English Exam Publication Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Hind:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Mukta:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Serif+Devanagari:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <!-- Custom Core & Print Stylesheet -->
   <link rel="stylesheet" href="styles.css">
@@ -161,16 +161,56 @@
             </button>
           </div>
 
-          <!-- Supported Format Info Pill -->
-          <div class="bg-blue-50/70 border border-blue-200/80 rounded-lg p-2.5 text-[11px] text-blue-900 space-y-1">
-            <div class="font-bold flex items-center gap-1">
-              <span>💡 Format Guide:</span>
-              <span class="font-normal text-slate-600">Separate Question and Answer using any of:</span>
+          <!-- Docx / Doc / Txt Quick Import Dropzone -->
+          <div class="border-2 border-dashed border-blue-300 hover:border-blue-500 bg-blue-50/40 rounded-xl p-2.5 text-center transition cursor-pointer relative group">
+            <input type="file" id="input-file-upload" accept=".docx,.doc,.txt,.csv" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10">
+            <div class="flex items-center justify-center gap-2">
+              <svg class="w-5 h-5 text-blue-600 group-hover:scale-110 transition flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+              <div class="text-left">
+                <div class="text-xs font-bold text-slate-800">Upload Word (.docx) or Text (.txt)</div>
+                <div class="text-[10px] text-slate-500">Click or drop Q&A notes — imports instantly!</div>
+              </div>
             </div>
-            <div class="font-mono text-[11px] text-blue-800 bg-white/70 px-2 py-1 rounded border border-blue-100 flex flex-wrap gap-2">
+          </div>
+
+          <!-- Load Ready-Made GS Pointer Samples (2x2 Grid) -->
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between text-[11px] font-bold text-slate-700">
+              <span>📚 LOAD READY-MADE GS POINTER SAMPLES</span>
+              <button type="button" id="btn-insert-gs-chapter" class="text-[10px] font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 px-2 py-0.5 rounded cursor-pointer transition">
+                + Add ### Chapter
+              </button>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <button type="button" data-sample-preset="history" class="text-left p-2 bg-white hover:bg-blue-50/70 border border-slate-200 hover:border-blue-400 rounded-lg transition shadow-sm cursor-pointer active:scale-[0.98]">
+                <div class="text-xs font-bold text-slate-900">प्राचीन भारतीय इतिहास</div>
+                <div class="text-[10px] text-slate-500">70 Authentic GS Pointer items</div>
+              </button>
+              <button type="button" data-sample-preset="polity" class="text-left p-2 bg-white hover:bg-blue-50/70 border border-slate-200 hover:border-blue-400 rounded-lg transition shadow-sm cursor-pointer active:scale-[0.98]">
+                <div class="text-xs font-bold text-slate-900">भारतीय राजव्यवस्था</div>
+                <div class="text-[10px] text-slate-500">36 Articles & Polity items</div>
+              </button>
+              <button type="button" data-sample-preset="hindi" class="text-left p-2 bg-white hover:bg-blue-50/70 border border-slate-200 hover:border-blue-400 rounded-lg transition shadow-sm cursor-pointer active:scale-[0.98]">
+                <div class="text-xs font-bold text-slate-900">सामान्य हिंदी (विलोम)</div>
+                <div class="text-[10px] text-slate-500">36 One-word & Antonyms</div>
+              </button>
+              <button type="button" data-sample-preset="science" class="text-left p-2 bg-white hover:bg-blue-50/70 border border-slate-200 hover:border-blue-400 rounded-lg transition shadow-sm cursor-pointer active:scale-[0.98]">
+                <div class="text-xs font-bold text-slate-900">सामान्य विज्ञान</div>
+                <div class="text-[10px] text-slate-500">36 Physics & Bio units</div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Supported Format Info Pill -->
+          <div class="bg-blue-50/70 border border-blue-200/80 rounded-lg p-2 text-[11px] text-blue-900 space-y-1">
+            <div class="font-bold flex items-center justify-between">
+              <span>💡 Format & Bold Guide:</span>
+              <span class="text-[10px] font-semibold text-blue-700">Use **word** to Bold</span>
+            </div>
+            <div class="font-mono text-[10.5px] text-blue-800 bg-white/80 px-2 py-1 rounded border border-blue-100 flex flex-wrap gap-2">
               <span>Q1. प्रश्न <strong>===</strong> उत्तर</span>
               <span>या प्रश्न <strong>-</strong> उत्तर</span>
-              <span>या प्रश्न <strong>:</strong> उत्तर</span>
+              <span>### अध्याय</span>
             </div>
           </div>
 
@@ -218,20 +258,15 @@
             </button>
           </div>
 
-          <!-- File Upload & Quick Tools Bar -->
+          <!-- File Quick Tools Bar -->
           <div class="flex items-center gap-2">
-            <label class="flex-1 py-1.5 px-2.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer">
-              <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-              <span>Upload .txt File</span>
-              <input type="file" id="input-file-upload" accept=".txt,.csv" class="hidden">
-            </label>
-            <button type="button" id="btn-copy-content" class="py-1.5 px-3 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-lg text-xs font-semibold shadow-sm transition flex items-center gap-1.5 cursor-pointer">
+            <button type="button" id="btn-copy-content" class="flex-1 py-1.5 px-3 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer">
               <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-              <span>Copy</span>
+              <span>Copy All</span>
             </button>
-            <button type="button" id="btn-download-content" class="py-1.5 px-3 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-lg text-xs font-semibold shadow-sm transition flex items-center gap-1.5 cursor-pointer">
+            <button type="button" id="btn-download-content" class="flex-1 py-1.5 px-3 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer">
               <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-              <span>Export</span>
+              <span>Export .txt</span>
             </button>
           </div>
 
@@ -373,23 +408,61 @@
             </div>
           </div>
 
-          <!-- Watermark Settings -->
+          <!-- Watermark Settings (Center Logo + Text) -->
           <div class="space-y-3 bg-slate-50 border border-slate-200 rounded-lg p-3.5">
-            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-200 pb-2">
-              <span>Watermark Overlay</span>
-            </h3>
+            <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+              <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                <span>🎯 Center Watermark (Logo + Text)</span>
+              </h3>
+              <button type="button" data-wm-source="pointer" class="btn-sync-watermark-all text-[10px] font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 px-2 py-0.5 rounded cursor-pointer transition" title="Copy this Logo & Text Watermark to MCQ Series and Book Mode too">
+                Apply to All 3 Modes
+              </button>
+            </div>
 
+            <!-- Watermark Center Logo Upload -->
             <div>
-              <label class="block text-xs font-semibold text-slate-700 mb-1">
-                Watermark Text
+              <label class="block text-xs font-semibold text-slate-700 mb-1 flex items-center justify-between">
+                <span>Center Watermark Logo (PNG/JPG)</span>
+                <span id="label-pointer-wm-logo-status" class="text-[10px] text-slate-400 font-medium">None</span>
               </label>
-              <input
-                type="text"
-                id="input-watermark-text"
-                value="Join @Apnapdfs"
-                placeholder="e.g. Join @Apnapdfs"
-                class="w-full text-xs p-2 border border-slate-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
-              >
+              <div class="flex items-center gap-2 flex-wrap">
+                <label class="py-1.5 px-2.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-lg text-xs font-semibold shadow-sm transition flex items-center gap-1.5 cursor-pointer">
+                  <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                  <span>Upload WM Logo</span>
+                  <input type="file" id="input-pointer-wm-logo-file" accept="image/*" class="hidden">
+                </label>
+                <button type="button" id="btn-use-header-as-wm" class="py-1.5 px-2 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-lg text-[11px] font-semibold cursor-pointer transition">
+                  Use Header Logo
+                </button>
+                <button type="button" id="btn-remove-pointer-wm-logo" class="hidden py-1 px-2 text-xs text-rose-600 hover:text-rose-700 font-semibold cursor-pointer">
+                  Remove
+                </button>
+              </div>
+              <div id="wrapper-pointer-wm-logo-preview" class="hidden mt-2 p-1.5 bg-white rounded border border-slate-200 flex items-center gap-2">
+                <img id="img-pointer-wm-logo-preview" src="" alt="WM Logo Preview" class="h-9 w-9 object-contain rounded border border-slate-100">
+                <span class="text-[10px] text-slate-600">Logo active inside center watermark on every page.</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Display Type</label>
+                <select id="select-watermark-mode" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                  <option value="logo-text" selected>Logo + Text (Center)</option>
+                  <option value="text-only">Text Only</option>
+                  <option value="logo-only">Logo Only</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Watermark Text</label>
+                <input
+                  type="text"
+                  id="input-watermark-text"
+                  value="Join @Apnapdfs"
+                  placeholder="e.g. Join @Apnapdfs"
+                  class="w-full text-xs p-2 border border-slate-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                >
+              </div>
             </div>
 
             <div class="grid grid-cols-2 gap-3">
@@ -397,9 +470,10 @@
                 <label class="block text-xs font-semibold text-slate-700 mb-1">
                   Position Style
                 </label>
-                <select id="select-watermark-pos" class="w-full text-xs p-2 border border-slate-300 rounded bg-white">
-                  <option value="bottom-right">Bottom-Right Tilted (-10°)</option>
-                  <option value="center">Center Diagonal (-35°)</option>
+                <select id="select-watermark-pos" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                  <option value="center" selected>Center Diagonal (-30°)</option>
+                  <option value="center-straight">Center Straight (0°)</option>
+                  <option value="bottom-right">Bottom-Right (-10°)</option>
                   <option value="none">No Watermark</option>
                 </select>
               </div>
@@ -407,7 +481,7 @@
               <div>
                 <div class="flex justify-between items-center mb-1">
                   <label class="text-xs font-semibold text-slate-700">Opacity</label>
-                  <span id="val-watermark-opacity" class="text-xs font-mono text-slate-600">35%</span>
+                  <span id="val-watermark-opacity" class="text-xs font-mono text-slate-600">22%</span>
                 </div>
                 <input
                   type="range"
@@ -415,10 +489,18 @@
                   min="0.05"
                   max="0.80"
                   step="0.05"
-                  value="0.35"
+                  value="0.22"
                   class="w-full h-1.5 bg-slate-300 rounded-lg appearance-none cursor-pointer mt-2"
                 >
               </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-xs font-semibold text-slate-700">Watermark Logo Size</label>
+                <span id="val-pointer-wm-size" class="text-xs font-mono text-slate-600">110px</span>
+              </div>
+              <input type="range" id="input-pointer-wm-size" min="45" max="220" step="5" value="110" class="w-full h-1.5 bg-slate-300 rounded-lg appearance-none cursor-pointer">
             </div>
           </div>
 
@@ -543,11 +625,60 @@
             </div>
           </div>
 
-          <!-- Typography Adjustments -->
+          <!-- Typography, Best Fonts & Bold Controls -->
           <div class="bg-slate-50 border border-slate-200 rounded-lg p-3.5 space-y-3.5">
-            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-200 pb-2">
-              <span>Typography & Spacing</span>
+            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center justify-between border-b border-slate-200 pb-2">
+              <span>Font Family & Question/Answer Bold</span>
+              <span class="text-[9px] bg-blue-600 text-white px-1.5 py-0.5 rounded font-bold">PRO</span>
             </h3>
+
+            <!-- Best Publication Font Selector -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Publication Font Family (Hindi + English)</label>
+              <select id="select-pointer-font-family" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-semibold text-slate-800">
+                <option value="'Noto Sans Devanagari', 'Inter', sans-serif" selected>Noto Sans Devanagari (Authentic Exam Book Default)</option>
+                <option value="'Hind', 'Noto Sans Devanagari', sans-serif">Hind (Clean Modern Textbook)</option>
+                <option value="'Mukta', 'Noto Sans Devanagari', sans-serif">Mukta (Crisp Study Notes)</option>
+                <option value="'Noto Serif Devanagari', Georgia, serif">Noto Serif Devanagari (Classic Print Serif)</option>
+                <option value="'Poppins', 'Noto Sans Devanagari', sans-serif">Poppins + Devanagari (Modern Coaching)</option>
+                <option value="'Baloo 2', 'Noto Sans Devanagari', sans-serif">Baloo 2 (Rounded Friendly Notes)</option>
+              </select>
+            </div>
+
+            <!-- Question Bold / Answer Bold: Default or Manual -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Bold Mode (Default or Manual User Select)</label>
+              <select id="select-pointer-bold-mode" class="w-full text-xs p-2 border border-blue-300 rounded bg-blue-50/40 font-bold text-blue-900">
+                <option value="default" selected>⭐ Default (Answer Bold + Question Medium)</option>
+                <option value="both-bold">🔥 Both Bold (Question Bold + Answer Bold)</option>
+                <option value="ans-bold">🎯 Answer Bold Only (Question Regular)</option>
+                <option value="q-bold">❓ Question Bold Only (Answer Regular)</option>
+                <option value="manual">✍️ Manual User Weights (Choose Below)</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Question Weight</label>
+                <select id="select-pointer-q-weight" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                  <option value="400">Regular (400)</option>
+                  <option value="500" selected>Medium (500 - Default)</option>
+                  <option value="600">Semi-Bold (600)</option>
+                  <option value="700">Bold (700)</option>
+                  <option value="800">Extra-Bold (800)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Answer Weight</label>
+                <select id="select-pointer-a-weight" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                  <option value="400">Regular (400)</option>
+                  <option value="500">Medium (500)</option>
+                  <option value="600">Semi-Bold (600)</option>
+                  <option value="700" selected>Bold (700 - Default)</option>
+                  <option value="800">Extra-Bold (800)</option>
+                </select>
+              </div>
+            </div>
 
             <!-- Font Size -->
             <div>
@@ -608,6 +739,38 @@
                   <option value="solid">Thin Solid Line</option>
                 </select>
               </div>
+            </div>
+
+            <!-- GS Pointer Polish: Answer Prefix, Row Divider & Banner Theme -->
+            <div class="grid grid-cols-2 gap-3 pt-2 border-t border-slate-200">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Answer Prefix Symbol</label>
+                <select id="select-pointer-answer-prefix" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                  <option value="–" selected>– En-Dash (GS Pointer)</option>
+                  <option value="➔">➔ Arrow Marker</option>
+                  <option value="»">» Double Quote Arrow</option>
+                  <option value=":">: Colon</option>
+                  <option value="उत्तर:">उत्तर: Hindi Badge</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Q&A Row Separator</label>
+                <select id="select-pointer-item-divider" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                  <option value="none" selected>None (Clean)</option>
+                  <option value="dotted">Subtle Dotted Line</option>
+                  <option value="solid">Fine Light Line</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">GS Pointer Book Accent Theme</label>
+              <select id="select-pointer-theme" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                <option value="classic" selected>Classic Ghatna Chakra (Charcoal Banner + Black Header)</option>
+                <option value="navy">Royal Exam Navy (Navy Blue Banner & Header Accent)</option>
+                <option value="emerald">Academic Emerald (Forest Green Banner & Header)</option>
+                <option value="crimson">Booster Crimson (Deep Crimson Banner & Header)</option>
+              </select>
             </div>
 
             <!-- Outer Page Frame Style -->
@@ -820,10 +983,76 @@
               </div>
             </div>
 
-            <!-- Watermark -->
-            <div class="space-y-2 pt-2 border-t border-slate-200">
-              <label class="block text-xs font-semibold text-slate-700">Watermark Text</label>
-              <input type="text" id="input-mcq-watermark" value="PLATFORM" class="w-full text-xs p-2 border border-slate-300 rounded">
+            <!-- Watermark (Center Logo + Text) -->
+            <div class="space-y-3 bg-slate-50 border border-slate-200 rounded-lg p-3.5 mt-2">
+              <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                <span class="text-xs font-bold text-slate-800 uppercase tracking-wider">🎯 Center Watermark (Logo + Text)</span>
+                <button type="button" data-wm-source="mcq" class="btn-sync-watermark-all text-[10px] font-bold text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 px-2 py-0.5 rounded cursor-pointer transition">
+                  Apply to All 3 Modes
+                </button>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1 flex items-center justify-between">
+                  <span>Center Watermark Logo (PNG/JPG)</span>
+                  <span id="label-mcq-wm-logo-status" class="text-[10px] text-slate-400 font-medium">None</span>
+                </label>
+                <div class="flex items-center gap-2">
+                  <label class="py-1.5 px-2.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-lg text-xs font-semibold shadow-sm transition flex items-center gap-1.5 cursor-pointer">
+                    <span>Upload WM Logo</span>
+                    <input type="file" id="input-mcq-wm-logo-file" accept="image/*" class="hidden">
+                  </label>
+                  <button type="button" id="btn-remove-mcq-wm-logo" class="hidden py-1 px-2 text-xs text-rose-600 hover:text-rose-700 font-semibold cursor-pointer">
+                    Remove
+                  </button>
+                </div>
+                <div id="wrapper-mcq-wm-logo-preview" class="hidden mt-2 p-1.5 bg-white rounded border border-slate-200 flex items-center gap-2">
+                  <img id="img-mcq-wm-logo-preview" src="" alt="MCQ WM Logo Preview" class="h-9 w-9 object-contain rounded border border-slate-100">
+                  <span class="text-[10px] text-slate-600">Center logo active behind all MCQ pages.</span>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1">Display Type</label>
+                  <select id="select-mcq-watermark-mode" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                    <option value="logo-text" selected>Logo + Text (Center)</option>
+                    <option value="text-only">Text Only</option>
+                    <option value="logo-only">Logo Only</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1">Watermark Text</label>
+                  <input type="text" id="input-mcq-watermark" value="PLATFORM" class="w-full text-xs p-2 border border-slate-300 rounded bg-white">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1">Position Style</label>
+                  <select id="select-mcq-watermark-pos" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                    <option value="center" selected>Center Diagonal (-30°)</option>
+                    <option value="center-straight">Center Straight (0°)</option>
+                    <option value="bottom-right">Bottom-Right (-10°)</option>
+                    <option value="none">No Watermark</option>
+                  </select>
+                </div>
+                <div>
+                  <div class="flex justify-between items-center mb-1">
+                    <label class="text-xs font-semibold text-slate-700">Opacity</label>
+                    <span id="val-mcq-watermark-opacity" class="text-xs font-mono text-slate-600">14%</span>
+                  </div>
+                  <input type="range" id="input-mcq-watermark-opacity" min="0.05" max="0.80" step="0.02" value="0.14" class="w-full h-1.5 bg-slate-300 rounded-lg appearance-none cursor-pointer mt-2">
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between items-center mb-1">
+                  <label class="text-xs font-semibold text-slate-700">Watermark Logo Size</label>
+                  <span id="val-mcq-wm-size" class="text-xs font-mono text-slate-600">110px</span>
+                </div>
+                <input type="range" id="input-mcq-wm-size" min="45" max="220" step="5" value="110" class="w-full h-1.5 bg-slate-300 rounded-lg appearance-none cursor-pointer">
+              </div>
             </div>
           </div>
 
@@ -1047,6 +1276,55 @@
                 </div>
                 <input type="range" id="input-mcq-font-size" min="10" max="14" step="0.5" value="11.5" class="w-full h-1.5 bg-slate-300 rounded-lg appearance-none cursor-pointer">
               </div>
+
+              <!-- MCQ Publication Font & Question/Option Bold Controls -->
+              <div class="pt-3 border-t border-red-200 space-y-2.5">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1">Publication Font Family (Hindi + English)</label>
+                  <select id="select-mcq-font-family" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-semibold text-slate-800">
+                    <option value="'Noto Sans Devanagari', 'Inter', sans-serif" selected>Noto Sans Devanagari (Authentic Exam Default)</option>
+                    <option value="'Hind', 'Noto Sans Devanagari', sans-serif">Hind (Clean Modern Textbook)</option>
+                    <option value="'Mukta', 'Noto Sans Devanagari', sans-serif">Mukta (Crisp Study Notes)</option>
+                    <option value="'Noto Serif Devanagari', Georgia, serif">Noto Serif Devanagari (Classic Print Serif)</option>
+                    <option value="'Poppins', 'Noto Sans Devanagari', sans-serif">Poppins + Devanagari (Modern Coaching)</option>
+                    <option value="'Baloo 2', 'Noto Sans Devanagari', sans-serif">Baloo 2 (Rounded Friendly Notes)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1">Bold Mode (Default or Manual User Select)</label>
+                  <select id="select-mcq-bold-mode" class="w-full text-xs p-2 border border-red-300 rounded bg-white font-bold text-red-900">
+                    <option value="default" selected>⭐ Default (Question Bold + Options Clean)</option>
+                    <option value="both-bold">🔥 Both Bold (Questions + Options Bold)</option>
+                    <option value="q-bold">❓ Question Bold Only (Options Regular)</option>
+                    <option value="ans-bold">🎯 Options Bold Only (Questions Regular)</option>
+                    <option value="manual">✍️ Manual User Weights (Choose Below)</option>
+                  </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Question Weight</label>
+                    <select id="select-mcq-q-weight" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                      <option value="400">Regular (400)</option>
+                      <option value="500">Medium (500)</option>
+                      <option value="600">Semi-Bold (600)</option>
+                      <option value="700" selected>Bold (700 - Default)</option>
+                      <option value="800">Extra-Bold (800)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Option / Ans Weight</label>
+                    <select id="select-mcq-opt-weight" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                      <option value="400">Regular (400)</option>
+                      <option value="500" selected>Medium (500 - Default)</option>
+                      <option value="600">Semi-Bold (600)</option>
+                      <option value="700">Bold (700)</option>
+                      <option value="800">Extra-Bold (800)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider border-b border-slate-200 pb-2">
@@ -1251,19 +1529,76 @@
               </select>
             </div>
 
-            <!-- Diagonal Watermark -->
-            <div>
-              <label class="block text-xs font-semibold text-slate-700 mb-1">Diagonal Watermark Text</label>
-              <input type="text" id="input-book-watermark-text" value="JEE - FORM STUDY POINT" class="w-full text-xs p-2 border border-slate-300 rounded font-bold text-slate-800">
-            </div>
-
-            <!-- Watermark Opacity -->
-            <div>
-              <div class="flex justify-between items-center mb-1">
-                <label class="text-xs font-semibold text-slate-700">Watermark Opacity</label>
-                <span id="val-book-watermark-opacity" class="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">0.15</span>
+            <!-- Center Watermark (Logo + Text) -->
+            <div class="space-y-3 bg-slate-50 border border-slate-200 rounded-lg p-3.5">
+              <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                <span class="text-xs font-bold text-slate-800 uppercase tracking-wider">🎯 Center Watermark (Logo + Text)</span>
+                <button type="button" data-wm-source="book" class="btn-sync-watermark-all text-[10px] font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-2 py-0.5 rounded cursor-pointer transition">
+                  Apply to All 3 Modes
+                </button>
               </div>
-              <input type="range" id="input-book-watermark-opacity" min="0.05" max="0.4" step="0.01" value="0.15" class="w-full h-1.5 bg-slate-300 rounded-lg appearance-none cursor-pointer">
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1 flex items-center justify-between">
+                  <span>Center Watermark Logo (PNG/JPG)</span>
+                  <span id="label-book-wm-logo-status" class="text-[10px] text-slate-400 font-medium">None</span>
+                </label>
+                <div class="flex items-center gap-2">
+                  <label class="py-1.5 px-2.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-lg text-xs font-semibold shadow-sm transition flex items-center gap-1.5 cursor-pointer">
+                    <span>Upload WM Logo</span>
+                    <input type="file" id="input-book-wm-logo-file" accept="image/*" class="hidden">
+                  </label>
+                  <button type="button" id="btn-remove-book-wm-logo" class="hidden py-1 px-2 text-xs text-rose-600 hover:text-rose-700 font-semibold cursor-pointer">
+                    Remove
+                  </button>
+                </div>
+                <div id="wrapper-book-wm-logo-preview" class="hidden mt-2 p-1.5 bg-white rounded border border-slate-200 flex items-center gap-2">
+                  <img id="img-book-wm-logo-preview" src="" alt="Book WM Logo Preview" class="h-9 w-9 object-contain rounded border border-slate-100">
+                  <span class="text-[10px] text-slate-600">Center logo active inside all book pages.</span>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1">Display Type</label>
+                  <select id="select-book-watermark-mode" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                    <option value="logo-text" selected>Logo + Text (Center)</option>
+                    <option value="text-only">Text Only</option>
+                    <option value="logo-only">Logo Only</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1">Watermark Text</label>
+                  <input type="text" id="input-book-watermark-text" value="JEE - FORM STUDY POINT" class="w-full text-xs p-2 border border-slate-300 rounded font-bold text-slate-800 bg-white">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1">Position Style</label>
+                  <select id="select-book-watermark-pos" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                    <option value="center" selected>Center Diagonal (-30°)</option>
+                    <option value="center-straight">Center Straight (0°)</option>
+                    <option value="bottom-right">Bottom-Right (-10°)</option>
+                    <option value="none">No Watermark</option>
+                  </select>
+                </div>
+                <div>
+                  <div class="flex justify-between items-center mb-1">
+                    <label class="text-xs font-semibold text-slate-700">Watermark Opacity</label>
+                    <span id="val-book-watermark-opacity" class="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">14%</span>
+                  </div>
+                  <input type="range" id="input-book-watermark-opacity" min="0.05" max="0.80" step="0.02" value="0.14" class="w-full h-1.5 bg-slate-300 rounded-lg appearance-none cursor-pointer mt-2">
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between items-center mb-1">
+                  <label class="text-xs font-semibold text-slate-700">Watermark Logo Size</label>
+                  <span id="val-book-wm-size" class="text-xs font-mono text-slate-600">110px</span>
+                </div>
+                <input type="range" id="input-book-wm-size" min="45" max="220" step="5" value="110" class="w-full h-1.5 bg-slate-300 rounded-lg appearance-none cursor-pointer">
+              </div>
             </div>
 
             <!-- Starting Page Number -->
@@ -1359,6 +1694,54 @@
                 <input type="color" id="input-book-highlight-color" value="#ffff00" class="w-8 h-8 rounded border border-slate-300 p-0.5 cursor-pointer">
                 <input type="text" id="input-book-highlight-color-text" value="#ffff00" class="w-28 text-xs p-1.5 border border-slate-300 rounded font-mono font-bold">
                 <span class="text-[11px] text-slate-500">Vibrant Yellow Highlighter</span>
+              </div>
+            </div>
+
+            <!-- Book Font Family & Question/Answer Bold Controls -->
+            <div class="space-y-2.5 pt-2 border-t border-slate-200">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Publication Font Family (Hindi + English)</label>
+                <select id="select-book-font-family" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-semibold text-slate-800">
+                  <option value="'Noto Sans Devanagari', 'Inter', sans-serif" selected>Noto Sans Devanagari (Authentic Book Default)</option>
+                  <option value="'Hind', 'Noto Sans Devanagari', sans-serif">Hind (Clean Modern Textbook)</option>
+                  <option value="'Mukta', 'Noto Sans Devanagari', sans-serif">Mukta (Crisp Study Notes)</option>
+                  <option value="'Noto Serif Devanagari', Georgia, serif">Noto Serif Devanagari (Classic Print Serif)</option>
+                  <option value="'Poppins', 'Noto Sans Devanagari', sans-serif">Poppins + Devanagari (Modern Coaching)</option>
+                  <option value="'Baloo 2', 'Noto Sans Devanagari', sans-serif">Baloo 2 (Rounded Friendly Notes)</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Bold Mode (Default or Manual User Select)</label>
+                <select id="select-book-bold-mode" class="w-full text-xs p-2 border border-emerald-300 rounded bg-emerald-50/40 font-bold text-emerald-900">
+                  <option value="default" selected>⭐ Default (Keywords/Ans Extra-Bold + Notes Medium)</option>
+                  <option value="both-bold">🔥 Both Bold (Questions/Text + Answers Bold)</option>
+                  <option value="ans-bold">🎯 Answer / Highlight Bold Only</option>
+                  <option value="q-bold">❓ Notes / Question Bold Only</option>
+                  <option value="manual">✍️ Manual User Weights (Choose Below)</option>
+                </select>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1">Notes / Q Weight</label>
+                  <select id="select-book-text-weight" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                    <option value="400">Regular (400)</option>
+                    <option value="500" selected>Medium (500 - Default)</option>
+                    <option value="600">Semi-Bold (600)</option>
+                    <option value="700">Bold (700)</option>
+                    <option value="800">Extra-Bold (800)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1">Highlight / Ans Weight</label>
+                  <select id="select-book-ans-weight" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                    <option value="400">Regular (400)</option>
+                    <option value="600">Semi-Bold (600)</option>
+                    <option value="700">Bold (700)</option>
+                    <option value="800" selected>Extra-Bold (800 - Default)</option>
+                  </select>
+                </div>
               </div>
             </div>
 

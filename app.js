@@ -898,8 +898,11 @@ const DEFAULT_STATE = {
   topBannerText: "CLICK HERE - JOIN @APNAPDFS",
   topBannerUrl: "https://t.me/apnapdfs",
   watermarkText: "Join @Apnapdfs",
-  watermarkPos: "bottom-right", // "bottom-right", "center", "none"
-  watermarkOpacity: 0.35,
+  watermarkLogo: "", // Center Watermark Logo Base64 Data URL
+  watermarkMode: "logo-text", // "logo-text", "text-only", "logo-only"
+  watermarkPos: "center", // "center", "center-straight", "bottom-right", "none"
+  watermarkOpacity: 0.22,
+  watermarkSize: 110,
   startingPageNumber: 1,
 
   // Cover Page (Optional Front Title Page)
@@ -912,6 +915,13 @@ const DEFAULT_STATE = {
   itemsPerPage: 48,
   itemSpacing: "3.5",
   outerFrame: "none", // "none", "single", "double"
+  fontFamily: "'Noto Sans Devanagari', 'Inter', sans-serif",
+  boldMode: "default", // "default", "both-bold", "ans-bold", "q-bold", "manual"
+  questionWeight: "500",
+  answerWeight: "700",
+  answerPrefix: "–",
+  itemDivider: "none", // "none", "dotted", "solid"
+  pointerTheme: "classic", // "classic", "navy", "emerald", "crimson"
   fontSize: 12.0,
   lineHeight: "1.45",
   columnGap: "7",
@@ -955,13 +965,21 @@ const DEFAULT_STATE = {
     footerWebText: "www.rukminiprakashan.com",
     footerWebUrl: "https://www.rukminiprakashan.com",
     watermarkText: "PLATFORM",
-    watermarkOpacity: 0.12,
+    watermarkLogo: "",
+    watermarkMode: "logo-text",
+    watermarkPos: "center",
+    watermarkOpacity: 0.14,
+    watermarkSize: 110,
     startingPageNumber: 99,
     qNumColor: "#dc2626", // Crimson Red for question numbers
     optionsLayout: "auto", // "auto", "grid2x2", "inline4", "stacked"
     colDivider: "solid", // "solid", "dashed", "none"
     includeAnswerKey: true,
     showSolutions: "below", // "below" (show below question), "hide" (questions only)
+    fontFamily: "'Noto Sans Devanagari', 'Inter', sans-serif",
+    boldMode: "default",
+    questionWeight: "700",
+    optionWeight: "500",
     fontSize: 11.5,
     paginationMode: "autofit", // "autofit" (100% full page pack) or "manual" (slider)
     itemsPerPage: 16,
@@ -981,8 +999,16 @@ const DEFAULT_STATE = {
     headerBgColor: "#0b2545",
     highlightColor: "#ffff00",
     watermarkText: "JEE - FORM STUDY POINT",
-    watermarkOpacity: 0.12,
+    watermarkLogo: "",
+    watermarkMode: "logo-text",
+    watermarkPos: "center",
+    watermarkOpacity: 0.14,
+    watermarkSize: 110,
     startingPageNumber: 2,
+    fontFamily: "'Noto Sans Devanagari', 'Inter', sans-serif",
+    boldMode: "default",
+    textWeight: "500",
+    answerWeight: "800",
     fontSize: 11.5,
     lineHeight: "1.38",
     bulletStyle: "➢",
@@ -1038,6 +1064,9 @@ function loadSavedSettings() {
           ...(parsed.book || {})
         }
       };
+      if (appState.watermarkPos === "diagonal") appState.watermarkPos = "center";
+      if (appState.mcq.watermarkPos === "diagonal") appState.mcq.watermarkPos = "center";
+      if (appState.book.watermarkPos === "diagonal") appState.book.watermarkPos = "center";
       return true;
     }
   } catch (err) {
@@ -1335,6 +1364,105 @@ async function convertLanguageBatch(fromLang, toLang) {
 }
 
 // ==========================================
+// SHARED WATERMARK, FONT & BOLD PRESET HELPERS
+// ==========================================
+const POINTER_THEMES = {
+  classic: { bannerBg: "#424242", headerBorder: "#000000" },
+  navy:    { bannerBg: "#1e3a8a", headerBorder: "#1e3a8a" },
+  emerald: { bannerBg: "#065f46", headerBorder: "#065f46" },
+  crimson: { bannerBg: "#991b1b", headerBorder: "#991b1b" }
+};
+
+const BOLD_PRESETS = {
+  pointer: {
+    default:     { qKey: "questionWeight", qVal: "500", aKey: "answerWeight", aVal: "700" },
+    "both-bold": { qKey: "questionWeight", qVal: "700", aKey: "answerWeight", aVal: "700" },
+    "ans-bold":  { qKey: "questionWeight", qVal: "400", aKey: "answerWeight", aVal: "700" },
+    "q-bold":    { qKey: "questionWeight", qVal: "700", aKey: "answerWeight", aVal: "400" }
+  },
+  mcq: {
+    default:     { qKey: "questionWeight", qVal: "700", aKey: "optionWeight", aVal: "500" },
+    "both-bold": { qKey: "questionWeight", qVal: "700", aKey: "optionWeight", aVal: "700" },
+    "q-bold":    { qKey: "questionWeight", qVal: "700", aKey: "optionWeight", aVal: "400" },
+    "ans-bold":  { qKey: "questionWeight", qVal: "400", aKey: "optionWeight", aVal: "700" }
+  },
+  book: {
+    default:     { qKey: "textWeight", qVal: "500", aKey: "answerWeight", aVal: "800" },
+    "both-bold": { qKey: "textWeight", qVal: "700", aKey: "answerWeight", aVal: "800" },
+    "ans-bold":  { qKey: "textWeight", qVal: "400", aKey: "answerWeight", aVal: "800" },
+    "q-bold":    { qKey: "textWeight", qVal: "700", aKey: "answerWeight", aVal: "500" }
+  }
+};
+
+/**
+ * Applies a bold preset ("default", "both-bold", "ans-bold", "q-bold") to a studio section.
+ */
+function applyBoldPreset(section, mode) {
+  const target = section === "pointer" ? appState : (appState[section] || (appState[section] = {}));
+  target.boldMode = mode;
+  const preset = BOLD_PRESETS[section] && BOLD_PRESETS[section][mode];
+  if (preset) {
+    target[preset.qKey] = preset.qVal;
+    target[preset.aKey] = preset.aVal;
+  }
+}
+
+/**
+ * Builds unified Center / Positioned Watermark HTML (Logo + Text) across Pointer, MCQ, and Book sheets.
+ */
+function buildWatermarkHtml(cfg = {}) {
+  const pos = cfg.pos || "center";
+  if (pos === "none") return "";
+
+  const wmMode = cfg.mode || "logo-text";
+  const cleanLogo = (cfg.logo || "").trim();
+  const cleanText = (cfg.text || "").trim();
+
+  const showLogo = Boolean(cleanLogo) && (wmMode === "logo-text" || wmMode === "logo-only");
+  const showText = Boolean(cleanText) && (wmMode === "logo-text" || wmMode === "text-only");
+  if (!showLogo && !showText) return "";
+
+  const posClass = pos === "center-straight"
+    ? "pos-center-straight"
+    : (pos === "bottom-right" ? "pos-bottom-right" : "pos-center");
+  const safeOpacity = Math.max(0.05, Math.min(0.85, parseFloat(cfg.opacity) || 0.2));
+  const safeSize = Math.max(40, Math.min(240, parseInt(cfg.size, 10) || 110));
+  const safeFont = String(cfg.fontFamily || "var(--font-devanagari)").replace(/["<>]/g, "'");
+
+  return `
+    <div class="gs-watermark-overlay ${posClass}" style="opacity: ${safeOpacity}; --wm-logo-size: ${safeSize}px; font-family: ${safeFont};">
+      ${showLogo ? `<img src="${escapeHtml(cleanLogo)}" class="gs-watermark-logo" alt="Watermark Logo">` : ""}
+      ${showText ? `<span class="gs-watermark-text">${escapeHtml(cleanText)}</span>` : ""}
+    </div>
+  `;
+}
+
+/**
+ * Syncs Watermark Logo + Text configuration from one studio across GS Pointer, MCQ Series, and Book Studio.
+ */
+function syncWatermarkToAllSections(sourceSection) {
+  const src = sourceSection === "pointer" ? appState : (appState[sourceSection] || {});
+  const shared = {
+    watermarkText: src.watermarkText || "",
+    watermarkLogo: src.watermarkLogo || "",
+    watermarkMode: src.watermarkMode || "logo-text",
+    watermarkPos: src.watermarkPos || "center",
+    watermarkOpacity: parseFloat(src.watermarkOpacity) || 0.16,
+    watermarkSize: parseInt(src.watermarkSize, 10) || 110
+  };
+
+  Object.assign(appState, shared);
+  if (!appState.mcq) appState.mcq = {};
+  Object.assign(appState.mcq, shared);
+  if (!appState.book) appState.book = {};
+  Object.assign(appState.book, shared);
+
+  syncInputsFromState();
+  renderDocument();
+  showToast("🎯 Applied Logo + Text Watermark across GS Pointer, MCQ Series & Book Studio!", "success");
+}
+
+// ==========================================
 // TRIPLE DOCUMENT RENDER ENGINE
 // Mode 1: GS Pointer (One-Liner Two-Column Booklet)
 // Mode 2: MCQ Test Series (Platform / Rukmini Practice Set)
@@ -1359,13 +1487,26 @@ function renderPointerDocument() {
 
   const items = parseRawContent(appState.rawContent, appState.stripQNumbers);
 
-  // Update root CSS variables for dynamic typography & column rules
+  // Update root CSS variables for dynamic typography, bold weights, theme & column rules
+  const theme = POINTER_THEMES[appState.pointerTheme] || POINTER_THEMES.classic;
+  const dividerCss = appState.itemDivider === "dotted"
+    ? "0.6px dotted #cbd5e1"
+    : (appState.itemDivider === "solid" ? "0.6px solid #e2e8f0" : "none");
+  const dividerPad = (appState.itemDivider && appState.itemDivider !== "none") ? "2px" : "0px";
+
+  document.documentElement.style.setProperty("--doc-font-family", appState.fontFamily || "'Noto Sans Devanagari', 'Inter', sans-serif");
   document.documentElement.style.setProperty("--doc-font-size", `${appState.fontSize}px`);
   document.documentElement.style.setProperty("--doc-line-height", appState.lineHeight);
   document.documentElement.style.setProperty("--doc-column-gap", `${appState.columnGap}mm`);
   document.documentElement.style.setProperty("--doc-item-spacing", `${appState.itemSpacing || 3.5}px`);
+  document.documentElement.style.setProperty("--doc-item-border-bottom", dividerCss);
+  document.documentElement.style.setProperty("--doc-item-border-pad", dividerPad);
   document.documentElement.style.setProperty("--doc-answer-color", appState.answerColor || "#dc2626");
   document.documentElement.style.setProperty("--doc-question-color", appState.questionColor || "#000000");
+  document.documentElement.style.setProperty("--doc-question-weight", appState.questionWeight || "500");
+  document.documentElement.style.setProperty("--doc-answer-weight", appState.answerWeight || "700");
+  document.documentElement.style.setProperty("--doc-banner-bg", theme.bannerBg);
+  document.documentElement.style.setProperty("--doc-header-border", theme.headerBorder);
 
   let ruleStyle = "none";
   if (appState.columnDivider === "solid") ruleStyle = "0.75px solid #000000";
@@ -1452,9 +1593,12 @@ function renderMcqDocument() {
   const items = parseRawMcqContent(appState.mcq.rawMcqContent);
 
   // Update typography
+  document.documentElement.style.setProperty("--mcq-font-family", appState.mcq.fontFamily || "'Noto Sans Devanagari', 'Inter', sans-serif");
   document.documentElement.style.setProperty("--mcq-font-size", `${appState.mcq.fontSize || 11.5}px`);
   document.documentElement.style.setProperty("--doc-font-size", `${appState.mcq.fontSize || 11.5}px`);
   document.documentElement.style.setProperty("--mcq-line-height", `${appState.mcq.lineHeight || 1.35}`);
+  document.documentElement.style.setProperty("--mcq-question-weight", appState.mcq.questionWeight || "700");
+  document.documentElement.style.setProperty("--mcq-option-weight", appState.mcq.optionWeight || "500");
   const spacingMap = { tight: "2.5px", standard: "4px", relaxed: "6px", justify: "3.5px" };
   const itemSpacingVal = spacingMap[appState.mcq.itemSpacing] || "4px";
   document.documentElement.style.setProperty("--mcq-item-spacing", itemSpacingVal);
@@ -1788,6 +1932,7 @@ function packMcqItemsAutoFit(items) {
   const itemSpacingPx = spacingMap[appState.mcq.itemSpacing] || 4;
 
   // Exact column width is 92mm (210mm A4 - 20mm horizontal margins - 6mm column gap = 184mm / 2 = 92mm)
+  const mcqFont = (appState.mcq && appState.mcq.fontFamily) || "var(--font-devanagari)";
   measureSandbox.style.cssText = `
     position: absolute;
     left: -9999px;
@@ -1796,7 +1941,7 @@ function packMcqItemsAutoFit(items) {
     visibility: hidden;
     pointer-events: none;
     box-sizing: border-box;
-    font-family: var(--font-devanagari);
+    font-family: ${mcqFont};
     font-size: ${fontSize}px;
     line-height: ${lineHeight};
     padding: 0;
@@ -2402,10 +2547,15 @@ function createMcqA4PageElement(pageChunk, pageNum, totalPages, isLastPage, allI
   sheet.className = `a4-sheet ${frameClass}`.trim();
   sheet.dataset.page = pageNum;
 
-  const watermarkText = (appState.mcq.watermarkText || "").trim();
-  const watermarkHtml = watermarkText
-    ? `<div class="gs-watermark-overlay pos-center" style="opacity: ${appState.mcq.watermarkOpacity || 0.12};">${escapeHtml(watermarkText)}</div>`
-    : "";
+  const watermarkHtml = buildWatermarkHtml({
+    text: appState.mcq.watermarkText,
+    logo: appState.mcq.watermarkLogo,
+    mode: appState.mcq.watermarkMode || "logo-text",
+    pos: appState.mcq.watermarkPos || "center",
+    opacity: appState.mcq.watermarkOpacity || 0.14,
+    size: appState.mcq.watermarkSize || 110,
+    fontFamily: appState.mcq.fontFamily
+  });
 
   const topAppText = (appState.mcq.topAppBannerText || "").trim();
   const topAppUrl = (appState.mcq.topAppBannerUrl || "").trim() || "#";
@@ -2537,8 +2687,11 @@ function renderBookDocument() {
   const items = parseRawBookContent(appState.book.rawBookContent);
 
   // Update dynamic root CSS variables for Book typography and styling
+  document.documentElement.style.setProperty("--book-font-family", appState.book.fontFamily || "'Noto Sans Devanagari', 'Inter', sans-serif");
   document.documentElement.style.setProperty("--book-font-size", `${appState.book.fontSize || 11.5}px`);
   document.documentElement.style.setProperty("--book-line-height", `${appState.book.lineHeight || 1.38}`);
+  document.documentElement.style.setProperty("--book-text-weight", appState.book.textWeight || "500");
+  document.documentElement.style.setProperty("--book-answer-weight", appState.book.answerWeight || "800");
   document.documentElement.style.setProperty("--book-header-bg", appState.book.headerBgColor || "#0b2545");
   document.documentElement.style.setProperty("--book-highlight-color", appState.book.highlightColor || "#ffff00");
 
@@ -2614,11 +2767,15 @@ function createBookA4PageElement(pageChunk, pageNum, totalPages, isLastPage, all
     <div class="book-sheet-inner">
       <div class="book-frame-box" style="${frameBorderCss}">
         <!-- Watermark -->
-        ${appState.book.watermarkText ? `
-          <div class="gs-watermark-overlay pos-center" style="opacity: ${appState.book.watermarkOpacity || 0.12}; pointer-events: none;">
-            ${escapeHtml(appState.book.watermarkText)}
-          </div>
-        ` : ''}
+        ${buildWatermarkHtml({
+          text: appState.book.watermarkText,
+          logo: appState.book.watermarkLogo,
+          mode: appState.book.watermarkMode || "logo-text",
+          pos: appState.book.watermarkPos || "center",
+          opacity: appState.book.watermarkOpacity || 0.14,
+          size: appState.book.watermarkSize || 110,
+          fontFamily: appState.book.fontFamily
+        })}
 
         <!-- Top Dark Navy Blue Header Bar -->
         <div class="book-header-bar" style="background-color: ${escapeHtml(appState.book.headerBgColor || '#0b2545')};">
@@ -2700,7 +2857,7 @@ function createBookDomElement(item) {
   if (item.type === "qa_item") {
     el.className = "book-item-block";
     el.innerHTML = `
-      <div class="mb-0.5 font-bold text-slate-900 leading-tight">
+      <div class="mb-0.5 text-slate-900 leading-tight" style="font-weight: var(--book-text-weight, 600);">
         <span class="text-red-600 font-extrabold mr-1">✦</span>${formatBookInlineText(item.question)}
       </div>
       <div class="text-slate-800 pl-2 border-l-2 border-red-200 leading-snug">
@@ -2911,6 +3068,7 @@ function packBookItemsAutoFit(items) {
   const lineHeight = (appState.book && appState.book.lineHeight) || 1.38;
 
   // Exact column width inside 210mm A4 sheet (210 - 14mm margins - 6mm divider = 190mm / 2 = 95mm)
+  const bookFont = (appState.book && appState.book.fontFamily) || "var(--font-devanagari)";
   measureSandbox.style.cssText = `
     position: absolute;
     left: -9999px;
@@ -2919,7 +3077,7 @@ function packBookItemsAutoFit(items) {
     visibility: hidden;
     pointer-events: none;
     box-sizing: border-box;
-    font-family: var(--font-devanagari);
+    font-family: ${bookFont};
     font-size: ${fontSize}px;
     line-height: ${lineHeight};
     padding: 0;
@@ -3198,7 +3356,7 @@ function packItemsAutoFit(items) {
 
   measureSandbox.style.fontSize = `${appState.fontSize}px`;
   measureSandbox.style.lineHeight = appState.lineHeight;
-  measureSandbox.style.fontFamily = "var(--font-devanagari)";
+  measureSandbox.style.fontFamily = appState.fontFamily || "var(--font-devanagari)";
 
   // Measure actual column height in pixels dynamically (260mm)
   const heightProbe = document.createElement("div");
@@ -3246,12 +3404,13 @@ function packItemsAutoFit(items) {
     aText = escapeHtmlPreservingTags(aText);
     const div = document.createElement("div");
 
+    const formattedPrefix = escapeHtml(appState.answerPrefix || "–");
     if (appState.answerStyle === "style-right") {
       div.className = "gs-qa-item style-right gs-document-font";
-      div.innerHTML = `${bulletSymbol}<span class="gs-question">${qText}</span>${aText ? `<span class="gs-answer">– ${aText}</span>` : ""}`;
+      div.innerHTML = `${bulletSymbol}<span class="gs-question">${qText}</span>${aText ? `<span class="gs-answer">${formattedPrefix} ${aText}</span>` : ""}`;
     } else {
       div.className = "gs-qa-item style-inline gs-document-font";
-      div.innerHTML = `${bulletSymbol}<span class="gs-question">${qText}</span>${aText ? `<span class="gs-answer"> – ${aText}</span>` : ""}`;
+      div.innerHTML = `${bulletSymbol}<span class="gs-question">${qText}</span>${aText ? `<span class="gs-answer"> ${formattedPrefix} ${aText}</span>` : ""}`;
     }
     div.style.marginBottom = `${itemSpacingPx}px`;
     frag.appendChild(div);
@@ -3326,16 +3485,16 @@ function createA4PageElement(pageItems, pageNumber, totalPages, pageSequence) {
   sheet.className = `a4-sheet ${frameClass}`.trim();
   sheet.dataset.pageSequence = pageSequence;
 
-  // Watermark Element
-  let watermarkHtml = "";
-  if (appState.watermarkPos !== "none" && appState.watermarkText.trim()) {
-    const posClass = appState.watermarkPos === "center" ? "pos-center" : "pos-bottom-right";
-    watermarkHtml = `
-      <div class="gs-watermark-overlay ${posClass}" style="opacity: ${appState.watermarkOpacity};">
-        ${escapeHtml(appState.watermarkText)}
-      </div>
-    `;
-  }
+  // Watermark Element (Center Logo + Text)
+  const watermarkHtml = buildWatermarkHtml({
+    text: appState.watermarkText,
+    logo: appState.watermarkLogo,
+    mode: appState.watermarkMode || "logo-text",
+    pos: appState.watermarkPos || "center",
+    opacity: appState.watermarkOpacity,
+    size: appState.watermarkSize || 110,
+    fontFamily: appState.fontFamily
+  });
 
   // Top Clickable Promo Banner
   let bannerHtml = "";
@@ -3391,19 +3550,20 @@ function createA4PageElement(pageItems, pageNumber, totalPages, pageSequence) {
     const questionText = highlightFormattedText(item.question);
     const answerText = highlightFormattedText(item.answer);
 
+    const formattedPrefix = escapeHtml(appState.answerPrefix || "–");
     if (appState.answerStyle === "style-right") {
       // Mode 1: Authentic GS Pointer Right-Aligned
       itemsHtml += `
         <div class="gs-qa-item style-right gs-document-font">
           ${bulletSymbol}<span class="gs-question">${questionText}</span>
-          ${answerText ? `<span class="gs-answer">– ${answerText}</span>` : ""}
+          ${answerText ? `<span class="gs-answer">${formattedPrefix} ${answerText}</span>` : ""}
         </div>
       `;
     } else {
       // Mode 2: Inline Bold
       itemsHtml += `
         <div class="gs-qa-item style-inline gs-document-font">
-          ${bulletSymbol}<span class="gs-question">${questionText}</span>${answerText ? `<span class="gs-answer"> – ${answerText}</span>` : ""}
+          ${bulletSymbol}<span class="gs-question">${questionText}</span>${answerText ? `<span class="gs-answer"> ${formattedPrefix} ${answerText}</span>` : ""}
         </div>
       `;
     }
@@ -3453,6 +3613,9 @@ function escapeHtmlPreservingTags(str) {
     .replace(/&lt;(\/?)b&gt;/gi, "<$1b>")
     .replace(/&lt;(\/?)i&gt;/gi, "<$1i>")
     .replace(/&lt;(\/?)u&gt;/gi, "<$1u>");
+
+  // Support **important bold** markdown syntax safely after HTML escaping
+  safe = safe.replace(/\*\*([^\*\n]+?)\*\*/g, "<b>$1</b>");
 
   return safe;
 }
@@ -3687,19 +3850,48 @@ function highlightFormattedText(text) {
 // ==========================================
 // UI SYNCHRONIZATION & INTERACTION
 // ==========================================
+function syncWatermarkPreviewUI(prefix, logoUrl) {
+  const statusEl = document.getElementById(`label-${prefix}-wm-logo-status`);
+  const btnRemove = document.getElementById(`btn-remove-${prefix}-wm-logo`);
+  const wrapper = document.getElementById(`wrapper-${prefix}-wm-logo-preview`);
+  const img = document.getElementById(`img-${prefix}-wm-logo-preview`);
+
+  if (logoUrl) {
+    if (statusEl) {
+      statusEl.innerText = "Active";
+      statusEl.className = "text-[10px] text-emerald-600 font-bold";
+    }
+    if (btnRemove) btnRemove.classList.remove("hidden");
+    if (wrapper) wrapper.classList.remove("hidden");
+    if (img) img.src = logoUrl;
+  } else {
+    if (statusEl) {
+      statusEl.innerText = "None";
+      statusEl.className = "text-[10px] text-slate-400 font-medium";
+    }
+    if (btnRemove) btnRemove.classList.add("hidden");
+    if (wrapper) wrapper.classList.add("hidden");
+    if (img) img.src = "";
+  }
+}
+
 function syncInputsFromState() {
   // Mode selection & view
   updateModeView(appState.currentMode || "pointer");
 
-  // GS Pointer Branding inputs
+  // GS Pointer Branding & Watermark inputs
   setValue("input-left-brand", appState.leftBrandText);
   setValue("input-center-subject", appState.centerSubjectText);
   setValue("input-top-banner-text", appState.topBannerText);
   setValue("input-top-banner-url", appState.topBannerUrl);
+  setValue("select-watermark-mode", appState.watermarkMode || "logo-text");
   setValue("input-watermark-text", appState.watermarkText);
-  setValue("select-watermark-pos", appState.watermarkPos);
+  setValue("select-watermark-pos", appState.watermarkPos || "center");
   setValue("input-watermark-opacity", appState.watermarkOpacity);
   setText("val-watermark-opacity", Math.round(appState.watermarkOpacity * 100) + "%");
+  setValue("input-pointer-wm-size", appState.watermarkSize || 110);
+  setText("val-pointer-wm-size", `${appState.watermarkSize || 110}px`);
+  syncWatermarkPreviewUI("pointer", appState.watermarkLogo);
   setValue("input-start-page", appState.startingPageNumber);
   setChecked("check-include-cover", appState.includeCoverPage);
 
@@ -3717,6 +3909,13 @@ function syncInputsFromState() {
   setText("val-items-per-page", appState.itemsPerPage);
   setValue("select-item-spacing", appState.itemSpacing || "3.5");
   setText("val-item-spacing", `${appState.itemSpacing || 3.5}px`);
+  setValue("select-pointer-font-family", appState.fontFamily || "'Noto Sans Devanagari', 'Inter', sans-serif");
+  setValue("select-pointer-bold-mode", appState.boldMode || "default");
+  setValue("select-pointer-q-weight", appState.questionWeight || "500");
+  setValue("select-pointer-a-weight", appState.answerWeight || "700");
+  setValue("select-pointer-answer-prefix", appState.answerPrefix || "–");
+  setValue("select-pointer-item-divider", appState.itemDivider || "none");
+  setValue("select-pointer-theme", appState.pointerTheme || "classic");
   setValue("input-font-size", appState.fontSize);
   setText("val-font-size", `${appState.fontSize}px`);
   setValue("select-line-height", appState.lineHeight);
@@ -3761,13 +3960,24 @@ function syncInputsFromState() {
   setValue("input-mcq-footer-text", appState.mcq.footerExamText || "");
   setValue("input-mcq-footer-web", appState.mcq.footerWebText || "");
   setValue("input-mcq-start-page", appState.mcq.startingPageNumber || 99);
+  setValue("select-mcq-watermark-mode", appState.mcq.watermarkMode || "logo-text");
   setValue("input-mcq-watermark", appState.mcq.watermarkText || "");
+  setValue("select-mcq-watermark-pos", appState.mcq.watermarkPos || "center");
+  setValue("input-mcq-watermark-opacity", appState.mcq.watermarkOpacity || 0.14);
+  setText("val-mcq-watermark-opacity", Math.round((appState.mcq.watermarkOpacity || 0.14) * 100) + "%");
+  setValue("input-mcq-wm-size", appState.mcq.watermarkSize || 110);
+  setText("val-mcq-wm-size", `${appState.mcq.watermarkSize || 110}px`);
+  syncWatermarkPreviewUI("mcq", appState.mcq.watermarkLogo);
   setValue("select-mcq-options-layout", appState.mcq.optionsLayout || "auto");
   setValue("select-mcq-qnum-color", appState.mcq.qNumColor || "#dc2626");
   setValue("select-mcq-col-divider", appState.mcq.colDivider || "solid");
   setChecked("check-mcq-answer-key", appState.mcq.includeAnswerKey !== false);
   setValue("input-mcq-font-size", appState.mcq.fontSize || 11.5);
   setText("val-mcq-font-size", `${appState.mcq.fontSize || 11.5}px`);
+  setValue("select-mcq-font-family", appState.mcq.fontFamily || "'Noto Sans Devanagari', 'Inter', sans-serif");
+  setValue("select-mcq-bold-mode", appState.mcq.boldMode || "default");
+  setValue("select-mcq-q-weight", appState.mcq.questionWeight || "700");
+  setValue("select-mcq-opt-weight", appState.mcq.optionWeight || "500");
   setValue("select-mcq-solutions-display", (appState.mcq && appState.mcq.showSolutions) || "below");
   setValue("select-mcq-pagination-mode", appState.mcq.paginationMode || "autofit");
   setValue("input-mcq-items-per-page", appState.mcq.itemsPerPage || 16);
@@ -3788,6 +3998,7 @@ function syncInputsFromState() {
 
   // Book & Notes Studio State Sync
   if (!appState.book) appState.book = {};
+  setValue("textarea-book-content", appState.book.rawBookContent || "");
   setValue("input-book-raw-content", appState.book.rawBookContent || "");
   setValue("input-book-class", appState.book.className || "Class – 10th");
   setValue("input-book-batch", appState.book.batchTag || "BOARD 2024-25");
@@ -3796,14 +4007,24 @@ function syncInputsFromState() {
   setValue("input-book-header-bg", appState.book.headerBgColor || "#0b2545");
   setValue("input-book-header-bg-text", appState.book.headerBgColor || "#0b2545");
   setValue("select-book-outer-frame", appState.book.outerFrame || "single");
+  setValue("select-book-watermark-mode", appState.book.watermarkMode || "logo-text");
   setValue("input-book-watermark-text", appState.book.watermarkText || "JEE - FORM STUDY POINT");
-  setValue("input-book-watermark-opacity", appState.book.watermarkOpacity || 0.12);
-  setText("val-book-watermark-opacity", Math.round((appState.book.watermarkOpacity || 0.12) * 100) + "%");
+  setValue("select-book-watermark-pos", appState.book.watermarkPos || "center");
+  setValue("input-book-watermark-opacity", appState.book.watermarkOpacity || 0.14);
+  setText("val-book-watermark-opacity", Math.round((appState.book.watermarkOpacity || 0.14) * 100) + "%");
+  setValue("input-book-wm-size", appState.book.watermarkSize || 110);
+  setText("val-book-wm-size", `${appState.book.watermarkSize || 110}px`);
+  syncWatermarkPreviewUI("book", appState.book.watermarkLogo);
+  setValue("input-book-start-page", appState.book.startingPageNumber || 2);
   setValue("input-book-starting-page", appState.book.startingPageNumber || 2);
   setValue("input-book-footer-left", appState.book.footerLeftText || "Class - 10th Economics Notes");
   setValue("input-book-footer-right", appState.book.footerRightText || "JEE-FORM STUDY POINT");
   setValue("input-book-highlight-color", appState.book.highlightColor || "#ffff00");
   setValue("input-book-highlight-color-text", appState.book.highlightColor || "#ffff00");
+  setValue("select-book-font-family", appState.book.fontFamily || "'Noto Sans Devanagari', 'Inter', sans-serif");
+  setValue("select-book-bold-mode", appState.book.boldMode || "default");
+  setValue("select-book-text-weight", appState.book.textWeight || "500");
+  setValue("select-book-ans-weight", appState.book.answerWeight || "800");
   setValue("input-book-font-size", appState.book.fontSize || 11.5);
   setText("val-book-font-size", `${appState.book.fontSize || 11.5}px`);
   setValue("select-book-line-height", appState.book.lineHeight || "1.38");
@@ -4050,20 +4271,183 @@ function setupEventListeners() {
     });
   }
 
+  // Shared watermark logo/size/mode binder helper across Pointer, MCQ & Book
+  function bindWatermarkSection(cfg) {
+    const getTarget = () => cfg.section === "pointer" ? appState : (appState[cfg.section] || (appState[cfg.section] = {}));
+    const logoInput = document.getElementById(cfg.logoInputId);
+    const btnRemove = document.getElementById(cfg.removeBtnId);
+    if (logoInput) {
+      logoInput.addEventListener("change", (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+          const target = getTarget();
+          target.watermarkLogo = evt.target.result;
+          if (!target.watermarkMode || target.watermarkMode === "text-only") {
+            target.watermarkMode = "logo-text";
+            setValue(cfg.modeId, "logo-text");
+          }
+          if (target.watermarkPos === "none") {
+            target.watermarkPos = "center";
+            setValue(cfg.posId, "center");
+          }
+          syncWatermarkPreviewUI(cfg.prefix, target.watermarkLogo);
+          renderDocument();
+          showToast("🎯 Center Watermark Logo added!", "success");
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+    if (btnRemove) {
+      btnRemove.addEventListener("click", () => {
+        const target = getTarget();
+        target.watermarkLogo = "";
+        if (logoInput) logoInput.value = "";
+        syncWatermarkPreviewUI(cfg.prefix, "");
+        renderDocument();
+        showToast("Watermark logo removed.", "info");
+      });
+    }
+    const modeEl = document.getElementById(cfg.modeId);
+    if (modeEl) {
+      modeEl.addEventListener("change", (e) => {
+        getTarget().watermarkMode = e.target.value;
+        renderDocument();
+      });
+    }
+    const posEl = document.getElementById(cfg.posId);
+    if (posEl) {
+      posEl.addEventListener("change", (e) => {
+        getTarget().watermarkPos = e.target.value;
+        renderDocument();
+      });
+    }
+    const opacityEl = document.getElementById(cfg.opacityId);
+    if (opacityEl) {
+      opacityEl.addEventListener("input", (e) => {
+        const val = parseFloat(e.target.value);
+        getTarget().watermarkOpacity = val;
+        setText(cfg.opacityValId, Math.round(val * 100) + "%");
+        renderDocument();
+      });
+    }
+    const sizeEl = document.getElementById(cfg.sizeId);
+    if (sizeEl) {
+      sizeEl.addEventListener("input", (e) => {
+        const val = parseInt(e.target.value, 10) || 110;
+        getTarget().watermarkSize = val;
+        setText(cfg.sizeValId, `${val}px`);
+        renderDocument();
+      });
+    }
+  }
+
+  function bindBoldControls(cfg) {
+    const getTarget = () => cfg.section === "pointer" ? appState : (appState[cfg.section] || (appState[cfg.section] = {}));
+    const boldModeEl = document.getElementById(cfg.boldModeId);
+    const qWeightEl = document.getElementById(cfg.qWeightId);
+    const aWeightEl = document.getElementById(cfg.aWeightId);
+
+    if (boldModeEl) {
+      boldModeEl.addEventListener("change", (e) => {
+        const mode = e.target.value;
+        applyBoldPreset(cfg.section, mode);
+        const target = getTarget();
+        setValue(cfg.qWeightId, target[cfg.qKey]);
+        setValue(cfg.aWeightId, target[cfg.aKey]);
+        renderDocument();
+      });
+    }
+    if (qWeightEl) {
+      qWeightEl.addEventListener("change", (e) => {
+        const target = getTarget();
+        target[cfg.qKey] = e.target.value;
+        target.boldMode = "manual";
+        setValue(cfg.boldModeId, "manual");
+        renderDocument();
+      });
+    }
+    if (aWeightEl) {
+      aWeightEl.addEventListener("change", (e) => {
+        const target = getTarget();
+        target[cfg.aKey] = e.target.value;
+        target.boldMode = "manual";
+        setValue(cfg.boldModeId, "manual");
+        renderDocument();
+      });
+    }
+  }
+
+  document.querySelectorAll(".btn-sync-watermark-all").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      syncWatermarkToAllSections(e.currentTarget.dataset.wmSource || "pointer");
+    });
+  });
+
   // Branding inputs
   bindInput("input-left-brand", "leftBrandText");
   bindInput("input-center-subject", "centerSubjectText");
   bindInput("input-top-banner-text", "topBannerText");
   bindInput("input-top-banner-url", "topBannerUrl");
   bindInput("input-watermark-text", "watermarkText");
-  bindInput("select-watermark-pos", "watermarkPos");
+  bindWatermarkSection({
+    section: "pointer",
+    prefix: "pointer",
+    logoInputId: "input-pointer-wm-logo-file",
+    removeBtnId: "btn-remove-pointer-wm-logo",
+    modeId: "select-watermark-mode",
+    posId: "select-watermark-pos",
+    opacityId: "input-watermark-opacity",
+    opacityValId: "val-watermark-opacity",
+    sizeId: "input-pointer-wm-size",
+    sizeValId: "val-pointer-wm-size"
+  });
 
-  const opacityInput = document.getElementById("input-watermark-opacity");
-  if (opacityInput) {
-    opacityInput.addEventListener("input", (e) => {
-      appState.watermarkOpacity = parseFloat(e.target.value);
-      setText("val-watermark-opacity", Math.round(appState.watermarkOpacity * 100) + "%");
+  const btnUseHeaderAsWm = document.getElementById("btn-use-header-as-wm");
+  if (btnUseHeaderAsWm) {
+    btnUseHeaderAsWm.addEventListener("click", () => {
+      if (!appState.instituteLogo) {
+        showToast("Upload an Institute Logo above first!", "info");
+        return;
+      }
+      appState.watermarkLogo = appState.instituteLogo;
+      appState.watermarkMode = "logo-text";
+      if (appState.watermarkPos === "none") appState.watermarkPos = "center";
+      syncInputsFromState();
       renderDocument();
+      showToast("Copied Header Logo into Center Watermark!", "success");
+    });
+  }
+
+  bindInput("select-pointer-font-family", "fontFamily");
+  bindInput("select-pointer-answer-prefix", "answerPrefix");
+  bindInput("select-pointer-item-divider", "itemDivider");
+  bindInput("select-pointer-theme", "pointerTheme");
+  bindBoldControls({
+    section: "pointer",
+    boldModeId: "select-pointer-bold-mode",
+    qWeightId: "select-pointer-q-weight",
+    aWeightId: "select-pointer-a-weight",
+    qKey: "questionWeight",
+    aKey: "answerWeight"
+  });
+
+  const btnInsertChapter = document.getElementById("btn-insert-gs-chapter");
+  if (btnInsertChapter) {
+    btnInsertChapter.addEventListener("click", () => {
+      const ta = document.getElementById("textarea-content");
+      const snippet = "\n### नया अध्याय / Topic Title\n";
+      if (ta) {
+        const pos = ta.selectionStart || 0;
+        const val = ta.value || "";
+        ta.value = val.slice(0, pos) + snippet + val.slice(pos);
+        appState.rawContent = ta.value;
+      } else {
+        appState.rawContent = snippet + (appState.rawContent || "");
+      }
+      renderDocument();
+      showToast("Inserted Chapter Banner tag (### Title)!", "success");
     });
   }
 
@@ -4225,20 +4609,48 @@ function setupEventListeners() {
     });
   }
 
-  // File Upload (.txt / .csv)
+  // File Upload (.docx / .doc / .txt / .csv)
   const fileUploadInput = document.getElementById("input-file-upload");
   if (fileUploadInput) {
     fileUploadInput.addEventListener("change", (e) => {
-      const file = e.target.files[0];
+      const file = e.target.files && e.target.files[0];
       if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (evt) => {
-        appState.rawContent = evt.target.result;
-        setValue("textarea-content", appState.rawContent);
-        renderDocument();
-        showToast(`Loaded "${file.name}" successfully!`, "success");
-      };
-      reader.readAsText(file);
+      const fileName = file.name.toLowerCase();
+      if (fileName.endsWith(".docx") || fileName.endsWith(".doc")) {
+        if (typeof mammoth !== "undefined") {
+          const reader = new FileReader();
+          reader.onload = (loadEvt) => {
+            mammoth.extractRawText({ arrayBuffer: loadEvt.target.result })
+              .then((result) => {
+                const text = result.value || "";
+                if (!text.trim()) {
+                  showToast(`Word file "${file.name}" contained no readable text.`, "error");
+                  return;
+                }
+                appState.rawContent = text;
+                setValue("textarea-content", text);
+                renderDocument();
+                showToast(`Imported "${file.name}" into GS Pointer!`, "success");
+              })
+              .catch((err) => {
+                console.error("Mammoth error:", err);
+                showToast("Error reading Word file: " + err.message, "error");
+              });
+          };
+          reader.readAsArrayBuffer(file);
+        } else {
+          showToast("Word parser is loading, please try again.", "error");
+        }
+      } else {
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+          appState.rawContent = evt.target.result;
+          setValue("textarea-content", appState.rawContent);
+          renderDocument();
+          showToast(`Loaded "${file.name}" successfully!`, "success");
+        };
+        reader.readAsText(file);
+      }
     });
   }
 
@@ -4569,6 +4981,27 @@ function setupEventListeners() {
   bindMcqInput("input-mcq-footer-web", "footerWebText");
   bindMcqInput("input-mcq-start-page", "startingPageNumber", true);
   bindMcqInput("input-mcq-watermark", "watermarkText");
+  bindWatermarkSection({
+    section: "mcq",
+    prefix: "mcq",
+    logoInputId: "input-mcq-wm-logo-file",
+    removeBtnId: "btn-remove-mcq-wm-logo",
+    modeId: "select-mcq-watermark-mode",
+    posId: "select-mcq-watermark-pos",
+    opacityId: "input-mcq-watermark-opacity",
+    opacityValId: "val-mcq-watermark-opacity",
+    sizeId: "input-mcq-wm-size",
+    sizeValId: "val-mcq-wm-size"
+  });
+  bindMcqInput("select-mcq-font-family", "fontFamily");
+  bindBoldControls({
+    section: "mcq",
+    boldModeId: "select-mcq-bold-mode",
+    qWeightId: "select-mcq-q-weight",
+    aWeightId: "select-mcq-opt-weight",
+    qKey: "questionWeight",
+    aKey: "optionWeight"
+  });
   bindMcqInput("select-mcq-options-layout", "optionsLayout");
   bindMcqInput("select-mcq-qnum-color", "qNumColor");
   bindMcqInput("select-mcq-col-divider", "colDivider");
@@ -4686,7 +5119,8 @@ function setupEventListeners() {
   function bindBookInput(id, key) {
     const el = document.getElementById(id);
     if (el) {
-      el.addEventListener("input", (e) => {
+      const eventType = el.tagName === "SELECT" ? "change" : "input";
+      el.addEventListener(eventType, (e) => {
         if (!appState.book) appState.book = {};
         appState.book[key] = e.target.value;
         renderDocument();
@@ -4702,8 +5136,8 @@ function setupEventListeners() {
     });
   });
 
-  // Book Content Textarea
-  const textareaBook = document.getElementById("input-book-raw-content");
+  // Book Content Textarea (bind both real HTML ID and legacy ID)
+  const textareaBook = document.getElementById("textarea-book-content") || document.getElementById("input-book-raw-content");
   if (textareaBook) {
     textareaBook.addEventListener("input", (e) => {
       if (!appState.book) appState.book = {};
@@ -4733,6 +5167,7 @@ function setupEventListeners() {
                 }
                 if (!appState.book) appState.book = {};
                 appState.book.rawBookContent = text;
+                setValue("textarea-book-content", text);
                 setValue("input-book-raw-content", text);
                 renderDocument();
                 showToast(`Imported "${file.name}" into Book Studio!`, "success");
@@ -4752,6 +5187,7 @@ function setupEventListeners() {
           const text = loadEvt.target.result;
           if (!appState.book) appState.book = {};
           appState.book.rawBookContent = text;
+          setValue("textarea-book-content", text);
           setValue("input-book-raw-content", text);
           renderDocument();
           showToast(`Imported "${file.name}" into Book Studio!`, "success");
@@ -4773,6 +5209,7 @@ function setupEventListeners() {
       const formatted = autoFormatBookContent(currentText);
       if (!appState.book) appState.book = {};
       appState.book.rawBookContent = formatted;
+      setValue("textarea-book-content", formatted);
       setValue("input-book-raw-content", formatted);
       renderDocument();
       showToast("⚡ Auto-formatted headings, keywords, and arrow bullets!", "success");
@@ -4786,6 +5223,7 @@ function setupEventListeners() {
       if (confirm("Are you sure you want to clear all notes content in Book Studio?")) {
         if (!appState.book) appState.book = {};
         appState.book.rawBookContent = "";
+        setValue("textarea-book-content", "");
         setValue("input-book-raw-content", "");
         renderDocument();
         showToast("Book content cleared.", "info");
@@ -4820,9 +5258,33 @@ function setupEventListeners() {
   bindBookInput("input-book-chapter-title", "chapterTitle");
   bindBookInput("select-book-outer-frame", "outerFrame");
   bindBookInput("input-book-watermark-text", "watermarkText");
+  bindBookInput("input-book-start-page", "startingPageNumber");
   bindBookInput("input-book-starting-page", "startingPageNumber");
   bindBookInput("input-book-footer-left", "footerLeftText");
   bindBookInput("input-book-footer-right", "footerRightText");
+
+  bindWatermarkSection({
+    section: "book",
+    prefix: "book",
+    logoInputId: "input-book-wm-logo-file",
+    removeBtnId: "btn-remove-book-wm-logo",
+    modeId: "select-book-watermark-mode",
+    posId: "select-book-watermark-pos",
+    opacityId: "input-book-watermark-opacity",
+    opacityValId: "val-book-watermark-opacity",
+    sizeId: "input-book-wm-size",
+    sizeValId: "val-book-wm-size"
+  });
+
+  bindBookInput("select-book-font-family", "fontFamily");
+  bindBoldControls({
+    section: "book",
+    boldModeId: "select-book-bold-mode",
+    qWeightId: "select-book-text-weight",
+    aWeightId: "select-book-ans-weight",
+    qKey: "textWeight",
+    aKey: "answerWeight"
+  });
 
   // Book Header Bg Color Pickers
   const bookHeaderBgColor = document.getElementById("input-book-header-bg");
@@ -4844,16 +5306,7 @@ function setupEventListeners() {
     });
   }
 
-  // Book Watermark Opacity Slider
-  const bookWatermarkOpacity = document.getElementById("input-book-watermark-opacity");
-  if (bookWatermarkOpacity) {
-    bookWatermarkOpacity.addEventListener("input", (e) => {
-      if (!appState.book) appState.book = {};
-      appState.book.watermarkOpacity = parseFloat(e.target.value);
-      setText("val-book-watermark-opacity", Math.round(appState.book.watermarkOpacity * 100) + "%");
-      renderDocument();
-    });
-  }
+  // (Book Watermark Opacity & Size handled via shared bindWatermarkSection above)
 
   // Book Yellow Highlighter Color
   const bookHighlightColor = document.getElementById("input-book-highlight-color");
@@ -5140,7 +5593,8 @@ function setupEventListeners() {
 function bindInput(id, stateKey) {
   const el = document.getElementById(id);
   if (!el) return;
-  el.addEventListener("input", (e) => {
+  const eventType = el.tagName === "SELECT" ? "change" : "input";
+  el.addEventListener(eventType, (e) => {
     appState[stateKey] = e.target.value;
     renderDocument();
   });

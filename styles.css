@@ -3,28 +3,43 @@
    Strict A4 Millimeter Metric System (210mm x 297mm)
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Hind:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Mukta:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Serif+Devanagari:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap');
 
 :root {
   --font-devanagari: 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* Document Typography Defaults */
+  /* Document Typography Defaults (GS Pointer) */
+  --doc-font-family: 'Noto Sans Devanagari', 'Inter', sans-serif;
   --doc-font-size: 12px;
   --doc-line-height: 1.45;
   --doc-column-gap: 7mm;
   --doc-item-spacing: 3.5px;
+  --doc-item-border-bottom: none;
+  --doc-item-border-pad: 0px;
   --doc-column-rule: 0.5px solid #d1d5db;
   --doc-question-color: #000000;
   --doc-answer-color: #dc2626;
+  --doc-question-weight: 500;
+  --doc-answer-weight: 700;
   --doc-bullet-color: #000000;
+  --doc-banner-bg: #424242;
+  --doc-header-border: #000000;
 
   /* MCQ Practice Set Typography Defaults */
+  --mcq-font-family: 'Noto Sans Devanagari', 'Inter', sans-serif;
   --mcq-font-size: 11.5px;
   --mcq-line-height: 1.35;
   --mcq-item-spacing: 4px;
   --mcq-qnum-color: #dc2626;
+  --mcq-question-weight: 700;
+  --mcq-option-weight: 500;
+
+  /* Book & Notes Typography Defaults */
+  --book-font-family: 'Noto Sans Devanagari', 'Inter', sans-serif;
+  --book-text-weight: 500;
+  --book-answer-weight: 800;
 }
 
 /* UI Base */
@@ -34,9 +49,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Document content uses Noto Sans Devanagari */
+/* Document content uses dynamically selected Font Family */
 .gs-document-font {
-  font-family: var(--font-devanagari);
+  font-family: var(--doc-font-family, var(--font-devanagari));
 }
 
 /* Custom Scrollbar */
@@ -177,7 +192,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding-bottom: 1.8mm;
-  border-bottom: 1.5px solid #000000;
+  border-bottom: 1.5px solid var(--doc-header-border, #000000);
   font-weight: 700;
   font-size: 12.5px;
   color: #000000;
@@ -189,7 +204,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding-top: 1.8mm;
-  border-top: 1.5px solid #000000;
+  border-top: 1.5px solid var(--doc-header-border, #000000);
   font-weight: 700;
   font-size: 12.5px;
   color: #000000;
@@ -245,7 +260,7 @@ sup {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #424242; /* Authentic GS dark charcoal slate */
+  background-color: var(--doc-banner-bg, #424242); /* Theme accent charcoal / navy / emerald */
   color: #ffffff !important;
   padding: 3px 8px;
   margin: 6px 0 5px 0;
@@ -425,6 +440,8 @@ sup {
   page-break-inside: avoid;
   -webkit-column-break-inside: avoid;
   margin-bottom: var(--doc-item-spacing);
+  padding-bottom: var(--doc-item-border-pad, 0px);
+  border-bottom: var(--doc-item-border-bottom, none);
   display: block;
   position: relative;
   text-align: justify;
@@ -446,12 +463,13 @@ sup {
 .gs-qa-item.style-right .gs-question {
   display: inline;
   color: var(--doc-question-color);
+  font-weight: var(--doc-question-weight, 500);
 }
 
 .gs-qa-item.style-right .gs-answer {
   display: block;
   text-align: right;
-  font-weight: 700;
+  font-weight: var(--doc-answer-weight, 700);
   color: var(--doc-answer-color) !important;
   margin-top: 1px;
   padding-left: 12px;
@@ -461,24 +479,49 @@ sup {
 .gs-qa-item.style-inline .gs-question {
   display: inline;
   color: var(--doc-question-color);
+  font-weight: var(--doc-question-weight, 500);
 }
 
 .gs-qa-item.style-inline .gs-answer {
   display: inline;
-  font-weight: 700;
+  font-weight: var(--doc-answer-weight, 700);
   color: var(--doc-answer-color) !important;
   margin-left: 2px;
 }
 
-/* Watermark */
+/* Unified Center Watermark (Logo + Text) across Pointer, MCQ, Book */
 .gs-watermark-overlay {
   position: absolute;
   pointer-events: none;
   z-index: 5;
-  font-family: var(--font-devanagari);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 6px;
+  font-family: var(--doc-font-family, var(--font-devanagari));
   font-weight: 800;
   color: #000000;
   user-select: none;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.gs-watermark-logo {
+  width: var(--wm-logo-size, 110px);
+  height: var(--wm-logo-size, 110px);
+  max-width: 155mm;
+  max-height: 155mm;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+}
+
+.gs-watermark-text {
+  font-size: 38px;
+  line-height: 1.15;
+  letter-spacing: 2px;
   white-space: nowrap;
 }
 
@@ -486,16 +529,25 @@ sup {
   right: 14mm;
   bottom: 16mm;
   transform: rotate(-10deg);
-  font-size: 26px;
+}
+
+.gs-watermark-overlay.pos-bottom-right .gs-watermark-text {
+  font-size: 24px;
   letter-spacing: 1px;
 }
 
 .gs-watermark-overlay.pos-center {
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%) rotate(-35deg);
-  font-size: 42px;
-  letter-spacing: 2px;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  max-width: 175mm;
+}
+
+.gs-watermark-overlay.pos-center-straight {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 175mm;
 }
 
 .gs-watermark-overlay.pos-hidden {
@@ -545,6 +597,7 @@ sup {
   padding-bottom: 3px;
   margin-bottom: 4px;
   position: relative;
+  font-family: var(--mcq-font-family, var(--font-devanagari));
 }
 
 /* Left Title with Red Accent Stripe */
@@ -563,7 +616,7 @@ sup {
   font-size: 21px;
   font-weight: 900;
   color: #dc2626; /* Crimson Red for Bihar Police Constable Exam */
-  font-family: 'Noto Sans Devanagari', 'Segoe UI', Arial, sans-serif;
+  font-family: var(--mcq-font-family, var(--font-devanagari));
   letter-spacing: -0.3px;
 }
 
@@ -658,6 +711,7 @@ sup {
   page-break-inside: avoid;
   -webkit-column-break-inside: avoid;
   margin-bottom: var(--mcq-item-spacing, 4px);
+  font-family: var(--mcq-font-family, var(--font-devanagari));
   font-size: var(--mcq-font-size, 11.5px);
   line-height: var(--mcq-line-height, 1.35);
   color: #050505;
@@ -684,7 +738,7 @@ sup {
 }
 
 .mcq-qtext {
-  font-weight: 600;
+  font-weight: var(--mcq-question-weight, 700);
   color: #000000;
   flex: 1;
   min-width: 0;
@@ -792,7 +846,7 @@ sup {
 
 .mcq-opt-text {
   color: #111827;
-  font-weight: 500;
+  font-weight: var(--mcq-option-weight, 500);
   word-break: break-word;
   overflow-wrap: break-word;
 }
@@ -953,6 +1007,7 @@ sup {
 .mcq-solution-body {
   font-size: 10px;
   line-height: 1.4;
+  font-weight: var(--mcq-option-weight, 500);
   color: #1e293b;
   text-align: justify;
   white-space: pre-line;
@@ -994,11 +1049,13 @@ sup {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-family: var(--font-devanagari);
+  font-family: var(--book-font-family, var(--font-devanagari));
   font-size: 13.5px;
   font-weight: 800;
   letter-spacing: 0.3px;
   flex-shrink: 0;
+  position: relative;
+  z-index: 12;
   -webkit-print-color-adjust: exact !important;
   print-color-adjust: exact !important;
 }
@@ -1029,7 +1086,7 @@ sup {
 .book-chapter-pill {
   background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%);
   color: #ffffff !important;
-  font-family: var(--font-devanagari);
+  font-family: var(--book-font-family, var(--font-devanagari));
   font-size: 12.5px;
   font-weight: 800;
   text-align: center;
@@ -1042,6 +1099,8 @@ sup {
   max-width: 95%;
   letter-spacing: 0.2px;
   flex-shrink: 0;
+  position: relative;
+  z-index: 12;
   -webkit-print-color-adjust: exact !important;
   print-color-adjust: exact !important;
 }
@@ -1070,7 +1129,7 @@ sup {
   justify-content: flex-start;
   align-items: stretch;
   overflow: hidden;
-  font-family: var(--font-devanagari);
+  font-family: var(--book-font-family, var(--font-devanagari));
 }
 
 .book-col-left {
@@ -1101,7 +1160,7 @@ sup {
 .book-highlight {
   background-color: var(--book-highlight-color, #ffff00) !important;
   color: #000000 !important;
-  font-weight: 800;
+  font-weight: var(--book-answer-weight, 800);
   padding: 0.5px 4px;
   border-radius: 2px;
   display: inline;
@@ -1114,7 +1173,7 @@ sup {
 /* Red Text for Key Numbers & Dates */
 .book-red-text {
   color: #dc2626 !important;
-  font-weight: 800;
+  font-weight: var(--book-answer-weight, 800);
   -webkit-print-color-adjust: exact !important;
   print-color-adjust: exact !important;
 }
@@ -1175,7 +1234,7 @@ sup {
 /* Answer Label */
 .book-ans-label {
   color: #dc2626 !important;
-  font-weight: 800;
+  font-weight: var(--book-answer-weight, 800);
   margin-right: 4px;
 }
 
@@ -1184,6 +1243,7 @@ sup {
   margin-bottom: var(--book-item-spacing, 3.5px);
   font-size: var(--book-font-size, 11.5px);
   line-height: var(--book-line-height, 1.38);
+  font-weight: var(--book-text-weight, 500);
   color: #050505;
   position: relative;
 }
@@ -1195,6 +1255,7 @@ sup {
   margin-bottom: 2.5px;
   font-size: var(--book-font-size, 11.5px);
   line-height: var(--book-line-height, 1.38);
+  font-weight: var(--book-text-weight, 500);
 }
 
 .book-bullet-arrow {
@@ -1228,11 +1289,14 @@ sup {
   justify-content: space-between;
   align-items: center;
   padding: 2px 8px;
+  font-family: var(--book-font-family, var(--font-devanagari));
   font-size: 9.5px;
   color: #64748b;
   border-top: 1px solid #e2e8f0;
   background-color: #ffffff;
   flex-shrink: 0;
+  position: relative;
+  z-index: 12;
 }
 
 /* Full A4 Size Poster Page (Zero Margin Bleed - Image 2) */
@@ -1447,9 +1511,23 @@ sup {
     text-decoration: underline !important;
   }
 
-  /* Preserve answer colors in PDF export */
+  /* Preserve watermarks & logo images in PDF export */
+  .gs-watermark-overlay,
+  .gs-watermark-logo {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Preserve answer colors & bold weights in PDF export */
+  .gs-qa-item .gs-question {
+    color: var(--doc-question-color) !important;
+    font-weight: var(--doc-question-weight, 500) !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
   .gs-qa-item .gs-answer {
     color: var(--doc-answer-color) !important;
+    font-weight: var(--doc-answer-weight, 700) !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
@@ -1457,7 +1535,7 @@ sup {
   /* Preserve topic banners in PDF export */
   .gs-topic-banner,
   .gs-section-banner {
-    background-color: #424242 !important;
+    background-color: var(--doc-banner-bg, #424242) !important;
     color: #ffffff !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
@@ -1498,6 +1576,13 @@ sup {
     color: var(--mcq-qnum-color, #dc2626) !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+  }
+  .mcq-qtext {
+    font-weight: var(--mcq-question-weight, 700) !important;
+  }
+  .mcq-opt-text,
+  .mcq-solution-body {
+    font-weight: var(--mcq-option-weight, 500) !important;
   }
   .mcq-answer-key-title {
     background-color: #dc2626 !important;
