@@ -2830,27 +2830,71 @@ function createBookA4PageElement(pageChunk, pageNum, totalPages, isLastPage, all
   return sheet;
 }
 
+const BOOK_SUBHEAD_COLORS = ["blue", "purple", "red", "pink", "teal"];
+
+const BOOK_SUBHEAD_KEYWORDS_RE = /(निम्नलिखित\s*हैं|प्रकार\s*के\s*होते\s*हैं|के\s*प्रकार|की\s*संरचना|में\s*अंतर|के\s*कारण|के\s*उद्देश्य|के\s*कार्य|के\s*लाभ|के\s*महत्व|की\s*विशेषताएं|के\s*अंग|के\s*साधन|के\s*भाग|प्रश्नोत्तर|लघु\s*उत्तरीय|दीर्घ\s*उत्तरीय|अति\s*लघु\s*उत्तरीय|वस्तुनिष्ठ\s*प्रश्न|महत्वपूर्ण\s*(?:तथ्य|बिंदु|प्रश्न)|स्मरणीय\s*तथ्य|Types\s+of|Causes\s+of|Functions\s+of|Features\s+of|Difference\s+between|Important\s+Questions|Key\s+(?:Points|Facts|Takeaways))/i;
+
+const BOOK_NON_DEF_PREFIX_RE = /^(?:जैसे|उदाहरण|उदा[\.०]?|e\.g\.|Example|Ex\.?|नोट|विशेष\s*नोट|Note|Important\s*Note|उत्तर|Ans(?:wer)?|Sol(?:ution)?|प्रश्न|Q\.?\s*\d*|Que\.?\s*\d*|Question\s*\d*|(?:अध्याय|पाठ|इकाई|Chapter|Unit)\s*[0-9IVX]*)$/i;
+
 /**
- * Creates DOM node for an individual book note item (definition, bullet, pill, or Q&A)
+ * Checks whether a single plain line is a "Keyword :- Explanation" or "Keyword: Explanation" definition.
+ */
+function isBookDefinitionLine(line) {
+  if (!line) return false;
+  const clean = line.trim().replace(/^\*\*\s*|\s*\*\*$/g, "");
+  const m = clean.match(/^((?:[0-9]+[\.\)]\s*)?[^\s:–—\-*][^:\n*]{1,46}?)(?:\s*(?::-|:|–|—)\s+|\s+[-–—]\s+)(.+)$/);
+  if (!m) return false;
+  const term = m[1].trim();
+  const body = m[2].trim();
+  if (!term || !body || body.length < 3) return false;
+  if (/^https?$/i.test(term) || /^[0-9]+$/.test(term)) return false;
+  if (/[।?!]$/.test(term)) return false;
+  if (BOOK_NON_DEF_PREFIX_RE.test(term)) return false;
+  return true;
+}
+
+/**
+ * Creates DOM node for an individual book note item (definition, bullet, numbered item, pill, quote, note, or Q&A).
  */
 function createBookDomElement(item) {
   const el = document.createElement("div");
 
   if (item.type === "red_pill") {
-    el.className = "w-full text-center my-1.5";
-    el.innerHTML = `<div class="book-chapter-pill" style="margin: 1.5mm auto;">${escapeHtml(item.text)}</div>`;
+    el.className = "w-full text-center my-1";
+    el.innerHTML = `<div class="book-chapter-pill" style="margin: 1mm auto;">${escapeHtml(item.text)}</div>`;
     return el;
   }
 
-  if (item.type === "blue_pill") {
-    el.className = "w-full my-1";
-    el.innerHTML = `<div class="book-subhead-blue">${escapeHtml(item.text)}</div>`;
+  if (item.type === "sub_pill" || item.type === "blue_pill" || item.type === "subhead") {
+    const color = item.color || (item.type === "blue_pill" ? "blue" : "purple");
+    const clsMap = {
+      red: "book-subhead-red",
+      blue: "book-subhead-blue",
+      purple: "book-subhead-purple",
+      pink: "book-subhead-pink",
+      teal: "book-subhead-teal"
+    };
+    const pillClass = clsMap[color] || "book-subhead-blue";
+    el.className = "w-full my-0.5";
+    el.innerHTML = `<div class="${pillClass}">${escapeHtml(item.text)}</div>`;
     return el;
   }
 
-  if (item.type === "subhead") {
-    el.className = "w-full my-1";
-    el.innerHTML = `<div class="font-bold text-slate-900 border-b border-slate-300 pb-0.5 mb-1 mt-1 text-[11px]">${formatBookInlineText(item.text)}</div>`;
+  if (item.type === "or_divider") {
+    el.className = "book-or-divider";
+    el.textContent = item.text || "या";
+    return el;
+  }
+
+  if (item.type === "author_quote") {
+    el.className = "book-author-quote";
+    el.textContent = item.text;
+    return el;
+  }
+
+  if (item.type === "note_box") {
+    el.className = "book-note-box";
+    el.innerHTML = `<div>${formatBookInlineText(item.text)}</div>`;
     return el;
   }
 
@@ -2876,67 +2920,166 @@ function createBookDomElement(item) {
     `;
   }
 
-  if (item.type === "bullet_item") {
-    el.className = "book-bullet-item";
-    const bullet = (appState.book && appState.book.bulletStyle && appState.book.bulletStyle !== "none") ? appState.book.bulletStyle : "➢";
+  if (item.type === "numbered_item") {
+    el.className = "book-numbered-item";
     el.innerHTML = `
-      <span class="book-bullet-arrow">${bullet}</span>
+      <span class="book-numbered-badge">${escapeHtml(item.numLabel || "1.")}</span>
       <div class="flex-1">${imgHtml}${formatBookInlineText(item.text)}</div>
     `;
     return el;
   }
 
-  // Standard concept / note block
+  if (item.type === "bullet_item") {
+    el.className = "book-bullet-item";
+    const bulletPref = (appState.book && appState.book.bulletStyle) || "➢";
+    if (bulletPref === "none") {
+      el.innerHTML = `<div class="flex-1">${imgHtml}${formatBookInlineText(item.text)}</div>`;
+    } else {
+      el.innerHTML = `
+        <span class="book-bullet-arrow">${escapeHtml(bulletPref)}</span>
+        <div class="flex-1">${imgHtml}${formatBookInlineText(item.text)}</div>
+      `;
+    }
+    return el;
+  }
+
+  // Standard concept / definition / example block
   el.className = "book-item-block";
   el.innerHTML = `${imgHtml}<div>${formatBookInlineText(item.text)}</div>`;
   return el;
 }
 
 /**
- * Formats inline text with yellow highlight on keywords, red dates/years, and exam tags
+ * Applies bold crimson styling to dates, years, percentages, currency, constitutional articles & counts+units
+ * on plain untagged text segments.
  */
-function formatBookInlineText(text) {
-  if (!text) return "";
-  let formatted = escapeHtml(text);
-
-  // 1. Explicit yellow highlight markup: ==text== or [[text]]
-  formatted = formatted.replace(/(?:==|\[\[)(.*?)(?:==|\]\])/g, '<span class="book-highlight">$1</span>');
-
-  // 2. Keyword definitions at start of line: "उपनिवेश:-" or "1. पूंजीवादी अर्थव्यवस्था:-" or "प्राथमिक क्षेत्र :-"
-  formatted = formatted.replace(
-    /^((?:[0-9]+[\.\)]\s*)?[^\s:–\-][^:–\-\n]{1,35}?)(?:\s*:-\s*|\s*:\s*)/gm,
-    '<span class="book-highlight">$1:-</span> '
-  );
-
-  // 3. Exam tags: [2024AI, 2013A], [2022A], [BSEB 2018]
-  formatted = formatted.replace(
-    /\[(20[0-9]{2}[A-Za-z0-9,\s\-\/]*)\]/g,
-    '<span class="book-exam-tag">[$1]</span>'
-  );
-
-  // 4. Red text for key years/dates and historical numbers:
-  formatted = formatted.replace(/\{red:(.*?)\}/g, '<span class="book-red-text">$1</span>');
-  formatted = formatted.replace(
-    /(200\s*वर्षों|15\s*मार्च\s*1950|6\s*अगस्त\s*1952|1\s*जनवरी\s*2015)/g,
+function applyBookRedHighlights(segment) {
+  if (!segment) return "";
+  return segment.replace(
+    /(\b\d{1,2}\s*(?:जनवरी|फ़रवरी|फरवरी|मार्च|अप्रैल|मई|जून|जुलाई|अगस्त|सितंबर|सितम्बर|अक्टूबर|नवंबर|नवम्बर|दिसंबर|दिसम्बर|Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s*(?:1[5-9]|20)\d{2}\b|(?:₹|Rs\.?)\s*\d[\d,]*(?:\.\d+)?|(?:अनुच्छेद|धारा|संशोधन|Article|Section)\s*\d+[A-Za-zक-ह]*|\b\d+(?:\.\d+)?\s*(?:%|प्रतिशत|करोड़|लाख|हजार|वर्षों|वर्ष|साल|माह|महीने|दिन|किमी|मीटर|ग्राम|किग्रा|°[CF])(?=\s|[।,.!?;:'"”\)\]]|$)|\b(?:1[5-9]\d{2}|20\d{2})(?:\s*[-–]\s*\d{2,4}|\s*(?:ई\.?|ई०|AD|BC))?\b)/g,
     '<span class="book-red-text">$1</span>'
   );
-
-  // 5. Bold markdown **text**
-  formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-
-  return formatted;
 }
 
 /**
- * Smart Parser for Book Notes & Textbook Content
+ * Tag-safe helper that splits HTML string on protected spans/bold tags and runs formatter only on bare text segments.
+ */
+function mapUntaggedBookText(htmlLine, transformFn) {
+  const parts = htmlLine.split(/(<span\b[^>]*>[\s\S]*?<\/span>|<b>[\s\S]*?<\/b>)/g);
+  return parts.map((part, idx) => (idx % 2 === 1 ? part : transformFn(part))).join("");
+}
+
+/**
+ * Formats a single escaped book line with automatic Yellow+Red keywords, exam tags, quotes & red numbers.
+ */
+function formatSingleBookLine(rawLine) {
+  if (!rawLine) return "";
+
+  // Clean ChatGPT/Word markdown bold wrapped around definition term (e.g. "**उपनिवेश:** text")
+  let cleanedLine = rawLine
+    .replace(/^([0-9]+[\.\)]\s*)?\*\*\s*([^\n*:–—]{2,48}?)\s*(?::-|:|–|—)\s*\*\*\s*/i, (_, num, term) => `${num || ""}${term}:- `)
+    .replace(/^\*\*\s*([^\n*:–—]{2,48}?)\*\*\s*(?::-|:)\s*/i, "$1:- ");
+
+  let line = escapeHtml(cleanedLine);
+
+  // 1. Explicit manual yellow highlight markup: ==text== or [[text]]
+  line = line.replace(/(?:==|\[\[)(.*?)(?:==|\]\])/g, '<span class="book-highlight">$1</span>');
+
+  // 2. Manual red markup: {red:text}
+  line = line.replace(/\{red:(.*?)\}/g, '<span class="book-red-text">$1</span>');
+
+  // 3. Example prefix ("जैसे :-", "उदाहरण :-", "e.g. :-")
+  let hasSpecialPrefix = false;
+  line = line.replace(
+    /^((?:जैसे|उदाहरण|उदा[\.०]?|e\.g\.|Example|Ex\.?)\s*(?::-|:|–|—|-))\s+/i,
+    (_, lbl) => {
+      hasSpecialPrefix = true;
+      const cleanLbl = lbl.replace(/\s*(?::-|:|–|—|-)$/, "") + " :-";
+      return `<span class="book-example-label">${cleanLbl}</span> `;
+    }
+  );
+
+  // Note prefix ("नोट :-", "Note :-")
+  if (!hasSpecialPrefix) {
+    line = line.replace(
+      /^((?:नोट|विशेष\s*नोट|महत्वपूर्ण\s*नोट|Note|Important\s*Note)\s*(?::-|:|–|—|-))\s+/i,
+      (_, lbl) => {
+        hasSpecialPrefix = true;
+        const cleanLbl = lbl.replace(/\s*(?::-|:|–|—|-)$/, "") + " :-";
+        return `<span class="book-red-text">${cleanLbl}</span> `;
+      }
+    );
+  }
+
+  // 4. Keyword definition highlight at start of line ("उपनिवेश:", "उपनिवेश:-", "1. पूंजीवादी अर्थव्यवस्था - ...")
+  if (!hasSpecialPrefix && !line.startsWith('<span class="book-highlight">')) {
+    const defMatch = line.match(/^((?:[0-9]+[\.\)]\s*)?[^\s:–—\-<][^:\n<]{1,46}?)(?:\s*(?::-|:|–|—)\s+|\s+[-–—]\s+)(.+)$/);
+    if (defMatch) {
+      const term = defMatch[1].trim();
+      const rest = defMatch[2];
+      const looksLikeUrlOrTime = /^https?$/i.test(term) || /^[0-9]+$/.test(term) || /[।?!]$/.test(term);
+      if (!looksLikeUrlOrTime && !BOOK_NON_DEF_PREFIX_RE.test(term)) {
+        line = `<span class="book-highlight">${term} :-</span> ${rest}`;
+      }
+    }
+  }
+
+  // 5. Exam tags in brackets OR parentheses: [2024AI, 2013A], (2022A, 2017A), [BSEB 2018]
+  line = mapUntaggedBookText(line, (seg) =>
+    seg.replace(
+      /(\[(?:[^\]\n]*(?:19|20)\d{2}[^\]\n]*)\]|\((?:[^\)\n]*(?:19|20)\d{2}[^\)\n]*[A-Za-z][^\)\n]*)\))/g,
+      '<span class="book-exam-tag">$1</span>'
+    )
+  );
+
+  // 6. Inline bold **text** -> <b>text</b>
+  line = mapUntaggedBookText(line, (seg) =>
+    seg.replace(/\*\*([^*\n]+?)\*\*/g, "<b>$1</b>")
+  );
+
+  // 7. Quoted definitions in Book Royal Blue ("..." or “...”)
+  line = mapUntaggedBookText(line, (seg) =>
+    seg.replace(/(&quot;[^&]{4,180}?&quot;|“[^”]{4,180}?”)/g, '<span class="book-quote-text">$1</span>')
+  );
+
+  // 8. Automatic Dates, Historical Years, Currency, Percentages, Articles & Counts+Units in Red
+  line = mapUntaggedBookText(line, applyBookRedHighlights);
+
+  return line;
+}
+
+/**
+ * Formats inline text (single or multi-line) with yellow highlight on keywords, red dates/years, quotes & exam tags.
+ */
+function formatBookInlineText(text) {
+  if (!text) return "";
+  return String(text)
+    .split("\n")
+    .map((l) => formatSingleBookLine(l))
+    .join("<br>");
+}
+
+/**
+ * Zero-Tag Smart Parser for Book Notes & Textbook Content:
+ * Works seamlessly on BOTH raw plain copy-pasted text (no symbols/tags) AND tagged content.
  */
 function parseRawBookContent(rawText) {
   if (!rawText || !rawText.trim()) return [];
 
-  const text = rawText.replace(/\r\n/g, "\n");
-  const paragraphs = text.split(/\n\s*\n/);
+  const cleaned = rawText
+    .replace(/\r\n/g, "\n")
+    .replace(/[\u200B\uFEFF\u00AD]/g, "")
+    .replace(/\t/g, " ");
+  const rawLines = cleaned.split("\n");
   const items = [];
   const inlineImages = (appState.book && appState.book.inlineImages) || {};
+  let subPillIdx = 0;
+
+  function nextPillColor() {
+    const c = BOOK_SUBHEAD_COLORS[subPillIdx % BOOK_SUBHEAD_COLORS.length];
+    subPillIdx++;
+    return c;
+  }
 
   function findAttachedImage(str) {
     if (!str) return "";
@@ -2948,32 +3091,105 @@ function parseRawBookContent(rawText) {
     return "";
   }
 
-  paragraphs.forEach((para) => {
-    const trimmed = para.trim();
-    if (!trimmed) return;
+  function peekNextNonEmpty(startIdx) {
+    for (let k = startIdx + 1; k < rawLines.length; k++) {
+      const t = rawLines[k].trim();
+      if (t) return { idx: k, text: t, hasBlankGap: k > startIdx + 1 };
+    }
+    return null;
+  }
 
-    // Red capsule pill
-    if (trimmed.startsWith("[RED_PILL]") || trimmed.startsWith("[PILL]")) {
-      const clean = trimmed.replace(/^\[(RED_PILL|PILL)\]\s*/i, "").trim();
-      items.push({ type: "red_pill", text: clean });
-      return;
+  function isBulletLine(t) {
+    return /^(?:[➢➤>*•\-✓✔▪▸]|->|=>)\s+/.test(t);
+  }
+
+  function isNumberedLine(t) {
+    return /^(?:\d+[\.\)]|\(\d+\))\s+\S/.test(t);
+  }
+
+  function isAuthorAttribution(t, prevType, nextObj) {
+    if (!t || t.length > 52 || t.includes("।") || t.includes(":")) return false;
+    if (!/^[-–—~]\s*\S/.test(t)) return false;
+    if (/^[-–—~]\s*(?:प्रो[\.०]?|प्रोफेसर|डा[\.०]?|डॉ[\.०]?|Prof\.?|Dr\.?|महात्मा|आचार्य|अर्थशास्त्री|पं\.?)/i.test(t)) {
+      return true;
+    }
+    const nextIsDashBullet = nextObj && !nextObj.hasBlankGap && /^[-–—]\s+/.test(nextObj.text);
+    const wordCount = t.replace(/^[-–—~]\s*/, "").trim().split(/\s+/).length;
+    return !nextIsDashBullet && prevType === "concept_block" && wordCount <= 5 && !/[।?!,]/.test(t);
+  }
+
+  function isQuestionStarter(t, nextObj) {
+    if (/^(?:प्रश्न\s*(?:सं\.?|संख्या)?\s*\d*[\.\):\-]?|Q\.?\s*\d+[\.\):\-]|Que\.?\s*\d*[\.\):\-]|Question\s*\d*[\.\):\-])\s*/i.test(t)) {
+      return true;
+    }
+    if (/^\d+[\.\)]\s+.{5,}\?/.test(t) && nextObj && /^(?:उत्तर|Ans(?:wer)?|Sol(?:ution)?)\s*[:–\-]?/i.test(nextObj.text)) {
+      return true;
+    }
+    return false;
+  }
+
+  function pushConceptOrSplit(textStr) {
+    const clean = textStr.trim();
+    if (!clean) return;
+    // Split oversized monolithic prose blocks (> 520 chars) cleanly every ~2 sentences for balanced full-column flow
+    if (clean.length > 520) {
+      const sentences = clean.split(/(?<=[।\.\?!])\s+/);
+      if (sentences.length >= 3) {
+        let chunk = "";
+        sentences.forEach((s) => {
+          if (chunk && (chunk.length + s.length > 340)) {
+            items.push({ type: "concept_block", text: chunk.trim(), image: findAttachedImage(chunk) });
+            chunk = s;
+          } else {
+            chunk = chunk ? `${chunk} ${s}` : s;
+          }
+        });
+        if (chunk.trim()) {
+          items.push({ type: "concept_block", text: chunk.trim(), image: findAttachedImage(chunk) });
+        }
+        return;
+      }
+    }
+    items.push({ type: "concept_block", text: clean, image: findAttachedImage(clean) });
+  }
+
+  let prevBlank = true;
+  for (let i = 0; i < rawLines.length; i++) {
+    const trimmed = rawLines[i].trim();
+    if (!trimmed) {
+      prevBlank = true;
+      continue;
     }
 
-    // Blue pill
-    if (trimmed.startsWith("[BLUE_PILL]")) {
-      const clean = trimmed.replace(/^\[BLUE_PILL\]\s*/i, "").trim();
-      items.push({ type: "blue_pill", text: clean });
-      return;
+    const nextObj = peekNextNonEmpty(i);
+    const prevItem = items[items.length - 1];
+    const prevType = prevItem ? prevItem.type : null;
+
+    // 1. Explicit Legacy Tags
+    if (/^\[(RED_PILL|PILL)\]\s*/i.test(trimmed)) {
+      items.push({ type: "red_pill", text: trimmed.replace(/^\[(RED_PILL|PILL)\]\s*/i, "").trim() });
+      prevBlank = false;
+      continue;
+    }
+    if (/^\[(BLUE_PILL|PURPLE_PILL|PINK_PILL|ROSE_PILL|GREEN_PILL|TEAL_PILL)\]\s*/i.test(trimmed)) {
+      const tagM = trimmed.match(/^\[([A-Z_]+)\]\s*(.*)$/i);
+      const rawTag = tagM[1].toUpperCase();
+      const color = rawTag.startsWith("BLUE") ? "blue"
+        : rawTag.startsWith("PURPLE") ? "purple"
+        : (rawTag.startsWith("PINK") || rawTag.startsWith("ROSE")) ? "pink"
+        : "teal";
+      items.push({ type: "sub_pill", color, text: tagM[2].trim() });
+      prevBlank = false;
+      continue;
+    }
+    if (/^\[SUBHEAD\]\s*/i.test(trimmed) || /^#{2,4}\s+/.test(trimmed)) {
+      const clean = trimmed.replace(/^(?:\[SUBHEAD\]|#{2,4})\s*/i, "").trim();
+      items.push({ type: "sub_pill", color: nextPillColor(), text: clean });
+      prevBlank = false;
+      continue;
     }
 
-    // Subhead
-    if (trimmed.startsWith("[SUBHEAD]") || trimmed.startsWith("### ")) {
-      const clean = trimmed.replace(/^(\[SUBHEAD\]|###\s*)\s*/i, "").trim();
-      items.push({ type: "subhead", text: clean });
-      return;
-    }
-
-    // Chapter header at start of file like "# 1. Chapter Name"
+    // 2. Main Chapter Heading (# Title OR opening Chapter/अध्याय line)
     if (trimmed.startsWith("# ")) {
       const clean = trimmed.replace(/^#\s*/, "").trim();
       if (!appState.book.chapterTitle || appState.book.chapterTitle === clean) {
@@ -2981,64 +3197,174 @@ function parseRawBookContent(rawText) {
       } else {
         items.push({ type: "red_pill", text: clean });
       }
-      return;
+      prevBlank = false;
+      continue;
     }
-
-    // Question & Answer block (e.g. "प्रश्न 1. ... \n उत्तर :- ...")
-    if (/^(प्रश्न|Q\.?|Q[0-9]+[\.\)])/i.test(trimmed) && /(उत्तर|Ans)/i.test(trimmed)) {
-      const lines = trimmed.split("\n");
-      let qText = lines[0].trim();
-      let aLines = [];
-      for (let i = 1; i < lines.length; i++) {
-        let l = lines[i].trim();
-        l = l.replace(/^(उत्तर\s*[:–\-]?|Ans\s*[:–\-]?)\s*/i, "");
-        if (l) aLines.push(l);
+    if (/^(?:अध्याय|पाठ|इकाई|Chapter|Unit)\s*[0-9IVX]+(?:\s*[:.\-–]\s*|\s+)\S+/i.test(trimmed) && trimmed.length <= 90 && !/[।?!]$/.test(trimmed)) {
+      if (items.length > 0 || appState.book.chapterTitle !== trimmed) {
+        items.push({ type: "red_pill", text: trimmed });
       }
-      items.push({
-        type: "qa_item",
-        question: qText,
-        answer: aLines.join("\n"),
-        image: findAttachedImage(trimmed)
-      });
-      return;
+      prevBlank = false;
+      continue;
+    }
+    if (items.length === 0 && /^[0-9]+\.\s+[^:\n।?!]{4,68}$/.test(trimmed) && !BOOK_SUBHEAD_KEYWORDS_RE.test(trimmed) && (!nextObj || nextObj.hasBlankGap || isBookDefinitionLine(nextObj.text))) {
+      if (appState.book.chapterTitle !== trimmed) {
+        items.push({ type: "red_pill", text: trimmed });
+      }
+      prevBlank = false;
+      continue;
     }
 
-    // Check if paragraph contains multiple bullet points (➢, >, *, -)
-    const lines = trimmed.split("\n");
-    let hasBullets = lines.some(l => /^[➢>*•\-]\s+/.test(l.trim()));
+    // 3. Centered OR ("या" / "अथवा" / "OR")
+    if (/^(?:या|अथवा|OR)$/i.test(trimmed)) {
+      items.push({ type: "or_divider", text: trimmed });
+      prevBlank = false;
+      continue;
+    }
 
-    if (hasBullets) {
-      lines.forEach((l) => {
-        const lineTrim = l.trim();
-        if (!lineTrim) return;
+    // 4. Exam Q&A Auto-Grouping (प्रश्न / Q1 + उत्तर / Ans)
+    if (isQuestionStarter(trimmed, nextObj)) {
+      const qLines = [trimmed];
+      const aLines = [];
+      let inAnswer = false;
+      let j = i + 1;
 
-        if (/^[➢>*•\-]\s+/.test(lineTrim)) {
-          const cleanBullet = lineTrim.replace(/^[➢>*•\-]\s+/, "");
-          items.push({
-            type: "bullet_item",
-            text: cleanBullet,
-            image: findAttachedImage(cleanBullet)
-          });
-        } else if (/^(.*?)(निम्नलिखित हैं|प्रकार के होते हैं|की संरचना)(.*?)[:-]?$/i.test(lineTrim)) {
-          items.push({ type: "subhead", text: lineTrim });
-        } else {
-          items.push({
-            type: "concept_block",
-            text: lineTrim,
-            image: findAttachedImage(lineTrim)
-          });
+      while (j < rawLines.length) {
+        const sub = rawLines[j].trim();
+        if (!sub) {
+          const ahead = peekNextNonEmpty(j);
+          if (!inAnswer && ahead && /^(?:उत्तर|Ans(?:wer)?|Sol(?:ution)?)\s*[:–\-]?/i.test(ahead.text)) {
+            j++;
+            continue;
+          }
+          break;
         }
-      });
-      return;
+        if (/^(?:उत्तर|Ans(?:wer)?|Sol(?:ution)?)\s*[:–\-]?/i.test(sub)) {
+          inAnswer = true;
+          const strippedAns = sub.replace(/^(?:उत्तर|Ans(?:wer)?|Sol(?:ution)?)\s*[:–\-]?\s*/i, "").trim();
+          if (strippedAns) aLines.push(strippedAns);
+          j++;
+          continue;
+        }
+        const subLooksLikeHeading = /^\[|^#{1,4}\s/.test(sub) || (BOOK_SUBHEAD_KEYWORDS_RE.test(sub) && !/[।?!]$/.test(sub) && !isBookDefinitionLine(sub) && !isNumberedLine(sub) && sub.length <= 75);
+        if (inAnswer && (isQuestionStarter(sub, peekNextNonEmpty(j)) || subLooksLikeHeading)) {
+          break;
+        }
+        if (inAnswer) {
+          aLines.push(sub);
+        } else {
+          qLines.push(sub);
+        }
+        j++;
+      }
+
+      if (aLines.length > 0) {
+        const qText = qLines.join(" ");
+        const ansText = aLines.join("\n");
+        items.push({
+          type: "qa_item",
+          question: qText,
+          answer: ansText,
+          image: findAttachedImage(`${qText} ${ansText}`)
+        });
+        i = j - 1;
+        prevBlank = false;
+        continue;
+      }
     }
 
-    // Standard concept definition or note block
-    items.push({
-      type: "concept_block",
-      text: trimmed,
-      image: findAttachedImage(trimmed)
-    });
-  });
+    // 5. Right-Aligned Green Author / Thinker Attribution ("- प्रो० मेयर एवं वाल्डविन")
+    if (isAuthorAttribution(trimmed, prevType, nextObj)) {
+      items.push({ type: "author_quote", text: trimmed });
+      prevBlank = false;
+      continue;
+    }
+
+    // 6. Highlighted Note Callout ("नोट :- ...", "Note: ...")
+    if (/^(?:नोट|विशेष\s*नोट|महत्वपूर्ण\s*नोट|Note|Important\s*Note)\s*(?::-|:|–|—|-)\s*\S/i.test(trimmed)) {
+      items.push({ type: "note_box", text: trimmed });
+      prevBlank = false;
+      continue;
+    }
+
+    // 7. Zero-Tag Colored Subheading Pills
+    const cleanBoldHeading = trimmed.replace(/^\*\*\s*|\s*\*\*$/g, "").trim();
+    const isStandaloneBold = /^\*\*[^*\n]{3,80}\*\*[:\-]?$/.test(trimmed);
+    const endsWithColonOnly = trimmed.length <= 90 && /(?::-|:)$/.test(trimmed) && !/^(?:उत्तर|Ans|जैसे|उदाहरण|नोट|Note)/i.test(trimmed);
+    const hasSubheadPhrase = trimmed.length <= 85 && BOOK_SUBHEAD_KEYWORDS_RE.test(cleanBoldHeading) && !isBookDefinitionLine(trimmed) && !/[।?!]$/.test(cleanBoldHeading);
+    const nextIsListOrDef = nextObj && !nextObj.hasBlankGap && (isBulletLine(nextObj.text) || isNumberedLine(nextObj.text) || isBookDefinitionLine(nextObj.text));
+    const isShortSectionHeading = (prevBlank || items.length === 0)
+      && cleanBoldHeading.length >= 4 && cleanBoldHeading.length <= 62
+      && !/[।?!,]$/.test(cleanBoldHeading)
+      && !isBulletLine(trimmed) && !isNumberedLine(trimmed) && !isBookDefinitionLine(trimmed)
+      && (nextIsListOrDef || (nextObj && nextObj.hasBlankGap));
+
+    if (endsWithColonOnly || hasSubheadPhrase || isStandaloneBold || isShortSectionHeading) {
+      items.push({ type: "sub_pill", color: nextPillColor(), text: cleanBoldHeading });
+      prevBlank = false;
+      continue;
+    }
+
+    // 8. Numbered Item vs Numbered Definition
+    if (isNumberedLine(trimmed)) {
+      if (isBookDefinitionLine(trimmed)) {
+        pushConceptOrSplit(trimmed);
+      } else {
+        const mNum = trimmed.match(/^((?:\d+[\.\)]|\(\d+\)))\s+(.*)$/);
+        items.push({
+          type: "numbered_item",
+          numLabel: mNum ? mNum[1] : "1.",
+          text: mNum ? mNum[2].trim() : trimmed,
+          image: findAttachedImage(trimmed)
+        });
+      }
+      prevBlank = false;
+      continue;
+    }
+
+    // 9. Explicit Bullet Line
+    if (isBulletLine(trimmed)) {
+      const cleanBullet = trimmed.replace(/^(?:[➢➤>*•\-✓✔▪▸]|->|=>)\s+/, "").trim();
+      items.push({
+        type: "bullet_item",
+        text: cleanBullet,
+        image: findAttachedImage(cleanBullet)
+      });
+      prevBlank = false;
+      continue;
+    }
+
+    // 10. Keyword Definition Line ("Term :- ..." / "Term: ...") or Example Line ("जैसे :- ...")
+    if (isBookDefinitionLine(trimmed) || /^(?:जैसे|उदाहरण|उदा[\.०]?|e\.g\.|Example|Ex\.?)\s*(?::-|:|–|—|-)/i.test(trimmed)) {
+      pushConceptOrSplit(trimmed);
+      prevBlank = false;
+      continue;
+    }
+
+    // 11. Mid-Sentence Soft-Wrap Continuation vs Automatic Supporting Bullet Point
+    if (!prevBlank && prevItem && (prevType === "concept_block" || prevType === "bullet_item" || prevType === "numbered_item")) {
+      const endedSentence = /[।\.\?!'"”\)\]]$/.test(prevItem.text.trim());
+      if (!endedSentence && prevItem.text.length < 480) {
+        prevItem.text = `${prevItem.text.trim()} ${trimmed}`;
+        if (!prevItem.image) prevItem.image = findAttachedImage(prevItem.text);
+        prevBlank = false;
+        continue;
+      }
+      if (endedSentence && trimmed.length <= 240 && (prevType === "concept_block" || prevType === "bullet_item")) {
+        items.push({
+          type: "bullet_item",
+          text: trimmed,
+          image: findAttachedImage(trimmed)
+        });
+        prevBlank = false;
+        continue;
+      }
+    }
+
+    // Fallback: Standard concept / note block (auto-split oversized prose walls)
+    pushConceptOrSplit(trimmed);
+    prevBlank = false;
+  }
 
   return items;
 }
@@ -3066,25 +3392,29 @@ function packBookItemsAutoFit(items) {
 
   const fontSize = (appState.book && appState.book.fontSize) || 11.5;
   const lineHeight = (appState.book && appState.book.lineHeight) || 1.38;
-
-  // Exact column width inside 210mm A4 sheet (210 - 14mm margins - 6mm divider = 190mm / 2 = 95mm)
   const bookFont = (appState.book && appState.book.fontFamily) || "var(--font-devanagari)";
+  const textWeight = (appState.book && appState.book.textWeight) || "500";
+  const dividerStyle = (appState.book && appState.book.colDivider) || "solid";
+  // Actual printable column text width inside .book-col (195.2mm frame - 8mm layout pad) / 2 - 3mm col pad ~= 89.5mm
+  const colWidthMm = dividerStyle === "none" ? "87.5mm" : "89.5mm";
+
   measureSandbox.style.cssText = `
     position: absolute;
     left: -9999px;
     top: 0;
-    width: 93mm;
+    width: ${colWidthMm};
     visibility: hidden;
     pointer-events: none;
     box-sizing: border-box;
     font-family: ${bookFont};
     font-size: ${fontSize}px;
+    font-weight: ${textWeight};
     line-height: ${lineHeight};
     padding: 0;
     margin: 0;
   `;
 
-  // Measure rendered heights of each item
+  // Measure exact rendered heights (accounting for block vertical margins cleanly without artificial inflation)
   measureSandbox.innerHTML = "";
   const frag = document.createDocumentFragment();
   for (let i = 0; i < items.length; i++) {
@@ -3095,21 +3425,21 @@ function packBookItemsAutoFit(items) {
   const children = measureSandbox.children;
   const itemHeights = [];
   for (let i = 0; i < children.length; i++) {
-    const h = children[i].offsetHeight + 4; // 4px spacing
-    itemHeights.push(Math.max(16, h));
+    const h = (children[i].offsetHeight || 20) + 2;
+    itemHeights.push(Math.max(15, h));
   }
   measureSandbox.innerHTML = "";
 
-  // Printable column area calculation (A4 = 297mm):
-  // Page 1 has Chapter Pill (~10mm), header bar (~8mm), footer (~6mm), outer padding (10mm) -> ~260mm
-  // Subsequent pages don't have chapter pill -> ~270mm
+  // Printable column vertical height inside 297mm A4 sheet:
+  // Sheet margins (10mm) + header bar (~7.5mm) + footer (~5mm) + chapter pill on Page 1 (~11mm if set)
+  const hasPage1Pill = Boolean(appState.book && appState.book.chapterTitle && appState.book.chapterTitle.trim());
   const probe = document.createElement("div");
-  probe.style.cssText = "height: 258mm; margin: 0; padding: 0;";
+  probe.style.cssText = `height: ${hasPage1Pill ? "252mm" : "263mm"}; margin: 0; padding: 0;`;
   measureSandbox.appendChild(probe);
-  const page1Capacity = (probe.offsetHeight && probe.offsetHeight > 500) ? probe.offsetHeight : 965;
+  const page1Capacity = (probe.offsetHeight && probe.offsetHeight > 500) ? probe.offsetHeight : (hasPage1Pill ? 945 : 985);
 
-  probe.style.height = "268mm";
-  const subsequentCapacity = (probe.offsetHeight && probe.offsetHeight > 500) ? probe.offsetHeight : 1005;
+  probe.style.height = "263mm";
+  const subsequentCapacity = (probe.offsetHeight && probe.offsetHeight > 500) ? probe.offsetHeight : 985;
   measureSandbox.removeChild(probe);
 
   const pages = [];
@@ -3118,11 +3448,11 @@ function packBookItemsAutoFit(items) {
   let currentRightHeight = 0;
   let isFillingRight = false;
   let pageIdx = 0;
-  let maxColHeight = page1Capacity - 4;
+  let maxColHeight = page1Capacity - 2;
 
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
-    const h = itemHeights[i] || 35;
+    const h = itemHeights[i] || 32;
 
     if (!isFillingRight) {
       // 100% filling LEFT column first!
@@ -3145,7 +3475,7 @@ function packBookItemsAutoFit(items) {
         pages.push(currentPage);
 
         pageIdx++;
-        maxColHeight = subsequentCapacity - 4;
+        maxColHeight = subsequentCapacity - 2;
         currentPage = {
           leftItems: [item],
           rightItems: []
@@ -3165,34 +3495,24 @@ function packBookItemsAutoFit(items) {
 }
 
 /**
- * 1-Click Auto Format: Normalizes headings, subheads, and arrow bullets
+ * 1-Click Clean & Beautify Copy-Pasted Text (without adding ugly manual tags)
  */
 function autoFormatBookContent(text) {
   if (!text) return "";
-  const lines = text.split("\n");
-  const formattedLines = lines.map(line => {
-    let l = line.trim();
-    if (!l) return "";
-
-    // If starts with bullet characters like *, -, >, standardize to ➢
-    if (/^[*\->]\s+/.test(l)) {
-      l = "➢ " + l.replace(/^[*\->]\s+/, "");
-    }
-
-    // Auto-detect chapter headings
-    if (/^(अध्याय|[0-9]+\.)\s*(अर्थव्यवस्था|इतिहास|भूगोल|विज्ञान|नागरिक)/i.test(l) && !l.includes(":-")) {
-      return `[RED_PILL] ${l}`;
-    }
-
-    // If subhead like "अर्थव्यवस्था के दो कार्य निम्नलिखित हैं :-" or "अर्थव्यवस्था की संरचना :-"
-    if (/^(.*?)(निम्नलिखित हैं|प्रकार के होते हैं|की संरचना)(.*?)[:-]?$/i.test(l)) {
-      return `[SUBHEAD] ${l}`;
-    }
-
-    return l;
-  });
-
-  return formattedLines.join("\n\n");
+  return text
+    .replace(/\r\n/g, "\n")
+    .replace(/[\u200B\uFEFF\u00AD]/g, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .split("\n")
+    .map((line) => {
+      let l = line.trim().replace(/\s{2,}/g, " ");
+      if (!l) return "";
+      if (/^(?:[➢➤>*•\-✓✔▪▸]|->|=>)\s+/.test(l) && !/^[-–—~]\s*(?:प्रो|डा|डॉ|Prof|Dr)/i.test(l)) {
+        l = "➢ " + l.replace(/^(?:[➢➤>*•\-✓✔▪▸]|->|=>)\s+/, "");
+      }
+      return l;
+    })
+    .join("\n");
 }
 
 /**
@@ -5765,12 +6085,14 @@ function renderFullA4PhotosList() {
   const topListEls = [
     document.getElementById("list-top-fullpage-photos"),
     document.getElementById("list-pointer-top-fullpage-photos"),
+    document.getElementById("list-book-top-posters"),
     document.getElementById("list-book-top-poster-photos")
   ].filter(Boolean);
 
   const bottomListEls = [
     document.getElementById("list-bottom-fullpage-photos"),
     document.getElementById("list-pointer-bottom-fullpage-photos"),
+    document.getElementById("list-book-bottom-posters"),
     document.getElementById("list-book-bottom-poster-photos")
   ].filter(Boolean);
 
