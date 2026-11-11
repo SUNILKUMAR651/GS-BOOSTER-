@@ -1570,7 +1570,10 @@ function parseRawMcqContent(rawText) {
         detectedQNum = parsedNum;
       } else {
         const blockText = currentBlock.lines.join("\n");
-        const hasOptions = /(?:\([A-Da-d]\)|(?:\r?\n\s*|\s{2,})[A-Da-d][\.\)])/.test(blockText);
+        const isInsideMatchBlock = /(?:Column|List|कॉलम|सूची|स्तंभ|सुमेलित|Match)/i.test(blockText);
+        const hasUpperOptions = /(?:\([A-D]\)|(?:\r?\n\s*|\s{2,})[A-D][\.\)])[\s\S]*(?:\([B-D]\)|(?:\r?\n\s*|\s{2,})[B-D][\.\)])/.test(blockText);
+        const hasLowerOptions = !isInsideMatchBlock && /(?:\([a-d]\)|(?:\r?\n\s*|\s{2,})[a-d][\.\)])[\s\S]*(?:\([b-d]\)|(?:\r?\n\s*|\s{2,})[b-d][\.\)])/.test(blockText);
+        const hasOptions = hasUpperOptions || hasLowerOptions;
         const hasAns = /(?:\b(?:Ans|Answer|Key)\b\s*[:\-\—\=]?|(?:^|[\s\r\n])उत्तर\s*[:\-\—\=]|(?:^|[\s\r\n])उत्तर\s*\([A-Ea-e1-5]\))/i.test(blockText);
 
         if (inSolution || hasAns) {
@@ -1583,8 +1586,10 @@ function parseRawMcqContent(rawText) {
           isNewQ = true;
           detectedQNum = parsedNum;
         } else {
-          // No options and no answer yet: inside question body
-          if (parsedNum === currentQNum + 1 && parsedNum !== 1 && parsedNum !== 2) {
+          // No options and no answer yet: still inside question stem / statements / match-the-column
+          const prevItemPattern = new RegExp("(?:^|\\n)\\s*" + (parsedNum - 1) + "(?:[\\.\\)\\:\\-]|\\s+)", "m");
+          const isInsideList = parsedNum >= 2 && parsedNum <= 8 && prevItemPattern.test(blockText);
+          if (parsedNum === currentQNum + 1 && parsedNum !== 1 && parsedNum !== 2 && !isInsideList && !isInsideMatchBlock) {
             isNewQ = true;
             detectedQNum = parsedNum;
           }
@@ -1649,40 +1654,68 @@ function parseRawMcqContent(rawText) {
     }
 
     // 3. Extract Options from fullText
-    // Support (A), (B), (C), (D) or (a), (b), (c), (d) or A., B., C., D.
-    const markerRegex = /(?:(?:\r?\n\s*|^|\s{2,})(?:\(([A-Ea-e1-5])\)|([A-Ea-e])[\.\)]|\(([1-5])\))\s*)/g;
-    const allMatches = [];
+    // Prioritize UPPERCASE (A)-(E) or A.-E. (allows single space before (A)/(B)/(C)/(D));
+    // only use lowercase (a)-(d) if no uppercase sequence exists AND not inside Column A/B match items.
+    const markerRegex = /(?:(?:\r?\n\s*|^|\s+)\(([A-E])\)|(?:\r?\n\s*|^|\s{2,})(?:\(([a-e1-5])\)|([A-Ea-e])[\.\)]|\(([1-5])\))\s*)/g;
+    const upperMatches = [];
+    const lowerOrNumMatches = [];
     let m;
     while ((m = markerRegex.exec(fullText)) !== null) {
-      const label = (m[1] || m[2] || m[3]).toUpperCase();
-      allMatches.push({
-        label: label,
+      const upperCap = m[1];
+      const otherCap = m[2] || m[3] || m[4];
+      const rawChar = upperCap || otherCap;
+      const isUpper = Boolean(upperCap || (m[3] && m[3] === m[3].toUpperCase() && /[A-E]/.test(m[3])));
+      const entry = {
+        label: rawChar.toUpperCase(),
         index: m.index,
-        matchLen: m[0].length
-      });
+        matchLen: m[0].length,
+        isUpper: isUpper
+      };
+      if (isUpper) {
+        upperMatches.push(entry);
+      } else {
+        lowerOrNumMatches.push(entry);
+      }
     }
 
-    // Find the best option sequence (A -> B -> C -> D or 1 -> 2 -> 3 -> 4)
-    let chosenMarkers = null;
-    if (allMatches.length >= 2) {
-      for (let i = allMatches.length - 1; i >= 0; i--) {
-        if (allMatches[i].label === 'D' || allMatches[i].label === '4' || allMatches[i].label === 'E' || allMatches[i].label === '5') {
-          const seq = [allMatches[i]];
-          let targetCharCode = allMatches[i].label.charCodeAt(0) - 1;
+    function pickBestSequence(matches) {
+      if (!matches || matches.length < 2) return null;
+      for (let i = matches.length - 1; i >= 0; i--) {
+        if (matches[i].label === 'D' || matches[i].label === '4' || matches[i].label === 'E' || matches[i].label === '5') {
+          const seq = [matches[i]];
+          let targetCharCode = matches[i].label.charCodeAt(0) - 1;
           for (let j = i - 1; j >= 0; j--) {
-            if (allMatches[j].label.charCodeAt(0) === targetCharCode) {
-              seq.unshift(allMatches[j]);
+            if (matches[j].label.charCodeAt(0) === targetCharCode) {
+              seq.unshift(matches[j]);
               targetCharCode--;
             }
           }
           if (seq.length >= 2 && (seq[0].label === 'A' || seq[0].label === '1')) {
-            chosenMarkers = seq;
-            break;
+            return seq;
           }
         }
       }
-      if (!chosenMarkers) {
-        chosenMarkers = allMatches;
+      return null;
+    }
+
+    let chosenMarkers = pickBestSequence(upperMatches);
+    if (!chosenMarkers && upperMatches.length >= 2) {
+      // Check if upperMatches starts cleanly with A -> B -> C
+      const aIdx = upperMatches.findIndex(x => x.label === 'A');
+      if (aIdx !== -1 && upperMatches[aIdx + 1] && upperMatches[aIdx + 1].label === 'B') {
+        chosenMarkers = upperMatches.slice(aIdx);
+      }
+    }
+    if (!chosenMarkers) {
+      // Only consider lowercase/numeric markers as options when NOT part of a Match-the-Column block
+      const lowerSeq = pickBestSequence(lowerOrNumMatches);
+      if (lowerSeq) {
+        const beforeLower = fullText.substring(0, lowerSeq[0].index);
+        const hasMatchBefore = /(?:Column|List|कॉलम|सूची|स्तंभ|सुमेलित|Match)/i.test(beforeLower);
+        const hasCodeSeparator = /(?:कूट|कोड|Code|Codes)\s*[:\-\—]?/i.test(beforeLower);
+        if (!hasMatchBefore || hasCodeSeparator) {
+          chosenMarkers = lowerSeq;
+        }
       }
     }
 
@@ -1759,7 +1792,7 @@ function packMcqItemsAutoFit(items) {
     position: absolute;
     left: -9999px;
     top: 0;
-    width: 92mm;
+    width: 91mm;
     visibility: hidden;
     pointer-events: none;
     box-sizing: border-box;
@@ -1905,47 +1938,360 @@ function packMcqItemsAutoFit(items) {
 /**
  * Formats question body with clean Devanagari typography, formulas, and styled statements / assertion-reason
  */
+/**
+ * Detects label type of a Match-the-Column line: 'roman', 'number', 'letter', or null
+ */
+function getMatchLabelType(line) {
+  if (!line) return null;
+  const s = line.trim();
+  if (/^(?:\((?:I|II|III|IV|V|VI)\)|(?:I|II|III|IV|V|VI)(?:[\.\)\:\-]|\s+))/.test(s)) return "roman";
+  if (/^(?:\([1-9१-९]\)|[1-9१-९](?:[\.\)\:\-]|\s+))/.test(s)) return "number";
+  if (/^(?:\([a-eA-E\u0905-\u0939]\)|[a-eA-E\u0905-\u0939](?:[\.\)\:\-]|\s+))/.test(s)) return "letter";
+  return null;
+}
+
+/**
+ * Detects and extracts Match-The-Column (सुमेलित कीजिए / Column A & B / सूची-I व II) pairs
+ * Handles Pattern 1 (same-line 2-column), Pattern 2 (interleaved lines), and Pattern 3 (block-by-block),
+ * regardless of whether labels are a-d, 1-4, or I-IV on either side.
+ */
+function detectAndExtractMatchTable(rawLines) {
+  if (!rawLines || rawLines.length < 2) return null;
+  const lines = rawLines.map(l => l.trim()).filter(Boolean);
+  if (lines.length < 2) return null;
+
+  const isMatchHeader = (s) =>
+    /^\s*(?:Column|List|कॉलम|सूची|स्तंभ|खण्ड|भाग|Group)\s*[\-\–\:\.]?\s*(?:[A-Za-z0-9IVXivx\u0900-\u097F]+)(?:\s*\([^\)]+\))?\s*[:\-\—]?\s*$/i.test(s) ||
+    /^\s*(?:Column\s*[A-Da-d1-4]|सूची\s*[\-\–]?\s*[IVX1-4अ-ह]+)\s*(?:\([^\)]+\))?\s*[:\-\—]?\s*$/i.test(s);
+
+  const isStopLine = (s) =>
+    /^(?:कूट|कोड|Code|Codes|नीचे दिए|उपरोक्त)\b/i.test(s) ||
+    /^\([A-D]\)\s/.test(s);
+
+  // Pattern 1: Same-line space/tab/pipe separated (e.g. "सूची-I (नदी)     सूची-II (उद्गम)")
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const parts = line.split(/\s{2,}|\t|\s*\|\s*/).map(p => p.trim()).filter(Boolean);
+    if (parts.length >= 2) {
+      const rows = [];
+      let headerLeft = "";
+      let headerRight = "";
+      const startIndex = i;
+      const isFirstHeader = isMatchHeader(parts[0]) || isMatchHeader(parts[1]) || /(?:सूची|Column|List|कॉलम|स्तंभ)/i.test(line);
+
+      let r = i;
+      if (isFirstHeader) {
+        headerLeft = parts[0];
+        headerRight = parts.slice(1).join(" ");
+        r = i + 1;
+      }
+
+      while (r < lines.length) {
+        const curLine = lines[r];
+        if (!curLine || isStopLine(curLine)) break;
+
+        const curParts = curLine.split(/\s{2,}|\t|\s*\|\s*/).map(p => p.trim()).filter(Boolean);
+        if (curParts.length >= 2) {
+          rows.push({
+            left: curParts[0],
+            right: curParts.slice(1).join(" ")
+          });
+          r++;
+        } else {
+          break;
+        }
+      }
+
+      if (rows.length >= 2) {
+        const fullBefore = lines.slice(0, startIndex).join(" ");
+        return {
+          beforeLines: lines.slice(0, startIndex),
+          headerLeft: headerLeft || (/सूची/.test(fullBefore) ? "सूची-I" : "Column A"),
+          headerRight: headerRight || (/सूची/.test(fullBefore) ? "सूची-II" : "Column B"),
+          rows: rows,
+          afterLines: lines.slice(r)
+        };
+      }
+    }
+  }
+
+  // Pattern 2: Interleaved alternating lines (Column A / Column B / a. X / 1. Y / b. Z / 2. W)
+  for (let i = 0; i < lines.length; i++) {
+    const l1 = lines[i];
+    const l2 = lines[i + 1] || "";
+
+    let headerLeft = "";
+    let headerRight = "";
+    let itemStartIdx = i;
+    let hasExplicitHeaders = false;
+
+    if (isMatchHeader(l1) && isMatchHeader(l2)) {
+      headerLeft = l1.replace(/[:\-\—]+$/, "").trim();
+      headerRight = l2.replace(/[:\-\—]+$/, "").trim();
+      itemStartIdx = i + 2;
+      hasExplicitHeaders = true;
+    } else {
+      const t1 = getMatchLabelType(l1);
+      const t2 = getMatchLabelType(l2);
+      if (t1 && t2 && t1 !== t2) {
+        itemStartIdx = i;
+      } else {
+        continue;
+      }
+    }
+
+    if (itemStartIdx < lines.length) {
+      let r = itemStartIdx;
+      const rows = [];
+      let expectedLeftType = null;
+      let expectedRightType = null;
+
+      while (r + 1 < lines.length) {
+        const leftCandidate = lines[r];
+        const rightCandidate = lines[r + 1];
+
+        if (isStopLine(leftCandidate) || isStopLine(rightCandidate)) break;
+
+        const lType = getMatchLabelType(leftCandidate);
+        const rType = getMatchLabelType(rightCandidate);
+
+        if (!lType || !rType) break;
+        if (!hasExplicitHeaders && lType === rType) break;
+
+        if (!expectedLeftType) {
+          expectedLeftType = lType;
+          expectedRightType = rType;
+        } else if (lType !== expectedLeftType || rType !== expectedRightType) {
+          break;
+        }
+
+        rows.push({
+          left: leftCandidate,
+          right: rightCandidate
+        });
+        r += 2;
+      }
+
+      if (rows.length >= 2) {
+        const fullBefore = lines.slice(0, i).join(" ");
+        return {
+          beforeLines: lines.slice(0, i),
+          headerLeft: headerLeft || (/सूची/.test(fullBefore) ? "सूची-I" : "Column A"),
+          headerRight: headerRight || (/सूची/.test(fullBefore) ? "सूची-II" : "Column B"),
+          rows: rows,
+          afterLines: lines.slice(r)
+        };
+      }
+    }
+  }
+
+  // Pattern 3: Block by block (Column A + all items, followed by Column B + all items)
+  for (let i = 0; i < lines.length; i++) {
+    const l1 = lines[i];
+    if (isMatchHeader(l1)) {
+      const leftItems = [];
+      let j = i + 1;
+      let leftType = null;
+      while (j < lines.length && !isMatchHeader(lines[j]) && !isStopLine(lines[j])) {
+        const t = getMatchLabelType(lines[j]);
+        if (!t) break;
+        if (!leftType) leftType = t;
+        else if (t !== leftType) break;
+        leftItems.push(lines[j]);
+        j++;
+      }
+      if (leftItems.length >= 2 && j < lines.length && isMatchHeader(lines[j])) {
+        const headerRight = lines[j].replace(/[:\-\—]+$/, "").trim();
+        const rightItems = [];
+        let k = j + 1;
+        let rightType = null;
+        while (k < lines.length && !isStopLine(lines[k])) {
+          const t = getMatchLabelType(lines[k]);
+          if (!t) break;
+          if (!rightType) rightType = t;
+          else if (t !== rightType) break;
+          rightItems.push(lines[k]);
+          k++;
+        }
+        if (rightItems.length >= 2) {
+          const rows = [];
+          const maxLen = Math.max(leftItems.length, rightItems.length);
+          for (let m = 0; m < maxLen; m++) {
+            rows.push({
+              left: leftItems[m] || "",
+              right: rightItems[m] || ""
+            });
+          }
+          return {
+            beforeLines: lines.slice(0, i),
+            headerLeft: l1.replace(/[:\-\—]+$/, "").trim(),
+            headerRight: headerRight,
+            rows: rows,
+            afterLines: lines.slice(k)
+          };
+        }
+      }
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Formats individual cells inside Match-The-Column table cleanly without box clutter
+ */
+function formatMatchCell(cellText, preferredType) {
+  if (!cellText) return "";
+  const trimmed = cellText.trim();
+  const romanMatch = trimmed.match(/^(\((?:I|II|III|IV|V|VI)\)|(?:I|II|III|IV|V|VI)[\.\)\:\-]?)\s+(.*)$/);
+  const letterMatch = trimmed.match(/^(\(?[a-eA-E\u0905-\u0939]\)?[\.\)\:\-]?)\s+(.*)$/);
+  const numMatch = trimmed.match(/^(\(?[1-9१-९]\)?[\.\)\:\-]?)\s+(.*)$/);
+
+  let label = "";
+  let rest = "";
+
+  if (preferredType === "roman" && romanMatch) {
+    label = romanMatch[1]; rest = romanMatch[2];
+  } else if (preferredType === "letter" && letterMatch) {
+    label = letterMatch[1]; rest = letterMatch[2];
+  } else if (preferredType === "number" && numMatch) {
+    label = numMatch[1]; rest = numMatch[2];
+  } else if (romanMatch) {
+    label = romanMatch[1]; rest = romanMatch[2];
+  } else if (letterMatch) {
+    label = letterMatch[1]; rest = letterMatch[2];
+  } else if (numMatch) {
+    label = numMatch[1]; rest = numMatch[2];
+  }
+
+  if (label && rest) {
+    let cleanLabel = label;
+    if (!cleanLabel.endsWith(".") && !cleanLabel.endsWith(")") && !cleanLabel.includes("(")) {
+      cleanLabel += ".";
+    }
+    return '<div class="mcq-match-cell"><span class="mcq-match-badge">' + escapeHtml(cleanLabel) + '</span><span class="mcq-match-text">' + highlightFormattedText(rest) + '</span></div>';
+  }
+  return '<div class="mcq-match-cell"><span class="mcq-match-text">' + highlightFormattedText(trimmed) + '</span></div>';
+}
+
+/**
+ * Detects an aligned code header line (e.g. "कूट : (I) (II) (III) (IV)") paired with matrix options
+ */
+function extractCodeMatrixData(questionText, options) {
+  if (!questionText || !options || options.length < 2) return null;
+  const lines = questionText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  if (lines.length === 0) return null;
+
+  const lastLine = lines[lines.length - 1];
+  const codeHeadMatch = lastLine.match(/^(?:कूट|कोड|Code|Codes)\s*[:\-\—]\s*(.+)$/i);
+  if (!codeHeadMatch) return null;
+
+  const colLabels = codeHeadMatch[1].trim().split(/[\s,\/]+/).filter(Boolean);
+  if (colLabels.length < 3 || colLabels.length > 6) return null;
+
+  const parsedRows = [];
+  for (let i = 0; i < options.length; i++) {
+    const vals = (options[i].text || "").trim().split(/[\s,\/]+/).filter(Boolean);
+    if (vals.length !== colLabels.length) return null;
+    parsedRows.push({
+      label: options[i].label,
+      cols: vals
+    });
+  }
+
+  return {
+    strippedQuestionText: lines.slice(0, -1).join("\n"),
+    colLabels: colLabels,
+    rows: parsedRows
+  };
+}
+
+/**
+ * Formats question body with clean Devanagari typography, formulas, styled statements (1-4 & I-IV),
+ * assertion-reason, and authentic borderless 2-column Match-The-Column layout.
+ */
 function formatMcqQuestionBody(rawQuestion) {
   let cleanQText = (rawQuestion || "").replace(/^\s*(?:Q\.?\s*\d+|\(\d+\)|\d+[\.\)\:\-])\s*/, "").trim();
   if (!cleanQText) return "";
 
-  // Split into lines to detect Assertion/Reason and Statements
-  const lines = cleanQText.split(/\r?\n/);
-  const formattedLines = [];
+  const lines = cleanQText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
 
-  for (let l = 0; l < lines.length; l++) {
-    const line = lines[l].trim();
-    if (!line) continue;
+  // Check whether there are multiple Roman numeral statements (I, II, III, IV)
+  const romanLineCount = lines.filter(l => /^(?:I|II|III|IV|V|VI)[\.\)]?\s+/.test(l)).length;
 
+  function formatStatementOrPlainLine(line, idx, allLines) {
     const arMatch = line.match(/^((?:अभिकथन|कारण|कथन)\s*(?:\([A-Za-z0-9]+\)|[A-Za-z0-9]+)\s*[:\-\—]?)\s*(.*)$/i) ||
                     line.match(/^((?:Assertion|Reason|Statement)\s*(?:\([A-Za-z0-9]+\)|[A-Za-z0-9]+)\s*[:\-\—]?)\s*(.*)$/i);
-    const stmtMatch = line.match(/^(\d+[\.\)])\s+(.*)$/);
+    const numStmtMatch = line.match(/^(\d+[\.\)])\s+(.*)$/);
+    const romanStmtMatch = (romanLineCount >= 2 || /^(?:I|II|III|IV|V|VI)[\.\)]\s+/.test(line))
+      ? line.match(/^(I|II|III|IV|V|VI)([\.\)]?)\s+(.*)$/)
+      : null;
 
     if (arMatch) {
-      formattedLines.push(`
-        <div class="mcq-assertion-row">
-          <span class="badge-ar">${escapeHtml(arMatch[1])}</span>
-          <span>${highlightFormattedText(arMatch[2])}</span>
-        </div>
-      `);
-    } else if (stmtMatch && (l > 0 || lines.length > 2)) {
-      formattedLines.push(`
-        <div class="mcq-stmt-row">
-          <span class="badge-stmt">${escapeHtml(stmtMatch[1])}</span>
-          <span>${highlightFormattedText(stmtMatch[2])}</span>
-        </div>
-      `);
-    } else {
-      formattedLines.push(`<div>${highlightFormattedText(line)}</div>`);
+      return '<div class="mcq-assertion-row"><span class="badge-ar">' + escapeHtml(arMatch[1]) + '</span><span>' + highlightFormattedText(arMatch[2]) + '</span></div>';
     }
+    if (numStmtMatch && (idx > 0 || allLines.length > 2)) {
+      return '<div class="mcq-stmt-row"><span class="badge-stmt">' + escapeHtml(numStmtMatch[1]) + '</span><span>' + highlightFormattedText(numStmtMatch[2]) + '</span></div>';
+    }
+    if (romanStmtMatch && (idx > 0 || allLines.length > 2)) {
+      const lbl = romanStmtMatch[1] + (romanStmtMatch[2] || ".");
+      return '<div class="mcq-stmt-row"><span class="badge-stmt">' + escapeHtml(lbl) + '</span><span>' + highlightFormattedText(romanStmtMatch[3]) + '</span></div>';
+    }
+    if (/^(?:कूट|कोड|Code|Codes)\s*[:\-\—]?$/i.test(line)) {
+      return '<div class="mcq-code-intro">' + highlightFormattedText(line) + '</div>';
+    }
+    return '<div>' + highlightFormattedText(line) + '</div>';
   }
 
+  // 1. Detect and render Match-The-Column (सुमेलित कीजिए / Column A vs Column B)
+  const matchTableData = detectAndExtractMatchTable(lines);
+  if (matchTableData) {
+    const formattedBlocks = [];
+
+    if (matchTableData.beforeLines && matchTableData.beforeLines.length > 0) {
+      matchTableData.beforeLines.forEach(l => {
+        if (l) formattedBlocks.push('<div>' + highlightFormattedText(l) + '</div>');
+      });
+    }
+
+    const leftPref = getMatchLabelType(matchTableData.rows[0] && matchTableData.rows[0].left) || "letter";
+    const rightPref = getMatchLabelType(matchTableData.rows[0] && matchTableData.rows[0].right) || "number";
+
+    const rowsHtml = matchTableData.rows.map(r =>
+      '<tr><td>' + formatMatchCell(r.left, leftPref) + '</td><td>' + formatMatchCell(r.right, rightPref) + '</td></tr>'
+    ).join("");
+
+    const tableHtml =
+      '<div class="mcq-match-table-wrapper">' +
+        '<table class="mcq-match-table">' +
+          '<thead><tr><th>' + highlightFormattedText(matchTableData.headerLeft) + '</th><th>' + highlightFormattedText(matchTableData.headerRight) + '</th></tr></thead>' +
+          '<tbody>' + rowsHtml + '</tbody>' +
+        '</table>' +
+      '</div>';
+    formattedBlocks.push(tableHtml);
+
+    if (matchTableData.afterLines && matchTableData.afterLines.length > 0) {
+      matchTableData.afterLines.forEach((l, idx) => {
+        if (!l) return;
+        if (/^(?:कूट|कोड|Code|Codes)\s*[:\-\—]?/i.test(l)) {
+          formattedBlocks.push('<div class="mcq-code-intro">' + highlightFormattedText(l) + '</div>');
+        } else {
+          formattedBlocks.push(formatStatementOrPlainLine(l, idx + 1, matchTableData.afterLines));
+        }
+      });
+    }
+
+    return formattedBlocks.join("");
+  }
+
+  // 2. Standard formatting for Assertion/Reason and Statements (1-4 & I-IV)
+  const formattedLines = [];
+  for (let l = 0; l < lines.length; l++) {
+    formattedLines.push(formatStatementOrPlainLine(lines[l], l, lines));
+  }
   return formattedLines.join("");
 }
 
-/**
- * Creates a single DOM element for an MCQ item with question, attached diagram, and options
- */
 function createMcqDomElement(item) {
   const div = document.createElement("div");
   div.className = "mcq-item gs-document-font";
@@ -1953,76 +2299,95 @@ function createMcqDomElement(item) {
   const qNum = item.qNum;
   const diagramUrl = (appState.mcq && appState.mcq.questionImages) ? appState.mcq.questionImages[qNum] : "";
 
-  let optLayoutClass = "mcq-options-grid2x2";
-  if (appState.mcq && appState.mcq.optionsLayout === "grid2x2") {
-    optLayoutClass = "mcq-options-grid2x2";
-  } else if (appState.mcq && appState.mcq.optionsLayout === "inline4") {
-    optLayoutClass = "mcq-options-inline4";
-  } else if (appState.mcq && appState.mcq.optionsLayout === "stacked") {
-    optLayoutClass = "mcq-options-stacked";
-  } else {
-    const maxOptLen = (item.options && item.options.length > 0) 
-      ? Math.max(...(item.options.map(o => (o.text || "").length))) 
-      : 0;
-    if (maxOptLen <= 10 && item.options.length === 4) {
-      optLayoutClass = "mcq-options-inline4";
-    } else if (maxOptLen <= 32 && item.options.length === 4) {
-      optLayoutClass = "mcq-options-grid2x2";
-    } else {
-      optLayoutClass = "mcq-options-stacked";
-    }
-  }
+  // Check if options form a clean aligned Code Matrix under "कूट : (I) (II) (III) (IV)"
+  const codeMatrix = (!appState.mcq || appState.mcq.optionsLayout === "auto" || !appState.mcq.optionsLayout)
+    ? extractCodeMatrixData(item.question, item.options)
+    : null;
+
+  const questionSource = codeMatrix ? codeMatrix.strippedQuestionText : item.question;
+  const questionBodyHtml = formatMcqQuestionBody(questionSource);
 
   let optionsHtml = "";
-  if (item.options && item.options.length > 0) {
-    optionsHtml = `
-      <div class="mcq-options-container ${optLayoutClass}">
-        ${item.options.map(opt => `
-          <div class="mcq-opt-item">
-            <span class="mcq-opt-label">(${escapeHtml(opt.label)})</span>
-            <span class="mcq-opt-text">${highlightFormattedText(opt.text)}</span>
-          </div>
-        `).join("")}
-      </div>
-    `;
+  if (codeMatrix) {
+    const colCount = codeMatrix.colLabels.length;
+    const gridTemplate = "40px repeat(" + colCount + ", minmax(20px, auto))";
+    optionsHtml =
+      '<div class="mcq-code-matrix">' +
+        '<div class="mcq-code-matrix-row mcq-code-matrix-head" style="grid-template-columns: ' + gridTemplate + ';">' +
+          '<span class="mcq-code-matrix-label">कूट :</span>' +
+          codeMatrix.colLabels.map(lbl => '<span class="mcq-code-matrix-cell">' + escapeHtml(lbl) + '</span>').join("") +
+        '</div>' +
+        codeMatrix.rows.map(row =>
+          '<div class="mcq-code-matrix-row" style="grid-template-columns: ' + gridTemplate + ';">' +
+            '<span class="mcq-opt-label">(' + escapeHtml(row.label) + ')</span>' +
+            row.cols.map(c => '<span class="mcq-code-matrix-cell">' + escapeHtml(c) + '</span>').join("") +
+          '</div>'
+        ).join("") +
+      '</div>';
+  } else if (item.options && item.options.length > 0) {
+    let optLayoutClass = "mcq-options-grid2x2";
+    if (appState.mcq && appState.mcq.optionsLayout === "grid2x2") {
+      optLayoutClass = "mcq-options-grid2x2";
+    } else if (appState.mcq && appState.mcq.optionsLayout === "inline4") {
+      optLayoutClass = "mcq-options-inline4";
+    } else if (appState.mcq && appState.mcq.optionsLayout === "stacked") {
+      optLayoutClass = "mcq-options-stacked";
+    } else {
+      const lengths = item.options.map(o => (o.text || "").length);
+      const maxOptLen = Math.max(...lengths);
+      const totalOptLen = lengths.reduce((a, b) => a + b, 0);
+      if (item.options.length === 4 && maxOptLen <= 9 && totalOptLen <= 30) {
+        optLayoutClass = "mcq-options-inline4";
+      } else if (item.options.length === 4 && maxOptLen <= 24) {
+        optLayoutClass = "mcq-options-grid2x2";
+      } else {
+        optLayoutClass = "mcq-options-stacked";
+      }
+    }
+
+    optionsHtml =
+      '<div class="mcq-options-container ' + optLayoutClass + '">' +
+        item.options.map(opt =>
+          '<div class="mcq-opt-item">' +
+            '<span class="mcq-opt-label">(' + escapeHtml(opt.label) + ')</span>' +
+            '<span class="mcq-opt-text">' + highlightFormattedText(opt.text) + '</span>' +
+          '</div>'
+        ).join("") +
+      '</div>';
   }
 
   let diagramHtml = "";
   if (diagramUrl) {
-    diagramHtml = `
-      <div class="mcq-diagram-wrapper">
-        <img src="${diagramUrl}" class="mcq-diagram-img" alt="Diagram for Q${qNum}">
-      </div>
-    `;
+    diagramHtml =
+      '<div class="mcq-diagram-wrapper">' +
+        '<img src="' + diagramUrl + '" class="mcq-diagram-img" alt="Diagram for Q' + qNum + '">' +
+      '</div>';
   }
 
-  const questionBodyHtml = formatMcqQuestionBody(item.question);
-
-  // Solution HTML Box (Image 1 & 3)
   let solutionHtml = "";
   const showSolutions = !(appState.mcq && appState.mcq.showSolutions === "hide");
   if (item.solution && showSolutions) {
     const formattedSol = highlightFormattedText(item.solution);
-    solutionHtml = `
-      <div class="mcq-solution-box">
-        <div class="mcq-solution-header">
-          ${item.answer ? `<span class="mcq-solution-ans-badge">उत्तर : (${escapeHtml(item.answer)})</span>` : ''}
-          <span class="mcq-solution-title">💡 व्याख्या / Solution :</span>
-        </div>
-        <div class="mcq-solution-body">${formattedSol}</div>
-      </div>
-    `;
+    solutionHtml =
+      '<div class="mcq-solution-box">' +
+        '<div class="mcq-solution-header">' +
+          (item.answer ? '<span class="mcq-solution-ans-badge">उत्तर : (' + escapeHtml(item.answer) + ')</span>' : '') +
+          '<span class="mcq-solution-title">💡 व्याख्या / Solution :</span>' +
+        '</div>' +
+        '<div class="mcq-solution-body">' + formattedSol + '</div>' +
+      '</div>';
   }
 
-  div.innerHTML = `
-    <div class="mcq-q-header">
-      <span class="mcq-qnum" style="color: ${escapeHtml(appState.mcq.qNumColor || '#dc2626')};">${qNum}.</span>
-      <div class="mcq-qtext">${questionBodyHtml}</div>
-    </div>
-    ${diagramHtml}
-    ${optionsHtml}
-    ${solutionHtml}
-  `;
+  div.innerHTML =
+    '<div class="mcq-q-row">' +
+      '<span class="mcq-qnum" style="color: ' + escapeHtml(appState.mcq.qNumColor || '#dc2626') + ';">' + qNum + '.</span>' +
+      '<div class="mcq-q-content">' +
+        '<div class="mcq-qtext">' + questionBodyHtml + '</div>' +
+        diagramHtml +
+        optionsHtml +
+        solutionHtml +
+      '</div>' +
+    '</div>';
 
   return div;
 }
@@ -3177,7 +3542,18 @@ function formatScienceFormulas(text) {
     [/\bPbO2\b/gi, "PbO₂"],
     [/\bP2O5\b/gi, "P₂O₅"],
     [/\bAgNO3\b/gi, "AgNO₃"],
+    [/\bAg2O\b/gi, "Ag₂O"],
+    [/\bAg2SO4\b/gi, "Ag₂SO₄"],
     [/\bAgCl\b/gi, "AgCl"],
+    [/\bBaCl2\b/gi, "BaCl₂"],
+    [/\bBaSO4\b/gi, "BaSO₄"],
+    [/\bNa2SO4\b/gi, "Na₂SO₄"],
+    [/\bCuCl2\b/gi, "CuCl₂"],
+    [/\bZnCl2\b/gi, "ZnCl₂"],
+    [/\bFeCl2\b/gi, "FeCl₂"],
+    [/\bFeCl3\b/gi, "FeCl₃"],
+    [/\bPb\(NO3\)2\b/gi, "Pb(NO₃)₂"],
+    [/\bK2SO4\b/gi, "K₂SO₄"],
     [/\bCa3\(PO4\)2\b/gi, "Ca₃(PO₄)₂"],
     // Hydrates
     [/\bCaSO4[\.·]2H2O\b/gi, "CaSO₄·2H₂O"],
@@ -3190,6 +3566,9 @@ function formatScienceFormulas(text) {
   for (let i = 0; i < formulaReplacements.length; i++) {
     str = str.replace(formulaReplacements[i][0], formulaReplacements[i][1]);
   }
+
+  // Chemical reaction arrow (-> with whitespace around it -> →)
+  str = str.replace(/\s+->\s+/g, " → ");
 
   // 3. Units & Exponents (m/s2 -> m/s², m2 -> m², cm3 -> cm³, etc.)
   str = str.replace(/\b(m|cm|mm|km)\/s\^?2\b/gi, "$1/s²");

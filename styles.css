@@ -619,6 +619,7 @@ sup {
 .mcq-col {
   flex: 1;
   width: 50%;
+  min-width: 0;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -663,30 +664,35 @@ sup {
   position: relative;
 }
 
+.mcq-q-row,
 .mcq-q-header {
   display: flex;
   align-items: flex-start;
-  gap: 4px;
-  margin-bottom: 1.5px;
+  gap: 5px;
 }
 
 .mcq-qnum {
   font-weight: 900;
   color: var(--mcq-qnum-color, #dc2626); /* Crimson red question number */
-  min-width: 18px;
+  min-width: 21px;
   flex-shrink: 0;
+}
+
+.mcq-q-content {
+  flex: 1;
+  min-width: 0;
 }
 
 .mcq-qtext {
   font-weight: 600;
   color: #000000;
   flex: 1;
-  text-align: justify;
-  text-justify: inter-word;
+  min-width: 0;
+  text-align: left;
   line-height: inherit;
-  white-space: pre-line;
   word-break: break-word;
   overflow-wrap: break-word;
+  margin-bottom: 1.5px;
 }
 
 #btn-mode-mcq.mode-tab-btn.active {
@@ -697,33 +703,40 @@ sup {
 /* MCQ Statements & Assertion-Reason Styling */
 .mcq-assertion-box,
 .mcq-assertion-row {
-  margin: 1.5px 0 2px 14px;
-  font-size: 0.95em;
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  margin: 1.5px 0 2px 0;
+  font-size: 0.96em;
   line-height: 1.35;
-  text-align: justify;
+  font-weight: 500;
 }
 .mcq-assertion-box .badge-ar,
 .mcq-assertion-row .badge-ar {
   font-weight: 800;
   color: #dc2626;
-  margin-right: 4px;
+  flex-shrink: 0;
 }
 
 .mcq-stmt-row {
-  margin: 1.5px 0 1.5px 14px;
-  font-size: 0.95em;
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  margin: 1.5px 0;
+  font-size: 0.96em;
   line-height: 1.35;
-  text-align: justify;
+  font-weight: 500;
 }
 .mcq-stmt-row .badge-stmt {
-  font-weight: 800;
-  color: #1e293b;
-  margin-right: 4px;
+  font-weight: 700;
+  color: #111827;
+  min-width: 17px;
+  flex-shrink: 0;
 }
 
 /* Question Diagram / Image Box */
 .mcq-diagram-wrapper {
-  margin: 2px 0 3px 14px;
+  margin: 2px 0 3px 0;
   text-align: center;
 }
 .mcq-diagram-img {
@@ -737,23 +750,23 @@ sup {
 
 /* Options Layouts */
 .mcq-options-container {
-  margin-left: 14px;
-  margin-top: 1.5px;
-  font-size: 0.95em;
+  margin-top: 2px;
+  font-size: 0.96em;
 }
 
 /* 1. 2x2 Grid (Default in Platform / Rukmini) */
 .mcq-options-grid2x2 {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5px 6px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.5px 8px;
 }
 
 /* 2. 4-Inline (For short numbers/words) */
 .mcq-options-inline4 {
   display: flex;
   justify-content: space-between;
-  gap: 6px;
+  flex-wrap: wrap;
+  gap: 2px 6px;
 }
 
 /* 3. Stacked (1 per line for long text) */
@@ -765,8 +778,8 @@ sup {
 
 .mcq-opt-item {
   display: flex;
-  align-items: baseline;
-  gap: 3px;
+  align-items: flex-start;
+  gap: 4px;
   min-width: 0;
 }
 
@@ -774,7 +787,7 @@ sup {
   font-weight: 800;
   color: #000000;
   flex-shrink: 0;
-  min-width: 16px;
+  min-width: 17px;
 }
 
 .mcq-opt-text {
@@ -784,29 +797,124 @@ sup {
   overflow-wrap: break-word;
 }
 
-/* Matching Column Table */
-.mcq-match-container {
-  margin: 2px 0 3px 14px;
-  font-size: 0.92em;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
-  background-color: #f8fafc;
-  border: 1px solid #e2e8f0;
-  padding: 2.5px 5px;
-  border-radius: 3px;
+/* MCQ Match The Column (Authentic Borderless 2-Column Exam Format: Column A & B / सूची-I व II) */
+.mcq-match-table-wrapper {
+  margin: 2.5px 0 3px 0;
+  width: 100%;
+  overflow-x: hidden;
 }
-.mcq-match-col-title {
+
+.mcq-match-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.96em;
+  line-height: 1.32;
+  border: none;
+  background-color: transparent;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.mcq-match-table thead th {
+  background-color: transparent;
+  color: var(--mcq-qnum-color, #dc2626);
   font-weight: 800;
-  color: #dc2626;
-  border-bottom: 1px dashed #cbd5e1;
-  padding-bottom: 1px;
-  margin-bottom: 2px;
+  text-align: left;
+  padding: 1.5px 6px 2.5px 18px;
+  border: none;
+  font-size: 0.96em;
+}
+
+.mcq-match-table thead th:last-child {
+  padding-right: 0;
+  padding-left: 22px;
+}
+
+.mcq-match-table tbody td {
+  padding: 1px 6px 1px 0;
+  border: none;
+  background-color: transparent;
+  vertical-align: top;
+  width: 50%;
+}
+
+.mcq-match-table tbody td:last-child {
+  padding-right: 0;
+  padding-left: 4px;
+}
+
+.mcq-match-cell {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  min-width: 0;
+}
+
+.mcq-match-badge {
+  display: inline-block;
+  font-weight: 700;
+  color: #0f172a;
+  min-width: 18px;
+  flex-shrink: 0;
+}
+
+.mcq-match-text {
+  color: #111827;
+  font-weight: 500;
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.mcq-code-intro {
+  font-weight: 600;
+  font-size: 0.94em;
+  color: #111827;
+  margin-top: 2px;
+  margin-bottom: 1.5px;
+}
+
+/* Authentic Exam Code Matrix: कूट : (I) (II) (III) (IV) + (A) d a b c */
+.mcq-code-matrix {
+  margin-top: 2px;
+  font-size: 0.95em;
+  line-height: 1.35;
+}
+
+.mcq-code-matrix-row {
+  display: grid;
+  align-items: center;
+  justify-content: start;
+  gap: 1px 10px;
+  padding: 0.5px 0;
+}
+
+.mcq-code-matrix-head {
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 1px;
+}
+
+.mcq-code-matrix-label {
+  font-weight: 700;
+  color: #000000;
+}
+
+.mcq-code-matrix-cell {
+  text-align: center;
+  font-weight: 500;
+  color: #111827;
+}
+
+.mcq-code-matrix-head .mcq-code-matrix-cell {
+  font-weight: 700;
+  color: #000000;
 }
 
 /* MCQ Question Solution / Explanation Box (Image 1 & 3) */
 .mcq-solution-box {
-  margin: 2.5px 0 3px 14px;
+  margin: 2.5px 0 3px 0;
   padding: 3px 6px;
   background-color: #f8fafc;
   border: 1px solid #e2e8f0;
@@ -1406,10 +1514,16 @@ sup {
   }
   .mcq-col {
     width: 50% !important;
+    min-width: 0 !important;
     flex: 1 !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
+  }
+  .mcq-match-table thead th {
+    color: var(--mcq-qnum-color, #dc2626) !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
   .mcq-col-left {
     padding-right: 3mm !important;
