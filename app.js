@@ -1072,6 +1072,7 @@ const DEFAULT_STATE = {
     seriesSubtitle: "Test Series for",
     setNumber: "06",
     topAppBannerText: "Online Test के लिए App अभी डाउनलोड करें➔",
+    topAppPillText: "📱 Rukmini's Exam Prep App",
     topAppBannerUrl: "https://t.me/apnapdfs",
     footerExamText: "BIHAR POLICE CONSTABLE EXAM., TEST SERIES VOL.-1",
     footerWebText: "www.rukminiprakashan.com",
@@ -2085,7 +2086,10 @@ function packMcqItemsAutoFit(items) {
   // Header box = ~14mm. Footer box = ~8mm.
   // Printable column area = 263mm default.
   let colHeightMm = 263;
-  if (appState.mcq.topAppBannerText && appState.mcq.topAppBannerText.trim()) {
+  if (
+    (appState.mcq.topAppBannerText && appState.mcq.topAppBannerText.trim()) ||
+    (appState.mcq.topAppPillText && appState.mcq.topAppPillText.trim())
+  ) {
     colHeightMm -= 5;
   }
   if (appState.inPageBanners && appState.inPageBanners.headerBanner) {
@@ -2690,11 +2694,22 @@ function createMcqA4PageElement(pageChunk, pageNum, totalPages, isLastPage, allI
   });
 
   const topAppText = (appState.mcq.topAppBannerText || "").trim();
+  const topAppPillRaw = appState.mcq.topAppPillText;
+  const topAppPill = (topAppPillRaw === undefined ? "📱 Rukmini's Exam Prep App" : topAppPillRaw).trim();
   const topAppUrl = (appState.mcq.topAppBannerUrl || "").trim() || "#";
-  const topBannerHtml = topAppText ? `
+  const hasTopBanner = Boolean(topAppText || topAppPill);
+  const pillHtml = topAppPill
+    ? (topAppUrl !== "#"
+        ? `<a class="app-pill" href="${escapeHtml(topAppUrl)}" target="_blank">${escapeHtml(topAppPill)}</a>`
+        : `<span class="app-pill">${escapeHtml(topAppPill)}</span>`)
+    : "";
+  const leftPromoHtml = topAppText
+    ? `<span><a href="${escapeHtml(topAppUrl)}" target="_blank">${escapeHtml(topAppText)}</a></span>`
+    : `<span></span>`;
+  const topBannerHtml = hasTopBanner ? `
     <div class="mcq-top-app-banner">
-      <span><a href="${escapeHtml(topAppUrl)}" target="_blank">${escapeHtml(topAppText)}</a></span>
-      <span class="app-pill">📱 Rukmini's Exam Prep App</span>
+      ${leftPromoHtml}
+      ${pillHtml}
     </div>
   ` : "";
 
@@ -4430,6 +4445,7 @@ function syncInputsFromState() {
   setValue("input-mcq-set-num", appState.mcq.setNumber || "06");
   setText("preview-set-badge", appState.mcq.setNumber || "06");
   setValue("input-mcq-top-app-text", appState.mcq.topAppBannerText || "");
+  setValue("input-mcq-top-app-pill", appState.mcq.topAppPillText !== undefined ? appState.mcq.topAppPillText : "📱 Rukmini's Exam Prep App");
   setValue("input-mcq-top-app-url", appState.mcq.topAppBannerUrl || "");
   setValue("input-mcq-footer-text", appState.mcq.footerExamText || "");
   setValue("input-mcq-footer-web", appState.mcq.footerWebText || "");
@@ -5445,6 +5461,7 @@ function setupEventListeners() {
           appState.mcq.seriesSubtitle = "Test Series for";
           appState.mcq.setNumber = "06";
           appState.mcq.startingPageNumber = 99;
+          appState.mcq.topAppPillText = "📱 Rukmini's Exam Prep App";
           appState.mcq.footerExamText = "BIHAR POLICE CONSTABLE EXAM., TEST SERIES VOL.-1";
           appState.mcq.footerWebText = "www.rukminiprakashan.com";
           appState.mcq.watermarkText = "PLATFORM";
@@ -5453,6 +5470,7 @@ function setupEventListeners() {
           appState.mcq.seriesSubtitle = "Special Practice Set for";
           appState.mcq.setNumber = "01";
           appState.mcq.startingPageNumber = 1;
+          appState.mcq.topAppPillText = "📱 ApnaPdfs Exam Prep App";
           appState.mcq.footerExamText = "GENERAL SCIENCE PRACTICE SET VOL.-1";
           appState.mcq.footerWebText = "www.apnapdfs.com";
           appState.mcq.watermarkText = "Join @Apnapdfs";
@@ -5481,6 +5499,7 @@ function setupEventListeners() {
   }
 
   bindMcqInput("input-mcq-top-app-text", "topAppBannerText");
+  bindMcqInput("input-mcq-top-app-pill", "topAppPillText");
   bindMcqInput("input-mcq-top-app-url", "topAppBannerUrl");
   bindMcqInput("input-mcq-footer-text", "footerExamText");
   bindMcqInput("input-mcq-footer-web", "footerWebText");

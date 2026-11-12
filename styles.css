@@ -585,9 +585,15 @@ sup {
   padding: 1px 8px;
   font-size: 9.5px;
   font-weight: 700;
+  color: #000000;
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
   gap: 4px;
+}
+.mcq-top-app-banner a.app-pill:hover {
+  text-decoration: none;
+  background-color: #f8fafc;
 }
 
 /* Exam Header Box */
