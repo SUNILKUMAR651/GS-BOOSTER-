@@ -1073,6 +1073,45 @@ sup {
   align-items: center;
   gap: 6px;
   font-weight: 800;
+  flex-shrink: 0;
+}
+
+.book-header-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.book-institute-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  padding: 1.5px 8px;
+  border-radius: 4px;
+  font-size: 11.5px;
+  font-weight: 900;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+
+.book-header-logo-img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  border-radius: 2px;
+  background: #ffffff;
+  padding: 1px;
 }
 
 .book-batch-tag {
@@ -1088,6 +1127,7 @@ sup {
 .book-header-right {
   font-weight: 800;
   letter-spacing: 0.5px;
+  flex-shrink: 0;
 }
 
 /* Red 3D Glossy Chapter Capsule Pill (Image 1 & 2) */
@@ -1534,9 +1574,506 @@ sup {
   box-shadow: 0 1px 3px rgba(37,99,235,0.4);
 }
 
+/* GS Pointer Explicit Two-Column Layout (Left fills 100% first, then Right) */
+.gs-two-column-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  margin-top: 2mm;
+}
+.gs-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.gs-col-left {
+  padding-right: var(--doc-col-half-gap, 3.5mm);
+}
+.gs-col-right {
+  padding-left: var(--doc-col-half-gap, 3.5mm);
+}
+.gs-col-divider {
+  width: 0;
+  align-self: stretch;
+  flex-shrink: 0;
+}
+.gs-two-column-layout.has-divider .gs-col-divider {
+  border-left: 1px solid #cbd5e1;
+}
+
+/* Full-Column Clean Bottom Fill (only on full columns so Q+A fill down to footer cleanly) */
+.gs-col.col-full-pack,
+.mcq-col.col-full-pack,
+.book-col.col-full-pack {
+  justify-content: space-between;
+}
+.col-full-pack > :last-child {
+  margin-bottom: 0 !important;
+}
+
 /* ==========================================================================
    PRINT ENGINE STYLES (@media print)
    ========================================================================== */
+/* ==========================================================================
+   DIGITAL BOARD & MCQ SLIDE PPT STUDIO (SCREEN & PRESENTATION STYLES)
+   ========================================================================== */
+.slide-sheet {
+  box-sizing: border-box;
+  background-color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  page-break-after: always;
+  break-after: page;
+}
+
+/* Slide Orientations */
+.slide-sheet.slide-portrait {
+  width: 210mm;
+  height: 297mm;
+  min-height: 297mm;
+  max-height: 297mm;
+}
+
+.slide-sheet.slide-landscape {
+  width: 297mm;
+  height: 167mm;
+  min-height: 167mm;
+  max-height: 167mm;
+}
+
+.slide-sheet.slide-4-3 {
+  width: 280mm;
+  height: 210mm;
+  min-height: 210mm;
+  max-height: 210mm;
+}
+
+/* Slide Inner Container */
+.slide-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 10;
+  padding: 0;
+  background: #ffffff;
+}
+
+/* Slide Top Header Bar */
+.slide-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 18px;
+  color: #ffffff;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.14);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.slide-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.slide-header-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  object-fit: contain;
+  background: #ffffff;
+  padding: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.slide-header-center {
+  font-weight: 800;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.slide-header-badge {
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 2px 12px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+.slide-header-right {
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0.95;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 3px 10px;
+  border-radius: 6px;
+}
+
+/* Optional Top Banner / Diagram / Photo */
+.slide-photo-banner {
+  width: 100%;
+  max-height: 60mm;
+  overflow: hidden;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1.5px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+.slide-photo-banner img {
+  width: 100%;
+  height: auto;
+  max-height: 60mm;
+  object-fit: contain;
+}
+
+/* Main Slide Body */
+.slide-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px 22px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Question Section */
+.slide-question-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.slide-qnum-badge {
+  background: #dc2626;
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 16px;
+  padding: 4px 12px;
+  border-radius: 8px;
+  line-height: 1.2;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.3);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.slide-qtext {
+  font-size: var(--slide-font-size, 20px);
+  font-weight: var(--slide-q-weight, 700);
+  line-height: 1.45;
+  color: #0f172a;
+}
+
+/* Options Container */
+.slide-options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin: 8px 0;
+}
+
+.slide-options-container.slide-opts-grid2x2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.slide-options-container.slide-opts-inline4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+/* Option Cards */
+.slide-opt-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: var(--slide-opt-font-size, 17px);
+  font-weight: 600;
+  color: #1e293b;
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+}
+
+.slide-opt-card.slide-opt-correct {
+  border-color: #16a34a !important;
+  background: #f0fdf4 !important;
+  color: #14532d !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.18);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.slide-opt-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  border: 1.5px solid #cbd5e1;
+  font-weight: 800;
+  font-size: 13px;
+  color: #334155;
+  flex-shrink: 0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.slide-opt-card.slide-opt-correct .slide-opt-badge {
+  background: #16a34a !important;
+  border-color: #16a34a !important;
+  color: #ffffff !important;
+}
+
+.slide-opt-text {
+  flex: 1;
+  line-height: 1.35;
+}
+
+.slide-opt-check {
+  color: #16a34a;
+  font-weight: 900;
+  font-size: 19px;
+  margin-left: auto;
+  line-height: 1;
+}
+
+/* Answer & Explanation Section */
+.slide-answer-section {
+  margin-top: auto;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.slide-answer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: #16a34a;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+  border-radius: 8px;
+  align-self: flex-start;
+  box-shadow: 0 2px 6px rgba(22, 163, 74, 0.28);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.slide-expl-box {
+  background: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  border-left: 5px solid #2563eb;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #334155;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.slide-expl-title {
+  font-weight: 800;
+  font-size: 13px;
+  color: #1e40af;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.slide-expl-content {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.slide-btn-reveal {
+  padding: 7px 16px;
+  background: #f1f5f9;
+  border: 1.5px dashed #94a3b8;
+  border-radius: 8px;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.slide-btn-reveal:hover {
+  background: #e2e8f0;
+  border-color: #64748b;
+  color: #0f172a;
+}
+
+/* Slide Bottom Footer Bar */
+.slide-footer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 18px;
+  background: #f8fafc;
+  border-top: 1.5px solid #e2e8f0;
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  flex-shrink: 0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Final Answer Key Slide */
+.slide-ack-box {
+  background: #ffffff;
+  border: 2px solid #0f172a;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.slide-ack-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.slide-ack-cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 12px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.slide-ack-cell-q {
+  color: #475569;
+}
+
+.slide-ack-cell-ans {
+  color: #16a34a;
+  background: #dcfce7;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-weight: 800;
+}
+
+/* Fullscreen Presentation Modal Overlay */
+.slide-presentation-overlay {
+  position: fixed;
+  inset: 0;
+  background: #020617;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.slide-presentation-stage {
+  max-width: 95vw;
+  max-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+}
+
+.slide-presentation-controls {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 8px 20px;
+  border-radius: 9999px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  z-index: 10000;
+  color: #ffffff;
+}
+
+.slide-presentation-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.slide-presentation-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.slide-timer-badge {
+  background: #dc2626;
+  color: #ffffff;
+  font-family: monospace;
+  font-size: 14px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 6px;
+  letter-spacing: 1px;
+}
+
+
 @media print {
   /* Set exact page boundary and eliminate browser chrome headers/footers */
   @page {
@@ -1778,6 +2315,17 @@ sup {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
+  .book-institute-badge {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    color: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .book-header-logo-img {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
   .book-chapter-pill {
     background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%) !important;
     color: #ffffff !important;
@@ -1902,4 +2450,93 @@ sup {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
+
+  /* Preserve GS Pointer Explicit Left-then-Right Columns & Anti-Split Rules in Print */
+  .gs-two-column-layout {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    flex: 1 !important;
+    min-height: 0 !important;
+    margin-top: 2mm !important;
+  }
+  .gs-col {
+    width: 50% !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+  }
+  .gs-col-left {
+    padding-right: var(--doc-col-half-gap, 3.5mm) !important;
+  }
+  .gs-col-right {
+    padding-left: var(--doc-col-half-gap, 3.5mm) !important;
+  }
+  .gs-col-divider {
+    width: 0 !important;
+    align-self: stretch !important;
+    flex-shrink: 0 !important;
+  }
+  .gs-two-column-layout.has-divider .gs-col-divider {
+    border-left: 1px solid #cbd5e1 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .gs-col.col-full-pack,
+  .mcq-col.col-full-pack,
+  .book-col.col-full-pack {
+    justify-content: space-between !important;
+  }
+  .col-full-pack > :last-child {
+    margin-bottom: 0 !important;
+  }
+  .gs-qa-item,
+  .mcq-item,
+  .book-item-block,
+  .book-bullet-item,
+  .book-numbered-item,
+  .book-note-box {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Digital Board & MCQ Slides in Print */
+  .slide-sheet {
+    box-shadow: none !important;
+    margin: 0 !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    overflow: hidden !important;
+  }
+  .slide-sheet.slide-portrait {
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: 297mm !important;
+    max-height: 297mm !important;
+  }
+  .slide-sheet.slide-landscape {
+    width: 297mm !important;
+    height: 167mm !important;
+    min-height: 167mm !important;
+    max-height: 167mm !important;
+  }
+  .slide-header-bar,
+  .slide-opt-card,
+  .slide-answer-badge,
+  .slide-expl-box,
+  .slide-qnum-badge,
+  .slide-footer-bar {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .slide-btn-reveal {
+    display: none !important;
+  }
+  .slide-hidden-answer {
+    display: block !important;
+  }
+
 }

@@ -999,6 +999,98 @@ const SAMPLE_BOOK_DATASETS = {
   }
 };
 
+
+// ==========================================
+// SAMPLE SLIDE DATASETS (Digital Board / PPT)
+// ==========================================
+const SAMPLE_SLIDE_DATASETS = {
+  science: `1. द्विविस्थापन अभिक्रिया में क्या होता है?
+(A) एक पदार्थ टूटता है
+(B) दो यौगिक आयनों का आदान-प्रदान करते हैं
+(C) केवल गैस बनती है
+(D) केवल ताप निकलता है
+उत्तर - (B)
+व्याख्या:
+1. इस अभिक्रिया में दोनों यौगिक अपने आयनों का विनिमय करते हैं।
+2. जैसे: Na2SO4 + BaCl2 → BaSO4 + 2NaCl में BaSO4 का सफेद अवक्षेप बनता है।
+
+2. जब बिना बुझे चूने (CaO) पर जल डाला जाता है, तब कौन-सी अभिक्रिया होती है?
+(A) ऊष्माशोषी
+(B) ऊष्माक्षेपी
+(C) विस्फोटक
+(D) प्रकाश-रासायनिक
+उत्तर - (B)
+व्याख्या:
+1. CaO + H2O → Ca(OH)2 + ऊष्मा।
+2. यह अत्यधिक ऊष्माक्षेपी (Exothermic) अभिक्रिया है।
+
+3. प्रकाश-संश्लेषण का संतुलित रासायनिक समीकरण निम्न में से कौन-सा है?
+(A) 6CO2 + 12H2O → C6H12O6 + 6O2 + 6H2O
+(B) C6H12O6 + 6O2 → 6CO2 + 6H2O
+(C) CO2 + H2O → H2CO3
+(D) 2H2 + O2 → 2H2O
+उत्तर - (A)
+व्याख्या: हरे पौधे क्लोरोफिल एवं सूर्य के प्रकाश की उपस्थिति में कार्बन डाइऑक्साइड एवं जल से ग्लूकोज का निर्माण करते हैं।
+
+4. किसी वस्तु की गतिज ऊर्जा (Kinetic Energy) का सूत्र क्या है?
+(A) mgh
+(B) 1/2 mv2
+(C) F × d
+(D) ma
+उत्तर - (B)
+व्याख्या: गतिज ऊर्जा K.E. = 1/2 mv² होती है जहाँ m द्रव्यमान तथा v वेग है।
+
+5. यदि (A+B) = 5 तथा AB = 6 हो, तो (A2 + B2) का मान क्या होगा?
+(A) 11
+(B) 13
+(C) 19
+(D) 25
+उत्तर - (B)
+व्याख्या:
+1. (A+B)2 = A2 + B2 + 2AB
+2. 52 = A2 + B2 + 2(6) => 25 = A2 + B2 + 12 => A2 + B2 = 13।`,
+
+  polity: `1. भारतीय संविधान के किस अनुच्छेद में 'विधि के समक्ष समानता' का अधिकार है?
+(A) अनुच्छेद 12
+(B) अनुच्छेद 14
+(C) अनुच्छेद 19
+(D) अनुच्छेद 21
+उत्तर - (B)
+व्याख्या: भारतीय संविधान के भाग-3 के अनुच्छेद 14 में विधि के समक्ष समता और विधियों के समान संरक्षण का उपबंध है।
+
+2. भारत के राष्ट्रपति पर महाभियोग चलाने की प्रक्रिया किस अनुच्छेद में दी गई है?
+(A) अनुच्छेद 52
+(B) अनुच्छेद 54
+(C) अनुच्छेद 61
+(D) अनुच्छेद 72
+उत्तर - (C)
+व्याख्या: अनुच्छेद 61 में संविधान के अतिक्रमण पर राष्ट्रपति पर संसद द्वारा महाभियोग चलाने की विशेष प्रक्रिया का वर्णन है।
+
+3. 42वें संविधान संशोधन (1976) द्वारा प्रस्तावना में कौन-से शब्द जोड़े गए?
+(A) समाजवादी, धर्मनिरपेक्ष और अखंडता
+(B) संप्रभुता और लोकतंत्र
+(C) बंधुत्व और न्याय
+(D) स्वतंत्रता और समानता
+उत्तर - (A)
+व्याख्या: 42वें संशोधन द्वारा प्रस्तावना में 'समाजवादी', 'पंथनिरपेक्ष' और 'अखंडता' शब्द जोड़े गए थे।`,
+
+  biharPolice: `1. 'सिल्वर क्लोराइड' का रासायनिक सूत्र क्या है?
+(A) Ag2O
+(B) AgCl
+(C) AgNO3
+(D) Ag2S
+उत्तर - (B)
+व्याख्या: सिल्वर क्लोराइड का सूत्र AgCl है। यह सूर्य के प्रकाश में सफेद से धूसर (भूरे) रंग में अपघटित हो जाता है।
+
+2. Fe + CuSO4 → FeSO4 + Cu किस प्रकार की अभिक्रिया है?
+(A) संयोजन
+(B) अपघटन
+(C) विस्थापन
+(D) द्विविस्थापन
+उत्तर - (C)
+व्याख्या: लोहा (Fe), कॉपर (Cu) से अधिक क्रियाशील होने के कारण कॉपर को कॉपर सल्फेट विलयन से विस्थापित कर देता है।`
+};
+
 // ==========================================
 // DEFAULT APPLICATION STATE
 // ==========================================
@@ -1105,6 +1197,8 @@ const DEFAULT_STATE = {
 
   // Smart Book & Notes Studio State (53-Page Class Notes & Complete Booklet Format)
   book: {
+    instituteName: "JEE - FORM STUDY POINT",
+    instituteLogo: "",
     className: "Class – 10th",
     batchTag: "BOARD 2024-25",
     subjectName: "Economics",
@@ -1132,6 +1226,29 @@ const DEFAULT_STATE = {
     footerRightText: "JEE-FORM STUDY POINT",
     rawBookContent: SAMPLE_BOOK_DATASET,
     inlineImages: {}
+  },
+
+  // Digital Board & MCQ Slide Studio State (PPT Slide-by-Slide Format)
+  slideActiveTab: "content",
+  slide: {
+    instituteName: "JEE - FORM STUDY POINT",
+    instituteLogo: "",
+    subjectTag: "GENERAL SCIENCE",
+    topicTitle: "महत्वपूर्ण प्रश्नोत्तरी (Live Class)",
+    orientation: "portrait", // "portrait", "landscape", "classic"
+    optionsLayout: "vertical", // "vertical", "grid2x2", "inline4"
+    answerMode: "always", // "always", "reveal-button", "hidden"
+    answerColor: "#16a34a",
+    showExplanation: true,
+    showFinalAnswerKey: true,
+    headerBanner: "",
+    headerBgColor: "#0b2545",
+    footerText: "🔴 Subscribe YouTube & Join Telegram for Free PDF Notes",
+    watermarkText: "JEE - FORM STUDY POINT",
+    watermarkLogo: "",
+    watermarkOpacity: 0.10,
+    fontSize: 20,
+    rawContent: SAMPLE_SLIDE_DATASETS.science
   },
 
   // UI state
@@ -1605,11 +1722,582 @@ function renderDocument() {
     renderMcqDocument();
   } else if (appState.currentMode === "book") {
     renderBookDocument();
+  } else if (appState.currentMode === "slide") {
+    renderSlideDocument();
   } else {
     renderPointerDocument();
   }
   assignPageSequenceNumbers(document.getElementById("pages-render-target"));
 }
+
+
+function formatExplanationText(text) {
+  if (!text) return "";
+  const lines = String(text).split("\n").map(l => l.trim()).filter(Boolean);
+  return lines.map(line => {
+    const formatted = typeof formatScienceFormulas === "function" ? formatScienceFormulas(line) : line;
+    return `<div class="mb-1 leading-snug">${escapeHtml(formatted)}</div>`;
+  }).join("");
+}
+
+function updateSlidePagePrintStyle(orientation) {
+  let styleEl = document.getElementById("dynamic-slide-page-style");
+  if (!styleEl) {
+    styleEl = document.createElement("style");
+    styleEl.id = "dynamic-slide-page-style";
+    document.head.appendChild(styleEl);
+  }
+
+  if (appState.currentMode === "slide") {
+    if (orientation === "landscape") {
+      styleEl.textContent = "@media print { @page { size: 297mm 167mm; margin: 0mm !important; } }";
+    } else if (orientation === "classic") {
+      styleEl.textContent = "@media print { @page { size: 280mm 210mm; margin: 0mm !important; } }";
+    } else {
+      styleEl.textContent = "@media print { @page { size: 210mm 297mm; margin: 0mm !important; } }";
+    }
+  } else {
+    styleEl.textContent = "@media print { @page { size: 210mm 297mm; margin: 0mm !important; } }";
+  }
+}
+
+function createSlidePageElement(q, slideIdx, totalSlides, cfg) {
+  const sheet = document.createElement("div");
+  const orientation = (cfg && cfg.orientation) || "portrait";
+  const orientClass = orientation === "landscape" ? "slide-landscape" : (orientation === "classic" ? "slide-4-3" : "slide-portrait");
+  sheet.className = `a4-sheet slide-sheet ${orientClass}`;
+  sheet.dataset.slideIndex = slideIdx;
+  sheet.dataset.pageSequence = String(slideIdx + 1);
+
+  const headerBg = (cfg && cfg.headerBgColor) || "#0b2545";
+  const instName = (cfg && cfg.instituteName) || "JEE - FORM STUDY POINT";
+  const instLogo = (cfg && cfg.instituteLogo) || "";
+  const subjectTag = (cfg && cfg.subjectTag) || "GENERAL SCIENCE";
+  const topicTitle = (cfg && cfg.topicTitle) || "महत्वपूर्ण प्रश्नोत्तरी (Live Class)";
+  const headerBanner = (cfg && cfg.headerBanner) || "";
+  const footerText = (cfg && cfg.footerText) || "🔴 Subscribe YouTube & Join Telegram for Free PDF Notes";
+  const optsLayout = (cfg && cfg.optionsLayout) || "vertical";
+  const ansMode = (cfg && cfg.answerMode) || "always";
+  const ansColor = (cfg && cfg.answerColor) || "#16a34a";
+  const showExpl = cfg && cfg.showExplanation !== false;
+
+  const watermarkHtml = buildWatermarkHtml({
+    text: cfg.watermarkText || instName,
+    logo: cfg.watermarkLogo || instLogo,
+    mode: "logo-text",
+    pos: "center",
+    opacity: cfg.watermarkOpacity !== undefined ? cfg.watermarkOpacity : 0.10,
+    size: 110,
+    fontFamily: appState.fontFamily
+  });
+
+  const questionFormatted = typeof formatScienceFormulas === "function" ? formatScienceFormulas(q.question) : q.question;
+  const questionHtml = applySearchHighlightToHtml(escapeHtml(questionFormatted), appState.searchQuery);
+
+  // Normalize answer letter for comparison (e.g. "B" or "(B)")
+  const rawAnsMatch = String(q.answer || "").match(/[A-Da-d1-4]/);
+  const correctLetter = rawAnsMatch ? rawAnsMatch[0].toUpperCase() : "";
+
+  // Build Options HTML
+  const options = q.options || [];
+  const optionsHtml = options.map((opt, optIdx) => {
+    const rawLabelMatch = String(opt.label || "").match(/[A-Da-d1-4]/);
+    const optLetter = rawLabelMatch ? rawLabelMatch[0].toUpperCase() : String.fromCharCode(65 + optIdx);
+    const isCorrect = (correctLetter && optLetter === correctLetter);
+    const optFormatted = typeof formatScienceFormulas === "function" ? formatScienceFormulas(opt.text) : opt.text;
+    const optTextHtml = applySearchHighlightToHtml(escapeHtml(optFormatted), appState.searchQuery);
+
+    const correctClass = (isCorrect && ansMode === "always") ? " slide-opt-correct" : "";
+    const checkBadge = (isCorrect && ansMode === "always") ? `<span class="slide-opt-check" style="color: ${ansColor};">✓</span>` : "";
+
+    return `
+      <div class="slide-opt-card${correctClass}" data-opt-letter="${optLetter}">
+        <span class="slide-opt-badge">(${optLetter})</span>
+        <span class="slide-opt-text">${optTextHtml}</span>
+        ${checkBadge}
+      </div>
+    `;
+  }).join("");
+
+  // Build Answer & Explanation Box
+  let answerSectionHtml = "";
+  if (ansMode === "always") {
+    answerSectionHtml = `
+      <div class="slide-answer-section">
+        <div class="slide-answer-badge" style="background-color: ${ansColor};">
+          <span>✓ उत्तर :</span>
+          <strong>(${escapeHtml(correctLetter || q.answer)})</strong>
+        </div>
+        ${(showExpl && q.solution) ? `
+          <div class="slide-expl-box" style="border-left-color: ${ansColor};">
+            <div class="slide-expl-title">💡 व्याख्या (Solution):</div>
+            <div class="slide-expl-content">${formatExplanationText(q.solution)}</div>
+          </div>
+        ` : ""}
+      </div>
+    `;
+  } else if (ansMode === "reveal-button" || ansMode === "reveal") {
+    answerSectionHtml = `
+      <div class="slide-answer-section">
+        <button type="button" class="slide-btn-reveal" onclick="toggleSlideAnswerReveal(this)">
+          <span>👁️ उत्तर एवं व्याख्या देखें (Reveal Answer)</span>
+        </button>
+        <div class="slide-hidden-answer" style="display: none; margin-top: 8px;">
+          <div class="slide-answer-badge" style="background-color: ${ansColor};">
+            <span>✓ सही उत्तर :</span>
+            <strong>${escapeHtml(q.answer || `(${correctLetter})`)}</strong>
+          </div>
+          ${(showExpl && q.solution) ? `
+            <div class="slide-expl-box" style="border-left-color: ${ansColor}; margin-top: 8px;">
+              <div class="slide-expl-title">💡 व्याख्या (Solution):</div>
+              <div class="slide-expl-content">${formatExplanationText(q.solution)}</div>
+            </div>
+          ` : ""}
+        </div>
+      </div>
+    `;
+  }
+
+  // Header Banner HTML if set
+  const headerBannerHtml = headerBanner ? `
+    <div class="slide-photo-banner">
+      <img src="${headerBanner}" alt="Slide Top Banner">
+    </div>
+  ` : "";
+
+  sheet.innerHTML = `
+    <div class="slide-inner">
+      ${watermarkHtml}
+
+      <!-- Top Header Bar -->
+      <div class="slide-header-bar" style="background-color: ${escapeHtml(headerBg)};">
+        <div class="slide-header-left">
+          ${instLogo ? `<img src="${instLogo}" class="slide-header-logo" alt="Logo">` : '🏛️'}
+          <span>${escapeHtml(instName)}</span>
+        </div>
+        <div class="slide-header-center">
+          <span class="slide-header-badge">${escapeHtml(subjectTag)}</span>
+          <span class="hidden sm:inline">${escapeHtml(topicTitle)}</span>
+        </div>
+        <div class="slide-header-right">
+          Question ${q.qNum || (slideIdx + 1)} / ${totalSlides}
+        </div>
+      </div>
+
+      ${headerBannerHtml}
+
+      <!-- Main Question & Options Body -->
+      <div class="slide-body">
+        <div class="slide-top-content">
+          <!-- Question Box -->
+          <div class="slide-question-box">
+            <span class="slide-qnum-badge">Q. ${q.qNum || (slideIdx + 1)}</span>
+            <div class="slide-qtext">${questionHtml}</div>
+          </div>
+
+          <!-- Options Container -->
+          <div class="slide-options-container slide-opts-${optsLayout}">
+            ${optionsHtml}
+          </div>
+        </div>
+
+        <!-- Answer Callout -->
+        ${answerSectionHtml}
+      </div>
+
+      <!-- Bottom Footer Bar -->
+      <div class="slide-footer-bar">
+        <div>${escapeHtml(footerText)}</div>
+        <div class="font-bold">◆ Slide ${slideIdx + 1} of ${totalSlides} ◆</div>
+      </div>
+    </div>
+  `;
+
+  return sheet;
+}
+
+function createSlideAnswerKeyPageElement(questions, totalSlides, cfg) {
+  if (typeof totalSlides === "object" && !cfg) {
+    cfg = totalSlides;
+    totalSlides = (questions && questions.length) || 1;
+  }
+  const sheet = document.createElement("div");
+  const orientation = (cfg && cfg.orientation) || "portrait";
+  const orientClass = orientation === "landscape" ? "slide-landscape" : (orientation === "classic" ? "slide-4-3" : "slide-portrait");
+  sheet.className = `a4-sheet slide-sheet ${orientClass}`;
+  sheet.dataset.slideIndex = totalSlides;
+  sheet.dataset.pageSequence = String(totalSlides + 1);
+
+  const headerBg = (cfg && cfg.headerBgColor) || "#0b2545";
+  const instName = (cfg && cfg.instituteName) || "JEE - FORM STUDY POINT";
+  const instLogo = (cfg && cfg.instituteLogo) || "";
+  const subjectTag = (cfg && cfg.subjectTag) || "GENERAL SCIENCE";
+  const footerText = (cfg && cfg.footerText) || "🔴 Subscribe YouTube & Join Telegram for Free PDF Notes";
+
+  const watermarkHtml = buildWatermarkHtml({
+    text: cfg.watermarkText || instName,
+    logo: cfg.watermarkLogo || instLogo,
+    mode: "logo-text",
+    pos: "center",
+    opacity: cfg.watermarkOpacity !== undefined ? cfg.watermarkOpacity : 0.10,
+    size: 110,
+    fontFamily: appState.fontFamily
+  });
+
+  const gridCellsHtml = questions.map((q, idx) => {
+    const rawMatch = String(q.answer || "").match(/[A-Da-d1-4]/);
+    const ansLetter = rawMatch ? rawMatch[0].toUpperCase() : "—";
+    return `
+      <div class="slide-ack-cell">
+        <span class="slide-ack-cell-q">Q.${q.qNum || (idx + 1)}</span>
+        <span class="slide-ack-cell-ans">(${ansLetter})</span>
+      </div>
+    `;
+  }).join("");
+
+  sheet.innerHTML = `
+    <div class="slide-inner">
+      ${watermarkHtml}
+
+      <!-- Top Header Bar -->
+      <div class="slide-header-bar" style="background-color: ${escapeHtml(headerBg)};">
+        <div class="slide-header-left">
+          ${instLogo ? `<img src="${instLogo}" class="slide-header-logo" alt="Logo">` : '🏛️'}
+          <span>${escapeHtml(instName)}</span>
+        </div>
+        <div class="slide-header-center">
+          <span class="slide-header-badge">ANSWER KEY</span>
+          <span>उत्तर कुंजी</span>
+        </div>
+        <div class="slide-header-right">
+          Total ${questions.length} Questions
+        </div>
+      </div>
+
+      <!-- Main Answer Key Body -->
+      <div class="slide-body" style="justify-content: flex-start;">
+        <div class="slide-ack-box">
+          <div class="flex items-center justify-between border-b border-slate-200 pb-2 mb-2">
+            <div class="flex items-center gap-2">
+              <span class="text-xl">📋</span>
+              <div>
+                <h3 class="text-base font-extrabold text-slate-900">${escapeHtml(subjectTag)} — उत्तर कुंजी (Official Answer Key)</h3>
+                <p class="text-[11px] text-slate-500">सभी ${questions.length} प्रश्नों के सही विकल्प का त्वरित मिलान करें</p>
+              </div>
+            </div>
+            <div class="bg-emerald-100 text-emerald-800 text-xs font-extrabold px-3 py-1 rounded-full">
+              100% Verified
+            </div>
+          </div>
+
+          <!-- 5-Column Grid -->
+          <div class="slide-ack-grid">
+            ${gridCellsHtml}
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Footer Bar -->
+      <div class="slide-footer-bar">
+        <div>${escapeHtml(footerText)}</div>
+        <div class="font-bold">◆ End of Slide Deck ◆</div>
+      </div>
+    </div>
+  `;
+
+  return sheet;
+}
+
+function renderSlideDocument() {
+  const container = document.getElementById("pages-render-target");
+  if (!container) return;
+
+  if (!appState.slide) appState.slide = {};
+  const cfg = appState.slide;
+
+  const raw = cfg.rawContent || "";
+  const questions = parseRawMcqContent(raw);
+
+  // Update dynamic page orientation for print
+  updateSlidePagePrintStyle(cfg.orientation || "portrait");
+
+  // Clear previous pages
+  container.innerHTML = "";
+
+  if (!questions || questions.length === 0) {
+    const emptyNotice = document.createElement("div");
+    emptyNotice.className = "w-full max-w-lg mx-auto my-12 p-8 bg-white rounded-2xl shadow-lg border border-purple-200 text-center space-y-3";
+    emptyNotice.innerHTML = `
+      <div class="text-4xl">📺</div>
+      <h3 class="text-base font-bold text-slate-800">No MCQ Questions Found for Slides</h3>
+      <p class="text-xs text-slate-500">Paste your questions into the Slide Studio or load one of the 1-Click ready sample presets (Science, Polity, Exam Set) to generate slides.</p>
+      <button type="button" onclick="loadSlidePreset('science')" class="py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-lg shadow cursor-pointer transition">
+        🔬 Load Science Sample Slides
+      </button>
+    `;
+    container.appendChild(emptyNotice);
+    updateStatisticsBadge(0, 0);
+    return;
+  }
+
+  // Render 1 slide per question
+  questions.forEach((q, idx) => {
+    const slideSheet = createSlidePageElement(q, idx, questions.length, cfg);
+    container.appendChild(slideSheet);
+  });
+
+  // Render Final Answer Key Slide if enabled
+  if (cfg.showFinalAnswerKey !== false) {
+    const ackSheet = createSlideAnswerKeyPageElement(questions, questions.length, cfg);
+    container.appendChild(ackSheet);
+  }
+
+  const totalSheets = container.querySelectorAll(".slide-sheet").length;
+  updateStatisticsBadge(questions.length, totalSheets);
+  applyZoomScale();
+}
+
+// Word (.doc) Exporter for Slides
+function downloadSlideWordDoc() {
+  const cfg = appState.slide || {};
+  const raw = cfg.rawContent || "";
+  const questions = parseRawMcqContent(raw);
+
+  if (!questions || questions.length === 0) {
+    showToast("No questions to export! Please add questions first.", "error");
+    return;
+  }
+
+  let htmlContent = `
+    <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+    <head>
+      <meta charset='utf-8'>
+      <title>${escapeHtml(cfg.topicTitle || 'MCQ Slides')}</title>
+      <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14pt; line-height: 1.5; color: #111827; }
+        .slide-card { page-break-after: always; padding: 20px; border: 1.5px solid #cbd5e1; border-radius: 8px; margin-bottom: 30px; }
+        .header-box { background: ${cfg.headerBgColor || '#0b2545'}; color: #ffffff; padding: 12px 18px; border-radius: 6px; margin-bottom: 16px; }
+        .qnum { background: #dc2626; color: #ffffff; font-weight: bold; padding: 3px 8px; border-radius: 4px; }
+        .qtext { font-size: 16pt; font-weight: bold; margin: 14px 0; }
+        .opt-table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        .opt-cell { padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 13pt; }
+        .opt-correct { background-color: #dcfce7; border-color: #16a34a; font-weight: bold; color: #14532d; }
+        .ans-box { background: #16a34a; color: #ffffff; padding: 8px 14px; border-radius: 6px; font-weight: bold; margin-top: 14px; }
+        .expl-box { background: #f8fafc; border-left: 4px solid #2563eb; padding: 10px 14px; margin-top: 10px; font-size: 12pt; color: #334155; }
+        .footer-box { border-top: 1px solid #e2e8f0; margin-top: 20px; padding-top: 8px; font-size: 10pt; color: #64748b; }
+      </style>
+    </head>
+    <body>
+  `;
+
+  questions.forEach((q, idx) => {
+    const rawMatch = String(q.answer || "").match(/[A-Da-d1-4]/);
+    const correctLetter = rawMatch ? rawMatch[0].toUpperCase() : "";
+
+    htmlContent += `
+      <div class="slide-card">
+        <div class="header-box">
+          <table width="100%">
+            <tr>
+              <td align="left"><strong>${escapeHtml(cfg.instituteName || "JEE - FORM STUDY POINT")}</strong></td>
+              <td align="center"><strong>${escapeHtml(cfg.subjectTag || "GENERAL SCIENCE")}</strong></td>
+              <td align="right">Question ${q.qNum || (idx + 1)} / ${questions.length}</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="qtext">
+          <span class="qnum">Q.${q.qNum || (idx + 1)}</span>
+          ${escapeHtml(q.question)}
+        </div>
+
+        <table class="opt-table" cellspacing="6">
+    `;
+
+    (q.options || []).forEach(opt => {
+      const rawOpt = String(opt.label || "").match(/[A-Da-d1-4]/);
+      const optLetter = rawOpt ? rawOpt[0].toUpperCase() : "";
+      const isCorrect = (correctLetter && optLetter === correctLetter);
+      const correctCls = isCorrect ? " opt-correct" : "";
+
+      htmlContent += `
+        <tr>
+          <td class="opt-cell${correctCls}">
+            <strong>(${optLetter})</strong> ${escapeHtml(opt.text)}
+            ${isCorrect ? " ✓ (Correct Answer)" : ""}
+          </td>
+        </tr>
+      `;
+    });
+
+    htmlContent += `
+        </table>
+
+        <div class="ans-box">
+          ✓ सही उत्तर : ${escapeHtml(q.answer || `(${correctLetter})`)}
+        </div>
+
+        ${(q.solution) ? `
+          <div class="expl-box">
+            <strong>💡 व्याख्या (Solution):</strong><br>
+            ${escapeHtml(q.solution).replace(/\n/g, "<br>")}
+          </div>
+        ` : ""}
+
+        <div class="footer-box">
+          ${escapeHtml(cfg.footerText || "Subscribe & Follow for Free Notes")} | Slide ${idx + 1} of ${questions.length}
+        </div>
+      </div>
+    `;
+  });
+
+  htmlContent += `</body></html>`;
+
+  const blob = new Blob([htmlContent], { type: "application/msword;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `MCQ_Slides_${(cfg.subjectTag || 'Quiz').replace(/\s+/g, '_')}.doc`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  showToast("📄 Word Document (.doc) downloaded successfully!", "success");
+}
+
+// Digital Board Presentation State
+let presentationCurrentIndex = 0;
+let presentationTimerInterval = null;
+let presentationTimerSeconds = 30;
+
+function startDigitalBoardPresentation() {
+  const container = document.getElementById("pages-render-target");
+  const sheets = container ? container.querySelectorAll(".slide-sheet") : [];
+  if (!sheets || sheets.length === 0) {
+    showToast("No slides to present! Add questions first.", "error");
+    return;
+  }
+
+  const modal = document.getElementById("slide-presentation-modal");
+  if (!modal) return;
+
+  presentationCurrentIndex = 0;
+  modal.classList.remove("hidden");
+
+  // Attempt HTML5 Fullscreen
+  try {
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    }
+  } catch (e) {}
+
+  updatePresentationStage();
+  showToast("🖥️ Started Fullscreen Presentation! (Use Arrow Keys ← → to navigate)", "info");
+}
+
+function updatePresentationStage() {
+  const container = document.getElementById("pages-render-target");
+  const sheets = container ? container.querySelectorAll(".slide-sheet") : [];
+  const stage = document.getElementById("slide-presentation-stage");
+  const counter = document.getElementById("slide-pres-counter");
+  if (!stage || !sheets || sheets.length === 0) return;
+
+  if (presentationCurrentIndex < 0) presentationCurrentIndex = 0;
+  if (presentationCurrentIndex >= sheets.length) presentationCurrentIndex = sheets.length - 1;
+
+  if (counter) {
+    counter.textContent = `${presentationCurrentIndex + 1} / ${sheets.length}`;
+  }
+
+  stage.innerHTML = "";
+  const clone = sheets[presentationCurrentIndex].cloneNode(true);
+  clone.style.boxShadow = "0 25px 50px -12px rgba(0,0,0,0.7)";
+  stage.appendChild(clone);
+}
+
+function nextPresentationSlide() {
+  const container = document.getElementById("pages-render-target");
+  const sheets = container ? container.querySelectorAll(".slide-sheet") : [];
+  if (presentationCurrentIndex < sheets.length - 1) {
+    presentationCurrentIndex++;
+    updatePresentationStage();
+  }
+}
+
+function prevPresentationSlide() {
+  if (presentationCurrentIndex > 0) {
+    presentationCurrentIndex--;
+    updatePresentationStage();
+  }
+}
+
+function togglePresentationAnswerReveal() {
+  const stage = document.getElementById("slide-presentation-stage");
+  if (!stage) return;
+  const hiddenAns = stage.querySelector(".slide-hidden-answer");
+  const revealBtn = stage.querySelector(".slide-btn-reveal");
+  if (hiddenAns) {
+    const isHidden = hiddenAns.style.display === "none";
+    hiddenAns.style.display = isHidden ? "block" : "none";
+    if (revealBtn) {
+      revealBtn.textContent = isHidden ? "🙈 उत्तर छुपाएं (Hide Answer)" : "👁️ उत्तर एवं व्याख्या देखें (Reveal Answer)";
+    }
+  }
+}
+
+function togglePresentationTimer() {
+  const timerBadge = document.getElementById("slide-pres-timer-val");
+  if (presentationTimerInterval) {
+    clearInterval(presentationTimerInterval);
+    presentationTimerInterval = null;
+    if (timerBadge) timerBadge.textContent = "30s";
+    return;
+  }
+
+  presentationTimerSeconds = 30;
+  if (timerBadge) timerBadge.textContent = "30s";
+  presentationTimerInterval = setInterval(() => {
+    presentationTimerSeconds--;
+    if (timerBadge) timerBadge.textContent = `${presentationTimerSeconds}s`;
+    if (presentationTimerSeconds <= 0) {
+      clearInterval(presentationTimerInterval);
+      presentationTimerInterval = null;
+      if (timerBadge) timerBadge.textContent = "TIME UP!";
+    }
+  }, 1000);
+}
+
+function exitDigitalBoardPresentation() {
+  const modal = document.getElementById("slide-presentation-modal");
+  if (modal) modal.classList.add("hidden");
+  if (presentationTimerInterval) {
+    clearInterval(presentationTimerInterval);
+    presentationTimerInterval = null;
+  }
+  try {
+    if (document.fullscreenElement && document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {});
+    }
+  } catch (e) {}
+}
+
+// Global click handler for inline reveal button
+if (typeof window !== "undefined") {
+  window.toggleSlideAnswerReveal = function(btn) {
+    if (!btn) return;
+    const parent = btn.closest(".slide-answer-section");
+    if (!parent) return;
+    const hiddenDiv = parent.querySelector(".slide-hidden-answer");
+    if (hiddenDiv) {
+      const isHidden = hiddenDiv.style.display === "none";
+      hiddenDiv.style.display = isHidden ? "block" : "none";
+      btn.innerHTML = isHidden ? "<span>🙈 उत्तर छुपाएं (Hide Answer)</span>" : "<span>👁️ उत्तर एवं व्याख्या देखें (Reveal Answer)</span>";
+    }
+  };
+}
+
+
 
 /**
  * Renders GS Pointer One-Liner Format
@@ -1853,13 +2541,32 @@ function parseRawMcqContent(rawText) {
         const hasOptions = hasUpperOptions || hasLowerOptions;
         const hasAns = /(?:\b(?:Ans|Answer|Key)\b\s*[:\-\—\=]?|(?:^|[\s\r\n])उत्तर\s*[:\-\—\=]|(?:^|[\s\r\n])उत्तर\s*\([A-Ea-e1-5]\))/i.test(blockText);
 
-        if (inSolution || hasAns) {
-          // Previous question has answer or solution, so any numbered line starts a new question
+        if (inSolution) {
+          let aheadChunk = "";
+          let scanned = 0;
+          for (let k = i + 1; k < lines.length && scanned < 16; k++) {
+            const l = lines[k].trim();
+            if (!l) continue;
+            if (explicitQRegex.test(l) || solHeaderRegex.test(l)) break;
+            const looksMatch = /(?:Column|List|कॉलम|सूची|स्तंभ|सुमेलित|Match)/i.test(aheadChunk);
+            if (numStartRegex.test(l) && !optLineRegex.test(l) && !looksMatch) break;
+            aheadChunk += "\n" + l;
+            scanned++;
+          }
+          const hasAheadOpts = /(?:\([A-D]\)|(?:^|\n|\s{2,})[A-D][\.\)])[\s\S]*?(?:\([B-D]\)|(?:^|\n|\s{2,})[B-D][\.\)])/.test(aheadChunk) ||
+            (!/(?:Column|List|कॉलम|सूची|स्तंभ|सुमेलित|Match)/i.test(aheadChunk) && /(?:\([a-d]\)|(?:^|\n|\s{2,})[a-d][\.\)])[\s\S]*?(?:\([b-d]\)|(?:^|\n|\s{2,})[b-d][\.\)])/.test(aheadChunk));
+          const hasAheadAns = /(?:\b(?:Ans|Answer|Key)\b\s*[:\-\—\=]|(?:^|[\s\n])उत्तर\s*[:\-\—\=])/i.test(aheadChunk);
+
+          if (hasAheadOpts || hasAheadAns || (currentQNum > 0 && parsedNum === currentQNum + 1 && !/^\s*1[\.\)\:\-]/.test(line))) {
+            isNewQ = true;
+            detectedQNum = parsedNum;
+            inSolution = false;
+          }
+        } else if (hasAns) {
           isNewQ = true;
           detectedQNum = parsedNum;
           inSolution = false;
         } else if (hasOptions) {
-          // Already has options, so next numbered line is a new question
           isNewQ = true;
           detectedQNum = parsedNum;
         } else {
@@ -2035,6 +2742,20 @@ function parseRawMcqContent(rawText) {
  * Strictly fills the Left Column to 100% full height first, then fills Right Column.
  * Only moves to the next page when both columns are 100% completely full.
  */
+/**
+ * Evaluates whether a packed column has enough content to justify bottom-stretch
+ * without artificially stretching sparse final pages.
+ */
+function shouldApplyFullPackColumn(itemCount, usedHeightPx, capacityPx, forceStretch) {
+  if (!capacityPx || capacityPx <= 0) return false;
+  const fillRatio = usedHeightPx / capacityPx;
+  const slackPx = capacityPx - usedHeightPx;
+  if (forceStretch) {
+    return itemCount >= 2 && fillRatio >= 0.55;
+  }
+  return itemCount >= 3 && fillRatio >= 0.78 && slackPx <= 135;
+}
+
 function packMcqItemsAutoFit(items) {
   if (!items || items.length === 0) return [];
   if (typeof document === "undefined" || !document.body) {
@@ -2045,13 +2766,14 @@ function packMcqItemsAutoFit(items) {
       const half = Math.ceil(slice.length / 2);
       chunks.push({
         leftItems: slice.slice(0, half),
-        rightItems: slice.slice(half)
+        rightItems: slice.slice(half),
+        leftFullPack: false,
+        rightFullPack: false
       });
     }
     return chunks;
   }
 
-  // 🚀 Measure sandbox matching exact column width (92mm)
   let measureSandbox = document.getElementById("gs-measure-sandbox");
   if (!measureSandbox) {
     measureSandbox = document.createElement("div");
@@ -2063,14 +2785,18 @@ function packMcqItemsAutoFit(items) {
   const lineHeight = appState.mcq.lineHeight || 1.35;
   const spacingMap = { tight: 2.5, standard: 4, relaxed: 6, justify: 3.5 };
   const itemSpacingPx = spacingMap[appState.mcq.itemSpacing] || 4;
+  const stretchFullCols = Boolean(appState.mcq && appState.mcq.itemSpacing === "justify");
+  const dividerStyle = (appState.mcq && appState.mcq.colDivider) || "solid";
+  const colWidthMm = dividerStyle === "none" ? "89mm" : "91.5mm";
 
-  // Exact column width is 92mm (210mm A4 - 20mm horizontal margins - 6mm column gap = 184mm / 2 = 92mm)
   const mcqFont = (appState.mcq && appState.mcq.fontFamily) || "var(--font-devanagari)";
   measureSandbox.style.cssText = `
     position: absolute;
     left: -9999px;
     top: 0;
-    width: 91mm;
+    width: ${colWidthMm};
+    display: flex;
+    flex-direction: column;
     visibility: hidden;
     pointer-events: none;
     box-sizing: border-box;
@@ -2081,10 +2807,6 @@ function packMcqItemsAutoFit(items) {
     margin: 0;
   `;
 
-  // Calculate available printable height for columns in mm:
-  // A4 = 297mm. Sheet top+bottom padding = 12mm (6mm + 6mm).
-  // Header box = ~14mm. Footer box = ~8mm.
-  // Printable column area = 263mm default.
   let colHeightMm = 263;
   if (
     (appState.mcq.topAppBannerText && appState.mcq.topAppBannerText.trim()) ||
@@ -2107,10 +2829,8 @@ function packMcqItemsAutoFit(items) {
   const colCapacityPx = (heightProbe.offsetHeight && heightProbe.offsetHeight > 500) ? heightProbe.offsetHeight : 982;
   measureSandbox.removeChild(heightProbe);
 
-  // Tiny buffer of 4px to prevent any subpixel rounding overflow
-  const maxColHeight = colCapacityPx - 4;
+  const maxColHeight = colCapacityPx - 2;
 
-  // Render items into measureSandbox to get their exact rendered heights
   measureSandbox.innerHTML = "";
   const frag = document.createDocumentFragment();
   for (let i = 0; i < items.length; i++) {
@@ -2127,14 +2847,13 @@ function packMcqItemsAutoFit(items) {
   }
   measureSandbox.innerHTML = "";
 
-  // If manual questions per page mode is selected
   if (appState.mcq && appState.mcq.paginationMode === "manual") {
     const perPage = Math.max(1, parseInt(appState.mcq.itemsPerPage) || 16);
     const chunks = [];
     for (let i = 0; i < items.length; i += perPage) {
       const slice = items.slice(i, i + perPage);
       const sliceHeights = itemHeights.slice(i, i + perPage);
-      const page = { leftItems: [], rightItems: [] };
+      const page = { leftItems: [], rightItems: [], leftFullPack: false, rightFullPack: false };
       let lH = 0;
       let rH = 0;
       let inR = false;
@@ -2155,19 +2874,20 @@ function packMcqItemsAutoFit(items) {
           rH += h;
         }
       }
+      page.leftFullPack = shouldApplyFullPackColumn(page.leftItems.length, lH, maxColHeight, stretchFullCols);
+      page.rightFullPack = shouldApplyFullPackColumn(page.rightItems.length, rH, maxColHeight, stretchFullCols);
       chunks.push(page);
     }
     return chunks;
   }
 
-  // 🚀 100% Full-Page Packing Engine:
-  // Col 1 (Left) fills 100% down to the bottom of the page first!
-  // Then Col 2 (Right) fills down to the bottom!
-  // ONLY when both Col 1 AND Col 2 on the current page are completely full does Page 2 start!
+  // Left fills 100% top-to-bottom first, then Right fills 100%, then next page starts
   const pages = [];
   let currentPage = {
     leftItems: [],
-    rightItems: []
+    rightItems: [],
+    leftFullPack: false,
+    rightFullPack: false
   };
   let currentLeftHeight = 0;
   let currentRightHeight = 0;
@@ -2178,29 +2898,28 @@ function packMcqItemsAutoFit(items) {
     const h = itemHeights[i] || 45;
 
     if (!isFillingRight) {
-      // Filling LEFT column
       if (currentLeftHeight + h <= maxColHeight || currentPage.leftItems.length === 0) {
         currentPage.leftItems.push(item);
         currentLeftHeight += h;
       } else {
-        // Left column is 100% full! Now switch to RIGHT column
+        currentPage.leftFullPack = shouldApplyFullPackColumn(currentPage.leftItems.length, currentLeftHeight, maxColHeight, stretchFullCols);
         isFillingRight = true;
         currentPage.rightItems.push(item);
         currentRightHeight += h;
       }
     } else {
-      // Filling RIGHT column
       if (currentRightHeight + h <= maxColHeight || currentPage.rightItems.length === 0) {
         currentPage.rightItems.push(item);
         currentRightHeight += h;
       } else {
-        // Right column is also 100% full! This A4 page is completely packed!
+        currentPage.rightFullPack = shouldApplyFullPackColumn(currentPage.rightItems.length, currentRightHeight, maxColHeight, stretchFullCols);
         pages.push(currentPage);
 
-        // Start next page in LEFT column
         currentPage = {
           leftItems: [item],
-          rightItems: []
+          rightItems: [],
+          leftFullPack: false,
+          rightFullPack: false
         };
         currentLeftHeight = h;
         currentRightHeight = 0;
@@ -2210,6 +2929,8 @@ function packMcqItemsAutoFit(items) {
   }
 
   if (currentPage.leftItems.length > 0 || currentPage.rightItems.length > 0) {
+    currentPage.leftFullPack = shouldApplyFullPackColumn(currentPage.leftItems.length, currentLeftHeight, maxColHeight, stretchFullCols);
+    currentPage.rightFullPack = shouldApplyFullPackColumn(currentPage.rightItems.length, currentRightHeight, maxColHeight, stretchFullCols);
     pages.push(currentPage);
   }
 
@@ -2596,12 +3317,12 @@ function createMcqDomElement(item) {
       '<div class="mcq-code-matrix">' +
         '<div class="mcq-code-matrix-row mcq-code-matrix-head" style="grid-template-columns: ' + gridTemplate + ';">' +
           '<span class="mcq-code-matrix-label">कूट :</span>' +
-          codeMatrix.colLabels.map(lbl => '<span class="mcq-code-matrix-cell">' + escapeHtml(lbl) + '</span>').join("") +
+          codeMatrix.colLabels.map(lbl => '<span class="mcq-code-matrix-cell">' + highlightFormattedText(lbl) + '</span>').join("") +
         '</div>' +
         codeMatrix.rows.map(row =>
           '<div class="mcq-code-matrix-row" style="grid-template-columns: ' + gridTemplate + ';">' +
             '<span class="mcq-opt-label">(' + escapeHtml(row.label) + ')</span>' +
-            row.cols.map(c => '<span class="mcq-code-matrix-cell">' + escapeHtml(c) + '</span>').join("") +
+            row.cols.map(c => '<span class="mcq-code-matrix-cell">' + highlightFormattedText(c) + '</span>').join("") +
           '</div>'
         ).join("") +
       '</div>';
@@ -2801,11 +3522,11 @@ function createMcqA4PageElement(pageChunk, pageNum, totalPages, isLastPage, allI
       ${headerHtml}
       ${inPageHeaderBanner}
       <div class="mcq-two-column-layout">
-        <div class="mcq-col mcq-col-left">
+        <div class="mcq-col mcq-col-left${pageChunk && pageChunk.leftFullPack ? " col-full-pack" : ""}">
           ${leftItemsHtml}
         </div>
         <div class="mcq-col-divider ${dividerClass}"></div>
-        <div class="mcq-col mcq-col-right">
+        <div class="mcq-col mcq-col-right${pageChunk && pageChunk.rightFullPack ? " col-full-pack" : ""}">
           ${rightItemsHtml}
         </div>
       </div>
@@ -2894,13 +3615,24 @@ function renderBookDocument() {
  */
 function createBookA4PageElement(pageChunk, pageNum, totalPages, isLastPage, allItems, pageIdx) {
   const sheet = document.createElement("div");
-  sheet.className = "a4-sheet";
-  sheet.dataset.page = pageNum;
+  sheet.className = "a4-sheet book-sheet";
+  sheet.dataset.pageSequence = pageIdx + 1;
 
-  const dividerStyle = (appState.book && appState.book.colDivider) || "solid";
+  const colDivider = (appState.book && appState.book.colDivider) || "solid";
   let dividerClass = "";
-  if (dividerStyle === "dashed") dividerClass = "divider-dashed";
-  else if (dividerStyle === "none") dividerClass = "divider-none";
+  if (colDivider === "dashed") dividerClass = "divider-dashed";
+  else if (colDivider === "none") dividerClass = "divider-none";
+
+  const footerLeft = (appState.book && appState.book.footerLeftText) || "Class - 10th Economics Notes";
+  const footerRight = (appState.book && appState.book.footerRightText) || "JEE-FORM STUDY POINT";
+
+  const footerHtml = `
+    <div class="book-footer-box">
+      <div class="book-footer-left">${escapeHtml(footerLeft)}</div>
+      <div class="book-footer-center">Page ${pageNum}</div>
+      <div class="book-footer-right">${escapeHtml(footerRight)}</div>
+    </div>
+  `;
 
   const outerFrameStyle = (appState.book && appState.book.outerFrame) || "single";
   let frameBorderCss = "border: 1.5px solid #000000;";
@@ -2930,6 +3662,14 @@ function createBookA4PageElement(pageChunk, pageNum, totalPages, isLastPage, all
             <span>${escapeHtml(appState.book.className || "Class – 10th")}</span>
             ${appState.book.batchTag ? `<span class="book-batch-tag">${escapeHtml(appState.book.batchTag)}</span>` : ''}
           </div>
+          ${(appState.book.instituteName && appState.book.instituteName.trim()) ? `
+            <div class="book-header-center">
+              <div class="book-institute-badge">
+                ${appState.book.instituteLogo ? `<img src="${appState.book.instituteLogo}" class="book-header-logo-img" alt="Logo">` : '🏛️'}
+                <span>${escapeHtml(appState.book.instituteName)}</span>
+              </div>
+            </div>
+          ` : ''}
           <div class="book-header-right">
             <span>${escapeHtml(appState.book.subjectName || "Economics")}</span>
           </div>
@@ -2948,14 +3688,8 @@ function createBookA4PageElement(pageChunk, pageNum, totalPages, isLastPage, all
           <div class="book-col-divider ${dividerClass}"></div>
           <div class="book-col book-col-right" id="book-col-right-${pageIdx}"></div>
         </div>
-
-        <!-- Book Footer -->
-        <div class="book-footer-box">
-          <span>${escapeHtml(appState.book.footerLeftText || "")}</span>
-          <span class="font-bold font-mono">Page ${pageNum}</span>
-          <span>${escapeHtml(appState.book.footerRightText || "")}</span>
-        </div>
       </div>
+      ${footerHtml}
     </div>
   `;
 
@@ -2966,12 +3700,14 @@ function createBookA4PageElement(pageChunk, pageNum, totalPages, isLastPage, all
     pageChunk.leftItems.forEach(item => {
       leftCol.appendChild(createBookDomElement(item));
     });
+    if (pageChunk.leftFullPack && leftCol.classList) leftCol.classList.add("col-full-pack");
   }
 
   if (rightCol && pageChunk.rightItems) {
     pageChunk.rightItems.forEach(item => {
       rightCol.appendChild(createBookDomElement(item));
     });
+    if (pageChunk.rightFullPack && rightCol.classList) rightCol.classList.add("col-full-pack");
   }
 
   return sheet;
@@ -3004,6 +3740,7 @@ function isBookDefinitionLine(line) {
  * Creates DOM node for an individual book note item (definition, bullet, numbered item, pill, quote, note, or Q&A).
  */
 function createBookDomElement(item) {
+  const maybeFmt = (t) => (appState.autoFormatFormulas !== false && typeof formatScienceFormulas === "function" ? formatScienceFormulas(t) : t);
   const el = document.createElement("div");
 
   if (item.type === "red_pill") {
@@ -3026,7 +3763,7 @@ function createBookDomElement(item) {
       emerald: "book-subhead-emerald"
     };
     const pillClass = clsMap[effectiveColor] || "book-subhead-blue";
-    const pillHtml = applySearchHighlightToHtml(escapeHtml(item.text), appState.searchQuery);
+    const pillHtml = applySearchHighlightToHtml(escapeHtml(maybeFmt(item.text)), appState.searchQuery);
     el.className = "w-full my-0.5";
     el.innerHTML = `<div class="${pillClass}">${pillHtml}</div>`;
     return el;
@@ -3278,11 +4015,17 @@ function parseRawBookContent(rawText) {
     return !nextIsDashBullet && prevType === "concept_block" && wordCount <= 5 && !/[।?!,]/.test(t);
   }
 
+  function stripEdgeBold(s) {
+    return String(s || "").replace(/^\*\*\s*|\s*\*\*$/g, "").trim();
+  }
+  const BOOK_ANS_PREFIX_RE = /^(?:उत्तर|Ans(?:wer)?|Sol(?:ution)?|व्याख्या)\s*(?::-|:|–|—|-|$)/i;
   function isQuestionStarter(t, nextObj) {
-    if (/^(?:प्रश्न\s*(?:सं\.?|संख्या)?\s*\d*[\.\):\-]?|Q\.?\s*\d+[\.\):\-]|Que\.?\s*\d*[\.\):\-]|Question\s*\d*[\.\):\-])\s*/i.test(t)) {
+    const cleanT = stripEdgeBold(t);
+    const nextClean = nextObj ? stripEdgeBold(nextObj.text) : "";
+    if (/^(?:प्रश्न\s*(?:सं\.?|संख्या)?\s*\d*[\.\):\-]?|Q\.?\s*\d+[\.\):\-]|Que\.?\s*\d*[\.\):\-]|Question\s*\d*[\.\):\-])\s*/i.test(cleanT)) {
       return true;
     }
-    if (/^\d+[\.\)]\s+.{5,}\?/.test(t) && nextObj && /^(?:उत्तर|Ans(?:wer)?|Sol(?:ution)?)\s*[:–\-]?/i.test(nextObj.text)) {
+    if (cleanT.length >= 6 && /\?\s*$/.test(cleanT) && nextClean && BOOK_ANS_PREFIX_RE.test(nextClean)) {
       return true;
     }
     return false;
@@ -3384,29 +4127,43 @@ function parseRawBookContent(rawText) {
 
     // 4. Exam Q&A Auto-Grouping (प्रश्न / Q1 + उत्तर / Ans)
     if (isQuestionStarter(trimmed, nextObj)) {
-      const qLines = [trimmed];
-      const aLines = [];
-      let inAnswer = false;
+      const inlineSameLineQa = trimmed.match(/^(.+?\?)\s+(?:\*{0,2})(?:उत्तर|Ans(?:wer)?|Sol(?:ution)?|व्याख्या)(?:\*{0,2})\s*(?::-|:|–|—|-)\s*(.+)$/i);
+      const qLines = [inlineSameLineQa ? inlineSameLineQa[1].trim() : trimmed];
+      const aLines = inlineSameLineQa && inlineSameLineQa[2].trim() ? [inlineSameLineQa[2].trim()] : [];
+      let inAnswer = Boolean(inlineSameLineQa);
       let j = i + 1;
 
       while (j < rawLines.length) {
         const sub = rawLines[j].trim();
         if (!sub) {
           const ahead = peekNextNonEmpty(j);
-          if (!inAnswer && ahead && /^(?:उत्तर|Ans(?:wer)?|Sol(?:ution)?)\s*[:–\-]?/i.test(ahead.text)) {
+          if (!ahead || ahead.idx - j > 1) break;
+          const aheadClean = stripEdgeBold(ahead.text);
+          if (!inAnswer && BOOK_ANS_PREFIX_RE.test(aheadClean)) {
+            j++;
+            continue;
+          }
+          const aheadLooksLikeHeading = /^\[|^#{1,4}\s/.test(aheadClean) || (BOOK_SUBHEAD_KEYWORDS_RE.test(aheadClean) && !/[।?!]$/.test(aheadClean) && !isBookDefinitionLine(aheadClean) && !isNumberedLine(aheadClean) && aheadClean.length <= 75);
+          if (
+            inAnswer &&
+            !isQuestionStarter(ahead.text, peekNextNonEmpty(ahead.idx)) &&
+            !aheadLooksLikeHeading &&
+            (isNumberedLine(ahead.text) || isBulletLine(ahead.text) || BOOK_ANS_PREFIX_RE.test(aheadClean) || /^(?:जैसे|उदाहरण|नोट|Note)/i.test(aheadClean))
+          ) {
             j++;
             continue;
           }
           break;
         }
-        if (/^(?:उत्तर|Ans(?:wer)?|Sol(?:ution)?)\s*[:–\-]?/i.test(sub)) {
+        const subClean = stripEdgeBold(sub);
+        if (BOOK_ANS_PREFIX_RE.test(subClean)) {
           inAnswer = true;
-          const strippedAns = sub.replace(/^(?:उत्तर|Ans(?:wer)?|Sol(?:ution)?)\s*[:–\-]?\s*/i, "").trim();
+          const strippedAns = subClean.replace(/^(?:उत्तर|Ans(?:wer)?|Sol(?:ution)?|व्याख्या)\s*(?::-|:|–|—|-)\s*/i, "").trim();
           if (strippedAns) aLines.push(strippedAns);
           j++;
           continue;
         }
-        const subLooksLikeHeading = /^\[|^#{1,4}\s/.test(sub) || (BOOK_SUBHEAD_KEYWORDS_RE.test(sub) && !/[।?!]$/.test(sub) && !isBookDefinitionLine(sub) && !isNumberedLine(sub) && sub.length <= 75);
+        const subLooksLikeHeading = /^\[|^#{1,4}\s/.test(subClean) || (BOOK_SUBHEAD_KEYWORDS_RE.test(subClean) && !/[।?!]$/.test(subClean) && !isBookDefinitionLine(subClean) && !isNumberedLine(subClean) && subClean.length <= 75);
         if (inAnswer && (isQuestionStarter(sub, peekNextNonEmpty(j)) || subLooksLikeHeading)) {
           break;
         }
@@ -3417,8 +4174,7 @@ function parseRawBookContent(rawText) {
         }
         j++;
       }
-
-      if (aLines.length > 0) {
+    if (aLines.length > 0) {
         const qText = qLines.join(" ");
         const ansText = aLines.join("\n");
         items.push({
@@ -3540,7 +4296,7 @@ function packBookItemsAutoFit(items) {
   if (!items || items.length === 0) return [];
   if (typeof document === "undefined" || !document.body) {
     const half = Math.ceil(items.length / 2);
-    return [{ leftItems: items.slice(0, half), rightItems: items.slice(half) }];
+    return [{ leftItems: items.slice(0, half), rightItems: items.slice(half), leftFullPack: false, rightFullPack: false }];
   }
 
   let measureSandbox = document.getElementById("gs-measure-sandbox");
@@ -3555,7 +4311,6 @@ function packBookItemsAutoFit(items) {
   const bookFont = (appState.book && appState.book.fontFamily) || "var(--font-devanagari)";
   const textWeight = (appState.book && appState.book.textWeight) || "500";
   const dividerStyle = (appState.book && appState.book.colDivider) || "solid";
-  // Actual printable column text width inside .book-col (195.2mm frame - 8mm layout pad) / 2 - 3mm col pad ~= 89.5mm
   const colWidthMm = dividerStyle === "none" ? "87.5mm" : "89.5mm";
 
   measureSandbox.style.cssText = `
@@ -3563,6 +4318,8 @@ function packBookItemsAutoFit(items) {
     left: -9999px;
     top: 0;
     width: ${colWidthMm};
+    display: flex;
+    flex-direction: column;
     visibility: hidden;
     pointer-events: none;
     box-sizing: border-box;
@@ -3574,7 +4331,6 @@ function packBookItemsAutoFit(items) {
     margin: 0;
   `;
 
-  // Measure exact rendered heights (accounting for block vertical margins cleanly without artificial inflation)
   measureSandbox.innerHTML = "";
   const frag = document.createDocumentFragment();
   for (let i = 0; i < items.length; i++) {
@@ -3585,25 +4341,23 @@ function packBookItemsAutoFit(items) {
   const children = measureSandbox.children;
   const itemHeights = [];
   for (let i = 0; i < children.length; i++) {
-    const h = (children[i].offsetHeight || 20) + 2;
+    const h = (children[i].offsetHeight || 20) + 3;
     itemHeights.push(Math.max(15, h));
   }
   measureSandbox.innerHTML = "";
 
-  // Printable column vertical height inside 297mm A4 sheet:
-  // Sheet margins (10mm) + header bar (~7.5mm) + footer (~5mm) + chapter pill on Page 1 (~11mm if set)
   const hasPage1Pill = Boolean(appState.book && appState.book.chapterTitle && appState.book.chapterTitle.trim());
   const probe = document.createElement("div");
-  probe.style.cssText = `height: ${hasPage1Pill ? "252mm" : "263mm"}; margin: 0; padding: 0;`;
+  probe.style.cssText = `height: ${hasPage1Pill ? "259mm" : "269mm"}; margin: 0; padding: 0;`;
   measureSandbox.appendChild(probe);
-  const page1Capacity = (probe.offsetHeight && probe.offsetHeight > 500) ? probe.offsetHeight : (hasPage1Pill ? 945 : 985);
+  const page1Capacity = (probe.offsetHeight && probe.offsetHeight > 500) ? probe.offsetHeight : (hasPage1Pill ? 975 : 1015);
 
-  probe.style.height = "263mm";
-  const subsequentCapacity = (probe.offsetHeight && probe.offsetHeight > 500) ? probe.offsetHeight : 985;
-  measureSandbox.removeChild(probe);
+  probe.style.height = "269mm";
+  const subsequentCapacity = (probe.offsetHeight && probe.offsetHeight > 500) ? probe.offsetHeight : 1015;
+  measureSandbox.innerHTML = "";
 
   const pages = [];
-  let currentPage = { leftItems: [], rightItems: [] };
+  let currentPage = { leftItems: [], rightItems: [], leftFullPack: false, rightFullPack: false };
   let currentLeftHeight = 0;
   let currentRightHeight = 0;
   let isFillingRight = false;
@@ -3615,30 +4369,30 @@ function packBookItemsAutoFit(items) {
     const h = itemHeights[i] || 32;
 
     if (!isFillingRight) {
-      // 100% filling LEFT column first!
       if (currentLeftHeight + h <= maxColHeight || currentPage.leftItems.length === 0) {
         currentPage.leftItems.push(item);
         currentLeftHeight += h;
       } else {
-        // Left column is 100% full! Switch to RIGHT column
+        currentPage.leftFullPack = shouldApplyFullPackColumn(currentPage.leftItems.length, currentLeftHeight, maxColHeight, false);
         isFillingRight = true;
         currentPage.rightItems.push(item);
         currentRightHeight += h;
       }
     } else {
-      // Filling RIGHT column!
       if (currentRightHeight + h <= maxColHeight || currentPage.rightItems.length === 0) {
         currentPage.rightItems.push(item);
         currentRightHeight += h;
       } else {
-        // Right column is also 100% full! Push complete A4 page!
+        currentPage.rightFullPack = shouldApplyFullPackColumn(currentPage.rightItems.length, currentRightHeight, maxColHeight, false);
         pages.push(currentPage);
 
         pageIdx++;
         maxColHeight = subsequentCapacity - 2;
         currentPage = {
           leftItems: [item],
-          rightItems: []
+          rightItems: [],
+          leftFullPack: false,
+          rightFullPack: false
         };
         currentLeftHeight = h;
         currentRightHeight = 0;
@@ -3648,6 +4402,8 @@ function packBookItemsAutoFit(items) {
   }
 
   if (currentPage.leftItems.length > 0 || currentPage.rightItems.length > 0) {
+    currentPage.leftFullPack = shouldApplyFullPackColumn(currentPage.leftItems.length, currentLeftHeight, maxColHeight, false);
+    currentPage.rightFullPack = shouldApplyFullPackColumn(currentPage.rightItems.length, currentRightHeight, maxColHeight, false);
     pages.push(currentPage);
   }
 
@@ -3699,6 +4455,29 @@ function switchBookTab(tabName) {
   if (targetPanel) {
     targetPanel.classList.remove("hidden");
   }
+}
+
+function switchSlideTab(tabName) {
+  if (!appState.slide) appState.slide = {};
+  appState.slideActiveTab = tabName;
+
+  document.querySelectorAll(".slide-tab-button").forEach((btn) => {
+    if (btn.dataset.slideTab === tabName) {
+      btn.classList.add("active-tab", "border-purple-600", "text-purple-700", "bg-white", "shadow-sm");
+      btn.classList.remove("text-slate-600", "border-transparent", "hover:text-slate-800");
+    } else {
+      btn.classList.remove("active-tab", "border-purple-600", "text-purple-700", "bg-white", "shadow-sm");
+      btn.classList.add("text-slate-600", "border-transparent", "hover:text-slate-800");
+    }
+  });
+
+  document.querySelectorAll(".slide-tab-content-panel").forEach((panel) => {
+    if (panel.id === `slide-tab-panel-${tabName}`) {
+      panel.classList.remove("hidden");
+    } else {
+      panel.classList.add("hidden");
+    }
+  });
 }
 
 /**
@@ -3812,48 +4591,60 @@ function createCoverPageElement() {
  */
 function packItemsAutoFit(items) {
   if (!items || items.length === 0) return [];
-
   if (typeof document === "undefined" || !document.body) {
-    const perPage = Math.max(1, parseInt(appState.itemsPerPage) || 48);
-    const chunks = [];
-    for (let i = 0; i < items.length; i += perPage) {
-      chunks.push(items.slice(i, i + perPage));
-    }
-    return chunks;
+    const half = Math.ceil(items.length / 2);
+    return [{ leftItems: items.slice(0, half), rightItems: items.slice(half), leftFullPack: false, rightFullPack: false }];
   }
 
-  // Create or retrieve measurement sandbox matching exact column width (91.5mm)
   let measureSandbox = document.getElementById("gs-measure-sandbox");
   if (!measureSandbox) {
     measureSandbox = document.createElement("div");
     measureSandbox.id = "gs-measure-sandbox";
-    // 210mm A4 width - 20mm horizontal padding = 190mm inner printable width.
-    // 190mm - 7mm column gap = 183mm.
-    // Each column = 183mm / 2 = 91.5mm!
-    measureSandbox.style.cssText = "position:absolute; visibility:hidden; pointer-events:none; top:-9999px; left:-9999px; width:91.5mm; box-sizing:border-box; overflow:visible;";
     document.body.appendChild(measureSandbox);
   }
 
-  measureSandbox.style.fontSize = `${appState.fontSize}px`;
-  measureSandbox.style.lineHeight = appState.lineHeight;
-  measureSandbox.style.fontFamily = appState.fontFamily || "var(--font-devanagari)";
+  const colGapMm = Math.max(2, parseFloat(appState.columnGap) || 7);
+  const colWidthMm = ((190 - colGapMm) / 2).toFixed(2);
+  if (typeof document !== "undefined" && document.documentElement && document.documentElement.style) {
+    document.documentElement.style.setProperty("--doc-col-half-gap", `${(colGapMm / 2).toFixed(2)}mm`);
+  }
 
-  // Measure actual column height in pixels dynamically (260mm)
+  measureSandbox.style.cssText = `
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    width: ${colWidthMm}mm;
+    display: flex;
+    flex-direction: column;
+    visibility: hidden;
+    pointer-events: none;
+    box-sizing: border-box;
+    font-family: ${appState.fontFamily || "var(--font-devanagari)"};
+    font-size: ${appState.fontSize || 11.5}px;
+    line-height: ${appState.lineHeight || 1.38};
+    padding: 0;
+    margin: 0;
+  `;
+
+  let colHeightMm = 260;
+  if (appState.topBannerText && appState.topBannerText.trim()) {
+    colHeightMm -= 5;
+  }
+
   const heightProbe = document.createElement("div");
-  heightProbe.style.height = "260mm";
+  heightProbe.style.height = `${colHeightMm}mm`;
   heightProbe.style.margin = "0";
   heightProbe.style.padding = "0";
   measureSandbox.appendChild(heightProbe);
-  const colCapacityPx = (heightProbe.offsetHeight && heightProbe.offsetHeight > 500) ? heightProbe.offsetHeight : 982;
+  const colCapacityPx = (heightProbe.offsetHeight && heightProbe.offsetHeight > 500) ? heightProbe.offsetHeight : 980;
   measureSandbox.removeChild(heightProbe);
 
-  // A tiny 6px breathing room at the bottom of the column to avoid subpixel clipping
-  const maxColHeight = colCapacityPx - 6;
+  const maxColHeight = colCapacityPx - 2;
 
-  // Render all items into measurement sandbox to measure their exact rendered height
   const bulletSymbol = appState.bulletStyle === "none" ? "" : `<span class="gs-bullet">${appState.bulletStyle}</span>`;
   const itemSpacingPx = parseFloat(appState.itemSpacing) || 3.5;
   const itemHeights = [];
+  const isSpanBothMode = appState.topicBannerMode === "span-both";
 
   measureSandbox.innerHTML = "";
   const frag = document.createDocumentFragment();
@@ -3861,12 +4652,11 @@ function packItemsAutoFit(items) {
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
     if (item.isHeading) {
-      const isSpanBoth = appState.topicBannerMode === "span-both";
       const headingDiv = document.createElement("div");
-      headingDiv.className = `gs-topic-banner ${isSpanBoth ? "span-both" : "single-col"} gs-document-font`;
+      headingDiv.className = `gs-topic-banner ${isSpanBothMode ? "span-both" : "single-col"} gs-document-font`;
       headingDiv.innerHTML = `
         <div class="banner-decor-left"><span></span><span></span></div>
-        <div class="banner-title">${escapeHtml(item.title)}</div>
+        <div class="banner-title">${highlightFormattedText(item.title)}</div>
         <div class="banner-decor-right"><span></span><span></span></div>
       `;
       headingDiv.style.marginBottom = `${itemSpacingPx}px`;
@@ -3874,86 +4664,99 @@ function packItemsAutoFit(items) {
       continue;
     }
 
-    let qText = item.question;
-    let aText = item.answer;
-    if (appState.autoFormatFormulas) {
-      qText = formatScienceFormulas(qText);
-      aText = formatScienceFormulas(aText);
-    }
-    qText = escapeHtmlPreservingTags(qText);
-    aText = escapeHtmlPreservingTags(aText);
+    const qHtml = highlightFormattedText(item.question);
+    const aHtml = highlightFormattedText(item.answer);
     const div = document.createElement("div");
-
     const formattedPrefix = escapeHtml(appState.answerPrefix || "–");
     if (appState.answerStyle === "style-right") {
       div.className = "gs-qa-item style-right gs-document-font";
-      div.innerHTML = `${bulletSymbol}<span class="gs-question">${qText}</span>${aText ? `<span class="gs-answer">${formattedPrefix} ${aText}</span>` : ""}`;
+      div.innerHTML = `${bulletSymbol}<span class="gs-question">${qHtml}</span>${aHtml ? `<span class="gs-answer">${formattedPrefix} ${aHtml}</span>` : ""}`;
     } else {
       div.className = "gs-qa-item style-inline gs-document-font";
-      div.innerHTML = `${bulletSymbol}<span class="gs-question">${qText}</span>${aText ? `<span class="gs-answer"> ${formattedPrefix} ${aText}</span>` : ""}`;
+      div.innerHTML = `${bulletSymbol}<span class="gs-question">${qHtml}</span>${aHtml ? `<span class="gs-answer"> ${formattedPrefix} ${aHtml}</span>` : ""}`;
     }
     div.style.marginBottom = `${itemSpacingPx}px`;
     frag.appendChild(div);
   }
   measureSandbox.appendChild(frag);
 
-  // Read off the actual rendered height of every item
   const children = measureSandbox.children;
   for (let i = 0; i < children.length; i++) {
     const h = children[i].offsetHeight + itemSpacingPx;
     itemHeights.push(Math.max(16, h));
   }
-  measureSandbox.innerHTML = ""; // clean up sandbox
+  measureSandbox.innerHTML = "";
 
-  // Pack items into pages:
-  // Each page has 2 columns: Column 1 (left) and Column 2 (right).
-  // Column 1 fills until next item exceeds maxColHeight.
-  // Then Column 2 fills until next item exceeds maxColHeight.
-  // Then and ONLY then does Page 2 start!
-  const pageChunks = [];
-  let currentPage = [];
-  let currentColHeight = 0;
-  let currentColIndex = 1; // 1 or 2
+  if (isSpanBothMode) {
+    const pageChunks = [];
+    let currentPage = [];
+    let currentColHeight = 0;
+    let currentColIndex = 1;
 
-  for (let i = 0; i < items.length; i++) {
-    const item = items[i];
-    const h = itemHeights[i] || 38;
-
-    if (currentColHeight + h <= maxColHeight) {
-      // Fits in current column!
-      currentPage.push(item);
-      currentColHeight += h;
-    } else {
-      // Does not fit in current column!
-      if (currentColIndex === 1) {
-        // Column 1 is 100% full! Move to Column 2 of the same page!
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      const h = itemHeights[i] || 38;
+      if (currentColHeight + h <= maxColHeight || currentPage.length === 0) {
+        currentPage.push(item);
+        currentColHeight += h;
+      } else if (currentColIndex === 1) {
         currentColIndex = 2;
-        currentColHeight = 0;
-
-        if (currentColHeight + h <= maxColHeight) {
-          currentPage.push(item);
-          currentColHeight += h;
-        } else {
-          currentPage.push(item);
-          currentColHeight = maxColHeight;
-        }
+        currentPage.push(item);
+        currentColHeight = h;
       } else {
-        // Column 2 is also 100% full! This A4 page is completely packed!
         pageChunks.push(currentPage);
-
-        // Start next page in Column 1
         currentPage = [item];
         currentColIndex = 1;
         currentColHeight = h;
       }
     }
+    if (currentPage.length > 0) pageChunks.push(currentPage);
+    return pageChunks;
   }
 
-  if (currentPage.length > 0) {
-    pageChunks.push(currentPage);
+  const pages = [];
+  let currentPage = { leftItems: [], rightItems: [], leftFullPack: false, rightFullPack: false };
+  let leftHeight = 0;
+  let rightHeight = 0;
+  let isFillingRight = false;
+
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    const h = itemHeights[i] || 38;
+
+    if (!isFillingRight) {
+      if (leftHeight + h <= maxColHeight || currentPage.leftItems.length === 0) {
+        currentPage.leftItems.push(item);
+        leftHeight += h;
+      } else {
+        currentPage.leftFullPack = shouldApplyFullPackColumn(currentPage.leftItems.length, leftHeight, maxColHeight, false);
+        isFillingRight = true;
+        currentPage.rightItems.push(item);
+        rightHeight += h;
+      }
+    } else {
+      if (rightHeight + h <= maxColHeight || currentPage.rightItems.length === 0) {
+        currentPage.rightItems.push(item);
+        rightHeight += h;
+      } else {
+        currentPage.rightFullPack = shouldApplyFullPackColumn(currentPage.rightItems.length, rightHeight, maxColHeight, false);
+        pages.push(currentPage);
+
+        currentPage = { leftItems: [item], rightItems: [], leftFullPack: false, rightFullPack: false };
+        leftHeight = h;
+        rightHeight = 0;
+        isFillingRight = false;
+      }
+    }
   }
 
-  return pageChunks;
+  if (currentPage.leftItems.length > 0 || currentPage.rightItems.length > 0) {
+    currentPage.leftFullPack = shouldApplyFullPackColumn(currentPage.leftItems.length, leftHeight, maxColHeight, false);
+    currentPage.rightFullPack = shouldApplyFullPackColumn(currentPage.rightItems.length, rightHeight, maxColHeight, false);
+    pages.push(currentPage);
+  }
+
+  return pages;
 }
 
 /**
@@ -4012,41 +4815,59 @@ function createA4PageElement(pageItems, pageNumber, totalPages, pageSequence) {
   const hasDividerClass = appState.columnDivider !== "none" ? "has-divider" : "";
   const bulletSymbol = appState.bulletStyle === "none" ? "" : `<span class="gs-bullet">${appState.bulletStyle}</span>`;
 
-  let itemsHtml = "";
-  for (const item of pageItems) {
+  function buildPointerItemHtml(item) {
     if (item.isHeading) {
       const isSpanBoth = appState.topicBannerMode === "span-both";
       const bannerClass = isSpanBoth ? "gs-topic-banner span-both" : "gs-topic-banner single-col";
-      itemsHtml += `
+      return `
         <div class="${bannerClass} gs-document-font">
           <div class="banner-decor-left"><span></span><span></span></div>
           <div class="banner-title">${highlightFormattedText(item.title)}</div>
           <div class="banner-decor-right"><span></span><span></span></div>
         </div>
       `;
-      continue;
     }
-
     const questionText = highlightFormattedText(item.question);
     const answerText = highlightFormattedText(item.answer);
-
     const formattedPrefix = escapeHtml(appState.answerPrefix || "–");
     if (appState.answerStyle === "style-right") {
-      // Mode 1: Authentic GS Pointer Right-Aligned
-      itemsHtml += `
+      return `
         <div class="gs-qa-item style-right gs-document-font">
           ${bulletSymbol}<span class="gs-question">${questionText}</span>
           ${answerText ? `<span class="gs-answer">${formattedPrefix} ${answerText}</span>` : ""}
         </div>
       `;
-    } else {
-      // Mode 2: Inline Bold
-      itemsHtml += `
-        <div class="gs-qa-item style-inline gs-document-font">
-          ${bulletSymbol}<span class="gs-question">${questionText}</span>${answerText ? `<span class="gs-answer"> ${formattedPrefix} ${answerText}</span>` : ""}
-        </div>
-      `;
     }
+    return `
+      <div class="gs-qa-item style-inline gs-document-font">
+        ${bulletSymbol}<span class="gs-question">${questionText}</span>${answerText ? `<span class="gs-answer"> ${formattedPrefix} ${answerText}</span>` : ""}
+      </div>
+    `;
+  }
+
+  let columnsBodyHtml = "";
+  if (!Array.isArray(pageItems) && pageItems && Array.isArray(pageItems.leftItems)) {
+    const leftHtml = pageItems.leftItems.map(buildPointerItemHtml).join("");
+    const rightHtml = (pageItems.rightItems || []).map(buildPointerItemHtml).join("");
+    columnsBodyHtml = `
+      <div class="gs-two-column-layout ${hasDividerClass}">
+        <div class="gs-col gs-col-left${pageItems.leftFullPack ? " col-full-pack" : ""}">
+          ${leftHtml}
+        </div>
+        <div class="gs-col-divider"></div>
+        <div class="gs-col gs-col-right${pageItems.rightFullPack ? " col-full-pack" : ""}">
+          ${rightHtml}
+        </div>
+      </div>
+    `;
+  } else {
+    const flatItems = Array.isArray(pageItems) ? pageItems : [];
+    const itemsHtml = flatItems.map(buildPointerItemHtml).join("");
+    columnsBodyHtml = `
+      <div class="gs-columns-container ${hasDividerClass}">
+        ${itemsHtml}
+      </div>
+    `;
   }
 
   // Inner assembly
@@ -4055,9 +4876,7 @@ function createA4PageElement(pageItems, pageNumber, totalPages, pageSequence) {
     <div class="a4-sheet-inner">
       ${bannerHtml}
       ${headerHtml}
-      <div class="gs-columns-container ${hasDividerClass}">
-        ${itemsHtml}
-      </div>
+      ${columnsBodyHtml}
       ${footerHtml}
     </div>
   `;
@@ -4197,8 +5016,12 @@ function formatScienceFormulas(text) {
     [/\bFeCl3\b/gi, "FeCl₃"],
     [/\bPb\(NO3\)2\b/gi, "Pb(NO₃)₂"],
     [/\bK2SO4\b/gi, "K₂SO₄"],
-    [/\bCa3\(PO4\)2\b/gi, "Ca₃(PO₄)₂"],
-    // Hydrates
+    [/\bFe2\(SO4\)3\b/gi, "Fe₂(SO₄)₃"],
+    [/\bAl2\(SO4\)3\b/gi, "Al₂(SO₄)₃"],
+    [/\b\(NH4\)3PO4\b/gi, "(NH₄)₃PO₄"],
+    [/\bMg\(NO3\)2\b/gi, "Mg(NO₃)₂"],
+    [/\bZn\(NO3\)2\b/gi, "Zn(NO₃)₂"],
+    [/\bBa\(OH\)2\b/gi, "Ba(OH)₂"],
     [/\bCaSO4[\.·]2H2O\b/gi, "CaSO₄·2H₂O"],
     [/\bCaSO4[\.·]1\/2H2O\b/gi, "CaSO₄·½H₂O"],
     [/\bNa2CO3[\.·]10H2O\b/gi, "Na₂CO₃·10H₂O"],
@@ -4206,22 +5029,101 @@ function formatScienceFormulas(text) {
     [/\bFeSO4[\.·]7H2O\b/gi, "FeSO₄·7H₂O"]
   ];
 
+  // Protect URLs
+  const urlHolders = [];
+  str = str.replace(/https?:\/\/\S+/gi, (u) => {
+    const idx = urlHolders.push(u) - 1;
+    return `__URL_HOLD_${idx}__`;
+  });
+
+  // Stoichiometric coefficient + diatomic/common molecules (e.g. 2H2 + O2 -> 2H2O)
+  str = str.replace(/\b(\d+)(H2O2|H2SO4|HNO3|H2CO3|H2O|CO2|SO2|SO3|NO2|N2O|NH3|CH4|H2S|O3|Cl2|Br2|I2|F2|H2|O2|N2)\b/g, (m, coef, mol) => {
+    return coef + formatScienceFormulas(mol);
+  });
+
+  // Polyatomic groups (OH)2, (NO3)2, (SO4)3, (PO4)2, (CO3)2, (CN)2, (NH4)2
+  const subDigitMap = { "0": "₀", "1": "₁", "2": "₂", "3": "₃", "4": "₄", "5": "₅", "6": "₆", "7": "₇", "8": "₈", "9": "₉" };
+  str = str.replace(/([A-Z][a-z]?)([2-4]?)\((OH|NO[23]|SO[34]|PO[34]|CO3|HCO3|HSO4|CN|NH4|CH3COO|ClO[1-4]?)\)([2-6]?)/g, (m, metal, mCnt, poly, pCnt) => {
+    const mSub = mCnt ? mCnt.split("").map((d) => subDigitMap[d] || d).join("") : "";
+    const pInner = poly.replace(/(\d)/g, (d) => subDigitMap[d] || d);
+    const pSub = pCnt ? pCnt.split("").map((d) => subDigitMap[d] || d).join("") : "";
+    return `${metal}${mSub}(${pInner})${pSub}`;
+  });
+
   for (let i = 0; i < formulaReplacements.length; i++) {
     str = str.replace(formulaReplacements[i][0], formulaReplacements[i][1]);
   }
 
-  // Chemical reaction arrow (-> with whitespace around it -> →)
+  // Reaction arrow
   str = str.replace(/\s+->\s+/g, " → ");
 
-  // 3. Units & Exponents (m/s2 -> m/s², m2 -> m², cm3 -> cm³, etc.)
-  str = str.replace(/\b(m|cm|mm|km)\/s\^?2\b/gi, "$1/s²");
+  // Units & exponents
+  const MATH_SUP_MAP = {
+    "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴",
+    "5": "⁵", "6": "⁶", "7": "⁷", "8": "⁸", "9": "⁹",
+    "+": "⁺", "-": "⁻", "−": "⁻", "=": "⁼", "(": "⁽", ")": "⁾",
+    "n": "ⁿ", "i": "ⁱ", "x": "ˣ", "y": "ʸ"
+  };
+  const toSup = (val) => String(val).split("").map((c) => MATH_SUP_MAP[c] || SUPERSCRIPT_MAP[c] || c).join("");
+
+  str = str.replace(/\b(m|cm|mm|km)\/s\^?([\-]?[1-4])\b/gi, (_, u, exp) => `${u}/s${toSup(exp)}`);
+  str = str.replace(/\b(m|cm|mm|km|s)\^([\-]?[1-4])\b/gi, (_, u, exp) => `${u}${toSup(exp)}`);
   str = str.replace(/\b(m|cm|mm|km)\^?2\b/gi, "$1²");
   str = str.replace(/\b(m|cm|mm|km)\^?3\b/gi, "$1³");
 
-  // Power of 10: 10^5 -> 10⁵, 10^-3 -> 10⁻³
-  str = str.replace(/10\^([\+\-]?[0-9]+)/g, (match, exp) => {
-    return "10" + exp.split("").map((c) => SUPERSCRIPT_MAP[c] || c).join("");
+  // Power of 10
+  str = str.replace(/10\^([\+\-]?[0-9]+)/g, (match, exp) => "10" + toSup(exp));
+
+  // 4a. Parenthesized caret exponents x^(n+1), (A+B)^(2)
+  str = str.replace(/([A-Za-z0-9\)\]])\^\(([^()\s]{1,12})\)/g, (m, base, exp) => {
+    const chars = exp.split("");
+    return chars.every((c) => MATH_SUP_MAP[c]) ? base + "⁽" + toSup(exp) + "⁾" : m;
   });
+
+  // 4b. Explicit caret exponents (A+B)^2, x^2, a^n, 2^10, x^-2, e^x
+  str = str.replace(/([A-Za-z0-9\)\]θφπ])\^([\+\-−]?(?:[0-9]+|[nixy]))(?![0-9A-Za-z_])/g, (_, base, exp) => {
+    return base + toSup(exp);
+  });
+
+  // 4c. Trigonometric powers (sin2θ, cos2θ, tan2A, sec2x; leaves 'sin 2θ' untouched)
+  str = str.replace(/\b(sin|cos|tan|cot|sec|cosec|csc)([2-9])(?=\s*(?:[A-Za-zθφΘΦαβγ°\(\[]|$))/gi, (_, fn, p) => {
+    return fn + toSup(p);
+  });
+
+  // 4d. Bracketed math powers: (A+B)2 -> (A+B)², (a - b)3 -> (a - b)³, (x + 1/x)2 -> (x + 1/x)², (2x)2 -> (2x)², [a+b]2 -> [a+b]²
+  str = str.replace(/(?:(\(([^()\n]{1,65})\))|(\[([^\[\]\n]{1,65})\]))([2-9])(?![0-9A-Za-z_])/g, (m, parenFull, parenBody, sqFull, sqBody, pow) => {
+    const body = parenBody !== undefined ? parenBody : sqBody;
+    const isMathInside =
+      /[+\-−*×÷\/=,]/.test(body) ||
+      /\d+[a-z]/.test(body) ||
+      /(?:^|[^A-Za-z])[a-z](?:$|[^A-Za-z])/.test(body) ||
+      /[√πθ²³⁴⁰¹⁵⁶⁷⁸⁹]/.test(body);
+    if (!isMathInside) return m;
+    const bracketText = parenFull || sqFull;
+    return bracketText + toSup(pow);
+  });
+
+  // 4e. Physics/Math terms & coefficient-prefixed variables: 2x2 -> 2x², 3y3 -> 3y³, 4A2 -> 4A², πr2 -> πr², E=mc2 -> E=mc², mv2 -> mv²
+  str = str.replace(/([0-9πθ√\/])([A-Za-z])([2-4])(?![0-9A-Za-z_₀-₉])/g, (m, pre, sym, pow) => {
+    if (pre === "/" && sym === "s") return m;
+    return pre + sym + toSup(pow);
+  });
+  str = str.replace(/\b(mc|mv|gt|at)([2-3])(?![0-9A-Za-z₀-₉])/g, (_, base, pow) => base + toSup(pow));
+  str = str.replace(/(πr)([2-3])(?![0-9₀-₉])/g, (_, base, pow) => base + toSup(pow));
+
+  // 4f. Standalone lowercase algebra variables (a2 + b2, x2 - y2, a3 + b3, l2 + b2, u2 + 2as)
+  str = str.replace(/(?<![A-Za-z₀-₉])([a-dk-np-uvxyz])([2-4])(?![0-9A-Za-z_₀-₉])/g, (_, v, pow) => v + toSup(pow));
+
+  // 4g. Uppercase algebra variables in operator context (A2 + B2 = (A+B)2 - 2AB), guarding Q2 & Vitamin B2
+  for (let pass = 0; pass < 2; pass++) {
+    str = str.replace(/(^|[\+\-−=×÷\/*√\(\[]\s*)([A-PR-Z])([2-4])(?![0-9A-Za-z_₀-₉])/g, (_, pre, v, pow) => pre + v + toSup(pow));
+  }
+  str = str.replace(/(?<![Vv]itamin\s)(?<!विटामिन\s)(?<![A-Za-z0-9_₀-₉])([A-PR-Z])([2-4])(?=\s*[\+\-−=×÷\/*\)\]])/g, (_, v, pow) => v + toSup(pow));
+
+  // Restore URLs
+  if (urlHolders.length > 0) {
+    str = str.replace(/__URL_HOLD_(\d+)__/g, (_, idx) => urlHolders[Number(idx)] || "");
+  }
 
   return str;
 }
@@ -4490,7 +5392,31 @@ function syncInputsFromState() {
   if (!appState.book) appState.book = {};
   setValue("textarea-book-content", appState.book.rawBookContent || "");
   setValue("input-book-raw-content", appState.book.rawBookContent || "");
+  setValue("input-book-institute", appState.book.instituteName || "JEE - FORM STUDY POINT");
   setValue("input-book-class", appState.book.className || "Class – 10th");
+
+  // Sync Slide Studio Inputs
+  if (appState.slide) {
+    setValue("textarea-slide-content", appState.slide.rawContent || "");
+    setValue("input-slide-institute", appState.slide.instituteName || "JEE - FORM STUDY POINT");
+    setValue("input-slide-subject", appState.slide.subjectTag || "GENERAL SCIENCE");
+    setValue("input-slide-topic", appState.slide.topicTitle || "महत्वपूर्ण प्रश्नोत्तरी (Live Class)");
+    setValue("input-slide-header-bg", appState.slide.headerBgColor || "#0b2545");
+    setValue("input-slide-footer-text", appState.slide.footerText || "🔴 Subscribe YouTube & Join Telegram for Free PDF Notes");
+    setValue("input-slide-watermark-text", appState.slide.watermarkText || "JEE - FORM STUDY POINT");
+    setValue("range-slide-watermark-opacity", appState.slide.watermarkOpacity !== undefined ? appState.slide.watermarkOpacity : 0.10);
+    const opLabel = document.getElementById("label-slide-watermark-opacity");
+    if (opLabel) opLabel.textContent = Math.round((appState.slide.watermarkOpacity !== undefined ? appState.slide.watermarkOpacity : 0.10) * 100) + "%";
+
+    setValue("select-slide-orientation", appState.slide.orientation || "portrait");
+    setValue("select-slide-options-layout", appState.slide.optionsLayout || "vertical");
+    setValue("select-slide-answer-mode", appState.slide.answerMode || "always");
+    setChecked("check-slide-show-explanation", appState.slide.showExplanation !== false);
+    setChecked("check-slide-final-answer-key", appState.slide.showFinalAnswerKey !== false);
+    setValue("range-slide-font-size", appState.slide.fontSize || 20);
+    const fsLabel = document.getElementById("label-slide-font-size");
+    if (fsLabel) fsLabel.textContent = (appState.slide.fontSize || 20) + "px";
+  }
   setValue("input-book-batch", appState.book.batchTag || "BOARD 2024-25");
   setValue("input-book-subject", appState.book.subjectName || "Economics");
   setValue("input-book-chapter-title", appState.book.chapterTitle || "1. अर्थव्यवस्था एवं इसके विकास का इतिहास");
@@ -4557,6 +5483,9 @@ function updateStatisticsBadge(itemsCount, totalPages) {
     } else if (appState.currentMode === "book") {
       modeLabel = "Book Topics / Items";
       dotColor = "bg-emerald-600";
+    } else if (appState.currentMode === "slide") {
+      modeLabel = "MCQ Slides";
+      dotColor = "bg-purple-600";
     }
 
     statsEl.innerHTML = `
@@ -5833,6 +6762,40 @@ function setupEventListeners() {
   });
 
   // Book Header & Branding Inputs
+  bindBookInput("input-book-institute", "instituteName");
+
+  const bookInstLogoInput = document.getElementById("input-book-institute-logo");
+  if (bookInstLogoInput) {
+    bookInstLogoInput.addEventListener("change", (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (re) => {
+        appState.book.instituteLogo = re.target.result;
+        saveSettingsToStorage();
+        renderDocument();
+        showToast("🏛️ Book Institute Logo updated!", "success");
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  const btnBookUseMainLogo = document.getElementById("btn-book-use-main-logo");
+  if (btnBookUseMainLogo) {
+    btnBookUseMainLogo.addEventListener("click", () => {
+      if (appState.instituteLogo) {
+        appState.book.instituteLogo = appState.instituteLogo;
+      }
+      if (appState.leftBrandText && !appState.book.instituteName) {
+        appState.book.instituteName = appState.leftBrandText;
+        setValue("input-book-institute", appState.book.instituteName);
+      }
+      saveSettingsToStorage();
+      renderDocument();
+      showToast("🔄 Synced main institute branding to Book header!", "success");
+    });
+  }
+
   bindBookInput("input-book-class", "className");
   bindBookInput("input-book-batch", "batchTag");
   bindBookInput("input-book-subject", "subjectName");
@@ -6170,6 +7133,11 @@ function setupEventListeners() {
       applyZoomScale();
     }
   });
+
+  // Digital Board MCQ Slide Studio Listeners
+  if (typeof setupSlideEventListeners === "function") {
+    setupSlideEventListeners();
+  }
 }
 
 function bindInput(id, stateKey) {
@@ -6211,14 +7179,16 @@ function updateModeView(mode) {
   const btnPointer = document.getElementById("btn-mode-pointer");
   const btnMcq = document.getElementById("btn-mode-mcq");
   const btnBook = document.getElementById("btn-mode-book");
+  const btnSlide = document.getElementById("btn-mode-slide");
   const panelPointer = document.getElementById("panel-studio-pointer");
   const panelMcq = document.getElementById("panel-studio-mcq");
   const panelBook = document.getElementById("panel-studio-book");
+  const panelSlide = document.getElementById("panel-studio-slide");
 
   // Reset all mode buttons
-  [btnPointer, btnMcq, btnBook].forEach((btn) => {
+  [btnPointer, btnMcq, btnBook, btnSlide].forEach((btn) => {
     if (btn) {
-      btn.classList.remove("active", "text-white", "bg-blue-600", "bg-red-600", "bg-emerald-600");
+      btn.classList.remove("active", "text-white", "bg-blue-600", "bg-red-600", "bg-emerald-600", "bg-purple-600");
       btn.classList.add("text-slate-300", "hover:text-white");
     }
   });
@@ -6227,6 +7197,7 @@ function updateModeView(mode) {
   if (panelPointer) panelPointer.classList.add("hidden");
   if (panelMcq) panelMcq.classList.add("hidden");
   if (panelBook) panelBook.classList.add("hidden");
+  if (panelSlide) panelSlide.classList.add("hidden");
 
   if (mode === "mcq") {
     if (btnMcq) {
@@ -6240,6 +7211,12 @@ function updateModeView(mode) {
       btnBook.classList.remove("text-slate-300", "hover:text-white");
     }
     if (panelBook) panelBook.classList.remove("hidden");
+  } else if (mode === "slide") {
+    if (btnSlide) {
+      btnSlide.classList.add("active", "text-white", "bg-purple-600");
+      btnSlide.classList.remove("text-slate-300", "hover:text-white");
+    }
+    if (panelSlide) panelSlide.classList.remove("hidden");
   } else {
     if (btnPointer) {
       btnPointer.classList.add("active", "text-white", "bg-blue-600");
@@ -6263,6 +7240,8 @@ function setAppMode(mode, showNotification = true) {
       showToast("📝 Switched to MCQ Practice Set Studio (Platform Exam Style)", "info");
     } else if (mode === "book") {
       showToast("📚 Switched to Smart Book & Notes Studio (Class Notes & Complete Booklet)", "info");
+    } else if (mode === "slide") {
+      showToast("📺 Switched to Digital Board MCQ Slide Studio (PPT / Interactive Board)", "info");
     } else {
       showToast("📖 Switched to GS Pointer One-Liner Studio", "info");
     }
@@ -6486,6 +7465,480 @@ function renderInPageBannersPreview() {
     if (footerPreviewWrapper) footerPreviewWrapper.classList.add("hidden");
     if (btnRemoveFooter) btnRemoveFooter.classList.add("hidden");
   }
+}
+
+// ==========================================
+// DIGITAL BOARD & MCQ SLIDE EVENT LISTENERS
+// ==========================================
+function setupSlideEventListeners() {
+  // ==========================================
+    // DIGITAL BOARD & MCQ SLIDE EVENT LISTENERS
+    // ==========================================
+    // Mode Button
+    const btnModeSlide = document.getElementById("btn-mode-slide");
+    if (btnModeSlide) {
+      btnModeSlide.addEventListener("click", () => setAppMode("slide"));
+    }
+  
+    // Slide Tabs
+    document.querySelectorAll(".slide-tab-button").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const tabName = e.currentTarget.dataset.slideTab;
+        if (tabName) switchSlideTab(tabName);
+      });
+    });
+  
+    // Slide Textarea Live Input
+    const textareaSlideContent = document.getElementById("textarea-slide-content");
+    if (textareaSlideContent) {
+      textareaSlideContent.addEventListener("input", (e) => {
+        if (!appState.slide) appState.slide = {};
+        appState.slide.rawContent = e.target.value;
+        saveSettingsToStorage();
+        renderDocument();
+      });
+    }
+  
+    // 1-Click Paste
+    const btnSlidePaste = document.getElementById("btn-slide-paste");
+    if (btnSlidePaste) {
+      btnSlidePaste.addEventListener("click", async () => {
+        try {
+          if (!navigator.clipboard || !navigator.clipboard.readText) {
+            showToast("Clipboard access denied. Please paste manually.", "error");
+            return;
+          }
+          const text = await navigator.clipboard.readText();
+          if (!text || !text.trim()) {
+            showToast("Clipboard is empty!", "info");
+            return;
+          }
+          if (!appState.slide) appState.slide = {};
+          appState.slide.rawContent = text;
+          setValue("textarea-slide-content", text);
+          saveSettingsToStorage();
+          renderDocument();
+          showToast("📋 Pasted into MCQ Slides successfully!", "success");
+        } catch (err) {
+          showToast("Could not access clipboard. Please paste manually.", "error");
+        }
+      });
+    }
+  
+    // Clear Content
+    const btnClearSlideContent = document.getElementById("btn-clear-slide-content");
+    if (btnClearSlideContent) {
+      btnClearSlideContent.addEventListener("click", () => {
+        if (confirm("Clear all slide questions?")) {
+          if (!appState.slide) appState.slide = {};
+          appState.slide.rawContent = "";
+          setValue("textarea-slide-content", "");
+          saveSettingsToStorage();
+          renderDocument();
+          showToast("Slide content cleared.", "info");
+        }
+      });
+    }
+  
+    // Auto-Format Formulas (Math Squares & Chemistry)
+    const btnSlideAutoFormat = document.getElementById("btn-slide-auto-format");
+    if (btnSlideAutoFormat) {
+      btnSlideAutoFormat.addEventListener("click", () => {
+        if (!appState.slide || !appState.slide.rawContent) {
+          showToast("Please enter or paste questions first!", "info");
+          return;
+        }
+        let formatted = formatScienceFormulas(appState.slide.rawContent);
+        if (typeof runFullCorrections === "function") {
+          const res = runFullCorrections(formatted);
+          formatted = res.text;
+        }
+        appState.slide.rawContent = formatted;
+        setValue("textarea-slide-content", formatted);
+        saveSettingsToStorage();
+        renderDocument();
+        showToast("✨ Auto-formatted math powers ((A+B)²) & chemical formulas (Ca(OH)₂)!", "success");
+      });
+    }
+  
+    // 1-Click Ready Sample Presets
+    window.loadSlidePreset = function(presetKey) {
+      if (SAMPLE_SLIDE_DATASETS[presetKey]) {
+        if (!appState.slide) appState.slide = {};
+        appState.slide.rawContent = SAMPLE_SLIDE_DATASETS[presetKey];
+        if (presetKey === "science") {
+          appState.slide.subjectTag = "GENERAL SCIENCE";
+          appState.slide.topicTitle = "महत्वपूर्ण प्रश्नोत्तरी (Live Class)";
+        } else if (presetKey === "polity") {
+          appState.slide.subjectTag = "INDIAN POLITY";
+          appState.slide.topicTitle = "संविधान एवं राजव्यवस्था (Special Batch)";
+        } else if (presetKey === "biharPolice") {
+          appState.slide.subjectTag = "GENERAL STUDIES";
+          appState.slide.topicTitle = "Bihar Police & All Competitive Exams";
+        }
+        syncInputsFromState();
+        saveSettingsToStorage();
+        renderDocument();
+        showToast(`⚡ Loaded ${presetKey.toUpperCase()} sample slide deck!`, "success");
+      }
+    };
+  
+    document.querySelectorAll("[data-slide-preset]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const presetKey = e.currentTarget.dataset.slidePreset;
+        if (presetKey) loadSlidePreset(presetKey);
+      });
+    });
+  
+    // Docx / Txt File Upload
+    const inputSlideFileUpload = document.getElementById("input-slide-file-upload");
+    if (inputSlideFileUpload) {
+      inputSlideFileUpload.addEventListener("change", (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        if (file.name.endsWith(".txt")) {
+          reader.onload = (re) => {
+            if (!appState.slide) appState.slide = {};
+            appState.slide.rawContent = re.target.result;
+            setValue("textarea-slide-content", re.target.result);
+            saveSettingsToStorage();
+            renderDocument();
+            showToast(`📁 Imported ${file.name} successfully!`, "success");
+          };
+          reader.readAsText(file);
+        } else if (file.name.endsWith(".docx") || file.name.endsWith(".doc")) {
+          if (typeof mammoth !== "undefined" && mammoth.extractRawText) {
+            reader.onload = (re) => {
+              mammoth.extractRawText({ arrayBuffer: re.target.result }).then((res) => {
+                if (!appState.slide) appState.slide = {};
+                appState.slide.rawContent = res.value;
+                setValue("textarea-slide-content", res.value);
+                saveSettingsToStorage();
+                renderDocument();
+                showToast(`📁 Extracted ${file.name} successfully!`, "success");
+              }).catch(() => {
+                showToast("Could not parse DOCX. Please paste text directly.", "error");
+              });
+            };
+            reader.readAsArrayBuffer(file);
+          } else {
+            reader.onload = (re) => {
+              if (!appState.slide) appState.slide = {};
+              appState.slide.rawContent = re.target.result;
+              setValue("textarea-slide-content", re.target.result);
+              saveSettingsToStorage();
+              renderDocument();
+              showToast(`📁 Imported ${file.name}!`, "success");
+            };
+            reader.readAsText(file);
+          }
+        }
+      });
+    }
+  
+    // Header & Branding inputs
+    function bindSlideInput(id, key) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener("input", (e) => {
+        if (!appState.slide) appState.slide = {};
+        appState.slide[key] = e.target.value;
+        saveSettingsToStorage();
+        renderDocument();
+      });
+    }
+  
+    bindSlideInput("input-slide-institute", "instituteName");
+    bindSlideInput("input-slide-subject", "subjectTag");
+    bindSlideInput("input-slide-topic", "topicTitle");
+    bindSlideInput("input-slide-footer-text", "footerText");
+    bindSlideInput("input-slide-watermark-text", "watermarkText");
+  
+    // Logo file upload
+    const inputSlideLogo = document.getElementById("input-slide-logo");
+    if (inputSlideLogo) {
+      inputSlideLogo.addEventListener("change", (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (re) => {
+          if (!appState.slide) appState.slide = {};
+          appState.slide.instituteLogo = re.target.result;
+          saveSettingsToStorage();
+          renderDocument();
+          showToast("🏛️ Slide Header Logo updated!", "success");
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  
+    // 1-Click Sync Main Logo
+    const btnSlideUseMainLogo = document.getElementById("btn-slide-use-main-logo");
+    if (btnSlideUseMainLogo) {
+      btnSlideUseMainLogo.addEventListener("click", () => {
+        if (!appState.slide) appState.slide = {};
+        if (appState.instituteLogo) {
+          appState.slide.instituteLogo = appState.instituteLogo;
+        }
+        if (appState.leftBrandText && !appState.slide.instituteName) {
+          appState.slide.instituteName = appState.leftBrandText;
+          setValue("input-slide-institute", appState.slide.instituteName);
+        }
+        saveSettingsToStorage();
+        renderDocument();
+        showToast("🔄 Synced main branding to Slide Header!", "success");
+      });
+    }
+  
+    // Top Header Banner Upload & Clear
+    const inputSlideHeaderBanner = document.getElementById("input-slide-header-banner");
+    if (inputSlideHeaderBanner) {
+      inputSlideHeaderBanner.addEventListener("change", (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (re) => {
+          if (!appState.slide) appState.slide = {};
+          appState.slide.headerBanner = re.target.result;
+          saveSettingsToStorage();
+          renderDocument();
+          showToast("🖼️ Top Slide Photo Banner updated!", "success");
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  
+    const btnSlideClearBanner = document.getElementById("btn-slide-clear-banner");
+    if (btnSlideClearBanner) {
+      btnSlideClearBanner.addEventListener("click", () => {
+        if (!appState.slide) appState.slide = {};
+        appState.slide.headerBanner = "";
+        const bannerInput = document.getElementById("input-slide-header-banner");
+        if (bannerInput) bannerInput.value = "";
+        saveSettingsToStorage();
+        renderDocument();
+        showToast("Banner removed from slides.", "info");
+      });
+    }
+  
+    // Header Background Colors
+    document.querySelectorAll("[data-slide-header-color]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const col = e.currentTarget.dataset.slideHeaderColor;
+        if (!appState.slide) appState.slide = {};
+        appState.slide.headerBgColor = col;
+        setValue("input-slide-header-bg", col);
+        saveSettingsToStorage();
+        renderDocument();
+      });
+    });
+  
+    const inputSlideHeaderBg = document.getElementById("input-slide-header-bg");
+    if (inputSlideHeaderBg) {
+      inputSlideHeaderBg.addEventListener("input", (e) => {
+        if (!appState.slide) appState.slide = {};
+        appState.slide.headerBgColor = e.target.value;
+        saveSettingsToStorage();
+        renderDocument();
+      });
+    }
+  
+    // Answer Colors
+    document.querySelectorAll("[data-slide-ans-color]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const col = e.currentTarget.dataset.slideAnsColor;
+        if (!appState.slide) appState.slide = {};
+        appState.slide.answerColor = col;
+        saveSettingsToStorage();
+        renderDocument();
+      });
+    });
+  
+    // Watermark Opacity & Sync
+    const rangeSlideWatermarkOpacity = document.getElementById("range-slide-watermark-opacity");
+    if (rangeSlideWatermarkOpacity) {
+      rangeSlideWatermarkOpacity.addEventListener("input", (e) => {
+        const val = parseFloat(e.target.value);
+        if (!appState.slide) appState.slide = {};
+        appState.slide.watermarkOpacity = val;
+        const lbl = document.getElementById("label-slide-watermark-opacity");
+        if (lbl) lbl.textContent = Math.round(val * 100) + "%";
+        saveSettingsToStorage();
+        renderDocument();
+      });
+    }
+  
+    const btnSyncSlideWatermark = document.getElementById("btn-sync-slide-watermark");
+    if (btnSyncSlideWatermark) {
+      btnSyncSlideWatermark.addEventListener("click", () => {
+        if (!appState.slide) appState.slide = {};
+        appState.slide.watermarkText = appState.watermarkText || appState.slide.instituteName;
+        if (appState.watermarkLogo) appState.slide.watermarkLogo = appState.watermarkLogo;
+        setValue("input-slide-watermark-text", appState.slide.watermarkText);
+        saveSettingsToStorage();
+        renderDocument();
+        showToast("🔄 Synced watermark settings to Slide Studio!", "success");
+      });
+    }
+  
+    // Layout Selects
+    const selectSlideOrientation = document.getElementById("select-slide-orientation");
+    if (selectSlideOrientation) {
+      selectSlideOrientation.addEventListener("change", (e) => {
+        if (!appState.slide) appState.slide = {};
+        appState.slide.orientation = e.target.value;
+        updateSlidePagePrintStyle(appState.slide.orientation);
+        saveSettingsToStorage();
+        renderDocument();
+      });
+    }
+  
+    const selectSlideOptionsLayout = document.getElementById("select-slide-options-layout");
+    if (selectSlideOptionsLayout) {
+      selectSlideOptionsLayout.addEventListener("change", (e) => {
+        if (!appState.slide) appState.slide = {};
+        appState.slide.optionsLayout = e.target.value;
+        saveSettingsToStorage();
+        renderDocument();
+      });
+    }
+  
+    const selectSlideAnswerMode = document.getElementById("select-slide-answer-mode");
+    if (selectSlideAnswerMode) {
+      selectSlideAnswerMode.addEventListener("change", (e) => {
+        if (!appState.slide) appState.slide = {};
+        appState.slide.answerMode = e.target.value;
+        saveSettingsToStorage();
+        renderDocument();
+      });
+    }
+  
+    const checkSlideShowExplanation = document.getElementById("check-slide-show-explanation");
+    if (checkSlideShowExplanation) {
+      checkSlideShowExplanation.addEventListener("change", (e) => {
+        if (!appState.slide) appState.slide = {};
+        appState.slide.showExplanation = e.target.checked;
+        saveSettingsToStorage();
+        renderDocument();
+      });
+    }
+  
+    const checkSlideFinalAnswerKey = document.getElementById("check-slide-final-answer-key");
+    if (checkSlideFinalAnswerKey) {
+      checkSlideFinalAnswerKey.addEventListener("change", (e) => {
+        if (!appState.slide) appState.slide = {};
+        appState.slide.showFinalAnswerKey = e.target.checked;
+        saveSettingsToStorage();
+        renderDocument();
+      });
+    }
+  
+    const rangeSlideFontSize = document.getElementById("range-slide-font-size");
+    if (rangeSlideFontSize) {
+      rangeSlideFontSize.addEventListener("input", (e) => {
+        const sz = parseInt(e.target.value, 10);
+        if (!appState.slide) appState.slide = {};
+        appState.slide.fontSize = sz;
+        const lbl = document.getElementById("label-slide-font-size");
+        if (lbl) lbl.textContent = sz + "px";
+        document.documentElement.style.setProperty("--slide-font-size", sz + "px");
+        document.documentElement.style.setProperty("--slide-opt-font-size", (sz - 3) + "px");
+        saveSettingsToStorage();
+        renderDocument();
+      });
+    }
+  
+    // Slide Export & Digital Board Buttons
+    const btnSlideStartPres = document.getElementById("btn-slide-start-presentation");
+    if (btnSlideStartPres) {
+      btnSlideStartPres.addEventListener("click", startDigitalBoardPresentation);
+    }
+  
+    const btnQuickPresent = document.getElementById("btn-quick-present");
+    if (btnQuickPresent) {
+      btnQuickPresent.addEventListener("click", startDigitalBoardPresentation);
+    }
+  
+    const btnSlideDownloadDoc = document.getElementById("btn-slide-download-doc");
+    if (btnSlideDownloadDoc) {
+      btnSlideDownloadDoc.addEventListener("click", downloadSlideWordDoc);
+    }
+  
+    const btnQuickDownloadDoc = document.getElementById("btn-quick-download-doc");
+    if (btnQuickDownloadDoc) {
+      btnQuickDownloadDoc.addEventListener("click", downloadSlideWordDoc);
+    }
+  
+    const btnSlideDownloadPdf = document.getElementById("btn-slide-download-pdf");
+    if (btnSlideDownloadPdf) {
+      btnSlideDownloadPdf.addEventListener("click", triggerPrintEngine);
+    }
+  
+    const btnSlideCopyText = document.getElementById("btn-slide-copy-text");
+    if (btnSlideCopyText) {
+      btnSlideCopyText.addEventListener("click", () => {
+        const cfg = appState.slide || {};
+        const questions = parseRawMcqContent(cfg.rawContent || "");
+        if (!questions.length) {
+          showToast("No questions to copy!", "error");
+          return;
+        }
+        let copyText = "";
+        questions.forEach((q, idx) => {
+          copyText += `${idx + 1}. ${q.question}\n`;
+          (q.options || []).forEach(opt => {
+            copyText += `(${opt.label}) ${opt.text}\n`;
+          });
+          copyText += `उत्तर - ${q.answer || '—'}\n`;
+          if (q.solution) copyText += `व्याख्या: ${q.solution}\n`;
+          copyText += "\n";
+        });
+        navigator.clipboard.writeText(copyText).then(() => {
+          showToast("📋 All slide questions & answers copied to clipboard!", "success");
+        }).catch(() => {
+          showToast("Clipboard access denied.", "error");
+        });
+      });
+    }
+  
+    // Fullscreen Presentation Controls
+    const btnPresPrev = document.getElementById("btn-pres-prev");
+    if (btnPresPrev) btnPresPrev.addEventListener("click", prevPresentationSlide);
+  
+    const btnPresNext = document.getElementById("btn-pres-next");
+    if (btnPresNext) btnPresNext.addEventListener("click", nextPresentationSlide);
+  
+    const btnPresToggleAns = document.getElementById("btn-pres-toggle-ans");
+    if (btnPresToggleAns) btnPresToggleAns.addEventListener("click", togglePresentationAnswerReveal);
+  
+    const btnPresTimer = document.getElementById("btn-pres-timer");
+    if (btnPresTimer) btnPresTimer.addEventListener("click", togglePresentationTimer);
+  
+    const btnPresClose = document.getElementById("btn-pres-close");
+    if (btnPresClose) btnPresClose.addEventListener("click", exitDigitalBoardPresentation);
+  
+    // Global Keyboard Navigation for Digital Board Presentation
+    if (typeof window !== "undefined" && typeof window.addEventListener === "function") {
+      window.addEventListener("keydown", (e) => {
+        const modal = document.getElementById("slide-presentation-modal");
+        if (!modal || modal.classList.contains("hidden")) return;
+  
+        if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") {
+          e.preventDefault();
+          nextPresentationSlide();
+        } else if (e.key === "ArrowLeft" || e.key === "PageUp") {
+          e.preventDefault();
+          prevPresentationSlide();
+        } else if (e.key === "Escape") {
+          exitDigitalBoardPresentation();
+        } else if (e.key === "a" || e.key === "A") {
+          togglePresentationAnswerReveal();
+        } else if (e.key === "t" || e.key === "T") {
+          togglePresentationTimer();
+        }
+      });
+    }
 }
 
 // ==========================================

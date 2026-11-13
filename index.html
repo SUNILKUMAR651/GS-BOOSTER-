@@ -81,6 +81,9 @@
         <button type="button" id="btn-mode-book" class="mode-tab-btn px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
           <span>📚</span> <span class="hidden sm:inline">Book & Notes</span><span class="sm:hidden">Book</span>
         </button>
+        <button type="button" id="btn-mode-slide" class="mode-tab-btn px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white" title="Digital Board / PPT MCQ Slides Studio">
+          <span>📺</span> <span class="hidden sm:inline">MCQ Slide PPT</span><span class="sm:hidden">Slides</span>
+        </button>
       </div>
 
       <!-- Right: Mobile View Switcher, Live Stats & Primary PDF Action -->
@@ -1528,6 +1531,28 @@
               Book Top Bar & Chapter Banner
             </h3>
 
+            <!-- Coaching / Institute Name & Logo -->
+            <div class="space-y-2 p-3 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg">
+              <div>
+                <label class="block text-xs font-bold text-blue-900 mb-1 flex items-center justify-between">
+                  <span>🏛️ Coaching / Institute Name</span>
+                  <span class="text-[10px] text-blue-600 font-semibold uppercase tracking-wider">Header Bar Display</span>
+                </label>
+                <input type="text" id="input-book-institute" value="JEE - FORM STUDY POINT" placeholder="e.g. JEE - FORM STUDY POINT / PLATFORM" class="w-full text-xs p-2 border border-blue-300 rounded font-black text-blue-950 bg-white focus:ring-2 focus:ring-blue-500 shadow-sm">
+              </div>
+              <div class="grid grid-cols-2 gap-2 pt-1">
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-700 mb-1">Header Logo</label>
+                  <input type="file" id="input-book-institute-logo" accept="image/*" class="w-full text-[10px] text-slate-600 file:mr-1 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
+                </div>
+                <div class="flex items-end">
+                  <button type="button" id="btn-book-use-main-logo" class="w-full text-[11px] font-bold py-1.5 px-2 bg-white border border-blue-300 hover:bg-blue-100 text-blue-800 rounded shadow-sm transition flex items-center justify-center gap-1">
+                    <span>🔄 Use Main Logo</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <!-- Class & Batch -->
             <div class="grid grid-cols-2 gap-2">
               <div>
@@ -1847,6 +1872,303 @@
         </div>
       </div><!-- End #panel-studio-book -->
 
+      <!-- PANEL 4: DIGITAL BOARD & MCQ SLIDE PPT STUDIO -->
+      <div id="panel-studio-slide" class="flex-1 flex flex-col overflow-hidden hidden">
+        <!-- Slide Tabs Header -->
+        <div class="border-b border-slate-200 bg-slate-50 flex items-center px-2 pt-2 gap-1 flex-shrink-0">
+          <button data-slide-tab="content" class="slide-tab-button active-tab flex-1 py-2 px-1 text-[11px] font-bold rounded-t-lg border-b-2 border-purple-600 text-purple-700 bg-white transition flex items-center justify-center gap-1 shadow-sm">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            <span>Questions</span>
+          </button>
+          <button data-slide-tab="branding" class="slide-tab-button flex-1 py-2 px-1 text-[11px] font-semibold rounded-t-lg border-b-2 border-transparent text-slate-600 hover:text-slate-800 transition flex items-center justify-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+            <span>Header &amp; Brand</span>
+          </button>
+          <button data-slide-tab="layout" class="slide-tab-button flex-1 py-2 px-1 text-[11px] font-semibold rounded-t-lg border-b-2 border-transparent text-slate-600 hover:text-slate-800 transition flex items-center justify-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            <span>Layout &amp; Answer</span>
+          </button>
+          <button data-slide-tab="export" class="slide-tab-button flex-1 py-2 px-1 text-[11px] font-semibold rounded-t-lg border-b-2 border-transparent text-slate-600 hover:text-slate-800 transition flex items-center justify-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+            <span>Export &amp; Board</span>
+          </button>
+        </div>
+
+        <!-- Slide Tab Content Area (Scrollable) -->
+        <div class="flex-1 overflow-y-auto p-4 space-y-4">
+          
+          <!-- TAB 1: QUESTIONS & CONTENT -->
+          <div id="slide-tab-panel-content" class="slide-tab-content-panel space-y-3">
+            <div class="flex items-center justify-between">
+              <label class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                <span>MCQ Questions (1 Q per Slide)</span>
+                <span class="text-[10px] text-purple-700 bg-purple-50 border border-purple-200 px-1.5 py-0.5 rounded font-semibold">Slide PPT</span>
+              </label>
+              <div class="flex items-center gap-2">
+                <button id="btn-slide-paste" type="button" class="text-[11px] font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 px-2 py-0.5 rounded flex items-center gap-1 cursor-pointer transition" title="Paste questions from clipboard">
+                  <span>📋 Paste</span>
+                </button>
+                <button id="btn-clear-slide-content" type="button" class="text-xs text-rose-600 hover:text-rose-700 font-medium hover:underline flex items-center gap-1 cursor-pointer">
+                  <span>Clear</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Docx / Doc / Txt Upload Banner -->
+            <div class="border-2 border-dashed border-purple-300 hover:border-purple-500 bg-purple-50/50 rounded-xl p-3 text-center transition cursor-pointer relative group">
+              <input type="file" id="input-slide-file-upload" accept=".docx,.doc,.txt" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10">
+              <div class="flex flex-col items-center justify-center gap-1">
+                <svg class="w-6 h-6 text-purple-600 group-hover:scale-110 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                <div class="text-xs font-bold text-slate-800">Upload Questions File (.docx or .txt)</div>
+                <div class="text-[10px] text-slate-500">Auto-converts all questions into slides instantly!</div>
+              </div>
+            </div>
+
+            <!-- Action Buttons: Clean & Auto-Format Formulas -->
+            <div class="flex items-center gap-2">
+              <button type="button" id="btn-slide-auto-format" class="flex-1 py-1.5 px-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold rounded-lg text-xs shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer">
+                <span>✨ Auto-Format Math &amp; Science (x², Ca(OH)₂)</span>
+              </button>
+            </div>
+
+            <!-- Ready-Made Sample Presets -->
+            <div class="space-y-1.5 pt-1">
+              <label class="text-[11px] font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1">
+                <span>⚡ 1-Click Ready Sample Slide Decks</span>
+              </label>
+              <div class="grid grid-cols-3 gap-2">
+                <button type="button" data-slide-preset="science" class="py-1.5 px-2 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-lg text-[11px] shadow-sm transition text-center cursor-pointer">
+                  🔬 Science &amp; Chem
+                </button>
+                <button type="button" data-slide-preset="polity" class="py-1.5 px-2 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-lg text-[11px] shadow-sm transition text-center cursor-pointer">
+                  🏛️ Polity &amp; GK
+                </button>
+                <button type="button" data-slide-preset="biharPolice" class="py-1.5 px-2 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 text-white font-bold rounded-lg text-[11px] shadow-sm transition text-center cursor-pointer">
+                  🚔 Exam SET
+                </button>
+              </div>
+            </div>
+
+            <!-- Slide Content Textarea -->
+            <div class="space-y-1">
+              <textarea id="textarea-slide-content" rows="11" class="w-full text-xs p-3 font-mono border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition leading-relaxed resize-y bg-slate-50/50" placeholder="Paste questions in simple format:&#10;&#10;1. द्विविस्थापन अभिक्रिया में क्या होता है?&#10;(A) एक पदार्थ टूटता है&#10;(B) दो यौगिक आयनों का आदान-प्रदान करते हैं&#10;(C) केवल गैस बनती है&#10;(D) केवल ताप निकलता है&#10;उत्तर - (B)&#10;व्याख्या: इस अभिक्रिया में दोनों यौगिक आयनों का विनिमय करते हैं।"></textarea>
+              <p class="text-[10px] text-slate-500 leading-tight">💡 1 Question creates 1 Slide automatically. Supports options (A)-(D), answers (उत्तर / Ans), and explanations (व्याख्या / Solution).</p>
+            </div>
+          </div>
+
+          <!-- TAB 2: HEADER, BRANDING & PHOTOS -->
+          <div id="slide-tab-panel-branding" class="slide-tab-content-panel space-y-4 hidden">
+            <!-- Coaching / Institute Name -->
+            <div class="bg-purple-50/70 border border-purple-200 rounded-lg p-3 space-y-2">
+              <label class="block text-xs font-bold text-purple-900 uppercase tracking-wider flex items-center justify-between">
+                <span>🏛️ Coaching / Institute Name</span>
+                <span class="text-[10px] bg-purple-200 text-purple-800 font-bold px-1.5 py-0.5 rounded">Slide Header</span>
+              </label>
+              <input type="text" id="input-slide-institute" class="w-full text-xs p-2 border border-purple-300 rounded bg-white font-bold text-slate-800 focus:ring-2 focus:ring-purple-500" value="JEE - FORM STUDY POINT" placeholder="e.g. JEE - FORM STUDY POINT">
+
+              <!-- Header Logo Upload + 1-Click Sync -->
+              <div class="space-y-1.5 pt-1">
+                <label class="block text-[11px] font-semibold text-slate-700">Slide Header Logo (Square / PNG)</label>
+                <div class="flex items-center gap-2">
+                  <input type="file" id="input-slide-logo" accept="image/*" class="w-full text-xs p-1 border border-slate-300 rounded bg-white file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[11px] file:bg-purple-600 file:text-white file:font-bold">
+                  <button type="button" id="btn-slide-use-main-logo" class="px-2.5 py-1.5 bg-white hover:bg-slate-100 text-purple-700 border border-purple-300 rounded text-[11px] font-bold whitespace-nowrap shadow-sm cursor-pointer transition" title="Copy logo from Main Header">
+                    🔄 Use Main Logo
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subject & Topic Headings -->
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Subject / Tag</label>
+                <input type="text" id="input-slide-subject" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium" value="GENERAL SCIENCE" placeholder="e.g. SCIENCE / MATHS">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Topic / Class Title</label>
+                <input type="text" id="input-slide-topic" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium" value="महत्वपूर्ण प्रश्नोत्तरी (Live Class)" placeholder="e.g. रासायनिक अभिक्रियाएँ">
+              </div>
+            </div>
+
+            <!-- Top Promo Photo / Banner (User requested photo add on slides) -->
+            <div class="space-y-1.5 border border-slate-200 rounded-lg p-2.5 bg-slate-50/70">
+              <label class="block text-xs font-bold text-slate-700 flex items-center justify-between">
+                <span>🖼️ Top Slide Photo / Banner (Optional)</span>
+                <span class="text-[10px] text-slate-500 font-normal">Shown above Question</span>
+              </label>
+              <div class="flex items-center gap-2">
+                <input type="file" id="input-slide-header-banner" accept="image/*" class="w-full text-xs p-1 border border-slate-300 rounded bg-white file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[11px] file:bg-slate-800 file:text-white file:font-semibold">
+                <button type="button" id="btn-slide-clear-banner" class="px-2 py-1.5 text-xs text-rose-600 hover:text-rose-700 hover:bg-rose-50 border border-rose-200 rounded font-semibold cursor-pointer whitespace-nowrap">
+                  Clear
+                </button>
+              </div>
+              <p class="text-[10px] text-slate-500">Adds an authentic coaching banner, diagram, or sponsor strip at the top of each slide.</p>
+            </div>
+
+            <!-- Header Background Color -->
+            <div class="space-y-1.5">
+              <label class="block text-xs font-semibold text-slate-700">Slide Header Color</label>
+              <div class="flex items-center gap-2">
+                <div class="flex items-center gap-1.5">
+                  <button type="button" data-slide-header-color="#0b2545" class="w-6 h-6 rounded-full bg-[#0b2545] border-2 border-white shadow-sm cursor-pointer" title="Navy Blue"></button>
+                  <button type="button" data-slide-header-color="#1e3a8a" class="w-6 h-6 rounded-full bg-[#1e3a8a] border-2 border-white shadow-sm cursor-pointer" title="Royal Blue"></button>
+                  <button type="button" data-slide-header-color="#881337" class="w-6 h-6 rounded-full bg-[#881337] border-2 border-white shadow-sm cursor-pointer" title="Crimson Red"></button>
+                  <button type="button" data-slide-header-color="#064e3b" class="w-6 h-6 rounded-full bg-[#064e3b] border-2 border-white shadow-sm cursor-pointer" title="Emerald Green"></button>
+                  <button type="button" data-slide-header-color="#18181b" class="w-6 h-6 rounded-full bg-[#18181b] border-2 border-white shadow-sm cursor-pointer" title="Charcoal Black"></button>
+                </div>
+                <input type="color" id="input-slide-header-bg" class="w-8 h-8 rounded border border-slate-300 cursor-pointer p-0.5 ml-auto" value="#0b2545">
+              </div>
+            </div>
+
+            <!-- Footer Tagline / Social Text -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Bottom Footer Tagline / Social</label>
+              <input type="text" id="input-slide-footer-text" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium" value="🔴 Subscribe YouTube &amp; Join Telegram for Free PDF Notes" placeholder="e.g. YouTube: Coaching Name | Telegram Link">
+            </div>
+
+            <!-- Watermark Setup -->
+            <div class="border border-slate-200 rounded-lg p-3 space-y-2 bg-slate-50/50">
+              <div class="flex items-center justify-between">
+                <label class="text-xs font-bold text-slate-700">Background Watermark</label>
+                <button type="button" id="btn-sync-slide-watermark" class="text-[10px] font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 px-2 py-0.5 rounded cursor-pointer transition">
+                  🔄 Sync Watermark
+                </button>
+              </div>
+              <input type="text" id="input-slide-watermark-text" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium" value="JEE - FORM STUDY POINT" placeholder="Watermark Text">
+              <div class="flex items-center justify-between gap-3 text-xs">
+                <span class="text-slate-600 font-medium">Opacity:</span>
+                <input type="range" id="range-slide-watermark-opacity" min="0.03" max="0.30" step="0.01" value="0.10" class="flex-1 accent-purple-600 cursor-pointer">
+                <span id="label-slide-watermark-opacity" class="text-slate-500 font-mono w-8 text-right">10%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 3: LAYOUT, SLIDES & ANSWERS -->
+          <div id="slide-tab-panel-layout" class="slide-tab-content-panel space-y-4 hidden">
+            <!-- Slide Orientation / Size (User requested: "portrail only mcq create hona chahiye ... ppt size hoti h") -->
+            <div class="space-y-1.5 bg-purple-50/60 border border-purple-200 rounded-lg p-3">
+              <label class="block text-xs font-bold text-purple-950 flex items-center justify-between">
+                <span>📐 Slide Canvas Size &amp; Orientation</span>
+                <span class="text-[10px] bg-purple-200 text-purple-900 font-bold px-1.5 py-0.5 rounded">Digital Board</span>
+              </label>
+              <select id="select-slide-orientation" class="w-full text-xs p-2 border border-purple-300 rounded bg-white font-bold text-slate-800">
+                <option value="portrait" selected>📱 Single Question Portrait (A4 / Mobile Vertical Slide)</option>
+                <option value="landscape">🖥️ 16:9 Widescreen Landscape (Smart Digital Board / Projector PPT)</option>
+                <option value="classic">📺 4:3 Classic Classroom Board (Standard 4:3 Ratio)</option>
+              </select>
+              <p class="text-[10px] text-slate-600">Select Portrait for 1 Question A4/Mobile vertical slides, or 16:9 Landscape for Interactive Smart Board (Maxhub, ViewSonic, Samsung Flip) presentation.</p>
+            </div>
+
+            <!-- Options Layout (Vertical, 2x2, Inline 4) -->
+            <div class="space-y-1">
+              <label class="block text-xs font-semibold text-slate-700">Options Layout on Slide</label>
+              <select id="select-slide-options-layout" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                <option value="vertical" selected>Vertical 1-Column (Stacked A, B, C, D - Best for Portrait)</option>
+                <option value="grid2x2">2x2 Grid (A B / C D - Best for Landscape Board)</option>
+                <option value="inline4">Horizontal 4-Column (A B C D inline - Best for short numbers/words)</option>
+              </select>
+            </div>
+
+            <!-- Answer Box Display Mode -->
+            <div class="space-y-1.5">
+              <label class="block text-xs font-semibold text-slate-700">Answer Display on Slide</label>
+              <select id="select-slide-answer-mode" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
+                <option value="always" selected>Show Answer &amp; Solution Box on Slide (Full Highlight)</option>
+                <option value="reveal-button">Interactive 'Reveal Answer' Button (Click to Reveal during Live Class)</option>
+                <option value="hidden">Hide Answer on Slide (Pure Practice Deck without answers)</option>
+              </select>
+            </div>
+
+            <!-- Answer Highlight Color -->
+            <div class="space-y-1.5">
+              <label class="block text-xs font-semibold text-slate-700">Answer Badge &amp; Correct Option Color</label>
+              <div class="flex items-center gap-2">
+                <button type="button" data-slide-ans-color="#16a34a" class="flex-1 py-1 px-2 rounded border border-green-300 bg-green-50 text-green-700 font-bold text-xs flex items-center justify-center gap-1">
+                  <span class="w-3 h-3 rounded-full bg-green-600"></span> Green
+                </button>
+                <button type="button" data-slide-ans-color="#dc2626" class="flex-1 py-1 px-2 rounded border border-red-300 bg-red-50 text-red-700 font-bold text-xs flex items-center justify-center gap-1">
+                  <span class="w-3 h-3 rounded-full bg-red-600"></span> Red
+                </button>
+                <button type="button" data-slide-ans-color="#2563eb" class="flex-1 py-1 px-2 rounded border border-blue-300 bg-blue-50 text-blue-700 font-bold text-xs flex items-center justify-center gap-1">
+                  <span class="w-3 h-3 rounded-full bg-blue-600"></span> Blue
+                </button>
+              </div>
+            </div>
+
+            <!-- Toggles: Explanation and Final Answer Key Slide -->
+            <div class="space-y-2 pt-1 border-t border-slate-200">
+              <label class="flex items-center gap-2 text-xs font-medium text-slate-700 cursor-pointer">
+                <input type="checkbox" id="check-slide-show-explanation" class="rounded text-purple-600 focus:ring-purple-500 w-4 h-4 cursor-pointer" checked>
+                <span>Show Explanation (व्याख्या / Solution) callout box</span>
+              </label>
+
+              <!-- Final Answer Key Slide (User requested: "aur last mein answer de to ek box mein show ho jaise test series section mein same") -->
+              <label class="flex items-center gap-2 text-xs font-medium text-slate-700 cursor-pointer">
+                <input type="checkbox" id="check-slide-final-answer-key" class="rounded text-purple-600 focus:ring-purple-500 w-4 h-4 cursor-pointer" checked>
+                <span class="font-bold text-purple-900">Include Final Answer Key Slide at End (Test Series Box Style)</span>
+              </label>
+            </div>
+
+            <!-- Slide Font Size Slider -->
+            <div class="space-y-1.5 pt-2 border-t border-slate-200">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-slate-700 font-semibold">Question &amp; Options Font Size</span>
+                <span id="label-slide-font-size" class="text-purple-700 font-bold font-mono">20px</span>
+              </div>
+              <input type="range" id="range-slide-font-size" min="16" max="30" value="20" class="w-full accent-purple-600 cursor-pointer">
+              <div class="flex justify-between text-[10px] text-slate-500">
+                <span>16px (Compact)</span>
+                <span>20px (Default)</span>
+                <span>30px (Huge Board)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 4: EXPORT & DIGITAL BOARD -->
+          <div id="slide-tab-panel-export" class="slide-tab-content-panel space-y-4 hidden">
+            <!-- Fullscreen Live Presentation CTA -->
+            <div class="bg-gradient-to-r from-purple-700 to-indigo-800 rounded-xl p-4 text-white space-y-3 shadow-md">
+              <div class="flex items-center gap-2">
+                <span class="text-2xl">🖥️</span>
+                <div>
+                  <h4 class="text-sm font-extrabold tracking-wide">Interactive Digital Board Mode</h4>
+                  <p class="text-[11px] text-purple-200">Fullscreen presentation with click-to-reveal answers, 30s quiz timer &amp; arrow key navigation!</p>
+                </div>
+              </div>
+              <button type="button" id="btn-slide-start-presentation" class="w-full py-2.5 px-4 bg-white hover:bg-slate-100 text-purple-900 font-extrabold rounded-lg text-xs shadow-md transition flex items-center justify-center gap-2 cursor-pointer active:scale-98">
+                <span>▶ Start Fullscreen Presentation (Press F5 / F11)</span>
+              </button>
+            </div>
+
+            <!-- Export Options: PDF & Word (.doc) as requested -->
+            <div class="space-y-2">
+              <label class="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+                Download &amp; Export Slides
+              </label>
+              
+              <!-- Download PDF -->
+              <button type="button" id="btn-slide-download-pdf" class="w-full py-2.5 px-3 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-bold rounded-lg text-xs shadow-sm transition flex items-center justify-center gap-2 cursor-pointer">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                <span>🖨️ Download Slides as PDF (1 Page per Slide)</span>
+              </button>
+
+              <!-- Download Word (.doc) -->
+              <button type="button" id="btn-slide-download-doc" class="w-full py-2.5 px-3 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold rounded-lg text-xs shadow-sm transition flex items-center justify-center gap-2 cursor-pointer">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <span>📄 Download Slides as Word Document (.doc)</span>
+              </button>
+
+              <!-- Copy Text -->
+              <button type="button" id="btn-slide-copy-text" class="w-full py-2 px-3 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-semibold rounded-lg text-xs shadow-sm transition flex items-center justify-center gap-2 cursor-pointer">
+                <span>📋 Copy All Questions with Formatted Answers</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- End #panel-studio-slide -->
+
+
       <!-- Control Panel Bottom Action Footer -->
       <div class="p-3 bg-slate-50 border-t border-slate-200 space-y-2 flex-shrink-0">
         <button id="btn-print-pdf" class="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold rounded-lg text-xs shadow-md shadow-blue-500/20 transition flex items-center justify-center gap-2 cursor-pointer">
@@ -1893,6 +2215,14 @@
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </button>
           </div>
+
+          <!-- Slide Quick Presentation & Doc Buttons -->
+          <button id="btn-quick-present" class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-bold transition shadow-sm cursor-pointer" title="Start Fullscreen Digital Board Presentation">
+            <span>🖥️ Present</span>
+          </button>
+          <button id="btn-quick-download-doc" class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition shadow-sm cursor-pointer" title="Download as Word Document (.doc)">
+            <span>📄 Word (.doc)</span>
+          </button>
 
           <!-- Live Question Search Bar -->
           <div class="hidden sm:flex items-center relative">
@@ -1952,5 +2282,31 @@
 
   <!-- Application Logic -->
   <script src="app.js"></script>
+
+  <!-- Digital Board Fullscreen Presentation Modal -->
+  <div id="slide-presentation-modal" class="slide-presentation-overlay hidden no-print">
+    <div id="slide-presentation-stage" class="slide-presentation-stage"></div>
+    <div class="slide-presentation-controls">
+      <button type="button" id="btn-pres-prev" class="slide-presentation-btn" title="Previous Slide (← / PageUp)">
+        <span>◀ Prev</span>
+      </button>
+      <span id="slide-pres-counter" class="text-xs font-bold font-mono text-purple-200 px-2">1 / 10</span>
+      <button type="button" id="btn-pres-next" class="slide-presentation-btn bg-purple-600 hover:bg-purple-700 font-extrabold" title="Next Slide (→ / Space / PageDown)">
+        <span>Next ▶</span>
+      </button>
+      <span class="text-slate-600">|</span>
+      <button type="button" id="btn-pres-toggle-ans" class="slide-presentation-btn" title="Reveal / Hide Answer (A key)">
+        <span>👁️ Reveal Answer</span>
+      </button>
+      <button type="button" id="btn-pres-timer" class="slide-presentation-btn" title="Toggle 30s Countdown Timer (T key)">
+        <span class="slide-timer-badge" id="slide-pres-timer-val">30s</span>
+      </button>
+      <span class="text-slate-600">|</span>
+      <button type="button" id="btn-pres-close" class="slide-presentation-btn bg-rose-600/80 hover:bg-rose-600" title="Exit Presentation (Esc)">
+        <span>✕ Exit</span>
+      </button>
+    </div>
+  </div>
+
 </body>
 </html>
