@@ -1235,8 +1235,11 @@ const DEFAULT_STATE = {
     instituteLogo: "",
     subjectTag: "GENERAL SCIENCE",
     topicTitle: "महत्वपूर्ण प्रश्नोत्तरी (Live Class)",
-    orientation: "portrait", // "portrait", "landscape", "classic"
-    optionsLayout: "vertical", // "vertical", "grid2x2", "inline4"
+    orientation: "landscape", // "landscape" (16:9 Smart Board), "a4landscape", "portrait", "classic"
+    optionsLayout: "grid2x2", // "grid2x2", "vertical", "inline4"
+    optionsGap: 20,
+    questionColor: "#dc2626",
+    questionWeight: "700",
     answerMode: "always", // "always", "reveal-button", "hidden"
     answerColor: "#16a34a",
     showExplanation: true,
@@ -1778,11 +1781,18 @@ function updateSlidePagePrintStyle(orientation) {
             margin: 0 !important;
             padding: 0 !important;
             overflow: visible !important;
+            background: #ffffff !important;
           }
+          #preview-section,
+          #preview-scroll-container,
           #pages-render-target {
             width: 297mm !important;
+            min-width: 297mm !important;
+            max-width: 297mm !important;
             margin: 0 !important;
             padding: 0 !important;
+            background: transparent !important;
+            background-color: transparent !important;
           }
           .slide-sheet.slide-landscape {
             width: 297mm !important;
@@ -1792,6 +1802,8 @@ function updateSlidePagePrintStyle(orientation) {
             margin: 0 !important;
             page-break-after: always !important;
             break-after: page !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
           }
         }
       `;
@@ -1809,11 +1821,18 @@ function updateSlidePagePrintStyle(orientation) {
             margin: 0 !important;
             padding: 0 !important;
             overflow: visible !important;
+            background: #ffffff !important;
           }
+          #preview-section,
+          #preview-scroll-container,
           #pages-render-target {
             width: 297mm !important;
+            min-width: 297mm !important;
+            max-width: 297mm !important;
             margin: 0 !important;
             padding: 0 !important;
+            background: transparent !important;
+            background-color: transparent !important;
           }
           .slide-sheet.slide-a4-landscape {
             width: 297mm !important;
@@ -1823,6 +1842,8 @@ function updateSlidePagePrintStyle(orientation) {
             margin: 0 !important;
             page-break-after: always !important;
             break-after: page !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
           }
         }
       `;
@@ -1840,11 +1861,18 @@ function updateSlidePagePrintStyle(orientation) {
             margin: 0 !important;
             padding: 0 !important;
             overflow: visible !important;
+            background: #ffffff !important;
           }
+          #preview-section,
+          #preview-scroll-container,
           #pages-render-target {
             width: 280mm !important;
+            min-width: 280mm !important;
+            max-width: 280mm !important;
             margin: 0 !important;
             padding: 0 !important;
+            background: transparent !important;
+            background-color: transparent !important;
           }
           .slide-sheet.slide-4-3 {
             width: 280mm !important;
@@ -1854,6 +1882,8 @@ function updateSlidePagePrintStyle(orientation) {
             margin: 0 !important;
             page-break-after: always !important;
             break-after: page !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
           }
         }
       `;
@@ -1871,11 +1901,18 @@ function updateSlidePagePrintStyle(orientation) {
             margin: 0 !important;
             padding: 0 !important;
             overflow: visible !important;
+            background: #ffffff !important;
           }
+          #preview-section,
+          #preview-scroll-container,
           #pages-render-target {
             width: 210mm !important;
+            min-width: 210mm !important;
+            max-width: 210mm !important;
             margin: 0 !important;
             padding: 0 !important;
+            background: transparent !important;
+            background-color: transparent !important;
           }
           .slide-sheet.slide-portrait {
             width: 210mm !important;
@@ -1885,6 +1922,8 @@ function updateSlidePagePrintStyle(orientation) {
             margin: 0 !important;
             page-break-after: always !important;
             break-after: page !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
           }
         }
       `;
@@ -1893,13 +1932,23 @@ function updateSlidePagePrintStyle(orientation) {
     styleEl.textContent = `
       @media print {
         @page {
-          size: A4 portrait;
+          size: 210mm 297mm portrait;
           margin: 0mm !important;
         }
         html, body {
           width: 210mm !important;
           margin: 0 !important;
           padding: 0 !important;
+          background: #ffffff !important;
+        }
+        #preview-section,
+        #preview-scroll-container,
+        #pages-render-target {
+          width: 210mm !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          background: transparent !important;
+          background-color: transparent !important;
         }
       }
     `;
@@ -1928,7 +1977,7 @@ function createSlidePageElement(q, slideIdx, totalSlides, cfg) {
 
   const qColor = (cfg && cfg.questionColor) || "#dc2626";
   const qWeight = (cfg && cfg.questionWeight) || "700";
-  const optGap = (cfg && cfg.optionsGap !== undefined) ? cfg.optionsGap : 18;
+  const optGap = (cfg && cfg.optionsGap !== undefined) ? cfg.optionsGap : 20;
   const optTopMargin = Math.max(18, optGap + 2);
 
   const watermarkHtml = buildWatermarkHtml({
@@ -2077,8 +2126,8 @@ function createSlideAnswerKeyPageElement(questions, totalSlides, cfg) {
     totalSlides = (questions && questions.length) || 1;
   }
   const sheet = document.createElement("div");
-  const orientation = (cfg && cfg.orientation) || "portrait";
-  const orientClass = orientation === "landscape" ? "slide-landscape" : (orientation === "classic" ? "slide-4-3" : "slide-portrait");
+  const orientation = (cfg && cfg.orientation) || "landscape";
+  const orientClass = orientation === "landscape" ? "slide-landscape" : (orientation === "a4landscape" ? "slide-a4-landscape" : (orientation === "classic" ? "slide-4-3" : "slide-portrait"));
   sheet.className = `a4-sheet slide-sheet ${orientClass}`;
   sheet.dataset.slideIndex = totalSlides;
   sheet.dataset.pageSequence = String(totalSlides + 1);
@@ -2174,7 +2223,7 @@ function renderSlideDocument() {
   const questions = parseRawMcqContent(raw);
 
   // Update dynamic page orientation for print
-  updateSlidePagePrintStyle(cfg.orientation || "portrait");
+  updateSlidePagePrintStyle(cfg.orientation || "landscape");
 
   // Clear previous pages
   container.innerHTML = "";
@@ -5563,8 +5612,8 @@ function syncInputsFromState() {
     const opLabel = document.getElementById("label-slide-watermark-opacity");
     if (opLabel) opLabel.textContent = Math.round((appState.slide.watermarkOpacity !== undefined ? appState.slide.watermarkOpacity : 0.10) * 100) + "%";
 
-    setValue("select-slide-orientation", appState.slide.orientation || "portrait");
-    setValue("select-slide-options-layout", appState.slide.optionsLayout || "vertical");
+    setValue("select-slide-orientation", appState.slide.orientation || "landscape");
+    setValue("select-slide-options-layout", appState.slide.optionsLayout || "grid2x2");
     setValue("select-slide-answer-mode", appState.slide.answerMode || "always");
     setChecked("check-slide-show-explanation", appState.slide.showExplanation !== false);
     setChecked("check-slide-final-answer-key", appState.slide.showFinalAnswerKey !== false);
@@ -5574,9 +5623,9 @@ function syncInputsFromState() {
 
     setValue("input-slide-qcolor", appState.slide.questionColor || "#dc2626");
     setValue("select-slide-qweight", appState.slide.questionWeight || "700");
-    setValue("range-slide-opt-gap", appState.slide.optionsGap !== undefined ? appState.slide.optionsGap : 18);
+    setValue("range-slide-opt-gap", appState.slide.optionsGap !== undefined ? appState.slide.optionsGap : 20);
     const gapLabel = document.getElementById("label-slide-opt-gap");
-    if (gapLabel) gapLabel.textContent = (appState.slide.optionsGap !== undefined ? appState.slide.optionsGap : 18) + "px";
+    if (gapLabel) gapLabel.textContent = (appState.slide.optionsGap !== undefined ? appState.slide.optionsGap : 20) + "px";
   }
   setValue("input-book-batch", appState.book.batchTag || "BOARD 2024-25");
   setValue("input-book-subject", appState.book.subjectName || "Economics");
@@ -7278,6 +7327,11 @@ function setupEventListeners() {
   });
 
   window.onbeforeprint = () => {
+    if (appState.currentMode === "slide") {
+      updateSlidePagePrintStyle(appState.slide && appState.slide.orientation ? appState.slide.orientation : "landscape");
+    } else {
+      updateSlidePagePrintStyle("portrait");
+    }
     renderDocument();
   };
 
@@ -7970,7 +8024,7 @@ function setupSlideEventListeners() {
     const rangeSlideOptGap = document.getElementById("range-slide-opt-gap");
     if (rangeSlideOptGap) {
       rangeSlideOptGap.addEventListener("input", (e) => {
-        const val = parseInt(e.target.value, 10) || 18;
+        const val = parseInt(e.target.value, 10) || 20;
         if (!appState.slide) appState.slide = {};
         appState.slide.optionsGap = val;
         const gapLabel = document.getElementById("label-slide-opt-gap");

@@ -1762,7 +1762,8 @@ sup {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 14px;
   padding: 16px 22px;
   box-sizing: border-box;
   overflow: hidden;
@@ -1773,7 +1774,7 @@ sup {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .slide-qnum-badge {
@@ -1799,19 +1800,19 @@ sup {
   overflow-wrap: break-word;
 }
 
-/* Options Container */
+/* Options Container (Balanced, clean spacing between options) */
 .slide-options-container {
   display: flex;
   flex-direction: column;
-  gap: var(--slide-opt-gap, 16px);
-  margin-top: var(--slide-opt-top-margin, 20px);
-  margin-bottom: 16px;
+  gap: var(--slide-opt-gap, 18px);
+  margin-top: var(--slide-opt-top-margin, 16px);
+  margin-bottom: 12px;
 }
 
 .slide-options-container.slide-opts-grid2x2 {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--slide-opt-gap, 16px) 24px;
+  gap: var(--slide-opt-gap, 18px) 24px;
 }
 
 .slide-options-container.slide-opts-inline4 {
@@ -1825,7 +1826,7 @@ sup {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 12px 18px;
+  padding: 11px 18px;
   background: #ffffff;
   border: 2px solid #cbd5e1;
   border-radius: 12px;
@@ -1834,8 +1835,23 @@ sup {
   color: #1e293b;
   transition: all 0.15s ease;
   box-sizing: border-box;
-  min-height: 52px;
+  min-height: 48px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+/* Portrait Mode Balanced Spacing */
+.slide-sheet.slide-portrait .slide-body {
+  gap: 20px;
+  padding: 24px 28px;
+}
+.slide-sheet.slide-portrait .slide-options-container {
+  gap: 18px;
+  margin-top: 20px;
+}
+.slide-sheet.slide-portrait .slide-opt-card {
+  min-height: 54px;
+  padding: 13px 20px;
+  font-size: 19px;
 }
 
 .slide-opt-card.slide-opt-correct {
@@ -1972,6 +1988,7 @@ sup {
   font-weight: 600;
   color: #64748b;
   flex-shrink: 0;
+  margin-top: auto;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
@@ -2089,9 +2106,8 @@ sup {
 
 
 @media print {
-  /* Set exact page boundary and eliminate browser chrome headers/footers */
+  /* Margin 0 eliminates browser chrome headers/footers (dynamic-slide-page-style injects precise @page size per mode) */
   @page {
-    size: A4 portrait;
     margin: 0mm !important;
   }
 
@@ -2126,20 +2142,20 @@ sup {
     display: none !important;
   }
 
-  /* Unconstrain preview wrapper for full bleed print output */
-  #preview-scroll-container {
+  /* Unconstrain preview wrapper for full bleed print output (eliminate background color leak and extra dead space) */
+  #preview-section,
+  #preview-scroll-container,
+  #pages-render-target {
     padding: 0 !important;
     margin: 0 !important;
     overflow: visible !important;
     display: block !important;
     background: transparent !important;
-    transform: none !important;
-  }
-
-  #pages-render-target {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
     transform: none !important;
     gap: 0 !important;
-    display: block !important;
     margin-bottom: 0 !important;
   }
 
