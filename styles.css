@@ -1667,6 +1667,29 @@ sup {
   max-height: 210mm;
 }
 
+/* Full Landscape Slide Posters (Starting & Ending Cover Slides) */
+.slide-fullpage-photo-sheet {
+  padding: 0 !important;
+  margin: 0 auto !important;
+  overflow: hidden !important;
+  background-color: #ffffff !important;
+  display: block !important;
+  position: relative !important;
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+  page-break-after: always !important;
+  break-after: page !important;
+}
+
+.slide-fullpage-photo-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: fill !important;
+  display: block !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
 /* Slide Inner Container */
 .slide-inner {
   width: 100%;
@@ -1769,8 +1792,8 @@ sup {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 12px;
-  padding: 14px 28px;
+  gap: 8px;
+  padding: 10px 24px;
   box-sizing: border-box;
   overflow: hidden;
   min-height: 0;
@@ -1914,10 +1937,10 @@ sup {
 /* Answer & Explanation Section */
 .slide-answer-section {
   margin-top: auto;
-  padding-top: 8px;
+  padding-top: 4px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   page-break-inside: avoid;
   break-inside: avoid;
 }
@@ -1926,10 +1949,10 @@ sup {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 16px;
+  padding: 5px 14px;
   background: #16a34a;
   color: #ffffff;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
   border-radius: 8px;
   align-self: flex-start;
@@ -1943,10 +1966,12 @@ sup {
   border: 1.5px solid #cbd5e1;
   border-left: 5px solid #2563eb;
   border-radius: 8px;
-  padding: 10px 14px;
-  font-size: 14px;
-  line-height: 1.45;
+  padding: 8px 14px;
+  font-size: 13.5px;
+  line-height: 1.4;
   color: #334155;
+  max-height: 100px;
+  overflow: hidden;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
@@ -2560,6 +2585,7 @@ sup {
   .slide-sheet {
     box-shadow: none !important;
     margin: 0 !important;
+    padding: 0 !important;
     page-break-after: always !important;
     break-after: page !important;
     page-break-inside: avoid !important;
@@ -2573,27 +2599,36 @@ sup {
   }
   .slide-sheet.slide-portrait {
     width: 210mm !important;
-    height: 297mm !important;
-    min-height: 297mm !important;
-    max-height: 297mm !important;
+    height: 296mm !important;
+    min-height: 296mm !important;
+    max-height: 296mm !important;
   }
   .slide-sheet.slide-landscape {
     width: 297mm !important;
-    height: 210mm !important;
-    min-height: 210mm !important;
-    max-height: 210mm !important;
+    height: 209mm !important;
+    min-height: 209mm !important;
+    max-height: 209mm !important;
   }
   .slide-sheet.slide-a4-landscape {
     width: 297mm !important;
-    height: 210mm !important;
-    min-height: 210mm !important;
-    max-height: 210mm !important;
+    height: 209mm !important;
+    min-height: 209mm !important;
+    max-height: 209mm !important;
   }
   .slide-sheet.slide-4-3 {
     width: 280mm !important;
-    height: 210mm !important;
-    min-height: 210mm !important;
-    max-height: 210mm !important;
+    height: 209mm !important;
+    min-height: 209mm !important;
+    max-height: 209mm !important;
+  }
+  .slide-inner {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
   .slide-inner,
   .slide-body,
@@ -2606,12 +2641,35 @@ sup {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
+  .slide-footer-bar {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    page-break-before: avoid !important;
+    break-before: avoid !important;
+  }
   .slide-header-bar,
   .slide-opt-card,
   .slide-answer-badge,
   .slide-expl-box,
   .slide-qnum-badge,
   .slide-footer-bar {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .slide-fullpage-photo-sheet {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    page-break-after: always !important;
+    break-after: page !important;
+  }
+  .slide-fullpage-photo-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: fill !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }

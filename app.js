@@ -1772,14 +1772,14 @@ function updateSlidePagePrintStyle(orientation) {
       styleEl.textContent = `
         @media print {
           @page {
-            size: A4 landscape;
+            size: 297mm 210mm landscape;
             margin: 0mm !important;
           }
           html, body {
             width: 297mm !important;
             min-width: 297mm !important;
             max-width: 297mm !important;
-            height: 210mm !important;
+            height: auto !important;
             margin: 0 !important;
             padding: 0 !important;
             overflow: visible !important;
@@ -1798,12 +1798,27 @@ function updateSlidePagePrintStyle(orientation) {
           }
           .slide-sheet.slide-landscape {
             width: 297mm !important;
-            height: 210mm !important;
-            max-height: 210mm !important;
-            min-height: 210mm !important;
+            height: 209mm !important;
+            max-height: 209mm !important;
+            min-height: 209mm !important;
             margin: 0 !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
             page-break-after: always !important;
             break-after: page !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+          }
+          .slide-inner {
+            width: 100% !important;
+            height: 100% !important;
+            max-height: 100% !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
             page-break-inside: avoid !important;
             break-inside: avoid !important;
           }
@@ -1818,20 +1833,26 @@ function updateSlidePagePrintStyle(orientation) {
             break-inside: avoid !important;
             page-break-inside: avoid !important;
           }
+          .slide-footer-bar {
+            break-before: avoid !important;
+            page-break-before: avoid !important;
+            break-after: avoid !important;
+            page-break-after: avoid !important;
+          }
         }
       `;
     } else if (orientation === "a4landscape") {
       styleEl.textContent = `
         @media print {
           @page {
-            size: A4 landscape;
+            size: 297mm 210mm landscape;
             margin: 0mm !important;
           }
           html, body {
             width: 297mm !important;
             min-width: 297mm !important;
             max-width: 297mm !important;
-            height: 210mm !important;
+            height: auto !important;
             margin: 0 !important;
             padding: 0 !important;
             overflow: visible !important;
@@ -1850,12 +1871,27 @@ function updateSlidePagePrintStyle(orientation) {
           }
           .slide-sheet.slide-a4-landscape {
             width: 297mm !important;
-            height: 210mm !important;
-            max-height: 210mm !important;
-            min-height: 210mm !important;
+            height: 209mm !important;
+            max-height: 209mm !important;
+            min-height: 209mm !important;
             margin: 0 !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
             page-break-after: always !important;
             break-after: page !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+          }
+          .slide-inner {
+            width: 100% !important;
+            height: 100% !important;
+            max-height: 100% !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
             page-break-inside: avoid !important;
             break-inside: avoid !important;
           }
@@ -1870,6 +1906,12 @@ function updateSlidePagePrintStyle(orientation) {
             break-inside: avoid !important;
             page-break-inside: avoid !important;
           }
+          .slide-footer-bar {
+            break-before: avoid !important;
+            page-break-before: avoid !important;
+            break-after: avoid !important;
+            page-break-after: avoid !important;
+          }
         }
       `;
     } else if (orientation === "classic") {
@@ -1883,7 +1925,7 @@ function updateSlidePagePrintStyle(orientation) {
             width: 280mm !important;
             min-width: 280mm !important;
             max-width: 280mm !important;
-            height: 210mm !important;
+            height: auto !important;
             margin: 0 !important;
             padding: 0 !important;
             overflow: visible !important;
@@ -1902,12 +1944,27 @@ function updateSlidePagePrintStyle(orientation) {
           }
           .slide-sheet.slide-4-3 {
             width: 280mm !important;
-            height: 210mm !important;
-            max-height: 210mm !important;
-            min-height: 210mm !important;
+            height: 209mm !important;
+            max-height: 209mm !important;
+            min-height: 209mm !important;
             margin: 0 !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
             page-break-after: always !important;
             break-after: page !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+          }
+          .slide-inner {
+            width: 100% !important;
+            height: 100% !important;
+            max-height: 100% !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
             page-break-inside: avoid !important;
             break-inside: avoid !important;
           }
@@ -1922,6 +1979,12 @@ function updateSlidePagePrintStyle(orientation) {
             break-inside: avoid !important;
             page-break-inside: avoid !important;
           }
+          .slide-footer-bar {
+            break-before: avoid !important;
+            page-break-before: avoid !important;
+            break-after: avoid !important;
+            page-break-after: avoid !important;
+          }
         }
       `;
     } else {
@@ -1935,7 +1998,7 @@ function updateSlidePagePrintStyle(orientation) {
             width: 210mm !important;
             min-width: 210mm !important;
             max-width: 210mm !important;
-            height: 297mm !important;
+            height: auto !important;
             margin: 0 !important;
             padding: 0 !important;
             overflow: visible !important;
@@ -1954,12 +2017,27 @@ function updateSlidePagePrintStyle(orientation) {
           }
           .slide-sheet.slide-portrait {
             width: 210mm !important;
-            height: 297mm !important;
-            max-height: 297mm !important;
-            min-height: 297mm !important;
+            height: 296mm !important;
+            max-height: 296mm !important;
+            min-height: 296mm !important;
             margin: 0 !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
             page-break-after: always !important;
             break-after: page !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+          }
+          .slide-inner {
+            width: 100% !important;
+            height: 100% !important;
+            max-height: 100% !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
             page-break-inside: avoid !important;
             break-inside: avoid !important;
           }
@@ -1973,6 +2051,12 @@ function updateSlidePagePrintStyle(orientation) {
           .slide-footer-bar {
             break-inside: avoid !important;
             page-break-inside: avoid !important;
+          }
+          .slide-footer-bar {
+            break-before: avoid !important;
+            page-break-before: avoid !important;
+            break-after: avoid !important;
+            page-break-after: avoid !important;
           }
         }
       `;
@@ -2004,6 +2088,20 @@ function updateSlidePagePrintStyle(orientation) {
   }
 }
 
+function createSlideFullPagePhotoElement(photo, label = "Slide Poster", cfg) {
+  const sheet = document.createElement("div");
+  const orientation = (cfg && cfg.orientation) || "landscape";
+  const orientClass = orientation === "portrait" ? "slide-portrait" : (orientation === "a4landscape" ? "slide-a4-landscape" : (orientation === "classic" ? "slide-4-3" : "slide-landscape"));
+  sheet.className = `a4-sheet slide-sheet slide-fullpage-photo-sheet ${orientClass}`;
+  sheet.dataset.fullpagePhoto = "true";
+  sheet.title = label;
+
+  sheet.innerHTML = `
+    <img src="${photo.dataUrl}" class="slide-fullpage-photo-img" alt="${escapeHtml(photo.name || label)}">
+  `;
+  return sheet;
+}
+
 function createSlidePageElement(q, slideIdx, totalSlides, cfg) {
   const sheet = document.createElement("div");
   const orientation = (cfg && cfg.orientation) || "landscape";
@@ -2023,13 +2121,17 @@ function createSlidePageElement(q, slideIdx, totalSlides, cfg) {
   const ansMode = (cfg && cfg.answerMode) || "always";
   const ansColor = (cfg && cfg.answerColor) || "#16a34a";
   const showExpl = cfg && cfg.showExplanation !== false;
+  const hasSolution = (showExpl && Boolean(q.solution));
+  const isCompactLayout = hasSolution && (ansMode === "always");
 
   const qColor = (cfg && cfg.questionColor) || "#0f172a";
   const qWeight = (cfg && cfg.questionWeight) || "700";
-  const optGap = (cfg && cfg.optionsGap !== undefined) ? cfg.optionsGap : 24;
-  const optTopMargin = (cfg && cfg.optionsTopMargin !== undefined) ? cfg.optionsTopMargin : (cfg && cfg.optionsGap ? cfg.optionsGap + 2 : 32);
-  const fontSize = (cfg && cfg.fontSize) || 22;
-  const optFontSize = Math.max(16, fontSize - 2);
+  const defaultGap = isCompactLayout ? 14 : 20;
+  const defaultTopMargin = isCompactLayout ? 14 : 24;
+  const optGap = (cfg && cfg.optionsGap !== undefined) ? cfg.optionsGap : defaultGap;
+  const optTopMargin = (cfg && cfg.optionsTopMargin !== undefined) ? cfg.optionsTopMargin : defaultTopMargin;
+  const fontSize = (cfg && cfg.fontSize) || (isCompactLayout ? 21 : 22);
+  const optFontSize = Math.max(16, isCompactLayout ? Math.min(18, fontSize - 2) : fontSize - 2);
 
   const watermarkHtml = buildWatermarkHtml({
     text: cfg.watermarkText || instName,
@@ -2272,6 +2374,8 @@ function renderSlideDocument() {
 
   const raw = cfg.rawContent || "";
   const questions = parseRawMcqContent(raw);
+  const topPhotos = (appState.fullA4Photos && appState.fullA4Photos.topPages) || [];
+  const bottomPhotos = (appState.fullA4Photos && appState.fullA4Photos.bottomPages) || [];
 
   if (!cfg.orientation || cfg.orientation === "portrait") {
     cfg.orientation = "landscape";
@@ -2283,7 +2387,7 @@ function renderSlideDocument() {
   // Clear previous pages
   container.innerHTML = "";
 
-  if (!questions || questions.length === 0) {
+  if ((!questions || questions.length === 0) && topPhotos.length === 0 && bottomPhotos.length === 0) {
     const emptyNotice = document.createElement("div");
     emptyNotice.className = "w-full max-w-lg mx-auto my-12 p-8 bg-white rounded-2xl shadow-lg border border-purple-200 text-center space-y-3";
     emptyNotice.innerHTML = `
@@ -2299,17 +2403,29 @@ function renderSlideDocument() {
     return;
   }
 
-  // Render 1 slide per question
+  // 1. Render Top / Front Cover Full Slide Poster(s)
+  topPhotos.forEach((photo, idx) => {
+    const posterSheet = createSlideFullPagePhotoElement(photo, `Starting Slide Poster #${idx + 1}`, cfg);
+    container.appendChild(posterSheet);
+  });
+
+  // 2. Render 1 slide per question
   questions.forEach((q, idx) => {
     const slideSheet = createSlidePageElement(q, idx, questions.length, cfg);
     container.appendChild(slideSheet);
   });
 
-  // Render Final Answer Key Slide if explicitly enabled
+  // 3. Render Final Answer Key Slide if explicitly enabled
   if (cfg.showFinalAnswerKey === true) {
     const ackSheet = createSlideAnswerKeyPageElement(questions, questions.length, cfg);
     container.appendChild(ackSheet);
   }
+
+  // 4. Render Bottom / Back Cover Full Slide Poster(s)
+  bottomPhotos.forEach((photo, idx) => {
+    const posterSheet = createSlideFullPagePhotoElement(photo, `Ending Slide Poster #${idx + 1}`, cfg);
+    container.appendChild(posterSheet);
+  });
 
   const totalSheets = container.querySelectorAll(".slide-sheet").length;
   updateStatisticsBadge(questions.length, totalSheets);
@@ -2321,9 +2437,11 @@ function downloadSlideWordDoc() {
   const cfg = appState.slide || {};
   const raw = cfg.rawContent || "";
   const questions = parseRawMcqContent(raw);
+  const topPhotos = (appState.fullA4Photos && appState.fullA4Photos.topPages) || [];
+  const bottomPhotos = (appState.fullA4Photos && appState.fullA4Photos.bottomPages) || [];
 
-  if (!questions || questions.length === 0) {
-    showToast("No questions to export! Please add questions first.", "error");
+  if ((!questions || questions.length === 0) && topPhotos.length === 0 && bottomPhotos.length === 0) {
+    showToast("No questions or posters to export! Please add content first.", "error");
     return;
   }
 
@@ -2335,6 +2453,8 @@ function downloadSlideWordDoc() {
       <style>
         body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14pt; line-height: 1.5; color: #111827; }
         .slide-card { page-break-after: always; padding: 20px; border: 1.5px solid #cbd5e1; border-radius: 8px; margin-bottom: 30px; }
+        .poster-card { page-break-after: always; text-align: center; margin-bottom: 30px; }
+        .poster-card img { width: 100%; max-width: 900px; height: auto; border-radius: 6px; }
         .header-box { background: ${cfg.headerBgColor || '#0b2545'}; color: #ffffff; padding: 12px 18px; border-radius: 6px; margin-bottom: 16px; }
         .qnum { background: #dc2626; color: #ffffff; font-weight: bold; padding: 3px 8px; border-radius: 4px; }
         .qtext { font-size: 16pt; font-weight: bold; margin: 14px 0; }
@@ -2349,9 +2469,19 @@ function downloadSlideWordDoc() {
     <body>
   `;
 
+  // Include Top / Front Cover Poster Slides in Word Doc
+  topPhotos.forEach((photo, idx) => {
+    htmlContent += `
+      <div class="poster-card">
+        <img src="${photo.dataUrl}" alt="Starting Slide Poster #${idx + 1}">
+      </div>
+    `;
+  });
+
   questions.forEach((q, idx) => {
     const rawMatch = String(q.answer || "").match(/[A-Da-d1-4]/);
     const correctLetter = rawMatch ? rawMatch[0].toUpperCase() : "";
+    const cleanQ = typeof formatScienceFormulas === "function" ? formatScienceFormulas(q.question) : q.question;
 
     htmlContent += `
       <div class="slide-card">
@@ -2367,27 +2497,54 @@ function downloadSlideWordDoc() {
 
         <div class="qtext">
           <span class="qnum">Q.${q.qNum || (idx + 1)}</span>
-          ${escapeHtml(q.question)}
+          ${escapeHtml(cleanQ)}
         </div>
 
         <table class="opt-table" cellspacing="6">
     `;
 
-    (q.options || []).forEach(opt => {
-      const rawOpt = String(opt.label || "").match(/[A-Da-d1-4]/);
-      const optLetter = rawOpt ? rawOpt[0].toUpperCase() : "";
-      const isCorrect = (correctLetter && optLetter === correctLetter);
-      const correctCls = isCorrect ? " opt-correct" : "";
+    const opts = q.options || [];
+    if (cfg.optionsLayout === "grid2x2" && opts.length >= 2) {
+      for (let i = 0; i < opts.length; i += 2) {
+        htmlContent += `<tr>`;
+        for (let j = i; j < i + 2 && j < opts.length; j++) {
+          const opt = opts[j];
+          const rawOpt = String(opt.label || "").match(/[A-Da-d1-4]/);
+          const optLetter = rawOpt ? rawOpt[0].toUpperCase() : String.fromCharCode(65 + j);
+          const isCorrect = (correctLetter && optLetter === correctLetter);
+          const correctCls = isCorrect ? " opt-correct" : "";
+          const cleanOpt = typeof formatScienceFormulas === "function" ? formatScienceFormulas(opt.text) : opt.text;
 
-      htmlContent += `
-        <tr>
-          <td class="opt-cell${correctCls}">
-            <strong>(${optLetter})</strong> ${escapeHtml(opt.text)}
-            ${isCorrect ? " ✓ (Correct Answer)" : ""}
-          </td>
-        </tr>
-      `;
-    });
+          htmlContent += `
+            <td width="50%" class="opt-cell${correctCls}">
+              <strong>(${optLetter})</strong> ${escapeHtml(cleanOpt)}
+              ${isCorrect ? " ✓ (Correct Answer)" : ""}
+            </td>
+          `;
+        }
+        if (i + 1 >= opts.length && opts.length % 2 !== 0) {
+          htmlContent += `<td width="50%" class="opt-cell" style="border:none;"></td>`;
+        }
+        htmlContent += `</tr>`;
+      }
+    } else {
+      opts.forEach((opt, optIdx) => {
+        const rawOpt = String(opt.label || "").match(/[A-Da-d1-4]/);
+        const optLetter = rawOpt ? rawOpt[0].toUpperCase() : String.fromCharCode(65 + optIdx);
+        const isCorrect = (correctLetter && optLetter === correctLetter);
+        const correctCls = isCorrect ? " opt-correct" : "";
+        const cleanOpt = typeof formatScienceFormulas === "function" ? formatScienceFormulas(opt.text) : opt.text;
+
+        htmlContent += `
+          <tr>
+            <td class="opt-cell${correctCls}">
+              <strong>(${optLetter})</strong> ${escapeHtml(cleanOpt)}
+              ${isCorrect ? " ✓ (Correct Answer)" : ""}
+            </td>
+          </tr>
+        `;
+      });
+    }
 
     htmlContent += `
         </table>
@@ -2399,13 +2556,22 @@ function downloadSlideWordDoc() {
         ${(q.solution) ? `
           <div class="expl-box">
             <strong>💡 व्याख्या (Solution):</strong><br>
-            ${escapeHtml(q.solution).replace(/\n/g, "<br>")}
+            ${escapeHtml(typeof formatScienceFormulas === "function" ? formatScienceFormulas(q.solution) : q.solution).replace(/\n/g, "<br>")}
           </div>
         ` : ""}
 
         <div class="footer-box">
           ${escapeHtml(cfg.footerText || "Subscribe & Follow for Free Notes")} | Slide ${idx + 1} of ${questions.length}
         </div>
+      </div>
+    `;
+  });
+
+  // Include Bottom / Back Cover Poster Slides in Word Doc
+  bottomPhotos.forEach((photo, idx) => {
+    htmlContent += `
+      <div class="poster-card">
+        <img src="${photo.dataUrl}" alt="Ending Slide Poster #${idx + 1}">
       </div>
     `;
   });
@@ -2895,6 +3061,9 @@ function parseRawMcqContent(rawText) {
         solution = (solution.substring(0, solAnsMatch.index) + "\n" + solution.substring(solAnsMatch.index + solAnsMatch[0].length)).trim();
       }
     }
+
+    // Normalize option markers preceded by multiple underscores (e.g. "(A) Mg(OH)2 ____(B) MgO")
+    fullText = fullText.replace(/_{2,}\s*(\([A-Ea-e1-5]\)|[A-Ea-e][\.\)])/g, " $1");
 
     // 3. Extract Options from fullText
     // Prioritize UPPERCASE (A)-(E) or A.-E. (allows single space before (A)/(B)/(C)/(D));
@@ -5907,6 +6076,11 @@ function toggleSidebarCollapse() {
 // PRINT ENGINE TRIGGER
 // ==========================================
 function triggerPrintEngine() {
+  if (appState.currentMode === "slide") {
+    const orientation = (appState.slide && appState.slide.orientation) || "landscape";
+    updateSlidePagePrintStyle(orientation);
+  }
+
   // Make sure full document is fresh
   renderDocument();
 
@@ -7223,7 +7397,7 @@ function setupEventListeners() {
     });
   }
 
-  ['input-fullpage-top-file', 'input-pointer-fullpage-top-file', 'input-book-top-poster'].forEach(id => {
+  ['input-fullpage-top-file', 'input-pointer-fullpage-top-file', 'input-book-top-poster', 'input-slide-top-poster'].forEach(id => {
     const el = document.getElementById(id);
     if (el) {
       el.addEventListener('change', (e) => {
@@ -7232,7 +7406,7 @@ function setupEventListeners() {
     }
   });
 
-  ['input-fullpage-bottom-file', 'input-pointer-fullpage-bottom-file', 'input-book-bottom-poster'].forEach(id => {
+  ['input-fullpage-bottom-file', 'input-pointer-fullpage-bottom-file', 'input-book-bottom-poster', 'input-slide-bottom-poster'].forEach(id => {
     const el = document.getElementById(id);
     if (el) {
       el.addEventListener('change', (e) => {
@@ -7609,14 +7783,16 @@ function renderFullA4PhotosList() {
     document.getElementById("list-top-fullpage-photos"),
     document.getElementById("list-pointer-top-fullpage-photos"),
     document.getElementById("list-book-top-posters"),
-    document.getElementById("list-book-top-poster-photos")
+    document.getElementById("list-book-top-poster-photos"),
+    document.getElementById("list-slide-top-posters")
   ].filter(Boolean);
 
   const bottomListEls = [
     document.getElementById("list-bottom-fullpage-photos"),
     document.getElementById("list-pointer-bottom-fullpage-photos"),
     document.getElementById("list-book-bottom-posters"),
-    document.getElementById("list-book-bottom-poster-photos")
+    document.getElementById("list-book-bottom-poster-photos"),
+    document.getElementById("list-slide-bottom-posters")
   ].filter(Boolean);
 
   const topPages = (appState.fullA4Photos && appState.fullA4Photos.topPages) || [];
