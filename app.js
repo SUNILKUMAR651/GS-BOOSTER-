@@ -1748,23 +1748,168 @@ function updateSlidePagePrintStyle(orientation) {
     document.head.appendChild(styleEl);
   }
 
+  // Update body print helper classes
+  if (typeof document !== "undefined" && document.body) {
+    document.body.classList.remove("print-mode-slide-landscape", "print-mode-slide-a4-landscape", "print-mode-slide-portrait", "print-mode-slide");
+    if (appState.currentMode === "slide") {
+      document.body.classList.add("print-mode-slide");
+      if (orientation === "landscape") {
+        document.body.classList.add("print-mode-slide-landscape");
+      } else if (orientation === "a4landscape") {
+        document.body.classList.add("print-mode-slide-a4-landscape");
+      } else {
+        document.body.classList.add("print-mode-slide-portrait");
+      }
+    }
+  }
+
   if (appState.currentMode === "slide") {
     if (orientation === "landscape") {
-      styleEl.textContent = "@media print { @page { size: 297mm 167mm; margin: 0mm !important; } }";
+      styleEl.textContent = `
+        @media print {
+          @page {
+            size: 297mm 167mm landscape;
+            margin: 0mm !important;
+          }
+          html, body {
+            width: 297mm !important;
+            min-width: 297mm !important;
+            max-width: 297mm !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: visible !important;
+          }
+          #pages-render-target {
+            width: 297mm !important;
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+          .slide-sheet.slide-landscape {
+            width: 297mm !important;
+            height: 167mm !important;
+            max-height: 167mm !important;
+            min-height: 167mm !important;
+            margin: 0 !important;
+            page-break-after: always !important;
+            break-after: page !important;
+          }
+        }
+      `;
+    } else if (orientation === "a4landscape") {
+      styleEl.textContent = `
+        @media print {
+          @page {
+            size: 297mm 210mm landscape;
+            margin: 0mm !important;
+          }
+          html, body {
+            width: 297mm !important;
+            min-width: 297mm !important;
+            max-width: 297mm !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: visible !important;
+          }
+          #pages-render-target {
+            width: 297mm !important;
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+          .slide-sheet.slide-a4-landscape {
+            width: 297mm !important;
+            height: 210mm !important;
+            max-height: 210mm !important;
+            min-height: 210mm !important;
+            margin: 0 !important;
+            page-break-after: always !important;
+            break-after: page !important;
+          }
+        }
+      `;
     } else if (orientation === "classic") {
-      styleEl.textContent = "@media print { @page { size: 280mm 210mm; margin: 0mm !important; } }";
+      styleEl.textContent = `
+        @media print {
+          @page {
+            size: 280mm 210mm landscape;
+            margin: 0mm !important;
+          }
+          html, body {
+            width: 280mm !important;
+            min-width: 280mm !important;
+            max-width: 280mm !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: visible !important;
+          }
+          #pages-render-target {
+            width: 280mm !important;
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+          .slide-sheet.slide-4-3 {
+            width: 280mm !important;
+            height: 210mm !important;
+            max-height: 210mm !important;
+            min-height: 210mm !important;
+            margin: 0 !important;
+            page-break-after: always !important;
+            break-after: page !important;
+          }
+        }
+      `;
     } else {
-      styleEl.textContent = "@media print { @page { size: 210mm 297mm; margin: 0mm !important; } }";
+      styleEl.textContent = `
+        @media print {
+          @page {
+            size: 210mm 297mm portrait;
+            margin: 0mm !important;
+          }
+          html, body {
+            width: 210mm !important;
+            min-width: 210mm !important;
+            max-width: 210mm !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: visible !important;
+          }
+          #pages-render-target {
+            width: 210mm !important;
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+          .slide-sheet.slide-portrait {
+            width: 210mm !important;
+            height: 297mm !important;
+            max-height: 297mm !important;
+            min-height: 297mm !important;
+            margin: 0 !important;
+            page-break-after: always !important;
+            break-after: page !important;
+          }
+        }
+      `;
     }
   } else {
-    styleEl.textContent = "@media print { @page { size: 210mm 297mm; margin: 0mm !important; } }";
+    styleEl.textContent = `
+      @media print {
+        @page {
+          size: A4 portrait;
+          margin: 0mm !important;
+        }
+        html, body {
+          width: 210mm !important;
+          margin: 0 !important;
+          padding: 0 !important;
+        }
+      }
+    `;
   }
 }
 
 function createSlidePageElement(q, slideIdx, totalSlides, cfg) {
   const sheet = document.createElement("div");
-  const orientation = (cfg && cfg.orientation) || "portrait";
-  const orientClass = orientation === "landscape" ? "slide-landscape" : (orientation === "classic" ? "slide-4-3" : "slide-portrait");
+  const orientation = (cfg && cfg.orientation) || "landscape";
+  const orientClass = orientation === "landscape" ? "slide-landscape" : (orientation === "a4landscape" ? "slide-a4-landscape" : (orientation === "classic" ? "slide-4-3" : "slide-portrait"));
   sheet.className = `a4-sheet slide-sheet ${orientClass}`;
   sheet.dataset.slideIndex = slideIdx;
   sheet.dataset.pageSequence = String(slideIdx + 1);
@@ -1776,10 +1921,15 @@ function createSlidePageElement(q, slideIdx, totalSlides, cfg) {
   const topicTitle = (cfg && cfg.topicTitle) || "महत्वपूर्ण प्रश्नोत्तरी (Live Class)";
   const headerBanner = (cfg && cfg.headerBanner) || "";
   const footerText = (cfg && cfg.footerText) || "🔴 Subscribe YouTube & Join Telegram for Free PDF Notes";
-  const optsLayout = (cfg && cfg.optionsLayout) || "vertical";
+  const optsLayout = (cfg && cfg.optionsLayout) || "grid2x2";
   const ansMode = (cfg && cfg.answerMode) || "always";
   const ansColor = (cfg && cfg.answerColor) || "#16a34a";
   const showExpl = cfg && cfg.showExplanation !== false;
+
+  const qColor = (cfg && cfg.questionColor) || "#dc2626";
+  const qWeight = (cfg && cfg.questionWeight) || "700";
+  const optGap = (cfg && cfg.optionsGap !== undefined) ? cfg.optionsGap : 18;
+  const optTopMargin = Math.max(18, optGap + 2);
 
   const watermarkHtml = buildWatermarkHtml({
     text: cfg.watermarkText || instName,
@@ -1791,7 +1941,12 @@ function createSlidePageElement(q, slideIdx, totalSlides, cfg) {
     fontFamily: appState.fontFamily
   });
 
-  const questionFormatted = typeof formatScienceFormulas === "function" ? formatScienceFormulas(q.question) : q.question;
+  // Strip duplicate leading numbering like "1.", "Q.1", "(1)" since slide-qnum-badge already shows "Q. X"
+  let cleanQText = q.question || "";
+  cleanQText = cleanQText.replace(/^\s*(?:Q\.?\s*\d+[\.\:\)]?|\d+[\.\:\)]|\(\d+\))\s*/i, "");
+  if (!cleanQText.trim()) cleanQText = q.question;
+
+  const questionFormatted = typeof formatScienceFormulas === "function" ? formatScienceFormulas(cleanQText) : cleanQText;
   const questionHtml = applySearchHighlightToHtml(escapeHtml(questionFormatted), appState.searchQuery);
 
   // Normalize answer letter for comparison (e.g. "B" or "(B)")
@@ -1892,11 +2047,11 @@ function createSlidePageElement(q, slideIdx, totalSlides, cfg) {
           <!-- Question Box -->
           <div class="slide-question-box">
             <span class="slide-qnum-badge">Q. ${q.qNum || (slideIdx + 1)}</span>
-            <div class="slide-qtext">${questionHtml}</div>
+            <div class="slide-qtext" style="color: ${escapeHtml(qColor)}; font-weight: ${escapeHtml(qWeight)};">${questionHtml}</div>
           </div>
 
-          <!-- Options Container -->
-          <div class="slide-options-container slide-opts-${optsLayout}">
+          <!-- Options Container (Spacious layout with customizable gap and top margin) -->
+          <div class="slide-options-container slide-opts-${optsLayout}" style="--slide-opt-gap: ${optGap}px; gap: ${optGap}px; margin-top: ${optTopMargin}px;">
             ${optionsHtml}
           </div>
         </div>
@@ -5416,6 +5571,12 @@ function syncInputsFromState() {
     setValue("range-slide-font-size", appState.slide.fontSize || 20);
     const fsLabel = document.getElementById("label-slide-font-size");
     if (fsLabel) fsLabel.textContent = (appState.slide.fontSize || 20) + "px";
+
+    setValue("input-slide-qcolor", appState.slide.questionColor || "#dc2626");
+    setValue("select-slide-qweight", appState.slide.questionWeight || "700");
+    setValue("range-slide-opt-gap", appState.slide.optionsGap !== undefined ? appState.slide.optionsGap : 18);
+    const gapLabel = document.getElementById("label-slide-opt-gap");
+    if (gapLabel) gapLabel.textContent = (appState.slide.optionsGap !== undefined ? appState.slide.optionsGap : 18) + "px";
   }
   setValue("input-book-batch", appState.book.batchTag || "BOARD 2024-25");
   setValue("input-book-subject", appState.book.subjectName || "Economics");
@@ -7764,6 +7925,56 @@ function setupSlideEventListeners() {
         appState.slide.watermarkOpacity = val;
         const lbl = document.getElementById("label-slide-watermark-opacity");
         if (lbl) lbl.textContent = Math.round(val * 100) + "%";
+        saveSettingsToStorage();
+        renderDocument();
+      });
+    }
+
+    // Question Text Color Picker & Presets (User requested: "aur question red jo color chahiye voo kar sakte h mannually")
+    const inputSlideQColor = document.getElementById("input-slide-qcolor");
+    if (inputSlideQColor) {
+      inputSlideQColor.addEventListener("input", (e) => {
+        if (!appState.slide) appState.slide = {};
+        appState.slide.questionColor = e.target.value;
+        saveSettingsToStorage();
+        renderDocument();
+      });
+    }
+
+    document.querySelectorAll("[data-slide-qcolor]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const color = e.currentTarget.dataset.slideQcolor;
+        if (color) {
+          if (!appState.slide) appState.slide = {};
+          appState.slide.questionColor = color;
+          setValue("input-slide-qcolor", color);
+          saveSettingsToStorage();
+          renderDocument();
+          showToast(`🎨 Question color set to ${color}`, "success");
+        }
+      });
+    });
+
+    // Question Font Weight
+    const selectSlideQWeight = document.getElementById("select-slide-qweight");
+    if (selectSlideQWeight) {
+      selectSlideQWeight.addEventListener("change", (e) => {
+        if (!appState.slide) appState.slide = {};
+        appState.slide.questionWeight = e.target.value;
+        saveSettingsToStorage();
+        renderDocument();
+      });
+    }
+
+    // Options Spacing Range Slider (User requested: "option na thora niche rkho aur charo ko space rkho")
+    const rangeSlideOptGap = document.getElementById("range-slide-opt-gap");
+    if (rangeSlideOptGap) {
+      rangeSlideOptGap.addEventListener("input", (e) => {
+        const val = parseInt(e.target.value, 10) || 18;
+        if (!appState.slide) appState.slide = {};
+        appState.slide.optionsGap = val;
+        const gapLabel = document.getElementById("label-slide-opt-gap");
+        if (gapLabel) gapLabel.textContent = val + "px";
         saveSettingsToStorage();
         renderDocument();
       });

@@ -1650,6 +1650,13 @@ sup {
   max-height: 167mm;
 }
 
+.slide-sheet.slide-a4-landscape {
+  width: 297mm;
+  height: 210mm;
+  min-height: 210mm;
+  max-height: 210mm;
+}
+
 .slide-sheet.slide-4-3 {
   width: 280mm;
   height: 210mm;
@@ -1787,43 +1794,48 @@ sup {
   font-size: var(--slide-font-size, 20px);
   font-weight: var(--slide-q-weight, 700);
   line-height: 1.45;
-  color: #0f172a;
+  color: var(--slide-q-color, #dc2626);
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Options Container */
 .slide-options-container {
   display: flex;
   flex-direction: column;
-  gap: 9px;
-  margin: 8px 0;
+  gap: var(--slide-opt-gap, 16px);
+  margin-top: var(--slide-opt-top-margin, 20px);
+  margin-bottom: 16px;
 }
 
 .slide-options-container.slide-opts-grid2x2 {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--slide-opt-gap, 16px) 24px;
 }
 
 .slide-options-container.slide-opts-inline4 {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--slide-opt-gap, 12px);
 }
 
 /* Option Cards */
 .slide-opt-card {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
+  gap: 14px;
+  padding: 12px 18px;
   background: #ffffff;
-  border: 1.5px solid #cbd5e1;
-  border-radius: 10px;
-  font-size: var(--slide-opt-font-size, 17px);
+  border: 2px solid #cbd5e1;
+  border-radius: 12px;
+  font-size: var(--slide-opt-font-size, 18px);
   font-weight: 600;
   color: #1e293b;
   transition: all 0.15s ease;
   box-sizing: border-box;
+  min-height: 52px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
 }
 
 .slide-opt-card.slide-opt-correct {
@@ -1861,7 +1873,9 @@ sup {
 
 .slide-opt-text {
   flex: 1;
-  line-height: 1.35;
+  line-height: 1.45;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .slide-opt-check {
@@ -2082,7 +2096,6 @@ sup {
   }
 
   html, body {
-    width: 210mm !important;
     height: auto !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -2090,6 +2103,17 @@ sup {
     color: #000000 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+  }
+
+  body:not(.print-mode-slide-landscape):not(.print-mode-slide-a4-landscape) {
+    width: 210mm !important;
+  }
+
+  body.print-mode-slide-landscape,
+  body.print-mode-slide-a4-landscape {
+    width: 297mm !important;
+    min-width: 297mm !important;
+    max-width: 297mm !important;
   }
 
   /* Hide entire UI Application layer */
@@ -2119,8 +2143,8 @@ sup {
     margin-bottom: 0 !important;
   }
 
-  /* A4 Sheets & Cover in Print */
-  .a4-sheet,
+  /* A4 Sheets & Cover in Print (Exclude Slide Studio Sheets) */
+  .a4-sheet:not(.slide-sheet),
   .a4-cover-sheet {
     box-shadow: none !important;
     margin: 0 !important;
@@ -2509,7 +2533,13 @@ sup {
     margin: 0 !important;
     page-break-after: always !important;
     break-after: page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
     overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    box-sizing: border-box !important;
+    background: #ffffff !important;
   }
   .slide-sheet.slide-portrait {
     width: 210mm !important;
@@ -2522,6 +2552,18 @@ sup {
     height: 167mm !important;
     min-height: 167mm !important;
     max-height: 167mm !important;
+  }
+  .slide-sheet.slide-a4-landscape {
+    width: 297mm !important;
+    height: 210mm !important;
+    min-height: 210mm !important;
+    max-height: 210mm !important;
+  }
+  .slide-sheet.slide-4-3 {
+    width: 280mm !important;
+    height: 210mm !important;
+    min-height: 210mm !important;
+    max-height: 210mm !important;
   }
   .slide-header-bar,
   .slide-opt-card,

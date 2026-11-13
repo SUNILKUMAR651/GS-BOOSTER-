@@ -2052,8 +2052,9 @@
                 <span class="text-[10px] bg-purple-200 text-purple-900 font-bold px-1.5 py-0.5 rounded">Digital Board</span>
               </label>
               <select id="select-slide-orientation" class="w-full text-xs p-2 border border-purple-300 rounded bg-white font-bold text-slate-800">
-                <option value="portrait" selected>📱 Single Question Portrait (A4 / Mobile Vertical Slide)</option>
-                <option value="landscape">🖥️ 16:9 Widescreen Landscape (Smart Digital Board / Projector PPT)</option>
+                <option value="landscape" selected>🖥️ 16:9 Widescreen Landscape (Smart Digital Board / Projector PPT)</option>
+                <option value="a4landscape">📄 Full A4 Landscape (297×210mm - Best for Landscape PDF Print)</option>
+                <option value="portrait">📱 Single Question Portrait (A4 / Mobile Vertical Slide)</option>
                 <option value="classic">📺 4:3 Classic Classroom Board (Standard 4:3 Ratio)</option>
               </select>
               <p class="text-[10px] text-slate-600">Select Portrait for 1 Question A4/Mobile vertical slides, or 16:9 Landscape for Interactive Smart Board (Maxhub, ViewSonic, Samsung Flip) presentation.</p>
@@ -2063,10 +2064,60 @@
             <div class="space-y-1">
               <label class="block text-xs font-semibold text-slate-700">Options Layout on Slide</label>
               <select id="select-slide-options-layout" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
-                <option value="vertical" selected>Vertical 1-Column (Stacked A, B, C, D - Best for Portrait)</option>
-                <option value="grid2x2">2x2 Grid (A B / C D - Best for Landscape Board)</option>
+                <option value="grid2x2" selected>2x2 Grid (A B / C D - Best for Landscape Board)</option>
+                <option value="vertical">Vertical 1-Column (Stacked A, B, C, D - Best for Portrait)</option>
                 <option value="inline4">Horizontal 4-Column (A B C D inline - Best for short numbers/words)</option>
               </select>
+            </div>
+
+            <!-- Options Spacing & Position (User requested: "option na thora niche rkho aur charo ko space rkho") -->
+            <div class="space-y-1.5 p-3 bg-purple-50/50 border border-purple-200 rounded-lg">
+              <div class="flex items-center justify-between mb-1">
+                <label class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                  <span>📏 Options Spacing &amp; Position (विकल्पों की दूरी)</span>
+                </label>
+                <span id="label-slide-opt-gap" class="text-xs font-mono font-bold text-purple-700 bg-white px-2 py-0.5 rounded border border-purple-300 shadow-sm">18px</span>
+              </div>
+              <input type="range" id="range-slide-opt-gap" min="10" max="36" step="2" value="18" class="w-full accent-purple-600 cursor-pointer">
+              <div class="flex justify-between text-[10px] text-slate-500 font-medium">
+                <span>Compact (10px)</span>
+                <span>Normal (18px)</span>
+                <span>Extra Spacious (36px)</span>
+              </div>
+            </div>
+
+            <!-- Question Color & Styling (User requested: "aur question red jo color chahiye voo kar sakte h mannually") -->
+            <div class="space-y-2 p-3 bg-red-50/50 border border-red-200 rounded-lg">
+              <div class="flex items-center justify-between">
+                <label class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                  <span>🎨 Question Text Color (प्रश्न का रंग)</span>
+                </label>
+                <span class="text-[10px] font-bold text-red-600 bg-red-100 px-1.5 py-0.5 rounded">Manual / Preset</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button type="button" data-slide-qcolor="#dc2626" class="flex-1 py-1.5 px-1 rounded border border-red-400 bg-red-600 hover:bg-red-700 text-white font-bold text-xs flex items-center justify-center gap-1 shadow-sm transition active:scale-95" title="Red (लाल)">
+                  🔴 Red
+                </button>
+                <button type="button" data-slide-qcolor="#0f172a" class="flex-1 py-1.5 px-1 rounded border border-slate-700 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center justify-center gap-1 shadow-sm transition active:scale-95" title="Black (काला)">
+                  ⚫ Black
+                </button>
+                <button type="button" data-slide-qcolor="#1d4ed8" class="flex-1 py-1.5 px-1 rounded border border-blue-400 bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs flex items-center justify-center gap-1 shadow-sm transition active:scale-95" title="Blue (नीला)">
+                  🔵 Blue
+                </button>
+                <button type="button" data-slide-qcolor="#7c2d12" class="flex-1 py-1.5 px-1 rounded border border-amber-800 bg-amber-900 hover:bg-amber-800 text-white font-bold text-xs flex items-center justify-center gap-1 shadow-sm transition active:scale-95" title="Maroon / Brown">
+                  🟤 Maroon
+                </button>
+                <input type="color" id="input-slide-qcolor" value="#dc2626" class="w-8 h-8 p-0.5 border border-slate-300 rounded cursor-pointer shadow-sm" title="Custom Question Color">
+              </div>
+              <div class="flex items-center justify-between pt-1.5 border-t border-red-200/60">
+                <span class="text-[11px] font-semibold text-slate-700">Question Weight:</span>
+                <select id="select-slide-qweight" class="text-xs p-1 border border-slate-300 rounded bg-white font-bold text-slate-800">
+                  <option value="700" selected>Bold (700)</option>
+                  <option value="800">Extra Bold (800)</option>
+                  <option value="900">Black Heavy (900)</option>
+                  <option value="600">Semi-Bold (600)</option>
+                </select>
+              </div>
             </div>
 
             <!-- Answer Box Display Mode -->
