@@ -1648,9 +1648,9 @@ sup {
 
 .slide-sheet.slide-landscape {
   width: 297mm;
-  height: 167mm;
-  min-height: 167mm;
-  max-height: 167mm;
+  height: 210mm;
+  min-height: 210mm;
+  max-height: 210mm;
 }
 
 .slide-sheet.slide-a4-landscape {
@@ -2579,9 +2579,9 @@ sup {
   }
   .slide-sheet.slide-landscape {
     width: 297mm !important;
-    height: 167mm !important;
-    min-height: 167mm !important;
-    max-height: 167mm !important;
+    height: 210mm !important;
+    min-height: 210mm !important;
+    max-height: 210mm !important;
   }
   .slide-sheet.slide-a4-landscape {
     width: 297mm !important;

@@ -1772,14 +1772,14 @@ function updateSlidePagePrintStyle(orientation) {
       styleEl.textContent = `
         @media print {
           @page {
-            size: 297mm 167mm;
+            size: A4 landscape;
             margin: 0mm !important;
           }
           html, body {
             width: 297mm !important;
             min-width: 297mm !important;
             max-width: 297mm !important;
-            height: 167mm !important;
+            height: 210mm !important;
             margin: 0 !important;
             padding: 0 !important;
             overflow: visible !important;
@@ -1798,9 +1798,9 @@ function updateSlidePagePrintStyle(orientation) {
           }
           .slide-sheet.slide-landscape {
             width: 297mm !important;
-            height: 167mm !important;
-            max-height: 167mm !important;
-            min-height: 167mm !important;
+            height: 210mm !important;
+            max-height: 210mm !important;
+            min-height: 210mm !important;
             margin: 0 !important;
             page-break-after: always !important;
             break-after: page !important;
