@@ -1629,10 +1629,13 @@ sup {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   margin: 0 auto;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
   page-break-after: always;
   break-after: page;
+  page-break-inside: avoid;
+  break-inside: avoid;
 }
 
 /* Slide Orientations */
@@ -1670,11 +1673,14 @@ sup {
   height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   box-sizing: border-box;
   position: relative;
   z-index: 10;
   padding: 0;
   background: #ffffff;
+  page-break-inside: avoid;
+  break-inside: avoid;
 }
 
 /* Slide Top Header Bar */
@@ -1762,11 +1768,14 @@ sup {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: 16px;
-  padding: 18px 28px;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 28px;
   box-sizing: border-box;
   overflow: hidden;
+  min-height: 0;
+  page-break-inside: avoid;
+  break-inside: avoid;
 }
 
 /* Question Section */
@@ -1905,10 +1914,12 @@ sup {
 /* Answer & Explanation Section */
 .slide-answer-section {
   margin-top: auto;
-  padding-top: 10px;
+  padding-top: 8px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
+  page-break-inside: avoid;
+  break-inside: avoid;
 }
 
 .slide-answer-badge {
@@ -1988,6 +1999,8 @@ sup {
   font-weight: 600;
   color: #64748b;
   flex-shrink: 0;
+  page-break-inside: avoid;
+  break-inside: avoid;
   margin-top: auto;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
@@ -2554,6 +2567,7 @@ sup {
     overflow: hidden !important;
     display: flex !important;
     flex-direction: column !important;
+    justify-content: space-between !important;
     box-sizing: border-box !important;
     background: #ffffff !important;
   }
@@ -2580,6 +2594,17 @@ sup {
     height: 210mm !important;
     min-height: 210mm !important;
     max-height: 210mm !important;
+  }
+  .slide-inner,
+  .slide-body,
+  .slide-top-content,
+  .slide-question-box,
+  .slide-options-container,
+  .slide-answer-section,
+  .slide-expl-box,
+  .slide-footer-bar {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
   .slide-header-bar,
   .slide-opt-card,

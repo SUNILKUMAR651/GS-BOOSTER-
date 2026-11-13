@@ -1244,7 +1244,7 @@ const DEFAULT_STATE = {
     answerMode: "always", // "always", "reveal-button", "hidden"
     answerColor: "#16a34a",
     showExplanation: true,
-    showFinalAnswerKey: true,
+    showFinalAnswerKey: false,
     headerBanner: "",
     headerBgColor: "#0b2545",
     footerText: "🔴 Subscribe YouTube & Join Telegram for Free PDF Notes",
@@ -1772,13 +1772,14 @@ function updateSlidePagePrintStyle(orientation) {
       styleEl.textContent = `
         @media print {
           @page {
-            size: 297mm 167mm landscape;
+            size: 297mm 167mm;
             margin: 0mm !important;
           }
           html, body {
             width: 297mm !important;
             min-width: 297mm !important;
             max-width: 297mm !important;
+            height: 167mm !important;
             margin: 0 !important;
             padding: 0 !important;
             overflow: visible !important;
@@ -1806,19 +1807,31 @@ function updateSlidePagePrintStyle(orientation) {
             page-break-inside: avoid !important;
             break-inside: avoid !important;
           }
+          .slide-inner,
+          .slide-body,
+          .slide-top-content,
+          .slide-question-box,
+          .slide-options-container,
+          .slide-answer-section,
+          .slide-expl-box,
+          .slide-footer-bar {
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+          }
         }
       `;
     } else if (orientation === "a4landscape") {
       styleEl.textContent = `
         @media print {
           @page {
-            size: 297mm 210mm landscape;
+            size: A4 landscape;
             margin: 0mm !important;
           }
           html, body {
             width: 297mm !important;
             min-width: 297mm !important;
             max-width: 297mm !important;
+            height: 210mm !important;
             margin: 0 !important;
             padding: 0 !important;
             overflow: visible !important;
@@ -1846,19 +1859,31 @@ function updateSlidePagePrintStyle(orientation) {
             page-break-inside: avoid !important;
             break-inside: avoid !important;
           }
+          .slide-inner,
+          .slide-body,
+          .slide-top-content,
+          .slide-question-box,
+          .slide-options-container,
+          .slide-answer-section,
+          .slide-expl-box,
+          .slide-footer-bar {
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+          }
         }
       `;
     } else if (orientation === "classic") {
       styleEl.textContent = `
         @media print {
           @page {
-            size: 280mm 210mm landscape;
+            size: 280mm 210mm;
             margin: 0mm !important;
           }
           html, body {
             width: 280mm !important;
             min-width: 280mm !important;
             max-width: 280mm !important;
+            height: 210mm !important;
             margin: 0 !important;
             padding: 0 !important;
             overflow: visible !important;
@@ -1886,19 +1911,31 @@ function updateSlidePagePrintStyle(orientation) {
             page-break-inside: avoid !important;
             break-inside: avoid !important;
           }
+          .slide-inner,
+          .slide-body,
+          .slide-top-content,
+          .slide-question-box,
+          .slide-options-container,
+          .slide-answer-section,
+          .slide-expl-box,
+          .slide-footer-bar {
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+          }
         }
       `;
     } else {
       styleEl.textContent = `
         @media print {
           @page {
-            size: 210mm 297mm portrait;
+            size: A4 portrait;
             margin: 0mm !important;
           }
           html, body {
             width: 210mm !important;
             min-width: 210mm !important;
             max-width: 210mm !important;
+            height: 297mm !important;
             margin: 0 !important;
             padding: 0 !important;
             overflow: visible !important;
@@ -1925,6 +1962,17 @@ function updateSlidePagePrintStyle(orientation) {
             break-after: page !important;
             page-break-inside: avoid !important;
             break-inside: avoid !important;
+          }
+          .slide-inner,
+          .slide-body,
+          .slide-top-content,
+          .slide-question-box,
+          .slide-options-container,
+          .slide-answer-section,
+          .slide-expl-box,
+          .slide-footer-bar {
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
           }
         }
       `;
@@ -2257,8 +2305,8 @@ function renderSlideDocument() {
     container.appendChild(slideSheet);
   });
 
-  // Render Final Answer Key Slide if enabled
-  if (cfg.showFinalAnswerKey !== false) {
+  // Render Final Answer Key Slide if explicitly enabled
+  if (cfg.showFinalAnswerKey === true) {
     const ackSheet = createSlideAnswerKeyPageElement(questions, questions.length, cfg);
     container.appendChild(ackSheet);
   }
@@ -5625,7 +5673,7 @@ function syncInputsFromState() {
     setValue("select-slide-options-layout", appState.slide.optionsLayout || "grid2x2");
     setValue("select-slide-answer-mode", appState.slide.answerMode || "always");
     setChecked("check-slide-show-explanation", appState.slide.showExplanation !== false);
-    setChecked("check-slide-final-answer-key", appState.slide.showFinalAnswerKey !== false);
+    setChecked("check-slide-final-answer-key", appState.slide.showFinalAnswerKey === true);
     setValue("range-slide-font-size", appState.slide.fontSize || 22);
     const fsLabel = document.getElementById("label-slide-font-size");
     if (fsLabel) fsLabel.textContent = (appState.slide.fontSize || 22) + "px";
