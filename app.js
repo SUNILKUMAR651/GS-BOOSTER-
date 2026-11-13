@@ -1235,10 +1235,11 @@ const DEFAULT_STATE = {
     instituteLogo: "",
     subjectTag: "GENERAL SCIENCE",
     topicTitle: "महत्वपूर्ण प्रश्नोत्तरी (Live Class)",
-    orientation: "landscape", // "landscape" (16:9 Smart Board), "a4landscape", "portrait", "classic"
+    orientation: "landscape", // "landscape" (16:9 Smart Board), "a4landscape", "classic"
     optionsLayout: "grid2x2", // "grid2x2", "vertical", "inline4"
-    optionsGap: 20,
-    questionColor: "#dc2626",
+    optionsGap: 24,
+    optionsTopMargin: 32,
+    questionColor: "#0f172a",
     questionWeight: "700",
     answerMode: "always", // "always", "reveal-button", "hidden"
     answerColor: "#16a34a",
@@ -1250,7 +1251,7 @@ const DEFAULT_STATE = {
     watermarkText: "JEE - FORM STUDY POINT",
     watermarkLogo: "",
     watermarkOpacity: 0.10,
-    fontSize: 20,
+    fontSize: 22,
     rawContent: SAMPLE_SLIDE_DATASETS.science
   },
 
@@ -1958,7 +1959,7 @@ function updateSlidePagePrintStyle(orientation) {
 function createSlidePageElement(q, slideIdx, totalSlides, cfg) {
   const sheet = document.createElement("div");
   const orientation = (cfg && cfg.orientation) || "landscape";
-  const orientClass = orientation === "landscape" ? "slide-landscape" : (orientation === "a4landscape" ? "slide-a4-landscape" : (orientation === "classic" ? "slide-4-3" : "slide-portrait"));
+  const orientClass = orientation === "portrait" ? "slide-portrait" : (orientation === "a4landscape" ? "slide-a4-landscape" : (orientation === "classic" ? "slide-4-3" : "slide-landscape"));
   sheet.className = `a4-sheet slide-sheet ${orientClass}`;
   sheet.dataset.slideIndex = slideIdx;
   sheet.dataset.pageSequence = String(slideIdx + 1);
@@ -1975,10 +1976,12 @@ function createSlidePageElement(q, slideIdx, totalSlides, cfg) {
   const ansColor = (cfg && cfg.answerColor) || "#16a34a";
   const showExpl = cfg && cfg.showExplanation !== false;
 
-  const qColor = (cfg && cfg.questionColor) || "#dc2626";
+  const qColor = (cfg && cfg.questionColor) || "#0f172a";
   const qWeight = (cfg && cfg.questionWeight) || "700";
-  const optGap = (cfg && cfg.optionsGap !== undefined) ? cfg.optionsGap : 20;
-  const optTopMargin = Math.max(18, optGap + 2);
+  const optGap = (cfg && cfg.optionsGap !== undefined) ? cfg.optionsGap : 24;
+  const optTopMargin = (cfg && cfg.optionsTopMargin !== undefined) ? cfg.optionsTopMargin : (cfg && cfg.optionsGap ? cfg.optionsGap + 2 : 32);
+  const fontSize = (cfg && cfg.fontSize) || 22;
+  const optFontSize = Math.max(16, fontSize - 2);
 
   const watermarkHtml = buildWatermarkHtml({
     text: cfg.watermarkText || instName,
@@ -2091,12 +2094,12 @@ function createSlidePageElement(q, slideIdx, totalSlides, cfg) {
       ${headerBannerHtml}
 
       <!-- Main Question & Options Body -->
-      <div class="slide-body">
+      <div class="slide-body" style="--slide-font-size: ${fontSize}px; --slide-opt-font-size: ${optFontSize}px;">
         <div class="slide-top-content">
           <!-- Question Box -->
           <div class="slide-question-box">
             <span class="slide-qnum-badge">Q. ${q.qNum || (slideIdx + 1)}</span>
-            <div class="slide-qtext" style="color: ${escapeHtml(qColor)}; font-weight: ${escapeHtml(qWeight)};">${questionHtml}</div>
+            <div class="slide-qtext" style="color: ${escapeHtml(qColor)}; font-weight: ${escapeHtml(qWeight)}; font-size: ${fontSize}px;">${questionHtml}</div>
           </div>
 
           <!-- Options Container (Spacious layout with customizable gap and top margin) -->
@@ -2222,7 +2225,11 @@ function renderSlideDocument() {
   const raw = cfg.rawContent || "";
   const questions = parseRawMcqContent(raw);
 
-  // Update dynamic page orientation for print
+  if (!cfg.orientation || cfg.orientation === "portrait") {
+    cfg.orientation = "landscape";
+  }
+
+  // Update dynamic page orientation for print (Landscape locked for slides)
   updateSlidePagePrintStyle(cfg.orientation || "landscape");
 
   // Clear previous pages
@@ -5201,6 +5208,8 @@ function formatScienceFormulas(text) {
     [/\bFe3O4\b/gi, "Fe₃O₄"],
     [/\bAl2O3\b/gi, "Al₂O₃"],
     [/\bMgSO4\b/gi, "MgSO₄"],
+    [/\bMgCO3\b/gi, "MgCO₃"],
+    [/\bMg3N2\b/gi, "Mg₃N₂"],
     [/\bCaCl2\b/gi, "CaCl₂"],
     [/\bCuSO4\b/gi, "CuSO₄"],
     [/\bZnSO4\b/gi, "ZnSO₄"],
@@ -5617,15 +5626,19 @@ function syncInputsFromState() {
     setValue("select-slide-answer-mode", appState.slide.answerMode || "always");
     setChecked("check-slide-show-explanation", appState.slide.showExplanation !== false);
     setChecked("check-slide-final-answer-key", appState.slide.showFinalAnswerKey !== false);
-    setValue("range-slide-font-size", appState.slide.fontSize || 20);
+    setValue("range-slide-font-size", appState.slide.fontSize || 22);
     const fsLabel = document.getElementById("label-slide-font-size");
-    if (fsLabel) fsLabel.textContent = (appState.slide.fontSize || 20) + "px";
+    if (fsLabel) fsLabel.textContent = (appState.slide.fontSize || 22) + "px";
 
-    setValue("input-slide-qcolor", appState.slide.questionColor || "#dc2626");
+    setValue("input-slide-qcolor", appState.slide.questionColor || "#0f172a");
     setValue("select-slide-qweight", appState.slide.questionWeight || "700");
-    setValue("range-slide-opt-gap", appState.slide.optionsGap !== undefined ? appState.slide.optionsGap : 20);
+    setValue("range-slide-opt-top-margin", appState.slide.optionsTopMargin !== undefined ? appState.slide.optionsTopMargin : 32);
+    const tmLabel = document.getElementById("label-slide-opt-top-margin");
+    if (tmLabel) tmLabel.textContent = (appState.slide.optionsTopMargin !== undefined ? appState.slide.optionsTopMargin : 32) + "px";
+
+    setValue("range-slide-opt-gap", appState.slide.optionsGap !== undefined ? appState.slide.optionsGap : 24);
     const gapLabel = document.getElementById("label-slide-opt-gap");
-    if (gapLabel) gapLabel.textContent = (appState.slide.optionsGap !== undefined ? appState.slide.optionsGap : 20) + "px";
+    if (gapLabel) gapLabel.textContent = (appState.slide.optionsGap !== undefined ? appState.slide.optionsGap : 24) + "px";
   }
   setValue("input-book-batch", appState.book.batchTag || "BOARD 2024-25");
   setValue("input-book-subject", appState.book.subjectName || "Economics");
@@ -8020,11 +8033,25 @@ function setupSlideEventListeners() {
       });
     }
 
+    // Distance Below Question (User requested: "question and option thora gap ho es types ka")
+    const rangeSlideOptTopMargin = document.getElementById("range-slide-opt-top-margin");
+    if (rangeSlideOptTopMargin) {
+      rangeSlideOptTopMargin.addEventListener("input", (e) => {
+        const val = parseInt(e.target.value, 10) || 32;
+        if (!appState.slide) appState.slide = {};
+        appState.slide.optionsTopMargin = val;
+        const tmLabel = document.getElementById("label-slide-opt-top-margin");
+        if (tmLabel) tmLabel.textContent = val + "px";
+        saveSettingsToStorage();
+        renderDocument();
+      });
+    }
+
     // Options Spacing Range Slider (User requested: "option na thora niche rkho aur charo ko space rkho")
     const rangeSlideOptGap = document.getElementById("range-slide-opt-gap");
     if (rangeSlideOptGap) {
       rangeSlideOptGap.addEventListener("input", (e) => {
-        const val = parseInt(e.target.value, 10) || 20;
+        const val = parseInt(e.target.value, 10) || 24;
         if (!appState.slide) appState.slide = {};
         appState.slide.optionsGap = val;
         const gapLabel = document.getElementById("label-slide-opt-gap");

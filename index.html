@@ -2048,41 +2048,59 @@
             <!-- Slide Orientation / Size (User requested: "portrail only mcq create hona chahiye ... ppt size hoti h") -->
             <div class="space-y-1.5 bg-purple-50/60 border border-purple-200 rounded-lg p-3">
               <label class="block text-xs font-bold text-purple-950 flex items-center justify-between">
-                <span>📐 Slide Canvas Size &amp; Orientation</span>
+                <span>📐 Slide Canvas Size (Landscape Only)</span>
                 <span class="text-[10px] bg-purple-200 text-purple-900 font-bold px-1.5 py-0.5 rounded">Digital Board</span>
               </label>
               <select id="select-slide-orientation" class="w-full text-xs p-2 border border-purple-300 rounded bg-white font-bold text-slate-800">
-                <option value="landscape" selected>🖥️ 16:9 Widescreen Landscape (Smart Digital Board / Projector PPT)</option>
-                <option value="a4landscape">📄 Full A4 Landscape (297×210mm - Best for Landscape PDF Print)</option>
-                <option value="portrait">📱 Single Question Portrait (A4 / Mobile Vertical Slide)</option>
-                <option value="classic">📺 4:3 Classic Classroom Board (Standard 4:3 Ratio)</option>
+                <option value="landscape" selected>🖥️ 16:9 Widescreen Landscape (Smart Digital Board / Projector PPT - 297×167mm)</option>
+                <option value="a4landscape">📄 Full A4 Landscape PDF (297×210mm - Best for Landscape Print)</option>
+                <option value="classic">📺 4:3 Classroom Board Landscape (280×210mm - Standard PPT)</option>
               </select>
-              <p class="text-[10px] text-slate-600">Select Portrait for 1 Question A4/Mobile vertical slides, or 16:9 Landscape for Interactive Smart Board (Maxhub, ViewSonic, Samsung Flip) presentation.</p>
+              <p class="text-[10px] text-purple-700 font-semibold">🔒 Slide Studio is locked to Landscape: Exactly 1 Question per Slide for high-clarity Student Notes &amp; PPT.</p>
             </div>
 
-            <!-- Options Layout (Vertical, 2x2, Inline 4) -->
+            <!-- Options Layout (2x2 Grid, Vertical, Inline 4) -->
             <div class="space-y-1">
               <label class="block text-xs font-semibold text-slate-700">Options Layout on Slide</label>
               <select id="select-slide-options-layout" class="w-full text-xs p-2 border border-slate-300 rounded bg-white font-medium">
-                <option value="grid2x2" selected>2x2 Grid (A B / C D - Best for Landscape Board)</option>
-                <option value="vertical">Vertical 1-Column (Stacked A, B, C, D - Best for Portrait)</option>
-                <option value="inline4">Horizontal 4-Column (A B C D inline - Best for short numbers/words)</option>
+                <option value="grid2x2" selected>2x2 Grid (A B / C D - Best for Landscape Board &amp; Student View)</option>
+                <option value="vertical">Vertical 1-Column (Stacked A, B, C, D)</option>
+                <option value="inline4">Horizontal 4-Column (A B C D inline - For short symbols/numbers)</option>
               </select>
             </div>
 
-            <!-- Options Spacing & Position (User requested: "option na thora niche rkho aur charo ko space rkho") -->
-            <div class="space-y-1.5 p-3 bg-purple-50/50 border border-purple-200 rounded-lg">
-              <div class="flex items-center justify-between mb-1">
-                <label class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                  <span>📏 Options Spacing &amp; Position (विकल्पों की दूरी)</span>
-                </label>
-                <span id="label-slide-opt-gap" class="text-xs font-mono font-bold text-purple-700 bg-white px-2 py-0.5 rounded border border-purple-300 shadow-sm">20px</span>
+            <!-- Question & Options Spacing Controls (User requested: "question and option thora gap ho es types ka") -->
+            <div class="space-y-2.5 p-3 bg-purple-50/60 border border-purple-200 rounded-lg">
+              <!-- Gap Below Question -->
+              <div class="space-y-1">
+                <div class="flex items-center justify-between">
+                  <label class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                    <span>⬇️ Gap Below Question (प्रश्न और विकल्पों के बीच दूरी)</span>
+                  </label>
+                  <span id="label-slide-opt-top-margin" class="text-xs font-mono font-bold text-purple-700 bg-white px-2 py-0.5 rounded border border-purple-300 shadow-sm">32px</span>
+                </div>
+                <input type="range" id="range-slide-opt-top-margin" min="16" max="64" step="2" value="32" class="w-full accent-purple-600 cursor-pointer">
+                <div class="flex justify-between text-[10px] text-slate-500 font-medium">
+                  <span>Compact (16px)</span>
+                  <span>Spacious (32px)</span>
+                  <span>Extra Gap (64px)</span>
+                </div>
               </div>
-              <input type="range" id="range-slide-opt-gap" min="10" max="36" step="2" value="20" class="w-full accent-purple-600 cursor-pointer">
-              <div class="flex justify-between text-[10px] text-slate-500 font-medium">
-                <span>Compact (10px)</span>
-                <span>Spacious (20px)</span>
-                <span>Extra Wide (36px)</span>
+
+              <!-- Gap Between Options -->
+              <div class="space-y-1">
+                <div class="flex items-center justify-between">
+                  <label class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                    <span>📏 Options Gap (विकल्पों के आपस की दूरी)</span>
+                  </label>
+                  <span id="label-slide-opt-gap" class="text-xs font-mono font-bold text-purple-700 bg-white px-2 py-0.5 rounded border border-purple-300 shadow-sm">24px</span>
+                </div>
+                <input type="range" id="range-slide-opt-gap" min="12" max="48" step="2" value="24" class="w-full accent-purple-600 cursor-pointer">
+                <div class="flex justify-between text-[10px] text-slate-500 font-medium">
+                  <span>Compact (12px)</span>
+                  <span>Spacious (24px)</span>
+                  <span>Extra Wide (48px)</span>
+                </div>
               </div>
             </div>
 

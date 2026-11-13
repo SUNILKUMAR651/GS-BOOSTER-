@@ -1763,8 +1763,8 @@ sup {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 14px;
-  padding: 16px 22px;
+  gap: 16px;
+  padding: 18px 28px;
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -1773,16 +1773,16 @@ sup {
 .slide-question-box {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 8px;
+  gap: 14px;
+  margin-bottom: 4px;
 }
 
 .slide-qnum-badge {
   background: #dc2626;
   color: #ffffff;
   font-weight: 900;
-  font-size: 16px;
-  padding: 4px 12px;
+  font-size: 17px;
+  padding: 5px 13px;
   border-radius: 8px;
   line-height: 1.2;
   flex-shrink: 0;
@@ -1792,50 +1792,50 @@ sup {
 }
 
 .slide-qtext {
-  font-size: var(--slide-font-size, 20px);
+  font-size: var(--slide-font-size, 22px);
   font-weight: var(--slide-q-weight, 700);
-  line-height: 1.45;
-  color: var(--slide-q-color, #dc2626);
+  line-height: 1.5;
+  color: var(--slide-q-color, #0f172a);
   word-break: break-word;
   overflow-wrap: break-word;
 }
 
-/* Options Container (Balanced, clean spacing between options) */
+/* Options Container (Spacious layout with customizable gap and top margin) */
 .slide-options-container {
   display: flex;
   flex-direction: column;
-  gap: var(--slide-opt-gap, 18px);
-  margin-top: var(--slide-opt-top-margin, 16px);
-  margin-bottom: 12px;
+  gap: var(--slide-opt-gap, 24px);
+  margin-top: var(--slide-opt-top-margin, 32px);
+  margin-bottom: 14px;
 }
 
 .slide-options-container.slide-opts-grid2x2 {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--slide-opt-gap, 18px) 24px;
+  gap: var(--slide-opt-gap, 24px) 40px;
 }
 
 .slide-options-container.slide-opts-inline4 {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--slide-opt-gap, 12px);
+  gap: var(--slide-opt-gap, 16px);
 }
 
-/* Option Cards */
+/* Option Cards (Clean, prominent student readability) */
 .slide-opt-card {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 11px 18px;
+  gap: 16px;
+  padding: 13px 22px;
   background: #ffffff;
   border: 2px solid #cbd5e1;
   border-radius: 12px;
-  font-size: var(--slide-opt-font-size, 18px);
+  font-size: var(--slide-opt-font-size, 20px);
   font-weight: 600;
   color: #1e293b;
   transition: all 0.15s ease;
   box-sizing: border-box;
-  min-height: 48px;
+  min-height: 52px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
 }
 
@@ -1868,14 +1868,14 @@ sup {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   background: #f1f5f9;
   border: 1.5px solid #cbd5e1;
   font-weight: 800;
-  font-size: 13px;
-  color: #334155;
+  font-size: 14px;
+  color: #1e293b;
   flex-shrink: 0;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
