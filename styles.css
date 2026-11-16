@@ -1967,11 +1967,10 @@ sup {
   border-left: 5px solid #2563eb;
   border-radius: 8px;
   padding: 8px 14px;
-  font-size: 13.5px;
-  line-height: 1.4;
+  font-size: var(--slide-expl-font-size, 13.5px);
+  line-height: var(--slide-expl-line-height, 1.4);
   color: #334155;
-  max-height: 100px;
-  overflow: hidden;
+  box-sizing: border-box;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
@@ -2146,7 +2145,8 @@ sup {
 @media print {
   /* Margin 0 eliminates browser chrome headers/footers (dynamic-slide-page-style injects precise @page size per mode) */
   @page {
-    margin: 0mm !important;
+    size: A4 portrait;
+    margin: 0;
   }
 
   html, body {
@@ -2573,12 +2573,16 @@ sup {
   }
   .gs-qa-item,
   .mcq-item,
+  .mcq-solution-box,
+  .pointer-block,
   .book-item-block,
   .book-bullet-item,
   .book-numbered-item,
   .book-note-box {
     break-inside: avoid !important;
     page-break-inside: avoid !important;
+    -webkit-column-break-inside: avoid !important;
+    break-inside: avoid-page !important;
   }
 
   /* Digital Board & MCQ Slides in Print */
@@ -2596,6 +2600,10 @@ sup {
     justify-content: space-between !important;
     box-sizing: border-box !important;
     background: #ffffff !important;
+  }
+  .slide-sheet:last-child {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
   }
   .slide-sheet.slide-portrait {
     width: 210mm !important;

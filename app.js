@@ -1772,8 +1772,8 @@ function updateSlidePagePrintStyle(orientation) {
       styleEl.textContent = `
         @media print {
           @page {
-            size: 297mm 210mm landscape;
-            margin: 0mm !important;
+            size: A4 landscape;
+            margin: 0;
           }
           html, body {
             width: 297mm !important;
@@ -1810,6 +1810,10 @@ function updateSlidePagePrintStyle(orientation) {
             page-break-inside: avoid !important;
             break-inside: avoid !important;
           }
+          .slide-sheet:last-child {
+            page-break-after: avoid !important;
+            break-after: avoid !important;
+          }
           .slide-inner {
             width: 100% !important;
             height: 100% !important;
@@ -1845,8 +1849,8 @@ function updateSlidePagePrintStyle(orientation) {
       styleEl.textContent = `
         @media print {
           @page {
-            size: 297mm 210mm landscape;
-            margin: 0mm !important;
+            size: A4 landscape;
+            margin: 0;
           }
           html, body {
             width: 297mm !important;
@@ -1882,6 +1886,10 @@ function updateSlidePagePrintStyle(orientation) {
             break-after: page !important;
             page-break-inside: avoid !important;
             break-inside: avoid !important;
+          }
+          .slide-sheet:last-child {
+            page-break-after: avoid !important;
+            break-after: avoid !important;
           }
           .slide-inner {
             width: 100% !important;
@@ -1919,7 +1927,7 @@ function updateSlidePagePrintStyle(orientation) {
         @media print {
           @page {
             size: 280mm 210mm;
-            margin: 0mm !important;
+            margin: 0;
           }
           html, body {
             width: 280mm !important;
@@ -1955,6 +1963,10 @@ function updateSlidePagePrintStyle(orientation) {
             break-after: page !important;
             page-break-inside: avoid !important;
             break-inside: avoid !important;
+          }
+          .slide-sheet:last-child {
+            page-break-after: avoid !important;
+            break-after: avoid !important;
           }
           .slide-inner {
             width: 100% !important;
@@ -1992,7 +2004,7 @@ function updateSlidePagePrintStyle(orientation) {
         @media print {
           @page {
             size: A4 portrait;
-            margin: 0mm !important;
+            margin: 0;
           }
           html, body {
             width: 210mm !important;
@@ -2028,6 +2040,10 @@ function updateSlidePagePrintStyle(orientation) {
             break-after: page !important;
             page-break-inside: avoid !important;
             break-inside: avoid !important;
+          }
+          .slide-sheet:last-child {
+            page-break-after: avoid !important;
+            break-after: avoid !important;
           }
           .slide-inner {
             width: 100% !important;
@@ -2065,8 +2081,8 @@ function updateSlidePagePrintStyle(orientation) {
     styleEl.textContent = `
       @media print {
         @page {
-          size: 210mm 297mm portrait;
-          margin: 0mm !important;
+          size: A4 portrait;
+          margin: 0;
         }
         html, body {
           width: 210mm !important;
@@ -2124,14 +2140,65 @@ function createSlidePageElement(q, slideIdx, totalSlides, cfg) {
   const hasSolution = (showExpl && Boolean(q.solution));
   const isCompactLayout = hasSolution && (ansMode === "always");
 
+  const solText = q.solution || "";
+  const solLen = solText.trim().length;
+
+  // Dynamic Content-Aware Auto-Scaling so that 100% of the text fits without anything getting cut off or pushed to another slide
+  let fontSize = (cfg && cfg.fontSize) || 22;
+  let optFontSize = Math.max(15, fontSize - 2);
+  let defaultGap = 20;
+  let defaultTopMargin = 24;
+  let explFontSize = 13.5;
+  let explLineHeight = 1.4;
+  let optPadding = "12px 20px";
+  let optMinHeight = "48px";
+  let explPadding = "8px 14px";
+
+  if (isCompactLayout) {
+    if (solLen > 550) {
+      // Long explanation (8-15 lines): compact auto-scaling so that 100% of the text is rendered
+      fontSize = Math.min(fontSize, 17.5);
+      optFontSize = 14.5;
+      defaultGap = 8;
+      defaultTopMargin = 8;
+      explFontSize = 11.5;
+      explLineHeight = 1.32;
+      optPadding = "6px 14px";
+      optMinHeight = "34px";
+      explPadding = "5px 10px";
+    } else if (solLen > 220) {
+      // Medium explanation (4-8 lines)
+      fontSize = Math.min(fontSize, 19);
+      optFontSize = 16;
+      defaultGap = 10;
+      defaultTopMargin = 10;
+      explFontSize = 12.5;
+      explLineHeight = 1.35;
+      optPadding = "8px 16px";
+      optMinHeight = "38px";
+      explPadding = "6px 12px";
+    } else {
+      // Short explanation (1-3 lines)
+      fontSize = Math.min(fontSize, 20.5);
+      optFontSize = 17.5;
+      defaultGap = 13;
+      defaultTopMargin = 13;
+      explFontSize = 13.5;
+      explLineHeight = 1.4;
+      optPadding = "10px 18px";
+      optMinHeight = "42px";
+      explPadding = "7px 14px";
+    }
+  }
+
   const qColor = (cfg && cfg.questionColor) || "#0f172a";
   const qWeight = (cfg && cfg.questionWeight) || "700";
-  const defaultGap = isCompactLayout ? 14 : 20;
-  const defaultTopMargin = isCompactLayout ? 14 : 24;
-  const optGap = (cfg && cfg.optionsGap !== undefined) ? cfg.optionsGap : defaultGap;
-  const optTopMargin = (cfg && cfg.optionsTopMargin !== undefined) ? cfg.optionsTopMargin : defaultTopMargin;
-  const fontSize = (cfg && cfg.fontSize) || (isCompactLayout ? 21 : 22);
-  const optFontSize = Math.max(16, isCompactLayout ? Math.min(18, fontSize - 2) : fontSize - 2);
+  const optGap = isCompactLayout
+    ? Math.min(cfg && cfg.optionsGap !== undefined ? cfg.optionsGap : 24, defaultGap)
+    : ((cfg && cfg.optionsGap !== undefined) ? cfg.optionsGap : defaultGap);
+  const optTopMargin = isCompactLayout
+    ? Math.min(cfg && cfg.optionsTopMargin !== undefined ? cfg.optionsTopMargin : 32, defaultTopMargin)
+    : ((cfg && cfg.optionsTopMargin !== undefined) ? cfg.optionsTopMargin : defaultTopMargin);
 
   const watermarkHtml = buildWatermarkHtml({
     text: cfg.watermarkText || instName,
@@ -2168,7 +2235,7 @@ function createSlidePageElement(q, slideIdx, totalSlides, cfg) {
     const checkBadge = (isCorrect && ansMode === "always") ? `<span class="slide-opt-check" style="color: ${ansColor};">✓</span>` : "";
 
     return `
-      <div class="slide-opt-card${correctClass}" data-opt-letter="${optLetter}">
+      <div class="slide-opt-card${correctClass}" data-opt-letter="${optLetter}" style="padding: ${optPadding}; min-height: ${optMinHeight}; font-size: ${optFontSize}px;">
         <span class="slide-opt-badge">(${optLetter})</span>
         <span class="slide-opt-text">${optTextHtml}</span>
         ${checkBadge}
@@ -2179,21 +2246,50 @@ function createSlidePageElement(q, slideIdx, totalSlides, cfg) {
   // Build Answer & Explanation Box
   let answerSectionHtml = "";
   if (ansMode === "always") {
+    let explContentHtml = "";
+    if (q.continuationNotice) {
+      explContentHtml = `
+        <div class="slide-expl-box" style="border-left-color: ${ansColor}; padding: 7px 14px;">
+          <div class="slide-expl-title" style="font-size: 12.5px;">💡 विस्तृत व्याख्या (Detailed Solution):</div>
+          <div class="text-xs font-bold text-blue-700">👉 इस प्रश्न की विस्तृत व्याख्या अगली स्लाइड पर देखें (Detailed solution continued on next slide →)</div>
+        </div>
+      `;
+    } else if (showExpl && q.solution) {
+      explContentHtml = `
+        <div class="slide-expl-box" style="border-left-color: ${ansColor}; padding: ${explPadding}; font-size: ${explFontSize}px; line-height: ${explLineHeight};">
+          <div class="slide-expl-title" style="font-size: ${Math.max(11, explFontSize - 0.5)}px;">💡 व्याख्या (Solution):</div>
+          <div class="slide-expl-content" style="font-size: ${explFontSize}px; line-height: ${explLineHeight};">${formatExplanationText(q.solution)}</div>
+        </div>
+      `;
+    }
+
     answerSectionHtml = `
       <div class="slide-answer-section">
         <div class="slide-answer-badge" style="background-color: ${ansColor};">
           <span>✓ उत्तर :</span>
           <strong>(${escapeHtml(correctLetter || q.answer)})</strong>
         </div>
-        ${(showExpl && q.solution) ? `
-          <div class="slide-expl-box" style="border-left-color: ${ansColor};">
-            <div class="slide-expl-title">💡 व्याख्या (Solution):</div>
-            <div class="slide-expl-content">${formatExplanationText(q.solution)}</div>
-          </div>
-        ` : ""}
+        ${explContentHtml}
       </div>
     `;
   } else if (ansMode === "reveal-button" || ansMode === "reveal") {
+    let explContentHtml = "";
+    if (q.continuationNotice) {
+      explContentHtml = `
+        <div class="slide-expl-box" style="border-left-color: ${ansColor}; padding: 7px 14px; margin-top: 6px;">
+          <div class="slide-expl-title" style="font-size: 12.5px;">💡 विस्तृत व्याख्या (Detailed Solution):</div>
+          <div class="text-xs font-bold text-blue-700">👉 इस प्रश्न की विस्तृत व्याख्या अगली स्लाइड पर देखें (Detailed solution continued on next slide →)</div>
+        </div>
+      `;
+    } else if (showExpl && q.solution) {
+      explContentHtml = `
+        <div class="slide-expl-box" style="border-left-color: ${ansColor}; padding: ${explPadding}; font-size: ${explFontSize}px; line-height: ${explLineHeight}; margin-top: 6px;">
+          <div class="slide-expl-title" style="font-size: ${Math.max(11, explFontSize - 0.5)}px;">💡 व्याख्या (Solution):</div>
+          <div class="slide-expl-content" style="font-size: ${explFontSize}px; line-height: ${explLineHeight};">${formatExplanationText(q.solution)}</div>
+        </div>
+      `;
+    }
+
     answerSectionHtml = `
       <div class="slide-answer-section">
         <button type="button" class="slide-btn-reveal" onclick="toggleSlideAnswerReveal(this)">
@@ -2204,12 +2300,7 @@ function createSlidePageElement(q, slideIdx, totalSlides, cfg) {
             <span>✓ सही उत्तर :</span>
             <strong>${escapeHtml(q.answer || `(${correctLetter})`)}</strong>
           </div>
-          ${(showExpl && q.solution) ? `
-            <div class="slide-expl-box" style="border-left-color: ${ansColor}; margin-top: 8px;">
-              <div class="slide-expl-title">💡 व्याख्या (Solution):</div>
-              <div class="slide-expl-content">${formatExplanationText(q.solution)}</div>
-            </div>
-          ` : ""}
+          ${explContentHtml}
         </div>
       </div>
     `;
@@ -2365,6 +2456,70 @@ function createSlideAnswerKeyPageElement(questions, totalSlides, cfg) {
   return sheet;
 }
 
+function createSlideContinuationExplanationElement(q, slideIdx, totalSlides, cfg) {
+  const sheet = document.createElement("div");
+  const orientation = (cfg && cfg.orientation) || "landscape";
+  const orientClass = orientation === "portrait" ? "slide-portrait" : (orientation === "a4landscape" ? "slide-a4-landscape" : (orientation === "classic" ? "slide-4-3" : "slide-landscape"));
+  sheet.className = `a4-sheet slide-sheet ${orientClass}`;
+  sheet.dataset.slideIndex = slideIdx;
+
+  const headerBg = (cfg && cfg.headerBgColor) || "#0b2545";
+  const instName = (cfg && cfg.instituteName) || "JEE - FORM STUDY POINT";
+  const instLogo = (cfg && cfg.instituteLogo) || "";
+  const subjectTag = (cfg && cfg.subjectTag) || "GENERAL SCIENCE";
+  const topicTitle = (cfg && cfg.topicTitle) || "महत्वपूर्ण प्रश्नोत्तरी (Live Class)";
+  const footerText = (cfg && cfg.footerText) || "🔴 Subscribe YouTube & Join Telegram for Free PDF Notes";
+
+  const rawAnsMatch = String(q.answer || "").match(/[A-Da-d1-4]/);
+  const correctLetter = rawAnsMatch ? rawAnsMatch[0].toUpperCase() : "";
+
+  sheet.innerHTML = `
+    <div class="slide-inner">
+      <div class="slide-header-bar" style="background-color: ${escapeHtml(headerBg)};">
+        <div class="slide-header-left">
+          ${instLogo ? `<img src="${instLogo}" class="slide-header-logo" alt="Logo">` : '🏛️'}
+          <span>${escapeHtml(instName)}</span>
+        </div>
+        <div class="slide-header-center">
+          <span class="slide-header-badge">${escapeHtml(subjectTag)}</span>
+          <span class="hidden sm:inline">${escapeHtml(topicTitle)}</span>
+        </div>
+        <div class="slide-header-right font-bold">
+          Q.${q.qNum || (slideIdx + 1)} - विस्तृत व्याख्या (Detailed Solution)
+        </div>
+      </div>
+
+      <div class="slide-body" style="padding: 16px 26px; justify-content: flex-start; gap: 12px; overflow: hidden;">
+        <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-lg flex items-center justify-between gap-3">
+          <div class="text-xs font-bold text-slate-800 truncate flex-1">
+            <span class="text-red-600 font-extrabold mr-1.5">Q.${q.qNum || (slideIdx + 1)}.</span>${escapeHtml(q.question)}
+          </div>
+          ${correctLetter ? `
+            <div class="px-2 py-0.5 text-xs font-black text-white rounded bg-emerald-600 shrink-0">
+              उत्तर : (${escapeHtml(correctLetter)})
+            </div>
+          ` : ""}
+        </div>
+
+        <div class="p-3.5 bg-blue-50/60 border-l-4 border-blue-600 rounded-r-lg text-slate-800 space-y-1.5 flex-1 overflow-hidden">
+          <div class="text-xs font-black text-blue-900 flex items-center gap-1.5">
+            <span>💡 सम्पूर्ण विस्तृत व्याख्या (Complete Detailed Solution) :</span>
+          </div>
+          <div class="text-[12px] leading-relaxed text-slate-800 font-medium whitespace-pre-line">
+            ${formatExplanationText(q.solution)}
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <div>${escapeHtml(footerText)}</div>
+        <div class="font-bold">◆ Slide ${slideIdx + 1}B of ${totalSlides} (व्याख्या) ◆</div>
+      </div>
+    </div>
+  `;
+  return sheet;
+}
+
 function renderSlideDocument() {
   const container = document.getElementById("pages-render-target");
   if (!container) return;
@@ -2409,10 +2564,21 @@ function renderSlideDocument() {
     container.appendChild(posterSheet);
   });
 
-  // 2. Render 1 slide per question
+  // 2. Render 1 slide per question (with dedicated continuation slide if explanation is enormous)
   questions.forEach((q, idx) => {
-    const slideSheet = createSlidePageElement(q, idx, questions.length, cfg);
-    container.appendChild(slideSheet);
+    const solLen = (q.solution || "").trim().length;
+    const isEnormousSolution = (solLen > 1100 && cfg.answerMode === "always" && cfg.showExplanation !== false);
+
+    if (isEnormousSolution) {
+      const slideSheet = createSlidePageElement({ ...q, solution: "", continuationNotice: true }, idx, questions.length, cfg);
+      container.appendChild(slideSheet);
+
+      const explSheet = createSlideContinuationExplanationElement(q, idx, questions.length, cfg);
+      container.appendChild(explSheet);
+    } else {
+      const slideSheet = createSlidePageElement(q, idx, questions.length, cfg);
+      container.appendChild(slideSheet);
+    }
   });
 
   // 3. Render Final Answer Key Slide if explicitly enabled
@@ -3235,7 +3401,7 @@ function packMcqItemsAutoFit(items) {
     margin: 0;
   `;
 
-  let colHeightMm = 263;
+  let colHeightMm = 255;
   if (
     (appState.mcq.topAppBannerText && appState.mcq.topAppBannerText.trim()) ||
     (appState.mcq.topAppPillText && appState.mcq.topAppPillText.trim())
@@ -3254,10 +3420,10 @@ function packMcqItemsAutoFit(items) {
   heightProbe.style.margin = "0";
   heightProbe.style.padding = "0";
   measureSandbox.appendChild(heightProbe);
-  const colCapacityPx = (heightProbe.offsetHeight && heightProbe.offsetHeight > 500) ? heightProbe.offsetHeight : 982;
+  const colCapacityPx = (heightProbe.offsetHeight && heightProbe.offsetHeight > 500) ? heightProbe.offsetHeight : 955;
   measureSandbox.removeChild(heightProbe);
 
-  const maxColHeight = colCapacityPx - 2;
+  const maxColHeight = colCapacityPx - 4;
 
   measureSandbox.innerHTML = "";
   const frag = document.createDocumentFragment();
@@ -4776,12 +4942,12 @@ function packBookItemsAutoFit(items) {
 
   const hasPage1Pill = Boolean(appState.book && appState.book.chapterTitle && appState.book.chapterTitle.trim());
   const probe = document.createElement("div");
-  probe.style.cssText = `height: ${hasPage1Pill ? "259mm" : "269mm"}; margin: 0; padding: 0;`;
+  probe.style.cssText = `height: ${hasPage1Pill ? "252mm" : "260mm"}; margin: 0; padding: 0;`;
   measureSandbox.appendChild(probe);
-  const page1Capacity = (probe.offsetHeight && probe.offsetHeight > 500) ? probe.offsetHeight : (hasPage1Pill ? 975 : 1015);
+  const page1Capacity = (probe.offsetHeight && probe.offsetHeight > 500) ? probe.offsetHeight : (hasPage1Pill ? 950 : 980);
 
-  probe.style.height = "269mm";
-  const subsequentCapacity = (probe.offsetHeight && probe.offsetHeight > 500) ? probe.offsetHeight : 1015;
+  probe.style.height = "260mm";
+  const subsequentCapacity = (probe.offsetHeight && probe.offsetHeight > 500) ? probe.offsetHeight : 980;
   measureSandbox.innerHTML = "";
 
   const pages = [];
@@ -5054,7 +5220,7 @@ function packItemsAutoFit(items) {
     margin: 0;
   `;
 
-  let colHeightMm = 260;
+  let colHeightMm = 255;
   if (appState.topBannerText && appState.topBannerText.trim()) {
     colHeightMm -= 5;
   }
@@ -5064,10 +5230,10 @@ function packItemsAutoFit(items) {
   heightProbe.style.margin = "0";
   heightProbe.style.padding = "0";
   measureSandbox.appendChild(heightProbe);
-  const colCapacityPx = (heightProbe.offsetHeight && heightProbe.offsetHeight > 500) ? heightProbe.offsetHeight : 980;
+  const colCapacityPx = (heightProbe.offsetHeight && heightProbe.offsetHeight > 500) ? heightProbe.offsetHeight : 955;
   measureSandbox.removeChild(heightProbe);
 
-  const maxColHeight = colCapacityPx - 2;
+  const maxColHeight = colCapacityPx - 4;
 
   const bulletSymbol = appState.bulletStyle === "none" ? "" : `<span class="gs-bullet">${appState.bulletStyle}</span>`;
   const itemSpacingPx = parseFloat(appState.itemSpacing) || 3.5;
