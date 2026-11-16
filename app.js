@@ -3347,7 +3347,7 @@ function shouldApplyFullPackColumn(itemCount, usedHeightPx, capacityPx, forceStr
   if (forceStretch) {
     return itemCount >= 2 && fillRatio >= 0.55;
   }
-  return itemCount >= 3 && fillRatio >= 0.78 && slackPx <= 135;
+  return itemCount >= 3 && fillRatio >= 0.85 && slackPx <= 90;
 }
 
 function packMcqItemsAutoFit(items) {
@@ -3401,7 +3401,7 @@ function packMcqItemsAutoFit(items) {
     margin: 0;
   `;
 
-  let colHeightMm = 255;
+  let colHeightMm = 248;
   if (
     (appState.mcq.topAppBannerText && appState.mcq.topAppBannerText.trim()) ||
     (appState.mcq.topAppPillText && appState.mcq.topAppPillText.trim())
@@ -3420,10 +3420,10 @@ function packMcqItemsAutoFit(items) {
   heightProbe.style.margin = "0";
   heightProbe.style.padding = "0";
   measureSandbox.appendChild(heightProbe);
-  const colCapacityPx = (heightProbe.offsetHeight && heightProbe.offsetHeight > 500) ? heightProbe.offsetHeight : 955;
+  const colCapacityPx = (heightProbe.offsetHeight && heightProbe.offsetHeight > 500) ? heightProbe.offsetHeight : Math.round(colHeightMm * 3.7795);
   measureSandbox.removeChild(heightProbe);
 
-  const maxColHeight = colCapacityPx - 4;
+  const maxColHeight = colCapacityPx - 6;
 
   measureSandbox.innerHTML = "";
   const frag = document.createDocumentFragment();
@@ -4942,12 +4942,12 @@ function packBookItemsAutoFit(items) {
 
   const hasPage1Pill = Boolean(appState.book && appState.book.chapterTitle && appState.book.chapterTitle.trim());
   const probe = document.createElement("div");
-  probe.style.cssText = `height: ${hasPage1Pill ? "252mm" : "260mm"}; margin: 0; padding: 0;`;
+  probe.style.cssText = `height: ${hasPage1Pill ? "246mm" : "250mm"}; margin: 0; padding: 0;`;
   measureSandbox.appendChild(probe);
-  const page1Capacity = (probe.offsetHeight && probe.offsetHeight > 500) ? probe.offsetHeight : (hasPage1Pill ? 950 : 980);
+  const page1Capacity = (probe.offsetHeight && probe.offsetHeight > 500) ? probe.offsetHeight : (hasPage1Pill ? 930 : 945);
 
-  probe.style.height = "260mm";
-  const subsequentCapacity = (probe.offsetHeight && probe.offsetHeight > 500) ? probe.offsetHeight : 980;
+  probe.style.height = "250mm";
+  const subsequentCapacity = (probe.offsetHeight && probe.offsetHeight > 500) ? probe.offsetHeight : 945;
   measureSandbox.innerHTML = "";
 
   const pages = [];
@@ -4956,7 +4956,7 @@ function packBookItemsAutoFit(items) {
   let currentRightHeight = 0;
   let isFillingRight = false;
   let pageIdx = 0;
-  let maxColHeight = page1Capacity - 2;
+  let maxColHeight = page1Capacity - 6;
 
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
@@ -4981,7 +4981,7 @@ function packBookItemsAutoFit(items) {
         pages.push(currentPage);
 
         pageIdx++;
-        maxColHeight = subsequentCapacity - 2;
+        maxColHeight = subsequentCapacity - 6;
         currentPage = {
           leftItems: [item],
           rightItems: [],
@@ -5220,7 +5220,7 @@ function packItemsAutoFit(items) {
     margin: 0;
   `;
 
-  let colHeightMm = 255;
+  let colHeightMm = 248;
   if (appState.topBannerText && appState.topBannerText.trim()) {
     colHeightMm -= 5;
   }
@@ -5230,10 +5230,10 @@ function packItemsAutoFit(items) {
   heightProbe.style.margin = "0";
   heightProbe.style.padding = "0";
   measureSandbox.appendChild(heightProbe);
-  const colCapacityPx = (heightProbe.offsetHeight && heightProbe.offsetHeight > 500) ? heightProbe.offsetHeight : 955;
+  const colCapacityPx = (heightProbe.offsetHeight && heightProbe.offsetHeight > 500) ? heightProbe.offsetHeight : Math.round(colHeightMm * 3.7795);
   measureSandbox.removeChild(heightProbe);
 
-  const maxColHeight = colCapacityPx - 4;
+  const maxColHeight = colCapacityPx - 6;
 
   const bulletSymbol = appState.bulletStyle === "none" ? "" : `<span class="gs-bullet">${appState.bulletStyle}</span>`;
   const itemSpacingPx = parseFloat(appState.itemSpacing) || 3.5;
@@ -5253,6 +5253,7 @@ function packItemsAutoFit(items) {
         <div class="banner-title">${highlightFormattedText(item.title)}</div>
         <div class="banner-decor-right"><span></span><span></span></div>
       `;
+      headingDiv.style.marginTop = "6px";
       headingDiv.style.marginBottom = `${itemSpacingPx}px`;
       frag.appendChild(headingDiv);
       continue;
