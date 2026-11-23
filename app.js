@@ -3042,7 +3042,14 @@ function renderPointerDocument() {
     const itemsPerPage = Math.max(1, parseInt(appState.itemsPerPage) || 48);
     const totalP = Math.ceil(items.length / itemsPerPage);
     for (let i = 0; i < totalP; i++) {
-      pageChunks.push(items.slice(i * itemsPerPage, (i + 1) * itemsPerPage));
+      const slice = items.slice(i * itemsPerPage, (i + 1) * itemsPerPage);
+      const half = Math.ceil(slice.length / 2);
+      pageChunks.push({
+        leftItems: slice.slice(0, half),
+        rightItems: slice.slice(half),
+        leftFullPack: false,
+        rightFullPack: false
+      });
     }
   } else {
     // 🚀 Auto-Fit 100% Packing Engine (Guarantees full pages with zero blank waste)
@@ -3439,9 +3446,9 @@ function shouldApplyFullPackColumn(itemCount, usedHeightPx, capacityPx, forceStr
   const fillRatio = usedHeightPx / capacityPx;
   const slackPx = capacityPx - usedHeightPx;
   if (forceStretch) {
-    return itemCount >= 2 && fillRatio >= 0.55;
+    return itemCount >= 2 && fillRatio >= 0.60;
   }
-  return itemCount >= 3 && fillRatio >= 0.85 && slackPx <= 90;
+  return itemCount >= 3 && fillRatio >= 0.90 && slackPx <= 35;
 }
 
 function packMcqItemsAutoFit(items) {
@@ -3495,12 +3502,13 @@ function packMcqItemsAutoFit(items) {
     margin: 0;
   `;
 
-  let colHeightMm = 248;
+  // Reserve generous clearance headroom preventing footer overlap & line cut
+  let colHeightMm = 236;
   if (
     (appState.mcq.topAppBannerText && appState.mcq.topAppBannerText.trim()) ||
     (appState.mcq.topAppPillText && appState.mcq.topAppPillText.trim())
   ) {
-    colHeightMm -= 5;
+    colHeightMm -= 6;
   }
   if (appState.inPageBanners && appState.inPageBanners.headerBanner) {
     colHeightMm -= 25;
@@ -3517,7 +3525,8 @@ function packMcqItemsAutoFit(items) {
   const colCapacityPx = (heightProbe.offsetHeight && heightProbe.offsetHeight > 500) ? heightProbe.offsetHeight : Math.round(colHeightMm * 3.7795);
   measureSandbox.removeChild(heightProbe);
 
-  const maxColHeight = colCapacityPx - 6;
+  // 16px safety cushion ensures zero text clipping or footer collision
+  const maxColHeight = colCapacityPx - 16;
 
   measureSandbox.innerHTML = "";
   const frag = document.createDocumentFragment();
@@ -5237,12 +5246,12 @@ function packBookItemsAutoFit(items) {
 
   const hasPage1Pill = Boolean(appState.book && appState.book.chapterTitle && appState.book.chapterTitle.trim());
   const probe = document.createElement("div");
-  probe.style.cssText = `height: ${hasPage1Pill ? "246mm" : "250mm"}; margin: 0; padding: 0;`;
+  probe.style.cssText = `height: ${hasPage1Pill ? "232mm" : "236mm"}; margin: 0; padding: 0;`;
   measureSandbox.appendChild(probe);
-  const page1Capacity = (probe.offsetHeight && probe.offsetHeight > 500) ? probe.offsetHeight : (hasPage1Pill ? 930 : 945);
+  const page1Capacity = (probe.offsetHeight && probe.offsetHeight > 500) ? probe.offsetHeight : (hasPage1Pill ? 876 : 892);
 
-  probe.style.height = "250mm";
-  const subsequentCapacity = (probe.offsetHeight && probe.offsetHeight > 500) ? probe.offsetHeight : 945;
+  probe.style.height = "236mm";
+  const subsequentCapacity = (probe.offsetHeight && probe.offsetHeight > 500) ? probe.offsetHeight : 892;
   measureSandbox.innerHTML = "";
 
   const pages = [];
@@ -5251,7 +5260,8 @@ function packBookItemsAutoFit(items) {
   let currentRightHeight = 0;
   let isFillingRight = false;
   let pageIdx = 0;
-  let maxColHeight = page1Capacity - 6;
+  // 16px safety cushion ensures zero text clipping or footer collision in Book Studio
+  let maxColHeight = page1Capacity - 16;
 
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
@@ -5276,7 +5286,7 @@ function packBookItemsAutoFit(items) {
         pages.push(currentPage);
 
         pageIdx++;
-        maxColHeight = subsequentCapacity - 6;
+        maxColHeight = subsequentCapacity - 16;
         currentPage = {
           leftItems: [item],
           rightItems: [],
@@ -5628,9 +5638,10 @@ function packItemsAutoFit(items) {
     margin: 0;
   `;
 
-  let colHeightMm = 248;
+  // Reserve generous clearance headroom preventing footer overlap & line cut
+  let colHeightMm = 236;
   if (appState.topBannerText && appState.topBannerText.trim()) {
-    colHeightMm -= 5;
+    colHeightMm -= 6;
   }
 
   const heightProbe = document.createElement("div");
@@ -5641,7 +5652,8 @@ function packItemsAutoFit(items) {
   const colCapacityPx = (heightProbe.offsetHeight && heightProbe.offsetHeight > 500) ? heightProbe.offsetHeight : Math.round(colHeightMm * 3.7795);
   measureSandbox.removeChild(heightProbe);
 
-  const maxColHeight = colCapacityPx - 6;
+  // 16px safety cushion ensures zero text clipping or footer collision
+  const maxColHeight = colCapacityPx - 16;
 
   const bulletSymbol = appState.bulletStyle === "none" ? "" : `<span class="gs-bullet">${appState.bulletStyle}</span>`;
   const itemSpacingPx = parseFloat(appState.itemSpacing) || 3.5;
@@ -5692,28 +5704,39 @@ function packItemsAutoFit(items) {
 
   if (isSpanBothMode) {
     const pageChunks = [];
-    let currentPage = [];
-    let currentColHeight = 0;
-    let currentColIndex = 1;
+    let currentPage = { leftItems: [], rightItems: [], leftFullPack: false, rightFullPack: false };
+    let leftH = 0;
+    let rightH = 0;
+    let inRight = false;
 
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
       const h = itemHeights[i] || 38;
-      if (currentColHeight + h <= maxColHeight || currentPage.length === 0) {
-        currentPage.push(item);
-        currentColHeight += h;
-      } else if (currentColIndex === 1) {
-        currentColIndex = 2;
-        currentPage.push(item);
-        currentColHeight = h;
+      if (!inRight) {
+        if (leftH + h <= maxColHeight || currentPage.leftItems.length === 0) {
+          currentPage.leftItems.push(item);
+          leftH += h;
+        } else {
+          inRight = true;
+          currentPage.rightItems.push(item);
+          rightH += h;
+        }
       } else {
-        pageChunks.push(currentPage);
-        currentPage = [item];
-        currentColIndex = 1;
-        currentColHeight = h;
+        if (rightH + h <= maxColHeight || currentPage.rightItems.length === 0) {
+          currentPage.rightItems.push(item);
+          rightH += h;
+        } else {
+          pageChunks.push(currentPage);
+          currentPage = { leftItems: [item], rightItems: [], leftFullPack: false, rightFullPack: false };
+          leftH = h;
+          rightH = 0;
+          inRight = false;
+        }
       }
     }
-    if (currentPage.length > 0) pageChunks.push(currentPage);
+    if (currentPage.leftItems.length > 0 || currentPage.rightItems.length > 0) {
+      pageChunks.push(currentPage);
+    }
     return pageChunks;
   }
 
@@ -5864,11 +5887,20 @@ function createA4PageElement(pageItems, pageNumber, totalPages, pageSequence) {
       </div>
     `;
   } else {
+    // Fail-safe: Always partition items into explicit two columns to completely avoid CSS multi-column text slicing
     const flatItems = Array.isArray(pageItems) ? pageItems : [];
-    const itemsHtml = flatItems.map(buildPointerItemHtml).join("");
+    const half = Math.ceil(flatItems.length / 2);
+    const leftHtml = flatItems.slice(0, half).map(buildPointerItemHtml).join("");
+    const rightHtml = flatItems.slice(half).map(buildPointerItemHtml).join("");
     columnsBodyHtml = `
-      <div class="gs-columns-container ${hasDividerClass}">
-        ${itemsHtml}
+      <div class="gs-two-column-layout ${hasDividerClass}">
+        <div class="gs-col gs-col-left">
+          ${leftHtml}
+        </div>
+        <div class="gs-col-divider"></div>
+        <div class="gs-col gs-col-right">
+          ${rightHtml}
+        </div>
       </div>
     `;
   }
@@ -6657,13 +6689,14 @@ function triggerPrintEngine() {
   if (appState.currentMode === "slide") {
     const orientation = (appState.slide && appState.slide.orientation) || "landscape";
     updateSlidePagePrintStyle(orientation);
+    showToast("📺 Opening Slide Print Dialog. Tip: Agar browser me Portrait dikhe, toh 'Landscape' aur 'Headers & Footers: Uncheck' karein for clean 100% full slide!", "info");
+  } else {
+    updateSlidePagePrintStyle("portrait");
+    showToast("Opening Print / Save as PDF dialog...", "info");
   }
 
   // Make sure full document is fresh
   renderDocument();
-
-  // Show helpful hint before print
-  showToast("Opening Print / Save as PDF dialog...", "info");
 
   // Small timeout to let DOM settle and webfonts render
   setTimeout(() => {
@@ -8349,6 +8382,11 @@ function setAppMode(mode, showNotification = true) {
   appState.currentMode = mode;
   appState.currentViewPage = 1;
   updateModeView(mode);
+  if (mode === "slide") {
+    updateSlidePagePrintStyle(appState.slide && appState.slide.orientation ? appState.slide.orientation : "landscape");
+  } else {
+    updateSlidePagePrintStyle("portrait");
+  }
   renderDocument();
   saveSettingsToStorage(false);
   const scrollEl = document.getElementById("preview-scroll-container");
@@ -9979,5 +10017,6 @@ document.addEventListener("DOMContentLoaded", () => {
   syncInputsFromState();
   setupEventListeners();
   setupAiAssistant();
+  updateSlidePagePrintStyle(appState.currentMode === "slide" ? ((appState.slide && appState.slide.orientation) || "landscape") : "portrait");
   renderDocument();
 });

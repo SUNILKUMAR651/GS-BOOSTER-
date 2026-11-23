@@ -683,6 +683,7 @@ sup {
   box-sizing: border-box;
   margin-top: 1.5mm;
   margin-bottom: 1.5mm;
+  padding-bottom: 5mm; /* Essential clearance buffer preventing footer overlap */
 }
 
 .mcq-col {
@@ -694,6 +695,7 @@ sup {
   flex-direction: column;
   justify-content: flex-start;
   align-items: stretch;
+  padding-bottom: 3mm;
   overflow: hidden;
 }
 
@@ -1170,7 +1172,7 @@ sup {
   flex: 1;
   min-height: 0;
   box-sizing: border-box;
-  padding: 0 4mm 1mm 4mm;
+  padding: 0 4mm 5mm 4mm;
   gap: 0;
   position: relative;
   z-index: 12;
@@ -1184,6 +1186,7 @@ sup {
   flex-direction: column;
   justify-content: flex-start;
   align-items: stretch;
+  padding-bottom: 3mm;
   overflow: hidden;
   font-family: var(--book-font-family, var(--font-devanagari));
 }
@@ -1656,6 +1659,7 @@ sup {
   min-height: 0;
   margin-top: 2mm;
   margin-bottom: 2mm;
+  padding-bottom: 5mm; /* Essential clearance buffer preventing footer overlap */
   font-family: var(--doc-font-family, var(--font-devanagari));
   font-size: var(--doc-font-size, 11.5px);
   line-height: var(--doc-line-height, 1.38);
@@ -1669,6 +1673,7 @@ sup {
   flex-direction: column;
   justify-content: flex-start;
   box-sizing: border-box;
+  padding-bottom: 3mm;
   overflow: hidden;
 }
 .gs-col-left {
@@ -1691,6 +1696,7 @@ sup {
 .mcq-col.col-full-pack,
 .book-col.col-full-pack {
   justify-content: space-between;
+  padding-bottom: 4mm;
 }
 .col-full-pack > :last-child {
   margin-bottom: 0 !important;
@@ -2225,7 +2231,12 @@ sup {
 @media print {
   /* Margin 0 eliminates browser chrome headers/footers (dynamic-slide-page-style injects precise @page size per mode) */
   @page {
-    size: A4 portrait;
+    margin: 0;
+  }
+  @page :left {
+    margin: 0;
+  }
+  @page :right {
     margin: 0;
   }
 
@@ -2392,7 +2403,8 @@ sup {
     flex: 1 !important;
     min-height: 0 !important;
     margin-top: 1.5mm !important;
-    margin-bottom: 2mm !important;
+    margin-bottom: 1.5mm !important;
+    padding-bottom: 5mm !important; /* Critical clearance preventing text collision with footer */
     overflow: hidden !important;
     box-sizing: border-box !important;
   }
@@ -2403,6 +2415,7 @@ sup {
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
+    padding-bottom: 3mm !important;
     overflow: hidden !important;
     box-sizing: border-box !important;
   }
@@ -2504,7 +2517,8 @@ sup {
     width: 100% !important;
     flex: 1 !important;
     min-height: 0 !important;
-    margin-bottom: 2mm !important;
+    margin-bottom: 1.5mm !important;
+    padding: 0 4mm 5mm 4mm !important; /* Critical clearance preventing text collision with footer */
     overflow: hidden !important;
     box-sizing: border-box !important;
   }
@@ -2514,6 +2528,7 @@ sup {
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
+    padding-bottom: 3mm !important;
     overflow: hidden !important;
     box-sizing: border-box !important;
   }
@@ -2639,7 +2654,8 @@ sup {
     flex: 1 !important;
     min-height: 0 !important;
     margin-top: 2mm !important;
-    margin-bottom: 2mm !important;
+    margin-bottom: 1.5mm !important;
+    padding-bottom: 5mm !important; /* Critical clearance preventing text collision with footer */
     font-family: var(--doc-font-family, var(--font-devanagari)) !important;
     font-size: var(--doc-font-size, 11.5px) !important;
     line-height: var(--doc-line-height, 1.38) !important;
@@ -2654,9 +2670,12 @@ sup {
     flex-direction: column !important;
     justify-content: flex-start !important;
     box-sizing: border-box !important;
+    padding-bottom: 3mm !important;
     overflow: hidden !important;
   }
   .gs-footer-box {
+    margin-top: auto !important;
+    padding-top: 2.2mm !important;
     flex-shrink: 0 !important;
     position: relative !important;
     z-index: 15 !important;
@@ -2665,6 +2684,8 @@ sup {
     print-color-adjust: exact !important;
   }
   .mcq-footer-box {
+    margin-top: auto !important;
+    padding-top: 2.2mm !important;
     flex-shrink: 0 !important;
     position: relative !important;
     z-index: 15 !important;
@@ -2692,6 +2713,7 @@ sup {
   .mcq-col.col-full-pack,
   .book-col.col-full-pack {
     justify-content: space-between !important;
+    padding-bottom: 4mm !important;
   }
   .col-full-pack > :last-child {
     margin-bottom: 0 !important;

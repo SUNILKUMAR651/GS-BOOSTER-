@@ -16,6 +16,16 @@
   <!-- Custom Core & Print Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 
+  <!-- Dynamic Studio Print Style (Injects precise @page dimensions per active Studio mode) -->
+  <style id="dynamic-slide-page-style">
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+    }
+  </style>
+
   <!-- Mammoth.js for client-side Word .docx to text parsing -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 
