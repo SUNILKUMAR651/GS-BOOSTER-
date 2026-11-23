@@ -103,6 +103,18 @@
           <!-- Populated by JS -->
         </div>
 
+        <!-- Format Saved Status Badge -->
+        <div id="header-save-indicator" class="hidden sm:inline-flex items-center text-[10px] text-emerald-400 font-bold bg-emerald-950/60 border border-emerald-500/30 px-2 py-1 rounded" title="Auto-saved to your browser">
+          ✓ Format Saved
+        </div>
+
+        <!-- Dedicated Save Format / Settings Button -->
+        <button id="btn-header-save-format" type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 sm:py-2 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white rounded-lg text-xs font-bold tracking-wide shadow-md shadow-emerald-600/30 transition-all cursor-pointer flex-shrink-0" title="Save current format, styles, fonts & conditions as permanent default">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+          <span class="hidden sm:inline">Save Format</span>
+          <span class="sm:hidden">Save</span>
+        </button>
+
         <!-- Primary PDF Trigger -->
         <button id="btn-print-header" class="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-lg text-xs font-bold tracking-wide shadow-md shadow-blue-600/30 hover:shadow-blue-500/40 transition-all active:scale-95 cursor-pointer flex-shrink-0">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -202,9 +214,9 @@
                 <div class="text-xs font-bold text-slate-900">सामान्य हिंदी (विलोम)</div>
                 <div class="text-[10px] text-slate-500">36 One-word & Antonyms</div>
               </button>
-              <button type="button" data-sample-preset="science" class="text-left p-2 bg-white hover:bg-blue-50/70 border border-slate-200 hover:border-blue-400 rounded-lg transition shadow-sm cursor-pointer active:scale-[0.98]">
-                <div class="text-xs font-bold text-slate-900">सामान्य विज्ञान</div>
-                <div class="text-[10px] text-slate-500">36 Physics & Bio units</div>
+              <button type="button" data-sample-preset="science" class="text-left p-2 bg-white hover:bg-emerald-50/70 border border-slate-200 hover:border-emerald-400 rounded-lg transition shadow-sm cursor-pointer active:scale-[0.98]">
+                <div class="text-xs font-bold text-slate-900">🔬 सामान्य विज्ञान (1000 Qs)</div>
+                <div class="text-[10px] text-emerald-700 font-semibold">1000 One-Liners (Physics, Chem, Bio)</div>
               </button>
             </div>
           </div>
@@ -884,6 +896,9 @@
                 <span class="text-[10px] text-red-600 bg-red-50 border border-red-200 px-1.5 py-0.2 rounded font-semibold">Platform Style</span>
               </label>
               <div class="flex items-center gap-2">
+                <button id="btn-save-mcq-format" type="button" class="text-[11px] font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 px-2 py-0.5 rounded flex items-center gap-1 cursor-pointer transition shadow-xs" title="Save current MCQ format & settings as default">
+                  <span>💾 Save Format</span>
+                </button>
                 <button id="btn-mcq-paste" type="button" class="text-[11px] font-bold text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 px-2 py-0.5 rounded flex items-center gap-1 cursor-pointer transition" title="1-Click Paste from Clipboard">
                   <span>📋 Paste</span>
                 </button>
@@ -1451,6 +1466,9 @@
                 <span class="text-[10px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.2 rounded font-semibold">Book Layout</span>
               </label>
               <div class="flex items-center gap-2">
+                <button id="btn-save-book-format" type="button" class="text-[11px] font-bold text-emerald-800 bg-emerald-100/80 hover:bg-emerald-200 border border-emerald-300 px-2 py-0.5 rounded flex items-center gap-1 cursor-pointer transition shadow-xs" title="Save current Book format, headers, fonts & layout as default">
+                  <span>💾 Save Format</span>
+                </button>
                 <button id="btn-book-paste" type="button" class="text-[11px] font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-2 py-0.5 rounded flex items-center gap-1 cursor-pointer transition" title="1-Click Paste from Clipboard">
                   <span>📋 Paste</span>
                 </button>
@@ -1909,6 +1927,9 @@
                 <span class="text-[10px] text-purple-700 bg-purple-50 border border-purple-200 px-1.5 py-0.5 rounded font-semibold">Slide PPT</span>
               </label>
               <div class="flex items-center gap-2">
+                <button id="btn-save-slide-format" type="button" class="text-[11px] font-bold text-emerald-800 bg-emerald-100/80 hover:bg-emerald-200 border border-emerald-300 px-2 py-0.5 rounded flex items-center gap-1 cursor-pointer transition shadow-xs" title="Save current Slide format, layout & colors as default">
+                  <span>💾 Save Format</span>
+                </button>
                 <button id="btn-slide-paste" type="button" class="text-[11px] font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 px-2 py-0.5 rounded flex items-center gap-1 cursor-pointer transition" title="Paste questions from clipboard">
                   <span>📋 Paste</span>
                 </button>
@@ -2312,12 +2333,12 @@
         </button>
 
         <div class="flex items-center gap-2">
-          <button id="btn-save-template" class="flex-1 py-1.5 px-3 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-semibold rounded-lg text-[11px] transition flex items-center justify-center gap-1.5 cursor-pointer">
-            <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
-            <span>Save Settings</span>
+          <button id="btn-save-template" class="flex-1 py-1.5 px-3 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold rounded-lg text-[11px] transition flex items-center justify-center gap-1.5 cursor-pointer shadow-xs" title="Save current studio, formatting, fonts & conditions as default">
+            <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+            <span>Save Format &amp; Settings</span>
           </button>
 
-          <button id="btn-reset-defaults" class="py-1.5 px-3 bg-white hover:bg-slate-100 text-slate-600 border border-slate-300 font-medium rounded-lg text-[11px] transition flex items-center justify-center gap-1 cursor-pointer">
+          <button id="btn-reset-defaults" class="py-1.5 px-3 bg-white hover:bg-slate-100 text-slate-600 border border-slate-300 font-medium rounded-lg text-[11px] transition flex items-center justify-center gap-1 cursor-pointer" title="Reset all to defaults">
             <span>Reset</span>
           </button>
         </div>
@@ -2415,6 +2436,8 @@
        ========================================================================= -->
   <div id="toast-container" class="no-print fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
+  <!-- Science 1000 One-Liners Dataset -->
+  <script src="science_1000_data.js"></script>
   <!-- Application Logic -->
   <script src="app.js"></script>
 

@@ -204,6 +204,12 @@ Q35. रक्त का pH मान कितना होता है === �
 Q36. इंसुलिन की कमी से होने वाला रोग है === मधुमेह (Diabetes)`
 };
 
+// Wire up 1000 Science Questions Dataset if loaded
+if (typeof window !== "undefined" && window.SCIENCE_1000_DATASET) {
+  SAMPLE_DATASETS.science = window.SCIENCE_1000_DATASET;
+  SAMPLE_DATASETS.science1000 = window.SCIENCE_1000_DATASET;
+}
+
 // ==========================================
 // PRESET SAMPLE DATASETS FOR MCQ (Platform / Rukmini Practice Sets)
 // ==========================================
@@ -1263,22 +1269,47 @@ const DEFAULT_STATE = {
   searchQuery: ""
 };
 
-// Application State Store (initialized from localStorage if present)
-let appState = { ...DEFAULT_STATE };
+// Application State Store (initialized deep clone from defaults or localStorage)
+let appState = JSON.parse(JSON.stringify(DEFAULT_STATE));
 
 // ==========================================
-// LOCAL STORAGE PERSISTENCE
+// LOCAL STORAGE PERSISTENCE & AUTO-SAVE
 // ==========================================
 const STORAGE_KEY = "GS_POINTER_SETTINGS_V1";
+const TEMPLATE_CONFIG_KEY = "GS_POINTER_TEMPLATE_CONFIG_V1";
+
+function updateSaveIndicatorUI(isSaved) {
+  const badge = document.getElementById("header-save-indicator");
+  if (badge) {
+    if (isSaved) {
+      badge.textContent = "✓ Format Saved";
+      badge.className = "hidden sm:inline-flex items-center text-[10px] text-emerald-300 font-bold bg-emerald-950/70 border border-emerald-500/40 px-2 py-1 rounded transition-all";
+    } else {
+      badge.textContent = "● Modified";
+      badge.className = "hidden sm:inline-flex items-center text-[10px] text-amber-300 font-bold bg-amber-950/70 border border-amber-500/40 px-2 py-1 rounded transition-all";
+    }
+  }
+}
+
+let _autoSaveTimer = null;
+function scheduleAutoSave() {
+  updateSaveIndicatorUI(false);
+  if (_autoSaveTimer) clearTimeout(_autoSaveTimer);
+  _autoSaveTimer = setTimeout(() => {
+    saveSettingsToStorage(false);
+  }, 500);
+}
 
 function loadSavedSettings() {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       const parsed = JSON.parse(saved);
+      const baseDefault = JSON.parse(JSON.stringify(DEFAULT_STATE));
       appState = {
-        ...DEFAULT_STATE,
+        ...baseDefault,
         ...parsed,
+        currentMode: parsed.currentMode || DEFAULT_STATE.currentMode || "pointer",
         fullA4Photos: {
           topPages: (parsed.fullA4Photos && parsed.fullA4Photos.topPages) || [],
           bottomPages: (parsed.fullA4Photos && parsed.fullA4Photos.bottomPages) || []
@@ -1296,7 +1327,17 @@ function loadSavedSettings() {
         },
         book: {
           ...DEFAULT_STATE.book,
-          ...(parsed.book || {})
+          ...(parsed.book || {}),
+          rawBookContent: (parsed.book && typeof parsed.book.rawBookContent === "string")
+            ? parsed.book.rawBookContent
+            : DEFAULT_STATE.book.rawBookContent
+        },
+        slide: {
+          ...DEFAULT_STATE.slide,
+          ...(parsed.slide || {}),
+          rawContent: (parsed.slide && typeof parsed.slide.rawContent === "string")
+            ? parsed.slide.rawContent
+            : DEFAULT_STATE.slide.rawContent
         }
       };
       if (appState.watermarkPos === "diagonal") appState.watermarkPos = "center";
@@ -1305,6 +1346,7 @@ function loadSavedSettings() {
       if (!["multi", "red", "blue", "emerald"].includes(appState.book.pillTheme)) {
         appState.book.pillTheme = "multi";
       }
+      updateSaveIndicatorUI(true);
       return true;
     }
   } catch (err) {
@@ -1313,11 +1355,46 @@ function loadSavedSettings() {
   return false;
 }
 
-function saveSettingsToStorage() {
+function saveSettingsToStorage(showNotice = false, customMsg = "") {
   try {
     const toSave = { ...appState };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
-    showToast("Template settings saved successfully!", "success");
+
+    // Also persist clean template formatting without raw questions
+    try {
+      const templateConfig = {
+        currentMode: appState.currentMode,
+        fontFamily: appState.fontFamily,
+        fontSize: appState.fontSize,
+        lineHeight: appState.lineHeight,
+        columnGap: appState.columnGap,
+        columnDivider: appState.columnDivider,
+        answerStyle: appState.answerStyle,
+        topicBannerMode: appState.topicBannerMode,
+        bulletStyle: appState.bulletStyle,
+        answerColor: appState.answerColor,
+        questionColor: appState.questionColor,
+        leftBrandText: appState.leftBrandText,
+        centerSubjectText: appState.centerSubjectText,
+        topBannerText: appState.topBannerText,
+        topBannerUrl: appState.topBannerUrl,
+        watermarkText: appState.watermarkText,
+        watermarkMode: appState.watermarkMode,
+        watermarkPos: appState.watermarkPos,
+        watermarkOpacity: appState.watermarkOpacity,
+        mcq: { ...appState.mcq, rawMcqContent: "" },
+        book: { ...appState.book, rawBookContent: "" },
+        slide: { ...appState.slide, rawContent: "" }
+      };
+      localStorage.setItem(TEMPLATE_CONFIG_KEY, JSON.stringify(templateConfig));
+    } catch (e) {}
+
+    updateSaveIndicatorUI(true);
+
+    if (showNotice) {
+      const msg = customMsg || "💾 Format & Settings Saved! Ab website dobara open karne par yahi format aur conditions ready milengi.";
+      showToast(msg, "success");
+    }
   } catch (err) {
     // Graceful QuotaExceededError fallback when large Full-A4 Poster base64 images exceed 5MB limit
     try {
@@ -1327,10 +1404,15 @@ function saveSettingsToStorage() {
         inPageBanners: { headerBanner: "", footerBanner: "" }
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(liteSave));
-      showToast("Settings & content saved! (Large A4 poster images skipped due to browser storage limit)", "info");
+      updateSaveIndicatorUI(true);
+      if (showNotice) {
+        showToast("Settings & format saved! (Large poster images skipped due to browser storage limit)", "info");
+      }
     } catch (err2) {
       console.error("Failed to save to localStorage:", err2);
-      showToast("Failed to save settings to browser storage (size limit exceeded).", "error");
+      if (showNotice) {
+        showToast("Failed to save settings to browser storage (size limit exceeded).", "error");
+      }
     }
   }
 }
@@ -6243,6 +6325,9 @@ function toggleSidebarCollapse() {
 // PRINT ENGINE TRIGGER
 // ==========================================
 function triggerPrintEngine() {
+  // Always auto-save current format, layout conditions & content before downloading PDF
+  saveSettingsToStorage(false);
+
   if (appState.currentMode === "slide") {
     const orientation = (appState.slide && appState.slide.orientation) || "landscape";
     updateSlidePagePrintStyle(orientation);
@@ -6821,8 +6906,48 @@ function setupEventListeners() {
   const btnPrintHeader = document.getElementById("btn-print-header");
   if (btnPrintHeader) btnPrintHeader.addEventListener("click", triggerPrintEngine);
 
+  // Dedicated Save Format Buttons across all studios and header
+  const btnHeaderSave = document.getElementById("btn-header-save-format");
+  if (btnHeaderSave) {
+    btnHeaderSave.addEventListener("click", () => {
+      saveSettingsToStorage(true, "💾 Format & Settings Saved! Ab website dobara open karne par yahi format aur conditions ready milengi.");
+    });
+  }
+
+  const btnSaveMcq = document.getElementById("btn-save-mcq-format");
+  if (btnSaveMcq) {
+    btnSaveMcq.addEventListener("click", () => {
+      saveSettingsToStorage(true, "💾 MCQ Practice Set Format Saved! Ab questions paste karte hi yahi exam styling aur layout auto-load honge.");
+    });
+  }
+
+  const btnSaveBook = document.getElementById("btn-save-book-format");
+  if (btnSaveBook) {
+    btnSaveBook.addEventListener("click", () => {
+      saveSettingsToStorage(true, "💾 Book & Notes Format Saved! Ab notes paste karte hi yahi header, styling aur colors auto-apply ho jayenge.");
+    });
+  }
+
+  const btnSaveSlide = document.getElementById("btn-save-slide-format");
+  if (btnSaveSlide) {
+    btnSaveSlide.addEventListener("click", () => {
+      saveSettingsToStorage(true, "💾 Slide PPT Format Saved! Ab questions paste karte hi yahi slide orientation aur answer options auto-load hongi.");
+    });
+  }
+
   const btnSave = document.getElementById("btn-save-template");
-  if (btnSave) btnSave.addEventListener("click", saveSettingsToStorage);
+  if (btnSave) {
+    btnSave.addEventListener("click", () => {
+      saveSettingsToStorage(true, "💾 Format & Settings Saved! Ab website dobara open karne par yahi layout aur conditions ready milengi.");
+    });
+  }
+
+  // Universal auto-save whenever any input or select changes inside control sidebar
+  const appSidebar = document.getElementById("app-sidebar");
+  if (appSidebar) {
+    appSidebar.addEventListener("input", scheduleAutoSave);
+    appSidebar.addEventListener("change", scheduleAutoSave);
+  }
 
   const btnReset = document.getElementById("btn-reset-defaults");
   if (btnReset) btnReset.addEventListener("click", resetSettingsToDefault);
@@ -7844,9 +7969,11 @@ function updateModeView(mode) {
 }
 
 function setAppMode(mode, showNotification = true) {
+  appState.currentMode = mode;
   appState.currentViewPage = 1;
   updateModeView(mode);
   renderDocument();
+  saveSettingsToStorage(false);
   const scrollEl = document.getElementById("preview-scroll-container");
   if (scrollEl) {
     scrollEl.scrollTop = 0;
