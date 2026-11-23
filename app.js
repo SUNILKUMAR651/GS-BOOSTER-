@@ -804,6 +804,8 @@ Ans: B`
 // ==========================================
 // SAMPLE BOOK & NOTES DATASET (Authentic Class 10 Economics Notes)
 // ==========================================
+const SAMPLE_ECONOMY_SVG = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 130" width="100%" height="100%"><rect width="100%" height="100%" fill="%23f8fafc" rx="8" stroke="%23cbd5e1" stroke-width="1.5"/><text x="230" y="20" font-family="'Noto Sans Devanagari', sans-serif" font-size="12" font-weight="bold" fill="%230b2545" text-anchor="middle">भारतीय अर्थव्यवस्था की संरचना (Structure of Economy)</text><rect x="15" y="32" width="130" height="88" rx="6" fill="%23ecfdf5" stroke="%2310b981" stroke-width="1.5"/><text x="80" y="52" font-family="'Noto Sans Devanagari', sans-serif" font-size="11" font-weight="bold" fill="%23065f46" text-anchor="middle">1. प्राथमिक क्षेत्र</text><text x="80" y="68" font-family="'Noto Sans Devanagari', sans-serif" font-size="9" font-weight="bold" fill="%23047857" text-anchor="middle">(कृषि क्षेत्र)</text><text x="80" y="87" font-family="'Noto Sans Devanagari', sans-serif" font-size="9" fill="%23334155" text-anchor="middle">• कृषि व पशुपालन</text><text x="80" y="102" font-family="'Noto Sans Devanagari', sans-serif" font-size="9" fill="%23334155" text-anchor="middle">• मछली पालन व वन</text><rect x="165" y="32" width="130" height="88" rx="6" fill="%23eff6ff" stroke="%233b82f6" stroke-width="1.5"/><text x="230" y="52" font-family="'Noto Sans Devanagari', sans-serif" font-size="11" font-weight="bold" fill="%231e40af" text-anchor="middle">2. द्वितीयक क्षेत्र</text><text x="230" y="68" font-family="'Noto Sans Devanagari', sans-serif" font-size="9" font-weight="bold" fill="%231d4ed8" text-anchor="middle">(औद्योगिक क्षेत्र)</text><text x="230" y="87" font-family="'Noto Sans Devanagari', sans-serif" font-size="9" fill="%23334155" text-anchor="middle">• विनिर्माण व निर्माण</text><text x="230" y="102" font-family="'Noto Sans Devanagari', sans-serif" font-size="9" fill="%23334155" text-anchor="middle">• गैस, बिजली व खनिज</text><rect x="315" y="32" width="130" height="88" rx="6" fill="%23fdf2f8" stroke="%23ec4899" stroke-width="1.5"/><text x="380" y="52" font-family="'Noto Sans Devanagari', sans-serif" font-size="11" font-weight="bold" fill="%239d174d" text-anchor="middle">3. तृतीयक क्षेत्र</text><text x="380" y="68" font-family="'Noto Sans Devanagari', sans-serif" font-size="9" font-weight="bold" fill="%23be185d" text-anchor="middle">(सेवा क्षेत्र)</text><text x="380" y="87" font-family="'Noto Sans Devanagari', sans-serif" font-size="9" fill="%23334155" text-anchor="middle">• बैंक, बीमा, व्यापार</text><text x="380" y="102" font-family="'Noto Sans Devanagari', sans-serif" font-size="9" fill="%23334155" text-anchor="middle">• परिवहन व संचार</text></svg>`;
+
 const SAMPLE_BOOK_DATASET = `# 1. अर्थव्यवस्था एवं इसके विकास का इतिहास
 
 उपनिवेश:- जब कोई शक्तिशाली देश किसी कमजोर देश पर अपना क़ब्ज़ा कर लेता है तो कमजोर देश की शक्तिशाली देश का उपनिवेश कहा जाता है।
@@ -823,6 +825,7 @@ const SAMPLE_BOOK_DATASET = `# 1. अर्थव्यवस्था एवं
 2. लोगों को रोजगार के अवसर प्रदान करना।
 
 [SUBHEAD] अर्थव्यवस्था की संरचना :-
+[IMG: 1 | चित्र 1.1: अर्थव्यवस्था के तीनों प्रमुख क्षेत्र]
 1) प्राथमिक क्षेत्र
 2) द्वितीयक क्षेत्र
 3) तृतीयक क्षेत्र
@@ -1231,7 +1234,16 @@ const DEFAULT_STATE = {
     footerLeftText: "Class - 10th Economics Notes",
     footerRightText: "JEE-FORM STUDY POINT",
     rawBookContent: SAMPLE_BOOK_DATASET,
-    inlineImages: {}
+    inlineImages: {
+      "1": {
+        id: "1",
+        keyword: "अर्थव्यवस्था की संरचना",
+        name: "economy_sectors.svg",
+        caption: "चित्र 1.1: अर्थव्यवस्था के तीनों प्रमुख क्षेत्र",
+        placement: "below",
+        dataUrl: SAMPLE_ECONOMY_SVG
+      }
+    }
   },
 
   // Digital Board & MCQ Slide Studio State (PPT Slide-by-Slide Format)
@@ -4463,33 +4475,67 @@ function createBookDomElement(item) {
     return el;
   }
 
+  // Standalone Figure / Diagram Block (Below Topic or on its own line)
+  if (item.type === "image_block") {
+    el.className = "book-image-block";
+    const estHeight = item.height || 115;
+    const captionHtml = item.caption
+      ? `<div class="book-image-caption">${applySearchHighlightToHtml(escapeHtml(item.caption), appState.searchQuery)}</div>`
+      : "";
+    el.innerHTML = `
+      <div class="book-image-inner" style="min-height: ${Math.min(estHeight, 75)}px;">
+        <img src="${item.src}" class="book-image-img" style="max-height: ${estHeight}px;" alt="${escapeHtml(item.caption || 'Book Diagram')}">
+      </div>
+      ${captionHtml}
+    `;
+    return el;
+  }
+
+  let imgBesideHtml = "";
+  if (item.image) {
+    const capHtml = item.imageCaption ? `<div class="book-inline-thumbnail-caption">${escapeHtml(item.imageCaption)}</div>` : "";
+    imgBesideHtml = `
+      <div class="book-inline-thumbnail-wrapper">
+        <img src="${item.image}" class="book-inline-thumbnail-img" alt="Thumbnail">
+        ${capHtml}
+      </div>
+    `;
+  }
+
+  let imgBelowHtml = "";
+  if (item.imageBelow) {
+    const capHtml = item.imageBelow.caption ? `<div class="book-image-caption">${escapeHtml(item.imageBelow.caption)}</div>` : "";
+    const estH = item.imageBelow.height || 115;
+    imgBelowHtml = `
+      <div class="book-image-block">
+        <div class="book-image-inner" style="min-height: ${Math.min(estH, 75)}px;">
+          <img src="${item.imageBelow.src}" class="book-image-img" style="max-height: ${estH}px;" alt="${escapeHtml(item.imageBelow.caption || 'Illustration')}">
+        </div>
+        ${capHtml}
+      </div>
+    `;
+  }
+
   if (item.type === "qa_item") {
     el.className = "book-item-block";
     el.innerHTML = `
+      ${imgBesideHtml}
       <div class="mb-0.5 text-slate-900 leading-tight" style="font-weight: var(--book-text-weight, 600);">
         <span class="text-red-600 font-extrabold mr-1">✦</span>${formatBookInlineText(item.question)}
       </div>
       <div class="text-slate-800 pl-2 border-l-2 border-red-200 leading-snug">
         <span class="book-ans-label">उत्तर :-</span>${formatBookInlineText(item.answer)}
       </div>
+      ${imgBelowHtml}
     `;
     return el;
-  }
-
-  let imgHtml = "";
-  if (item.image) {
-    imgHtml = `
-      <div class="book-inline-thumbnail-wrapper">
-        <img src="${item.image}" class="book-inline-thumbnail-img" alt="Thumbnail">
-      </div>
-    `;
   }
 
   if (item.type === "numbered_item") {
     el.className = "book-numbered-item";
     el.innerHTML = `
       <span class="book-numbered-badge">${escapeHtml(item.numLabel || "1.")}</span>
-      <div class="flex-1">${imgHtml}${formatBookInlineText(item.text)}</div>
+      <div class="flex-1">${imgBesideHtml}${formatBookInlineText(item.text)}${imgBelowHtml}</div>
     `;
     return el;
   }
@@ -4498,11 +4544,11 @@ function createBookDomElement(item) {
     el.className = "book-bullet-item";
     const bulletPref = (appState.book && appState.book.bulletStyle) || "➢";
     if (bulletPref === "none") {
-      el.innerHTML = `<div class="flex-1">${imgHtml}${formatBookInlineText(item.text)}</div>`;
+      el.innerHTML = `<div class="flex-1">${imgBesideHtml}${formatBookInlineText(item.text)}${imgBelowHtml}</div>`;
     } else {
       el.innerHTML = `
         <span class="book-bullet-arrow">${escapeHtml(bulletPref)}</span>
-        <div class="flex-1">${imgHtml}${formatBookInlineText(item.text)}</div>
+        <div class="flex-1">${imgBesideHtml}${formatBookInlineText(item.text)}${imgBelowHtml}</div>
       `;
     }
     return el;
@@ -4510,7 +4556,7 @@ function createBookDomElement(item) {
 
   // Standard concept / definition / example block
   el.className = "book-item-block";
-  el.innerHTML = `${imgHtml}<div>${formatBookInlineText(item.text)}</div>`;
+  el.innerHTML = `${imgBesideHtml}<div>${formatBookInlineText(item.text)}</div>${imgBelowHtml}`;
   return el;
 }
 
@@ -4633,6 +4679,50 @@ function formatBookInlineText(text) {
 }
 
 /**
+ * Resolves a Book Image reference (ID like "1", keyword like "ATM", or direct URL) to an image src URL.
+ */
+function resolveBookImageSrc(imgRef) {
+  if (!imgRef) return "";
+  const ref = String(imgRef).trim();
+  // 1. Web URL or inline base64 data URL
+  if (/^(?:https?:\/\/|data:image\/)/i.test(ref)) {
+    return ref;
+  }
+  const images = (appState.book && appState.book.inlineImages) || {};
+  // 2. Direct exact key match (e.g. key is "1" or "atm")
+  if (images[ref] && images[ref].dataUrl) {
+    return images[ref].dataUrl;
+  }
+  // 3. Match by id or keyword property
+  const refLower = ref.toLowerCase();
+  for (const k of Object.keys(images)) {
+    const item = images[k];
+    if (item.id && String(item.id).trim().toLowerCase() === refLower) {
+      return item.dataUrl;
+    }
+    if (item.keyword && String(item.keyword).trim().toLowerCase() === refLower) {
+      return item.dataUrl;
+    }
+  }
+  // 4. Numeric 1-based index (e.g. "1" matches 1st uploaded image)
+  const num = parseInt(ref, 10);
+  const keys = Object.keys(images);
+  if (!isNaN(num) && num >= 1 && num <= keys.length) {
+    const k = keys[num - 1];
+    if (images[k] && images[k].dataUrl) {
+      return images[k].dataUrl;
+    }
+  }
+  // 5. Substring search in keywords
+  for (const k of keys) {
+    if (k.toLowerCase().includes(refLower) || refLower.includes(k.toLowerCase())) {
+      return images[k].dataUrl;
+    }
+  }
+  return ref;
+}
+
+/**
  * Zero-Tag Smart Parser for Book Notes & Textbook Content:
  * Works seamlessly on BOTH raw plain copy-pasted text (no symbols/tags) AND tagged content.
  */
@@ -4654,14 +4744,22 @@ function parseRawBookContent(rawText) {
     return c;
   }
 
-  function findAttachedImage(str) {
-    if (!str) return "";
+  function findAttachedImageInfo(str) {
+    if (!str) return null;
+    const lower = str.toLowerCase();
     for (const key of Object.keys(inlineImages)) {
-      if (str.includes(key)) {
-        return inlineImages[key].dataUrl;
+      const imgObj = inlineImages[key];
+      const matchKeyword = (imgObj && imgObj.keyword) ? imgObj.keyword.trim().toLowerCase() : key.trim().toLowerCase();
+      if (matchKeyword && lower.includes(matchKeyword)) {
+        return {
+          dataUrl: imgObj.dataUrl || imgObj.src || "",
+          placement: imgObj.placement || "below",
+          caption: imgObj.caption || "",
+          id: imgObj.id || key
+        };
       }
     }
-    return "";
+    return null;
   }
 
   function peekNextNonEmpty(startIdx) {
@@ -4710,6 +4808,16 @@ function parseRawBookContent(rawText) {
   function pushConceptOrSplit(textStr) {
     const clean = textStr.trim();
     if (!clean) return;
+    const imgInfo = findAttachedImageInfo(clean);
+    const itemProps = {};
+    if (imgInfo) {
+      if (imgInfo.placement === "beside") {
+        itemProps.image = imgInfo.dataUrl;
+        itemProps.imageCaption = imgInfo.caption;
+      } else {
+        itemProps.imageBelow = { src: imgInfo.dataUrl, caption: imgInfo.caption };
+      }
+    }
     // Split oversized monolithic prose blocks (> 520 chars) cleanly every ~2 sentences for balanced full-column flow
     if (clean.length > 520) {
       const sentences = clean.split(/(?<=[।\.\?!])\s+/);
@@ -4717,19 +4825,19 @@ function parseRawBookContent(rawText) {
         let chunk = "";
         sentences.forEach((s) => {
           if (chunk && (chunk.length + s.length > 340)) {
-            items.push({ type: "concept_block", text: chunk.trim(), image: findAttachedImage(chunk) });
+            items.push({ type: "concept_block", text: chunk.trim() });
             chunk = s;
           } else {
             chunk = chunk ? `${chunk} ${s}` : s;
           }
         });
         if (chunk.trim()) {
-          items.push({ type: "concept_block", text: chunk.trim(), image: findAttachedImage(chunk) });
+          items.push({ type: "concept_block", text: chunk.trim(), ...itemProps });
         }
         return;
       }
     }
-    items.push({ type: "concept_block", text: clean, image: findAttachedImage(clean) });
+    items.push({ type: "concept_block", text: clean, ...itemProps });
   }
 
   let prevBlank = true;
@@ -4743,6 +4851,61 @@ function parseRawBookContent(rawText) {
     const nextObj = peekNextNonEmpty(i);
     const prevItem = items[items.length - 1];
     const prevType = prevItem ? prevItem.type : null;
+
+    // Standalone Image Tag: [IMG: ...], [IMAGE: ...], [PIC: ...], [PHOTO: ...], [चित्र: ...], [फोटो: ...], ![caption](src)
+    if (/^\[(IMG|IMAGE|PIC|PHOTO|चित्र|फोटो)\s*:\s*([^\]]+)\]/i.test(trimmed) || /^!\[([^\]]*)\]\(([^\)]+)\)/.test(trimmed)) {
+      let imgRef = "";
+      let imgCaption = "";
+      let imgPlacement = "below";
+      let imgHeight = 115;
+
+      const mdMatch = trimmed.match(/^!\[([^\]]*)\]\(([^\)]+)\)/);
+      if (mdMatch) {
+        imgCaption = mdMatch[1].trim();
+        imgRef = mdMatch[2].trim();
+      } else {
+        const tagMatch = trimmed.match(/^\[(?:IMG|IMAGE|PIC|PHOTO|चित्र|फोटो)\s*:\s*([^\]]+)\]/i);
+        if (tagMatch) {
+          const parts = tagMatch[1].split("|").map(s => s.trim());
+          imgRef = parts[0] || "";
+          for (let pIdx = 1; pIdx < parts.length; pIdx++) {
+            const p = parts[pIdx];
+            if (/^(below|नीचे|bottom|full)$/i.test(p)) {
+              imgPlacement = "below";
+            } else if (/^(beside|बगल|right|side|thumb|thumbnail)$/i.test(p)) {
+              imgPlacement = "beside";
+            } else if (/^\d+(?:px)?$/i.test(p)) {
+              imgHeight = parseInt(p, 10);
+            } else if (/^small$/i.test(p)) {
+              imgHeight = 75;
+            } else if (/^large$/i.test(p)) {
+              imgHeight = 160;
+            } else if (!imgCaption) {
+              imgCaption = p;
+            }
+          }
+        }
+      }
+
+      const resolvedSrc = resolveBookImageSrc(imgRef);
+      if (resolvedSrc) {
+        if (imgPlacement === "beside" && prevItem) {
+          prevItem.image = resolvedSrc;
+          prevItem.imageCaption = imgCaption;
+        } else {
+          items.push({
+            type: "image_block",
+            src: resolvedSrc,
+            caption: imgCaption,
+            placement: imgPlacement,
+            height: imgHeight,
+            ref: imgRef
+          });
+        }
+        prevBlank = false;
+        continue;
+      }
+    }
 
     // 1. Explicit Legacy Tags
     if (/^\[(RED_PILL|PILL)\]\s*/i.test(trimmed)) {
@@ -4850,14 +5013,24 @@ function parseRawBookContent(rawText) {
         }
         j++;
       }
-    if (aLines.length > 0) {
+      if (aLines.length > 0) {
         const qText = qLines.join(" ");
         const ansText = aLines.join("\n");
+        const imgInfo = findAttachedImageInfo(`${qText} ${ansText}`);
+        const itemProps = {};
+        if (imgInfo) {
+          if (imgInfo.placement === "beside") {
+            itemProps.image = imgInfo.dataUrl;
+            itemProps.imageCaption = imgInfo.caption;
+          } else {
+            itemProps.imageBelow = { src: imgInfo.dataUrl, caption: imgInfo.caption };
+          }
+        }
         items.push({
           type: "qa_item",
           question: qText,
           answer: ansText,
-          image: findAttachedImage(`${qText} ${ansText}`)
+          ...itemProps
         });
         i = j - 1;
         prevBlank = false;
@@ -4902,12 +5075,22 @@ function parseRawBookContent(rawText) {
       if (isBookDefinitionLine(trimmed)) {
         pushConceptOrSplit(trimmed);
       } else {
+        const imgInfo = findAttachedImageInfo(trimmed);
+        const itemProps = {};
+        if (imgInfo) {
+          if (imgInfo.placement === "beside") {
+            itemProps.image = imgInfo.dataUrl;
+            itemProps.imageCaption = imgInfo.caption;
+          } else {
+            itemProps.imageBelow = { src: imgInfo.dataUrl, caption: imgInfo.caption };
+          }
+        }
         const mNum = trimmed.match(/^((?:\d+[\.\)]|\(\d+\)))\s+(.*)$/);
         items.push({
           type: "numbered_item",
           numLabel: mNum ? mNum[1] : "1.",
           text: mNum ? mNum[2].trim() : trimmed,
-          image: findAttachedImage(trimmed)
+          ...itemProps
         });
       }
       prevBlank = false;
@@ -4917,10 +5100,20 @@ function parseRawBookContent(rawText) {
     // 9. Explicit Bullet Line
     if (isBulletLine(trimmed)) {
       const cleanBullet = trimmed.replace(/^(?:[➢➤>*•\-✓✔▪▸]|->|=>)\s+/, "").trim();
+      const imgInfo = findAttachedImageInfo(cleanBullet);
+      const itemProps = {};
+      if (imgInfo) {
+        if (imgInfo.placement === "beside") {
+          itemProps.image = imgInfo.dataUrl;
+          itemProps.imageCaption = imgInfo.caption;
+        } else {
+          itemProps.imageBelow = { src: imgInfo.dataUrl, caption: imgInfo.caption };
+        }
+      }
       items.push({
         type: "bullet_item",
         text: cleanBullet,
-        image: findAttachedImage(cleanBullet)
+        ...itemProps
       });
       prevBlank = false;
       continue;
@@ -4938,15 +5131,35 @@ function parseRawBookContent(rawText) {
       const endedSentence = /[।\.\?!'"”\)\]]$/.test(prevItem.text.trim());
       if (!endedSentence && prevItem.text.length < 480) {
         prevItem.text = `${prevItem.text.trim()} ${trimmed}`;
-        if (!prevItem.image) prevItem.image = findAttachedImage(prevItem.text);
+        if (!prevItem.image && !prevItem.imageBelow) {
+          const imgInfo = findAttachedImageInfo(prevItem.text);
+          if (imgInfo) {
+            if (imgInfo.placement === "beside") {
+              prevItem.image = imgInfo.dataUrl;
+              prevItem.imageCaption = imgInfo.caption;
+            } else {
+              prevItem.imageBelow = { src: imgInfo.dataUrl, caption: imgInfo.caption };
+            }
+          }
+        }
         prevBlank = false;
         continue;
       }
       if (endedSentence && trimmed.length <= 240 && (prevType === "concept_block" || prevType === "bullet_item")) {
+        const imgInfo = findAttachedImageInfo(trimmed);
+        const itemProps = {};
+        if (imgInfo) {
+          if (imgInfo.placement === "beside") {
+            itemProps.image = imgInfo.dataUrl;
+            itemProps.imageCaption = imgInfo.caption;
+          } else {
+            itemProps.imageBelow = { src: imgInfo.dataUrl, caption: imgInfo.caption };
+          }
+        }
         items.push({
           type: "bullet_item",
           text: trimmed,
-          image: findAttachedImage(trimmed)
+          ...itemProps
         });
         prevBlank = false;
         continue;
@@ -5157,35 +5370,109 @@ function switchSlideTab(tabName) {
 }
 
 /**
- * Render Attached Book Inline Thumbnails
+ * Compresses an uploaded image on a virtual canvas to keep base64 lightweight and crisp.
+ */
+function compressImageForBook(file, maxWidth, maxHeight, quality, callback) {
+  if (typeof FileReader === "undefined") {
+    if (callback) callback("");
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const dataUrl = e.target.result;
+    if (typeof Image === "undefined" || typeof document === "undefined") {
+      if (callback) callback(dataUrl);
+      return;
+    }
+    const img = new Image();
+    img.onload = () => {
+      let w = img.width || 800;
+      let h = img.height || 600;
+      if (w > maxWidth || h > maxHeight) {
+        const ratio = Math.min(maxWidth / w, maxHeight / h);
+        w = Math.max(50, Math.round(w * ratio));
+        h = Math.max(50, Math.round(h * ratio));
+      }
+      try {
+        const canvas = document.createElement("canvas");
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, w, h);
+        const isPng = (file && file.type === "image/png");
+        const compressed = isPng ? canvas.toDataURL("image/png") : canvas.toDataURL("image/jpeg", quality || 0.88);
+        if (callback) callback(compressed);
+      } catch (err) {
+        if (callback) callback(dataUrl);
+      }
+    };
+    img.onerror = () => {
+      if (callback) callback(dataUrl);
+    };
+    img.src = dataUrl;
+  };
+  reader.onerror = () => {
+    if (typeof showToast === "function") showToast("Failed to read image file.", "error");
+  };
+  reader.readAsDataURL(file);
+}
+
+/**
+ * Render Attached Book Images, Diagrams & Tags Library
  */
 function renderBookInlineImagesList() {
   const listEl = document.getElementById("list-book-inline-images");
   if (!listEl) return;
 
+  const badgeEl = document.getElementById("badge-book-images-count");
   const images = (appState.book && appState.book.inlineImages) || {};
   const keys = Object.keys(images);
 
+  if (badgeEl) badgeEl.textContent = String(keys.length);
+
   if (keys.length === 0) {
-    listEl.innerHTML = `<p class="text-xs text-slate-400 italic">No inline images attached yet.</p>`;
+    listEl.innerHTML = `<p class="text-xs text-slate-400 italic">No images added yet.</p>`;
     return;
   }
 
   let html = "";
-  keys.forEach(k => {
+  keys.forEach((k) => {
     const item = images[k];
+    const isBelow = (item.placement !== "beside");
+    const placementBadge = isBelow
+      ? `<span class="text-[9.5px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-bold">⬇️ नीचे (Below)</span>`
+      : `<span class="text-[9.5px] bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded font-bold">➡️ बगल (Beside)</span>`;
+
+    const tagStr = `[IMG: ${k}]`;
+    const escapedTag = escapeHtml(tagStr);
+    const escapedCaption = escapeHtml(item.caption || "");
+
     html += `
-      <div class="flex items-center justify-between p-1.5 bg-slate-50 border border-slate-200 rounded text-xs">
-        <div class="flex items-center gap-2 overflow-hidden">
-          <img src="${item.dataUrl}" class="w-8 h-8 object-cover rounded border border-slate-300 flex-shrink-0" alt="${escapeHtml(k)}">
-          <div class="truncate">
-            <span class="font-bold text-slate-800">${escapeHtml(k)}</span>
-            <span class="text-[10px] text-slate-500 block truncate">${escapeHtml(item.name || "image")}</span>
+      <div class="p-2 bg-white border border-slate-200 rounded-lg shadow-sm space-y-1.5">
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2 overflow-hidden flex-1 min-w-0">
+            <img src="${item.dataUrl}" class="w-10 h-10 object-contain bg-slate-50 rounded border border-slate-300 flex-shrink-0" alt="${escapeHtml(k)}">
+            <div class="truncate flex-1 min-w-0">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="font-bold text-slate-900 text-xs truncate">${escapeHtml(k)}</span>
+                ${placementBadge}
+              </div>
+              ${item.caption ? `<div class="text-[10px] text-slate-600 truncate font-semibold">“${escapedCaption}”</div>` : ""}
+              <div class="text-[10px] text-slate-400 truncate">${escapeHtml(item.name || "image")}</div>
+            </div>
           </div>
+          <button type="button" onclick="deleteBookInlineImage('${escapeHtml(k)}')" class="text-rose-500 hover:text-rose-700 p-1 font-bold text-xs cursor-pointer flex-shrink-0" title="Delete">
+            ✕
+          </button>
         </div>
-        <button type="button" onclick="deleteBookInlineImage('${escapeHtml(k)}')" class="text-red-500 hover:text-red-700 p-1 font-bold cursor-pointer" title="Delete">
-          ✕
-        </button>
+        <div class="flex items-center gap-1.5 pt-1 border-t border-slate-100">
+          <button type="button" onclick="copyBookImageTag('${escapeHtml(k)}', '${escapedCaption}')" class="flex-1 py-1 px-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded text-[10px] font-bold transition flex items-center justify-center gap-1 cursor-pointer">
+            <span>📋 Copy <code>${escapedTag}</code></span>
+          </button>
+          <button type="button" onclick="insertBookImageTagIntoText('${escapeHtml(k)}', '${escapedCaption}', '${isBelow ? "below" : "beside"}')" class="flex-1 py-1 px-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 rounded text-[10px] font-bold transition flex items-center justify-center gap-1 cursor-pointer">
+            <span>⬇️ Insert in Text</span>
+          </button>
+        </div>
       </div>
     `;
   });
@@ -5196,11 +5483,50 @@ function deleteBookInlineImage(keyword) {
   if (appState.book && appState.book.inlineImages) {
     delete appState.book.inlineImages[keyword];
     renderBookInlineImagesList();
+    saveSettingsToStorage(false);
     renderDocument();
-    showToast(`Removed attached image for "${keyword}"`, "info");
+    showToast(`Removed image "${keyword}"`, "info");
   }
 }
 window.deleteBookInlineImage = deleteBookInlineImage;
+
+function copyBookImageTag(key, caption) {
+  const tag = caption ? `[IMG: ${key} | ${caption}]` : `[IMG: ${key}]`;
+  if (typeof navigator !== "undefined" && navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(tag).then(() => {
+      showToast(`📋 Copied ${tag}! Paste it directly under any topic.`, "success");
+    }).catch(() => {
+      if (typeof prompt === "function") prompt("Copy image tag:", tag);
+    });
+  } else if (typeof prompt === "function") {
+    prompt("Copy image tag:", tag);
+  }
+}
+window.copyBookImageTag = copyBookImageTag;
+
+function insertBookImageTagIntoText(key, caption, placement) {
+  const textarea = document.getElementById("textarea-book-content");
+  if (!textarea) return;
+  const tagStr = caption
+    ? `\n[IMG: ${key} | ${placement || "below"} | ${caption}]\n`
+    : `\n[IMG: ${key} | ${placement || "below"}]\n`;
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const val = textarea.value;
+  if (typeof start === "number" && typeof end === "number") {
+    textarea.value = val.slice(0, start) + tagStr + val.slice(end);
+    textarea.selectionStart = textarea.selectionEnd = start + tagStr.length;
+  } else {
+    textarea.value += tagStr;
+  }
+  if (!appState.book) appState.book = {};
+  appState.book.rawBookContent = textarea.value;
+  saveSettingsToStorage(false);
+  renderDocument();
+  showToast(`⬇️ Inserted ${tagStr.trim()} into your notes!`, "success");
+  textarea.focus();
+}
+window.insertBookImageTagIntoText = insertBookImageTagIntoText;
 
 /**
  * Creates a professional A4 Booklet Cover Title Page
@@ -7434,6 +7760,21 @@ function setupEventListeners() {
     appState.book.watermarkText = preset.watermarkText;
     appState.book.footerLeftText = preset.footerLeftText;
     appState.book.footerRightText = preset.footerRightText;
+    if (presetKey === "economics") {
+      if (!appState.book.inlineImages || Object.keys(appState.book.inlineImages).length === 0) {
+        appState.book.inlineImages = {
+          "1": {
+            id: "1",
+            keyword: "अर्थव्यवस्था की संरचना",
+            name: "economy_sectors.svg",
+            caption: "चित्र 1.1: अर्थव्यवस्था के तीनों प्रमुख क्षेत्र",
+            placement: "below",
+            dataUrl: SAMPLE_ECONOMY_SVG
+          }
+        };
+      }
+    }
+    renderBookInlineImagesList();
     syncInputsFromState();
     renderDocument();
     showToast(`📚 Loaded ${preset.label} Sample Notes!`, "success");
@@ -7625,38 +7966,74 @@ function setupEventListeners() {
   bindBookInput("select-book-bullet-style", "bulletStyle");
   bindBookInput("select-book-col-divider", "colDivider");
 
-  // Inline Thumbnail Topic Attacher
+  // Topic Images & Diagrams Manager (Below or Beside Topic)
   const btnAttachBookInlineImg = document.getElementById("btn-attach-book-inline-img");
   const inputBookInlineImgFile = document.getElementById("input-book-inline-img-file");
   const inputBookInlineImgKeyword = document.getElementById("input-book-inline-img-keyword");
+  const inputBookInlineImgCaption = document.getElementById("input-book-inline-img-caption");
+  const btnInsertImgTagPrompt = document.getElementById("btn-insert-img-tag-prompt");
+
+  if (btnInsertImgTagPrompt) {
+    btnInsertImgTagPrompt.addEventListener("click", () => {
+      const textarea = document.getElementById("textarea-book-content");
+      if (!textarea) return;
+      const existingKeys = Object.keys((appState.book && appState.book.inlineImages) || {});
+      const nextId = existingKeys.length > 0 ? existingKeys[0] : "1";
+      const sampleTag = `\n[IMG: ${nextId} | चित्र 1.1: विवरण]\n`;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const val = textarea.value;
+      if (typeof start === "number" && typeof end === "number") {
+        textarea.value = val.slice(0, start) + sampleTag + val.slice(end);
+        textarea.selectionStart = textarea.selectionEnd = start + sampleTag.length;
+      } else {
+        textarea.value += sampleTag;
+      }
+      if (!appState.book) appState.book = {};
+      appState.book.rawBookContent = textarea.value;
+      saveSettingsToStorage(false);
+      renderDocument();
+      showToast("➕ Inserted [IMG] tag! Change ID/caption as needed.", "info");
+      textarea.focus();
+    });
+  }
 
   if (btnAttachBookInlineImg) {
     btnAttachBookInlineImg.addEventListener("click", () => {
-      const keyword = (inputBookInlineImgKeyword ? inputBookInlineImgKeyword.value : "").trim();
-      if (!keyword) {
-        showToast("Please enter a topic keyword (e.g. 'पूंजीवादी अर्थव्यवस्था')!", "error");
-        return;
-      }
       const file = inputBookInlineImgFile && inputBookInlineImgFile.files && inputBookInlineImgFile.files[0];
       if (!file) {
         showToast("Please select an image file first!", "error");
         return;
       }
-      const reader = new FileReader();
-      reader.onload = (evt) => {
-        if (!appState.book) appState.book = {};
-        if (!appState.book.inlineImages) appState.book.inlineImages = {};
+      if (!appState.book) appState.book = {};
+      if (!appState.book.inlineImages) appState.book.inlineImages = {};
+
+      const existingKeys = Object.keys(appState.book.inlineImages);
+      let keyword = (inputBookInlineImgKeyword ? inputBookInlineImgKeyword.value : "").trim();
+      if (!keyword) {
+        keyword = String(existingKeys.length + 1);
+      }
+      const caption = (inputBookInlineImgCaption ? inputBookInlineImgCaption.value : "").trim();
+      const radioBeside = document.getElementById("radio-book-img-beside");
+      const placement = (radioBeside && radioBeside.checked) ? "beside" : "below";
+
+      compressImageForBook(file, 850, 650, 0.88, (dataUrl) => {
         appState.book.inlineImages[keyword] = {
+          id: keyword,
           keyword: keyword,
           name: file.name,
-          dataUrl: evt.target.result
+          caption: caption,
+          placement: placement,
+          dataUrl: dataUrl
         };
         renderBookInlineImagesList();
+        saveSettingsToStorage(false);
         renderDocument();
-        showToast(`📸 Attached image to topic "${keyword}"!`, "success");
+        showToast(`📸 Added image! Use tag [IMG: ${keyword}] in your notes.`, "success");
         if (inputBookInlineImgFile) inputBookInlineImgFile.value = "";
-      };
-      reader.readAsDataURL(file);
+        if (inputBookInlineImgKeyword) inputBookInlineImgKeyword.value = "";
+        if (inputBookInlineImgCaption) inputBookInlineImgCaption.value = "";
+      });
     });
   }
 

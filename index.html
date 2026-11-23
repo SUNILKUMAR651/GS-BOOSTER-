@@ -1521,6 +1521,17 @@
               </div>
             </div>
 
+            <!-- Quick Topic Diagram Insertion Bar -->
+            <div class="flex items-center justify-between p-2 bg-emerald-50/80 border border-emerald-200 rounded-lg text-xs">
+              <div class="text-[11px] text-slate-700 flex items-center gap-1.5 flex-wrap">
+                <span class="text-emerald-800 font-bold">🖼️ Topic Picture:</span>
+                <span>Topic ke neeche likhein: <code class="bg-white px-1 py-0.5 rounded border border-emerald-300 font-bold text-emerald-800">[IMG: 1]</code> ya <code class="bg-white px-1 py-0.5 rounded border border-emerald-300 font-bold text-emerald-800">[IMG: 1 | कैप्शन]</code></span>
+              </div>
+              <button type="button" id="btn-insert-img-tag-prompt" class="px-2 py-1 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded text-[10.5px] shadow-sm transition flex items-center gap-1 cursor-pointer flex-shrink-0">
+                <span>➕ Insert [IMG] Tag</span>
+              </button>
+            </div>
+
             <!-- Main Book Notes Textarea -->
             <div class="relative">
               <textarea
@@ -1741,31 +1752,79 @@
               </div>
             </div>
 
-            <!-- SECTION C: INLINE TOPIC THUMBNAILS (E.G. COINS, ATM, FARMING ICONS) -->
-            <div class="border border-slate-200 bg-white rounded-xl p-3.5 space-y-3">
-              <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider border-b border-slate-100 pb-1.5">
-                🖼️ Inline Topic Illustrations & Photos
-              </h4>
+            <!-- SECTION C: TOPIC IMAGES & DIAGRAMS (BELOW OR BESIDE TOPIC) -->
+            <div class="border border-slate-200 bg-white rounded-xl p-3.5 space-y-3.5 shadow-sm">
+              <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                  <span>🖼️ Topic Images &amp; Diagrams Manager</span>
+                </h4>
+                <span class="text-[9px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-black">Book Visuals</span>
+              </div>
               <p class="text-[11px] text-slate-500 leading-snug">
-                Attach small illustrative photos to specific topics (e.g. money, ATM card, farming, industry, pie charts).
+                Kisi bhi topic ya content ke <b>नीचे (Below)</b> ya <b>बगल में (Beside)</b> diagram/photo add karein. Text mein direct <code>[IMG: 1]</code> likh kar bhi add kar sakte hain!
               </p>
 
-              <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Target Keyword / Topic Title:</label>
-                <input type="text" id="input-book-inline-img-keyword" placeholder="e.g. पूंजीवादी अर्थव्यवस्था or ATM or बैंक" class="w-full text-xs p-1.5 border border-slate-300 rounded bg-white">
+              <!-- Upload & Settings Box -->
+              <div class="space-y-2.5 bg-slate-50/70 p-2.5 rounded-lg border border-slate-200">
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-700 mb-1">1. Select Image File (डायग्राम / चित्र फ़ाइल):</label>
+                  <input type="file" id="input-book-inline-img-file" accept="image/*" class="w-full text-xs p-1.5 border border-slate-300 rounded bg-white file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 cursor-pointer">
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-700 mb-1">2. Placement / स्थिति (कहाँ लगाना है):</label>
+                  <div class="grid grid-cols-2 gap-2">
+                    <label class="flex items-center gap-2 p-2 bg-white border border-slate-300 rounded-lg cursor-pointer hover:border-emerald-500 text-xs font-semibold text-slate-800">
+                      <input type="radio" name="radio-book-img-placement" id="radio-book-img-below" value="below" checked class="text-emerald-600 focus:ring-emerald-500">
+                      <div>
+                        <div class="font-bold text-[11px]">⬇️ नीचे (Below)</div>
+                        <div class="text-[9.5px] text-slate-500 font-normal">Topic ke neeche block</div>
+                      </div>
+                    </label>
+                    <label class="flex items-center gap-2 p-2 bg-white border border-slate-300 rounded-lg cursor-pointer hover:border-emerald-500 text-xs font-semibold text-slate-800">
+                      <input type="radio" name="radio-book-img-placement" id="radio-book-img-beside" value="beside" class="text-emerald-600 focus:ring-emerald-500">
+                      <div>
+                        <div class="font-bold text-[11px]">➡️ बगल में (Beside)</div>
+                        <div class="text-[9.5px] text-slate-500 font-normal">Right float thumbnail</div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-700 mb-1">3. Topic / Keyword (Optional - स्वतः अटैच करने के लिए):</label>
+                  <input type="text" id="input-book-inline-img-keyword" placeholder="उदा. पूंजीवादी अर्थव्यवस्था या ATM (खाली छोड़ने पर 1, 2... बनेगा)" class="w-full text-xs p-1.5 border border-slate-300 rounded bg-white focus:ring-1 focus:ring-emerald-500">
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-700 mb-1">4. Caption (चित्र का नाम / कैप्शन - Optional):</label>
+                  <input type="text" id="input-book-inline-img-caption" placeholder="उदा. चित्र 1.1: अर्थव्यवस्था की संरचना" class="w-full text-xs p-1.5 border border-slate-300 rounded bg-white focus:ring-1 focus:ring-emerald-500">
+                </div>
+
+                <button type="button" id="btn-attach-book-inline-img" class="w-full py-2 px-3 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-bold rounded-lg text-xs shadow transition flex items-center justify-center gap-1.5 cursor-pointer">
+                  <span>➕ Add Image to Book</span>
+                </button>
               </div>
 
-              <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Select Image File:</label>
-                <input type="file" id="input-book-inline-img-file" accept="image/*" class="w-full text-xs p-1.5 border border-slate-300 rounded bg-white file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-slate-700 file:text-white hover:file:bg-slate-800 cursor-pointer">
+              <!-- Attached Images Library -->
+              <div class="space-y-1.5">
+                <div class="flex items-center justify-between">
+                  <span class="text-[11px] font-bold text-slate-700 uppercase tracking-wider">📁 Attached Book Images &amp; Tags</span>
+                  <span id="badge-book-images-count" class="text-[10px] bg-slate-200 text-slate-700 px-1.5 py-0.2 rounded font-bold">0</span>
+                </div>
+                <div id="list-book-inline-images" class="space-y-2 pt-1 max-h-56 overflow-y-auto">
+                  <p class="text-xs text-slate-400 italic">No images added yet.</p>
+                </div>
               </div>
 
-              <button type="button" id="btn-attach-book-inline-img" class="w-full py-2 px-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-lg text-xs shadow transition flex items-center justify-center gap-1.5 cursor-pointer">
-                <span>➕ Attach Image to Topic</span>
-              </button>
-
-              <div id="list-book-inline-images" class="space-y-1.5 pt-1 max-h-40 overflow-y-auto">
-                <p class="text-xs text-slate-400 italic">No inline images attached yet.</p>
+              <!-- Quick Helper Guide Box -->
+              <div class="p-2.5 bg-amber-50 border border-amber-200 rounded-lg text-[10.5px] text-amber-900 space-y-1">
+                <div class="font-bold flex items-center gap-1 text-amber-950">
+                  <span>💡 Direct Text Tag Syntax (टेक्स्ट में लिखने का तरीका):</span>
+                </div>
+                <p>• <b>Topic ke neeche:</b> Topic ke neeche wali line mein likhein: <code>[IMG: 1]</code> ya <code>[IMG: 1 | चित्र 1.1: शीर्षक]</code></p>
+                <p>• <b>Topic ke bagal mein:</b> <code>[IMG: 1 | beside]</code> ya <code>[IMG: 1 | beside | कैप्शन]</code></p>
+                <p>• <b>Direct Web Link:</b> <code>[IMG: https://url-to-pic.png | शीर्षक]</code></p>
               </div>
             </div>
 

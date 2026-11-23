@@ -1412,22 +1412,82 @@ sup {
   min-width: 14px;
 }
 
-/* Inline Thumbnail Image */
+/* Inline Thumbnail Image (Beside Topic / Content) */
 .book-inline-thumbnail-wrapper {
   float: right;
-  margin: 2px 0 4px 6px;
+  margin: 2px 0 4px 8px;
   border: 1px solid #cbd5e1;
   border-radius: 4px;
-  padding: 1.5px;
+  padding: 2px;
   background-color: #ffffff;
-  max-width: 90px;
+  max-width: 95px;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .book-inline-thumbnail-img {
-  max-height: 55px;
-  max-width: 85px;
+  max-height: 65px;
+  max-width: 90px;
   object-fit: contain;
   display: block;
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+.book-inline-thumbnail-caption {
+  font-family: var(--book-font-family, var(--font-devanagari));
+  font-size: 8px;
+  font-weight: 700;
+  color: #475569;
+  margin-top: 1px;
+  line-height: 1.1;
+  text-align: center;
+}
+
+/* Book In-Content Image / Diagram Block (Below Topic / Content) */
+.book-image-block {
+  margin: 4px 0 6px 0;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  break-inside: avoid;
+  page-break-inside: avoid;
+  display: block;
+  clear: both;
+}
+
+.book-image-inner {
+  display: inline-block;
+  max-width: 100%;
+  border: 1.2px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 3px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.book-image-img {
+  max-width: 100%;
+  max-height: 140px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  border-radius: 4px;
+}
+
+.book-image-caption {
+  font-family: var(--book-font-family, var(--font-devanagari));
+  font-size: 9px;
+  font-weight: 700;
+  color: #334155;
+  margin-top: 2.5px;
+  text-align: center;
+  line-height: 1.25;
+  padding: 0 4px;
 }
 
 /* Book Footer */
@@ -2643,7 +2703,8 @@ sup {
   .book-item-block,
   .book-bullet-item,
   .book-numbered-item,
-  .book-note-box {
+  .book-note-box,
+  .book-image-block {
     break-inside: avoid !important;
     page-break-inside: avoid !important;
     -webkit-column-break-inside: avoid !important;
