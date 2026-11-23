@@ -103,6 +103,13 @@
           <!-- Populated by JS -->
         </div>
 
+        <!-- Gemini AI Assistant Button -->
+        <button id="btn-open-ai-assistant" type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 sm:py-2 bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 active:scale-95 text-white rounded-lg text-xs font-bold tracking-wide shadow-md shadow-purple-600/30 transition-all cursor-pointer flex-shrink-0 animate-pulse-subtle" title="Open Google Gemini AI Assistant for Question Generation, Fact-Checking & Fixes">
+          <span class="text-amber-300 text-sm">✨</span>
+          <span class="hidden sm:inline">Gemini AI</span>
+          <span class="sm:hidden">AI</span>
+        </button>
+
         <!-- Format Saved Status Badge -->
         <div id="header-save-indicator" class="hidden sm:inline-flex items-center text-[10px] text-emerald-400 font-bold bg-emerald-950/60 border border-emerald-500/30 px-2 py-1 rounded" title="Auto-saved to your browser">
           ✓ Format Saved
@@ -257,6 +264,16 @@
             <p class="text-[10px] text-slate-500">
               Converts all bulk questions and answers instantly in 1 click, preserving your format and delimiters.
             </p>
+          </div>
+
+          <!-- Inline AI Action Bar for GS Pointer Studio -->
+          <div class="flex items-center gap-1.5 p-1.5 bg-gradient-to-r from-purple-50 via-indigo-50 to-blue-50 border border-purple-200 rounded-lg">
+            <button type="button" class="btn-trigger-ai-modal flex-1 py-1.5 px-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-bold rounded-md text-[11px] shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer">
+              <span>✨ AI: Generate One-Liners</span>
+            </button>
+            <button type="button" class="btn-trigger-ai-fix flex-1 py-1.5 px-2 bg-white hover:bg-purple-50 text-purple-800 border border-purple-300 font-bold rounded-md text-[11px] shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer">
+              <span>🔍 AI: Fix Delimiters &amp; Qs</span>
+            </button>
           </div>
 
           <!-- Main Input Textarea -->
@@ -934,6 +951,16 @@
               </div>
             </div>
 
+            <!-- Inline AI Action Bar for MCQ Studio -->
+            <div class="flex items-center gap-1.5 p-1.5 bg-gradient-to-r from-purple-50 via-indigo-50 to-pink-50 border border-purple-200 rounded-lg">
+              <button type="button" class="btn-trigger-ai-modal flex-1 py-1.5 px-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold rounded-md text-[11px] shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer">
+                <span>✨ AI: Generate Questions</span>
+              </button>
+              <button type="button" class="btn-trigger-ai-fix flex-1 py-1.5 px-2 bg-white hover:bg-purple-50 text-purple-800 border border-purple-300 font-bold rounded-md text-[11px] shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer">
+                <span>🔍 AI: Fix &amp; Correct Answers</span>
+              </button>
+            </div>
+
             <!-- Main MCQ Textarea -->
             <div class="relative">
               <textarea
@@ -1521,6 +1548,16 @@
               </div>
             </div>
 
+            <!-- Inline AI Action Bar for Book Studio -->
+            <div class="flex items-center gap-1.5 p-1.5 bg-gradient-to-r from-purple-50 via-indigo-50 to-emerald-50 border border-purple-200 rounded-lg">
+              <button type="button" class="btn-trigger-ai-modal flex-1 py-1.5 px-2 bg-gradient-to-r from-purple-600 to-emerald-700 hover:from-purple-700 hover:to-emerald-800 text-white font-bold rounded-md text-[11px] shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer">
+                <span>✨ AI: Generate Book Notes</span>
+              </button>
+              <button type="button" class="btn-trigger-ai-fix flex-1 py-1.5 px-2 bg-white hover:bg-purple-50 text-purple-800 border border-purple-300 font-bold rounded-md text-[11px] shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer">
+                <span>🔍 AI: Fix &amp; Fact-Check Notes</span>
+              </button>
+            </div>
+
             <!-- Quick Topic Diagram Insertion Bar -->
             <div class="flex items-center justify-between p-2 bg-emerald-50/80 border border-emerald-200 rounded-lg text-xs">
               <div class="text-[11px] text-slate-700 flex items-center gap-1.5 flex-wrap">
@@ -2033,6 +2070,16 @@
               </div>
             </div>
 
+            <!-- Inline AI Action Bar for Slide Studio -->
+            <div class="flex items-center gap-1.5 p-1.5 bg-gradient-to-r from-purple-50 via-indigo-50 to-fuchsia-50 border border-purple-200 rounded-lg">
+              <button type="button" class="btn-trigger-ai-modal flex-1 py-1.5 px-2 bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-700 hover:to-fuchsia-700 text-white font-bold rounded-md text-[11px] shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer">
+                <span>✨ AI: Generate Slide MCQs</span>
+              </button>
+              <button type="button" class="btn-trigger-ai-fix flex-1 py-1.5 px-2 bg-white hover:bg-purple-50 text-purple-800 border border-purple-300 font-bold rounded-md text-[11px] shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer">
+                <span>🔍 AI: Solve &amp; Add Explanations</span>
+              </button>
+            </div>
+
             <!-- Slide Content Textarea -->
             <div class="space-y-1">
               <textarea id="textarea-slide-content" rows="11" class="w-full text-xs p-3 font-mono border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition leading-relaxed resize-y bg-slate-50/50" placeholder="Paste questions in simple format:&#10;&#10;1. द्विविस्थापन अभिक्रिया में क्या होता है?&#10;(A) एक पदार्थ टूटता है&#10;(B) दो यौगिक आयनों का आदान-प्रदान करते हैं&#10;(C) केवल गैस बनती है&#10;(D) केवल ताप निकलता है&#10;उत्तर - (B)&#10;व्याख्या: इस अभिक्रिया में दोनों यौगिक आयनों का विनिमय करते हैं।"></textarea>
@@ -2522,6 +2569,246 @@
       <button type="button" id="btn-pres-close" class="slide-presentation-btn bg-rose-600/80 hover:bg-rose-600" title="Exit Presentation (Esc)">
         <span>✕ Exit</span>
       </button>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       4. GEMINI AI ASSISTANT MODAL (Powered by Google Gemini 1.5 / 2.0 Flash)
+       ========================================================================= -->
+  <div id="ai-assistant-modal" class="ai-modal-overlay hidden no-print">
+    <div class="ai-modal-container">
+      
+      <!-- Modal Header -->
+      <div class="p-3.5 bg-gradient-to-r from-slate-900 via-purple-950 to-slate-900 text-white flex items-center justify-between border-b border-purple-500/20">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center text-base shadow-md">
+            ✨
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-sm font-bold tracking-tight text-white flex items-center gap-1.5">
+                <span>Google Gemini AI Assistant</span>
+              </h3>
+              <span id="ai-modal-status-badge" class="text-[9.5px] px-2 py-0.5 rounded-full font-bold bg-amber-400/20 text-amber-300 border border-amber-400/30">
+                ● Free Engine (Built-in)
+              </span>
+            </div>
+            <p class="text-[10px] text-purple-200/80">Question Generation, Answer Verification, Fact-Checking &amp; Smart Corrections</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button type="button" id="btn-ai-toggle-settings" class="px-2.5 py-1 text-xs bg-purple-900/50 hover:bg-purple-800/60 text-purple-200 border border-purple-500/30 rounded-lg font-semibold transition flex items-center gap-1 cursor-pointer">
+            <span>🔑 API Key</span>
+          </button>
+          <button type="button" id="btn-close-ai-modal" class="w-7 h-7 rounded-lg bg-slate-800/80 hover:bg-rose-600/80 text-slate-300 hover:text-white flex items-center justify-center text-sm font-bold transition cursor-pointer">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="flex border-b border-slate-200 bg-slate-50/80 px-3 overflow-x-auto">
+        <button type="button" class="ai-tab-btn active" data-ai-tab="generate">
+          <span>🎯 Generate (प्रश्न व नोट्स बनाएं)</span>
+        </button>
+        <button type="button" class="ai-tab-btn" data-ai-tab="fix">
+          <span>🔍 Fix &amp; Fact-Check (ग़लत उत्तर व त्रुटि सही करें)</span>
+        </button>
+        <button type="button" class="ai-tab-btn" data-ai-tab="solve">
+          <span>💡 Solve &amp; Explain (उत्तर व व्याख्या जोड़ें)</span>
+        </button>
+        <button type="button" class="ai-tab-btn" data-ai-tab="settings">
+          <span>⚙️ Gemini Key Settings</span>
+        </button>
+      </div>
+
+      <!-- Modal Body (Scrollable) -->
+      <div class="p-4 overflow-y-auto space-y-3.5 flex-1 max-h-[calc(90vh-140px)]">
+        
+        <!-- PANEL 1: GENERATE QUESTIONS -->
+        <div id="ai-panel-generate" class="ai-tab-panel space-y-3">
+          <!-- Preset Chips -->
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1.5">⚡ Quick Exam Presets (1-Click Prompt):</label>
+            <div class="flex flex-wrap gap-1.5">
+              <button type="button" class="ai-chip-btn" data-ai-prompt="बिहार पुलिस कांस्टेबल (10वीं कक्षा स्तर) के 10 महत्वपूर्ण सामान्य ज्ञान एवं विज्ञान के प्रश्न 4 विकल्पों (A,B,C,D), सही उत्तर और व्याख्या सहित तैयार करें।">
+                <span>👮 Bihar Police 10th (10 Qs)</span>
+              </button>
+              <button type="button" class="ai-chip-btn" data-ai-prompt="रेलवे NTPC और ग्रुप डी परीक्षा हेतु सामान्य विज्ञान (Physics, Chemistry, Biology) के 15 महत्वपूर्ण MCQs उत्तर और व्याख्या सहित तैयार करें।">
+                <span>🚆 Railway Science (15 Qs)</span>
+              </button>
+              <button type="button" class="ai-chip-btn" data-ai-prompt="SSC GD परीक्षा के लिए सामान्य ज्ञान (GK) और हिंदी के 10-10 महत्वपूर्ण बहुविकल्पीय प्रश्न (MCQ) उत्तर सहित तैयार करें।">
+                <span>📝 SSC GD GK (10 Qs)</span>
+              </button>
+              <button type="button" class="ai-chip-btn" data-ai-prompt="कक्षा 10वीं विज्ञान: रासायनिक अभिक्रियाएं एवं समीकरण (Chemical Reactions) के उच्च-गुणवत्ता वाले क्लास नोट्स महत्वपूर्ण परिभाषाओं और मुख्य बिंदुओं के साथ तैयार करें।">
+                <span>🔬 Class 10 Science Notes</span>
+              </button>
+              <button type="button" class="ai-chip-btn" data-ai-prompt="भारतीय संविधान एवं राजव्यवस्था (Polity) के 20 सबसे महत्वपूर्ण One-Liners तैयार करें।">
+                <span>🏛️ Polity One-Liners (20 Qs)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Prompt & Studio Target Form -->
+          <div class="space-y-2 bg-slate-50 p-3 rounded-xl border border-slate-200">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Enter Topic / Requirement (क्या प्रश्न या नोट्स चाहिए):</label>
+              <textarea id="input-ai-prompt" rows="3" placeholder="उदा. मुझे बिहार पुलिस के 10वीं स्तर के 10 विज्ञान के प्रश्न 4 ऑप्शन और उत्तर के साथ चाहिए..." class="w-full text-xs p-2.5 border border-slate-300 rounded-lg bg-white focus:ring-2 focus:ring-purple-500 focus:border-purple-500 leading-relaxed"></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Target Studio (कहाँ डालना है):</label>
+                <select id="select-ai-studio-target" class="w-full text-xs p-2 border border-slate-300 rounded-lg bg-white font-semibold text-slate-800">
+                  <option value="auto">🎯 Auto (Active Studio)</option>
+                  <option value="mcq">📝 MCQ Practice Set Studio</option>
+                  <option value="slide">🖥️ Digital Board Slide PPT</option>
+                  <option value="book">📚 Smart Book &amp; Notes Studio</option>
+                  <option value="pointer">📌 GS Pointer One-Liner</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Number of Questions / Size:</label>
+                <select id="select-ai-count" class="w-full text-xs p-2 border border-slate-300 rounded-lg bg-white font-semibold text-slate-800">
+                  <option value="10">10 Questions</option>
+                  <option value="15">15 Questions</option>
+                  <option value="20">20 Questions</option>
+                  <option value="25">25 Questions</option>
+                  <option value="5">5 Questions (Quick Test)</option>
+                </select>
+              </div>
+            </div>
+
+            <button type="button" id="btn-ai-generate" class="w-full py-2.5 px-4 bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:from-purple-700 hover:to-indigo-800 text-white font-bold rounded-lg text-xs shadow-md shadow-purple-600/30 transition flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]">
+              <span id="ai-generate-spinner" class="hidden animate-spin">⏳</span>
+              <span id="ai-generate-btn-text">🚀 Generate with Gemini AI</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- PANEL 2: FIX, PROOFREAD & FACT-CHECK -->
+        <div id="ai-panel-fix" class="ai-tab-panel space-y-3 hidden">
+          <div class="p-2.5 bg-blue-50 border border-blue-200 rounded-xl text-[11px] text-blue-900 space-y-1">
+            <div class="font-bold flex items-center gap-1.5 text-blue-950">
+              <span>🔍 AI Fact-Checking &amp; Smart Proofreader:</span>
+            </div>
+            <p>PDF/Doc से अपलोड या पेस्ट किए गए प्रश्नों में गलत उत्तर, टूटे OCR अक्षर, गलत विकल्प या स्पेलिंग त्रुटियां होने पर AI उन्हें जांचकर 100% सही करता है।</p>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-700">Content to Review &amp; Fix:</span>
+            <button type="button" id="btn-ai-load-active-content" class="text-xs text-purple-700 hover:text-purple-900 font-bold flex items-center gap-1 cursor-pointer">
+              <span>📋 Load from Active Studio</span>
+            </button>
+          </div>
+
+          <textarea id="input-ai-fix-content" rows="6" placeholder="यहाँ प्रश्न या नोट्स पेस्ट करें या 'Load from Active Studio' पर क्लिक करें..." class="w-full text-xs font-mono p-2.5 border border-slate-300 rounded-lg bg-slate-50/50 leading-relaxed"></textarea>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <label class="flex items-center gap-1.5 text-xs text-slate-700 cursor-pointer">
+              <input type="checkbox" id="check-ai-fact-check" checked class="rounded text-purple-600">
+              <span>Fact-check Answers</span>
+            </label>
+            <label class="flex items-center gap-1.5 text-xs text-slate-700 cursor-pointer">
+              <input type="checkbox" id="check-ai-fix-ocr" checked class="rounded text-purple-600">
+              <span>Fix Broken OCR/Typos</span>
+            </label>
+            <label class="flex items-center gap-1.5 text-xs text-slate-700 cursor-pointer">
+              <input type="checkbox" id="check-ai-fix-formatting" checked class="rounded text-purple-600">
+              <span>Format Standard</span>
+            </label>
+          </div>
+
+          <button type="button" id="btn-ai-run-fix" class="w-full py-2.5 px-4 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-bold rounded-lg text-xs shadow-md transition flex items-center justify-center gap-2 cursor-pointer">
+            <span id="ai-fix-spinner" class="hidden animate-spin">⏳</span>
+            <span id="ai-fix-btn-text">⚡ AI Proofread, Correct &amp; Fact-Check</span>
+          </button>
+        </div>
+
+        <!-- PANEL 3: SOLVE & EXPLAIN -->
+        <div id="ai-panel-solve" class="ai-tab-panel space-y-3 hidden">
+          <div class="p-2.5 bg-purple-50 border border-purple-200 rounded-xl text-[11px] text-purple-900 space-y-1">
+            <div class="font-bold flex items-center gap-1.5 text-purple-950">
+              <span>💡 Solve Questions &amp; Add Explanations:</span>
+            </div>
+            <p>यदि आपके प्रश्नों में उत्तर (Answer Key) या व्याख्या (Explanation) नहीं है, तो AI सभी प्रश्नों को हल करके सटीक उत्तर और 1-2 लाइन की व्याख्या जोड़ देगा।</p>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-700">Questions needing Answers / Solutions:</span>
+            <button type="button" id="btn-ai-load-solve-content" class="text-xs text-purple-700 hover:text-purple-900 font-bold flex items-center gap-1 cursor-pointer">
+              <span>📋 Load from Active Studio</span>
+            </button>
+          </div>
+
+          <textarea id="input-ai-solve-content" rows="6" placeholder="प्रश्नों को यहाँ पेस्ट करें (बिना उत्तर वाले प्रश्न)..." class="w-full text-xs font-mono p-2.5 border border-slate-300 rounded-lg bg-slate-50/50 leading-relaxed"></textarea>
+
+          <button type="button" id="btn-ai-run-solve" class="w-full py-2.5 px-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold rounded-lg text-xs shadow-md transition flex items-center justify-center gap-2 cursor-pointer">
+            <span id="ai-solve-spinner" class="hidden animate-spin">⏳</span>
+            <span id="ai-solve-btn-text">💡 Find Answers &amp; Generate Explanations</span>
+          </button>
+        </div>
+
+        <!-- PANEL 4: GEMINI API KEY SETTINGS -->
+        <div id="ai-panel-settings" class="ai-tab-panel space-y-3 hidden">
+          <div class="border border-slate-200 bg-slate-50/70 p-3.5 rounded-xl space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+              <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                <span>🔑 Google Gemini API Key</span>
+              </h4>
+              <span class="text-[10px] text-emerald-700 font-bold bg-emerald-100 px-2 py-0.5 rounded">100% Free Tier</span>
+            </div>
+
+            <p class="text-[11px] text-slate-600 leading-snug">
+              Google AI Studio से अपना मुफ़्त Gemini API Key दर्ज करें। यह केवल आपके ब्राउज़र के <code>localStorage</code> में सुरक्षित सेव रहता है।
+            </p>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Your Gemini API Key:</label>
+              <input type="password" id="input-gemini-api-key" placeholder="AIzaSy..." class="w-full text-xs p-2.5 border border-slate-300 rounded-lg bg-white font-mono">
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button type="button" id="btn-save-gemini-key" class="py-2 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-xs transition cursor-pointer">
+                <span>💾 Save API Key</span>
+              </button>
+              <button type="button" id="btn-test-gemini-key" class="py-2 px-3 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-lg text-xs transition cursor-pointer">
+                <span>⚡ Test Connection</span>
+              </button>
+              <a href="https://aistudio.google.com/app/apikey" target="_blank" class="py-2 px-3 bg-purple-100 hover:bg-purple-200 text-purple-800 font-bold rounded-lg text-xs transition ml-auto inline-flex items-center gap-1">
+                <span>🔗 Get Free Key</span>
+              </a>
+            </div>
+
+            <div id="ai-key-test-result" class="text-xs font-medium pt-1 hidden"></div>
+          </div>
+        </div>
+
+        <!-- AI OUTPUT & ACTION DRAWER -->
+        <div id="ai-output-section" class="border border-purple-200 bg-purple-50/30 rounded-xl p-3 space-y-2.5 hidden">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+              <span>✨ Generated / Corrected Result:</span>
+            </span>
+            <span id="ai-output-meta-badge" class="text-[10px] font-mono text-purple-700 bg-purple-100 px-2 py-0.5 rounded font-bold">Ready</span>
+          </div>
+
+          <textarea id="textarea-ai-output" rows="8" class="w-full text-xs font-mono p-3 border border-purple-200 rounded-lg bg-white text-slate-800 leading-relaxed resize-y shadow-inner"></textarea>
+
+          <div class="flex flex-wrap items-center gap-2 pt-1">
+            <button type="button" id="btn-ai-apply-to-studio" class="flex-1 py-2 px-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold rounded-lg text-xs shadow transition flex items-center justify-center gap-1.5 cursor-pointer">
+              <span>📥 Apply to Studio (तुरंत PDF में डालें)</span>
+            </button>
+            <button type="button" id="btn-ai-copy-output" class="py-2 px-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-lg text-xs transition flex items-center justify-center gap-1 cursor-pointer">
+              <span>📋 Copy Text</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
     </div>
   </div>
 

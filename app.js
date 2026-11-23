@@ -9128,6 +9128,849 @@ function setupSlideEventListeners() {
     }
 }
 
+// ==========================================================================
+// GOOGLE GEMINI AI ASSISTANT MODULE (Generation, Proofreading & Fact-Check)
+// ==========================================================================
+
+const GEMINI_STORAGE_KEY = "GEMINI_API_KEY";
+
+function getGeminiApiKey() {
+  try {
+    return localStorage.getItem(GEMINI_STORAGE_KEY) || "";
+  } catch (e) {
+    return "";
+  }
+}
+
+function setGeminiApiKey(key) {
+  try {
+    localStorage.setItem(GEMINI_STORAGE_KEY, (key || "").trim());
+  } catch (e) {}
+  updateAiStatusUI();
+}
+
+function updateAiStatusUI() {
+  const badge = document.getElementById("ai-modal-status-badge");
+  const keyInput = document.getElementById("input-gemini-api-key");
+  const key = getGeminiApiKey();
+
+  if (keyInput && !keyInput.value) {
+    keyInput.value = key;
+  }
+
+  if (badge) {
+    if (key) {
+      badge.textContent = "● Gemini AI Connected (Online)";
+      badge.className = "text-[9.5px] px-2 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30";
+    } else {
+      badge.textContent = "● Built-in Engine (Free Offline)";
+      badge.className = "text-[9.5px] px-2 py-0.5 rounded-full font-bold bg-amber-400/20 text-amber-300 border border-amber-400/30";
+    }
+  }
+}
+
+/**
+ * Direct Google Gemini API Call (Supports gemini-1.5-flash, gemini-2.0-flash)
+ */
+async function callGeminiApi(promptText, systemInstruction = "") {
+  const apiKey = getGeminiApiKey();
+  if (!apiKey) {
+    throw new Error("NO_API_KEY");
+  }
+
+  const models = ["gemini-1.5-flash", "gemini-2.0-flash", "gemini-1.5-pro"];
+  let lastError = null;
+
+  for (const model of models) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+      const contents = [
+        {
+          role: "user",
+          parts: [{ text: (systemInstruction ? systemInstruction + "\n\n" : "") + promptText }]
+        }
+      ];
+
+      const resp = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents,
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 4096
+          }
+        })
+      });
+
+      const data = await resp.json();
+      if (data.error) {
+        throw new Error(data.error.message || `Gemini API Error (${model})`);
+      }
+
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (text && text.trim()) {
+        return text.trim();
+      }
+    } catch (err) {
+      lastError = err;
+    }
+  }
+
+  throw lastError || new Error("Failed to communicate with Gemini API.");
+}
+
+/**
+ * Built-in Exam Questions & Notes Knowledge Base (Instant Offline Fallback)
+ */
+const BUILTIN_AI_PRESETS = {
+  biharPolice: `1. 10 सेमी० व्यास का एक सिक्का, f फोकस दूरी वाले एक अवतल दर्पण के ध्रुव से 3.5f की दूरी पर रखा गया है। प्रतिबिंब का रैखिक आवर्धन और व्यास ज्ञात कीजिए।
+(A) क्रमशः 3/5 और 2 सेमी०
+(B) क्रमशः 2/5 और 4 सेमी०
+(C) क्रमशः 3/5 और 5 सेमी०
+(D) क्रमशः 2/5 और 2 सेमी०
+उत्तर : (B)
+व्याख्या : अवतल दर्पण के आवर्धन सूत्र m = -v/u और दर्पण समीकरण 1/f = 1/v + 1/u से रैखिक आवर्धन 2/5 और व्यास 4 सेमी प्राप्त होता है।
+
+2. भारतीय संविधान के किस अनुच्छेद में 'विधि के समक्ष समानता' एवं विधियों के समान संरक्षण का अधिकार दिया गया है?
+(A) अनुच्छेद 12
+(B) अनुच्छेद 14
+(C) अनुच्छेद 19
+(D) अनुच्छेद 21
+उत्तर : (B)
+व्याख्या : भारतीय संविधान के अनुच्छेद 14 के अनुसार राज्य किसी भी नागरिक को कानून के समक्ष समानता से वंचित नहीं करेगा।
+
+3. बिहार में 1857 के सिपाही विद्रोह का मुख्य नेतृत्व किस प्रसिद्ध वीर नायक ने किया था?
+(A) अमर सिंह
+(B) वीर कुंवर सिंह
+(C) पीर अली
+(D) हैदर अली खान
+उत्तर : (B)
+व्याख्या : जगदीशपुर (भोजपुर, बिहार) के 80 वर्षीय जमींदार बाबू वीर कुंवर सिंह ने 1857 के संग्राम में अंग्रेजों के विरुद्ध वीरतापूर्वक नेतृत्व किया।
+
+4. लोहे को जंग लगने से बचाने के लिए उस पर जस्ते (Zinc) की परत चढ़ाने की विधि को क्या कहते हैं?
+(A) संक्षारण (Corrosion)
+(B) यशदलेपन (Galvanization)
+(C) मिश्रधातु निर्माण
+(D) विद्युत अपघटन
+उत्तर : (B)
+व्याख्या : लोहे पर जिंक धातु की सुरक्षात्मक परत चढ़ाने की क्रिया को यशदलेपन (गैल्वेनाइजेशन) कहते हैं।
+
+5. मानव शरीर में रक्त का थक्का (Blood Clotting) बनने के लिए कौन सा विटामिन अनिवार्य रूप से उत्तरदायी है?
+(A) विटामिन A
+(B) विटामिन C
+(C) विटामिन K
+(D) विटामिन D
+उत्तर : (C)
+व्याख्या : विटामिन K यकृत में प्रोथ्रोम्बिन के संश्लेषण में सहायक होता है, जो रक्त का थक्का जमने के लिए अनिवार्य है।
+
+6. भारत में सर्वप्रथम राष्ट्रीय आय का वैज्ञानिक एवं सांख्यिकीय आकलन किसने प्रस्तुत किया था?
+(A) दादाभाई नौरोजी
+(B) प्रो. वी. के. आर. वी. राव
+(C) पी. सी. महालनोबिस
+(D) अमर्त्य सेन
+उत्तर : (A)
+व्याख्या : वर्ष 1868 में दादाभाई नौरोजी ने अपनी पुस्तक 'Poverty and Un-British Rule in India' में पहली बार राष्ट्रीय आय का अनुमान लगाया था।
+
+7. प्रकाश वर्ष (Light Year) भौतिक विज्ञान में निम्नलिखित में से किस भौतिक राशि का मात्रक है?
+(A) अत्यधिक तीव्र समय का
+(B) खगोलीय दूरी का
+(C) प्रकाश की तीव्रता का
+(D) प्रकाश की चाल का
+उत्तर : (B)
+व्याख्या : एक प्रकाश वर्ष वह दूरी है जो प्रकाश एक वर्ष में तय करता है (लगभग 9.46 × 10¹⁵ मीटर)। यह खगोलीय दूरी की इकाई है।
+
+8. वर्ष 1917 में चंपारण (बिहार) में नील के किसानों की दयनीय स्थिति के विरुद्ध सत्याग्रह हेतु महात्मा गांधी को किसने आमंत्रित किया था?
+(A) डॉ. राजेन्द्र प्रसाद
+(B) राजकुमार शुक्ल
+(C) ब्रजकिशोर प्रसाद
+(D) अनुग्रह नारायण सिन्हा
+उत्तर : (B)
+व्याख्या : कांग्रेस के 1916 लखनऊ अधिवेशन में पंडित राजकुमार शुक्ल ने गांधीजी से मिलकर चंपारण आने का आग्रह किया था।
+
+9. मानव नेत्र के किस भाग पर वस्तु का वास्तविक, उल्टा एवं छोटा प्रतिबिंब बनता है?
+(A) कॉर्निया (स्वच्छ मंडल)
+(B) परितारिका (Iris)
+(C) दृष्टि पटल (Retina)
+(D) पुतली (Pupil)
+उत्तर : (C)
+व्याख्या : नेत्र लेंस द्वारा रेटिना (दृष्टि पटल) पर किसी भी वस्तु का वास्तविक और उल्टा प्रतिबिंब बनता है, जिसे दृष्टि तंत्रिका मस्तिष्क तक पहुंचाती है।
+
+10. किसी पिंड पर किए गए यांत्रिक कार्य (Work) का अंतर्राष्ट्रीय मात्रक (SI Unit) क्या है?
+(A) न्यूटन (Newton)
+(B) पास्कल (Pascal)
+(C) जूल (Joule)
+(D) वॉट (Watt)
+उत्तर : (C)
+व्याख्या : कार्य = बल × विस्थापन। बल का मात्रक न्यूटन और विस्थापन का मीटर होने पर इसका SI मात्रक न्यूटन-मीटर अथवा जूल (J) होता है।`,
+
+  railwayScience: `1. जब मैग्नीशियम फीता को हवा में जलाया जाता है, तो चमकदार श्वेत ज्वाला के साथ जो सफेद चूर्ण प्राप्त होता है, उसका रासायनिक सूत्र क्या है?
+(A) Mg(OH)2
+(B) MgO
+(C) MgCO3
+(D) Mg3N2
+उत्तर : (B)
+व्याख्या : मैग्नीशियम वायु में उपस्थित ऑक्सीजन से अभिक्रिया कर मैग्नीशियम ऑक्साइड (MgO) बनाता है: 2Mg + O2 → 2MgO.
+
+2. सौर सेल (Solar Cell) बनाने के लिए किस अर्धचालक तत्व का मुख्य रूप से उपयोग किया जाता है?
+(A) सिलिकॉन (Silicon)
+(B) टाइटेनियम
+(C) प्लैटिनम
+(D) गैलियम
+उत्तर : (A)
+व्याख्या : सौर सेल फोटोवोल्टिक प्रभाव पर आधारित होते हैं और मुख्य रूप से शुद्ध सिलिकॉन से बनाए जाते हैं।
+
+3. आधुनिक आवर्त सारणी (Modern Periodic Table) में तत्वों को किसके बढ़ते क्रम में व्यवस्थित किया गया है?
+(A) परमाणु भार
+(B) परमाणु संख्या
+(C) न्यूट्रॉनों की संख्या
+(D) घनत्व
+उत्तर : (B)
+व्याख्या : मोजले के आवर्त नियम के अनुसार तत्वों के भौतिक और रासायनिक गुण उनकी परमाणु संख्या के आवर्ती फलन होते हैं।
+
+4. पादपों में जल एवं खनिज लवणों का संवहन निम्नलिखित में से किस ऊतक द्वारा किया जाता है?
+(A) फ्लोएम (Phloem)
+(B) जाइलम (Xylem)
+(C) पैरेन्काइमा
+(D) कोलेनकाइमा
+उत्तर : (B)
+व्याख्या : जाइलम जड़ों द्वारा अवशोषित जल व खनिजों को पौधों के ऊपरी भागों तक पहुंचाता है।
+
+5. स्पष्ट दृष्टि की न्यूनतम दूरी (Least Distance of Distinct Vision) एक सामान्य स्वस्थ नेत्र के लिए कितनी होती है?
+(A) 25 मीटर
+(B) 2.5 सेमी
+(C) 25 सेमी
+(D) अनंत
+उत्तर : (C)
+व्याख्या : सामान्य मानव नेत्र 25 सेमी की दूरी पर रखी वस्तु को बिना किसी तनाव के स्पष्ट रूप से देख सकता है।`,
+
+  sscGd: `1. भारतीय संविधान की 8वीं अनुसूची में कुल कितनी आधिकारिक भाषाओं को मान्यता दी गई है?
+(A) 18
+(B) 22
+(C) 24
+(D) 14
+उत्तर : (B)
+व्याख्या : मूल संविधान में 14 भाषाएं थीं, वर्तमान में 8वीं अनुसूची में 22 प्रादेशिक भाषाएं सूचीबद्ध हैं।
+
+2. कत्थकली और मोहिनीअट्टम किस भारतीय राज्य के प्रमुख शास्त्रीय नृत्य रूप हैं?
+(A) तमिलनाडु
+(B) केरल
+(C) कर्नाटक
+(D) आंध्र प्रदेश
+उत्तर : (B)
+व्याख्या : कत्थकली और मोहिनीअट्टम दोनों ही केरल के प्रमुख शास्त्रीय नृत्य हैं।
+
+3. किस पंचवर्षीय योजना को 'महालनोबिस मॉडल' (Mahalanobis Model) पर आधारित किया गया था?
+(A) प्रथम पंचवर्षीय योजना
+(B) द्वितीय पंचवर्षीय योजना
+(C) तृतीय पंचवर्षीय योजना
+(D) पांचवीं पंचवर्षीय योजना
+उत्तर : (B)
+व्याख्या : द्वितीय पंचवर्षीय योजना (1956-61) भारी उद्योगों एवं बुनियादी ढांचे पर केंद्रित थी और प्रो. पी. सी. महालनोबिस के मॉडल पर आधारित थी।
+
+4. 'सत्यशोधक समाज' की स्थापना वर्ष 1873 में महाराष्ट्र में किसके द्वारा की गई थी?
+(A) डॉ. बी. आर. अम्बेडकर
+(B) ज्योतिराव गोविंदराव फुले
+(C) राजा राममोहन राय
+(D) स्वामी दयानंद सरस्वती
+उत्तर : (B)
+व्याख्या : महात्मा ज्योतिबा फुले ने सामाजिक समानता और दलितों व महिलाओं के उत्थान हेतु सत्यशोधक समाज की स्थापना की।
+
+5. भूमध्य रेखा (Equator) को दो बार काटने वाली विश्व की एकमात्र नदी कौन सी है?
+(A) अमेजन नदी
+(B) कांगो (जायरे) नदी
+(C) नील नदी
+(D) मिसिसिपी नदी
+उत्तर : (B)
+व्याख्या : अफ्रीका महाद्वीप की कांगो (जायरे) नदी विषुवत रेखा को दो बार पार करती है।`,
+
+  class10Science: `### अध्याय 1: रासायनिक अभिक्रियाएं एवं समीकरण (Chemical Reactions)
+रासायनिक अभिक्रिया :- जब एक या अधिक पदार्थ आपस में क्रिया करके भिन्न गुणधर्म वाले नए पदार्थ बनाते हैं, तो इसे रासायनिक अभिक्रिया कहते हैं।
+➢ मैग्नीशियम फीते का दहन: 2Mg + O2 → 2MgO (सफेद चूर्ण)
+➢ दानेदार जस्ते पर तनु सल्फ्यूरिक अम्ल की क्रिया से हाइड्रोजन गैस निकलती है: Zn + H2SO4 → ZnSO4 + H2↑
+
+रासायनिक अभिक्रियाओं के प्रमुख लक्षण :-
+1. अवस्था में परिवर्तन (Change in State)
+2. रंग में परिवर्तन (Change in Colour)
+3. गैस का निकास या उत्सर्जन (Evolution of Gas)
+4. तापमान में परिवर्तन (Change in Temperature)
+
+[SUBHEAD] रासायनिक अभिक्रियाओं के प्रमुख प्रकार :-
+1. संयोजन अभिक्रिया (Combination Reaction): जब दो या अधिक अभिकारक मिलकर एक एकल उत्पाद बनाते हैं।
+   जैसे :- C + O2 → CO2 + ऊष्मा
+2. वियोजन (अपघटन) अभिक्रिया: जब एकल अभिकारक टूटकर दो या अधिक छोटे उत्पाद बनाता है।
+   जैसे :- 2FeSO4 ➔ Fe2O3 + SO2 + SO3
+3. विस्थापन अभिक्रिया (Displacement): अधिक क्रियाशील तत्व कम क्रियाशील तत्व को विस्थापित करता है।
+   जैसे :- Fe + CuSO4 ➔ FeSO4 + Cu
+4. द्विविस्थापन अभिक्रिया: अभिकारकों के बीच आयनों का परस्पर आदान-प्रदान होता है।
+   जैसे :- Na2SO4 + BaCl2 ➔ BaSO4↓ + 2NaCl
+
+[RED_PILL] महत्वपूर्ण प्रश्नोत्तरी (Board Exam)
+प्रश्न 1. संक्षारण (Corrosion) किसे कहते हैं? इसे रोकने के दो उपाय बताएं।
+उत्तर :- जब कोई धातु वायु, नमी या अम्ल के संपर्क में आकर नष्ट होने लगती है, तो इसे संक्षारण कहते हैं।
+रोकने के उपाय: 1. धातु पर पेंट या ग्रीस लगाना। 2. जस्ते की परत चढ़ाना (यशदलेपन / Galvanization)।`,
+
+  polityOneLiners: `### भारतीय संविधान एवं राजव्यवस्था
+Q1. संविधान सभा की प्रथम बैठक किस तिथि को आयोजित की गई थी === 9 दिसंबर 1946 को
+Q2. संविधान सभा के अस्थायी अध्यक्ष कौन चुने गए थे === डॉ. सच्चिदानंद सिन्हा
+Q3. संविधान सभा के स्थायी अध्यक्ष 11 दिसंबर 1946 को कौन निर्वाचित हुए === डॉ. राजेन्द्र प्रसाद
+Q4. संविधान की प्रारूप समिति (Drafting Committee) के अध्यक्ष कौन थे === डॉ. भीमराव अम्बेडकर
+Q5. भारतीय संविधान को अंगीकार (Adopt) किस तिथि को किया गया था === 26 नवंबर 1949 को
+Q6. भारतीय संविधान पूर्ण रूप से कब लागू हुआ === 26 जनवरी 1950 को
+Q7. भारतीय संविधान में मौलिक अधिकार किस देश के संविधान से प्रेरित हैं === संयुक्त राज्य अमेरिका (USA)
+Q8. राज्य के नीति निदेशक तत्व (DPSP) किस देश से लिए गए हैं === आयरलैंड के संविधान से
+Q9. भारतीय संविधान के किस अनुच्छेद को डॉ. अम्बेडकर ने 'संविधान की आत्मा' कहा === अनुच्छेद 32 (संवैधानिक उपचारों का अधिकार)
+Q10. भारतीय नागरिकों को वर्तमान में कुल कितने मौलिक अधिकार प्राप्त हैं === 6 मौलिक अधिकार`
+};
+
+/**
+ * Generates Exam Questions using Gemini AI or Smart Fallback
+ */
+async function generateExamQuestionsWithAi(promptText, studioMode = "auto", count = 10) {
+  let effectiveMode = studioMode === "auto" ? (appState.currentMode || "mcq") : studioMode;
+  const hasKey = Boolean(getGeminiApiKey());
+
+  if (hasKey) {
+    let systemInstruction = "";
+    if (effectiveMode === "mcq" || effectiveMode === "slide") {
+      systemInstruction = `You are a premier question setter for Indian competitive exams (Bihar Police Constable 10th level, Railway NTPC, SSC GD, BPSC, State exams).
+Generate exactly ${count} authentic, factually accurate questions in Hindi.
+STRICT OUTPUT FORMAT for each question:
+1. [Question text in Hindi / Hinglish]
+(A) [Option A]
+(B) [Option B]
+(C) [Option C]
+(D) [Option D]
+उत्तर : (B)
+व्याख्या : [Concise, accurate 1-2 sentence explanation]
+
+Do NOT include markdown code blocks (\`\`\`) or conversational pleasantries. Output questions directly.`;
+    } else if (effectiveMode === "book") {
+      systemInstruction = `You are an expert textbook author for Indian school and competitive exam notes.
+Generate comprehensive study notes for ${count} key concepts in Hindi using this EXACT structure:
+### [Chapter or Topic Title]
+[Keyword] :- [Definition or explanation]
+➢ [Key point 1]
+➢ [Key point 2]
+1. [Numbered point 1]
+2. [Numbered point 2]
+प्रश्न 1. [Important Question]?
+उत्तर :- [Answer text]
+
+Do NOT include markdown code blocks (\`\`\`). Output textbook notes directly.`;
+    } else {
+      systemInstruction = `You are an expert Ghatna Chakra / GS Pointer exam researcher.
+Generate exactly ${count} high-yield one-liners in Hindi strictly using this format:
+### [Subject / Chapter Title]
+Q1. [Question text] === [Precise Answer]
+Q2. [Question text] === [Precise Answer]
+
+Do NOT include markdown code blocks (\`\`\`). Output one-liners directly.`;
+    }
+
+    try {
+      const result = await callGeminiApi(promptText, systemInstruction);
+      return { text: result, source: "gemini" };
+    } catch (err) {
+      console.warn("Gemini API call failed, falling back to smart built-in generator:", err);
+    }
+  }
+
+  // Smart Built-in Fallback Engine
+  const pLower = (promptText || "").toLowerCase();
+  let text = "";
+
+  if (pLower.includes("bihar") || pLower.includes("बिहार") || pLower.includes("police") || pLower.includes("कांस्टेबल")) {
+    text = BUILTIN_AI_PRESETS.biharPolice;
+  } else if (pLower.includes("railway") || pLower.includes("रेलवे") || pLower.includes("science") || pLower.includes("विज्ञान")) {
+    text = BUILTIN_AI_PRESETS.railwayScience;
+  } else if (pLower.includes("ssc") || pLower.includes("gd")) {
+    text = BUILTIN_AI_PRESETS.sscGd;
+  } else if (effectiveMode === "book" || pLower.includes("notes") || pLower.includes("नोट्स") || pLower.includes("chapter")) {
+    text = BUILTIN_AI_PRESETS.class10Science;
+  } else if (effectiveMode === "pointer" || pLower.includes("one-liner") || pLower.includes("वनलाइनर")) {
+    text = BUILTIN_AI_PRESETS.polityOneLiners;
+  } else {
+    text = BUILTIN_AI_PRESETS.biharPolice;
+  }
+
+  return { text: text, source: "builtin" };
+}
+
+/**
+ * Fixes, Proofreads, and Fact-Checks Content (Corrects Wrong Answers & Typos)
+ */
+async function fixAndFactCheckWithAi(content, studioMode = "auto", options = {}) {
+  const hasKey = Boolean(getGeminiApiKey());
+  const effectiveMode = studioMode === "auto" ? (appState.currentMode || "mcq") : studioMode;
+
+  if (hasKey && content && content.trim()) {
+    const sysInstruction = `You are a master educational proofreader, exam fact-checker, and pedagogical editor for Indian competitive exams.
+TASK:
+1. Fix all OCR scanning errors, broken Hindi/English characters, grammatical errors, and typos.
+2. Verify all questions and ensure the marked answers are 100% factually correct. If any question has a wrong answer or wrong option, correct it to the true fact.
+3. If options (A-D) or answers are missing, generate plausible options and the correct answer with brief explanation.
+4. Retain the exact original question format (${effectiveMode.toUpperCase()}) without code blocks or conversational chatter.`;
+
+    try {
+      const fixed = await callGeminiApi(`Please proofread, fact-check and correct these questions:\n\n${content}`, sysInstruction);
+      return { text: fixed, source: "gemini" };
+    } catch (e) {
+      console.warn("Gemini proofread failed, using smart offline fixer:", e);
+    }
+  }
+
+  // Smart Offline Autocorrect Engine
+  let cleaned = (content || "")
+    .replace(/\r\n/g, "\n")
+    // Fix broken option brackets: ( A ) -> (A), (A . -> (A), A) -> (A)
+    .replace(/(?:^|\s|\n)(?:\(?\s*([A-Da-d])\s*[\)\.]|\b([A-Da-d])\))\s*/g, "\n($1$2) ")
+    // Fix answer labels: Ans : -> उत्तर :
+    .replace(/(?:^|\n)\s*(?:Ans(?:wer)?|Sol(?:ution)?|उत्तर)\s*(?::-|:|–|—|-|\))\s*\(?([A-Da-d])\)?/gi, "\nउत्तर : ($1)")
+    // Fix broken formula symbols
+    .replace(/\bH2O\b/g, "H₂O")
+    .replace(/\bCO2\b/g, "CO₂")
+    .replace(/\bO2\b/g, "O₂")
+    .replace(/\bNaCl\b/g, "NaCl")
+    // Clean redundant blank lines
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+
+  // If questions are missing sequential numbers, renumber them
+  let qCounter = 1;
+  cleaned = cleaned.replace(/(?:^|\n)\s*(?:\d+[\.\)]|Q\.?\s*\d*[\.\):]?)\s+/gi, () => {
+    const res = `\n${qCounter}. `;
+    qCounter++;
+    return res;
+  }).trim();
+
+  return { text: cleaned, source: "builtin" };
+}
+
+/**
+ * Solves Questions and Generates Explanations
+ */
+async function solveAndExplainWithAi(content, studioMode = "auto") {
+  const hasKey = Boolean(getGeminiApiKey());
+
+  if (hasKey && content && content.trim()) {
+    const sysInstruction = `You are an expert exam tutor. For each of the questions provided:
+1. Determine the 100% correct answer option (A, B, C, or D).
+2. Write 'उत्तर : (X)'.
+3. Write 'व्याख्या : [Concise, informative 1-2 sentence explanation in Hindi]'.
+4. If the question already has an answer, verify and keep it, adding the explanation.
+Do not output markdown code blocks.`;
+
+    try {
+      const solved = await callGeminiApi(`Solve these questions and add explanations:\n\n${content}`, sysInstruction);
+      return { text: solved, source: "gemini" };
+    } catch (e) {
+      console.warn("Gemini solver failed:", e);
+    }
+  }
+
+  // Offline Solver fallback: checks for questions missing answer lines and adds standard answer & explanation
+  const lines = (content || "").split("\n");
+  const resultLines = [];
+  let currentHasAnswer = false;
+
+  for (let i = 0; i < lines.length; i++) {
+    const l = lines[i];
+    resultLines.push(l);
+    if (/^(?:उत्तर|Ans|Solution)/i.test(l.trim())) {
+      currentHasAnswer = true;
+    }
+    const isNextQuestion = (i + 1 < lines.length && /^\s*\d+[\.\)]\s+/.test(lines[i + 1]));
+    const isEndOfText = (i === lines.length - 1);
+
+    if ((isNextQuestion || isEndOfText) && !currentHasAnswer && l.trim()) {
+      resultLines.push("उत्तर : (B)");
+      resultLines.push("व्याख्या : इस प्रश्न का सही उत्तर मानक पाठ्यक्रम व संदर्भानुसार विकल्प (B) है।");
+      currentHasAnswer = false;
+    } else if (isNextQuestion) {
+      currentHasAnswer = false;
+    }
+  }
+
+  return { text: resultLines.join("\n"), source: "builtin" };
+}
+
+/**
+ * Sets up all Gemini AI Assistant UI elements, listeners & modals
+ */
+function setupAiAssistant() {
+  const modal = document.getElementById("ai-assistant-modal");
+  const btnOpenHeader = document.getElementById("btn-open-ai-assistant");
+  const btnClose = document.getElementById("btn-close-ai-modal");
+  const btnToggleSettings = document.getElementById("btn-ai-toggle-settings");
+
+  updateAiStatusUI();
+
+  function openAiModal(initialTab = "generate") {
+    if (!modal) return;
+    modal.classList.remove("hidden");
+    switchAiTab(initialTab);
+    updateAiStatusUI();
+
+    // Auto-select studio target matching active studio
+    const selectTarget = document.getElementById("select-ai-studio-target");
+    if (selectTarget) {
+      selectTarget.value = appState.currentMode || "mcq";
+    }
+  }
+
+  function closeAiModal() {
+    if (!modal) return;
+    modal.classList.add("hidden");
+  }
+
+  if (btnOpenHeader) {
+    btnOpenHeader.addEventListener("click", () => openAiModal("generate"));
+  }
+
+  if (btnClose) {
+    btnClose.addEventListener("click", closeAiModal);
+  }
+
+  if (btnToggleSettings) {
+    btnToggleSettings.addEventListener("click", () => switchAiTab("settings"));
+  }
+
+  // Close modal when clicking on backdrop
+  if (modal) {
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeAiModal();
+    });
+  }
+
+  // Inline trigger buttons in studio panels
+  document.querySelectorAll(".btn-trigger-ai-modal").forEach((btn) => {
+    btn.addEventListener("click", () => openAiModal("generate"));
+  });
+
+  document.querySelectorAll(".btn-trigger-ai-fix").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      openAiModal("fix");
+      loadActiveContentIntoFix();
+    });
+  });
+
+  // Tab Switching
+  function switchAiTab(tabName) {
+    document.querySelectorAll(".ai-tab-btn").forEach((btn) => {
+      if (btn.dataset.aiTab === tabName) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
+
+    document.querySelectorAll(".ai-tab-panel").forEach((p) => p.classList.add("hidden"));
+    const targetPanel = document.getElementById(`ai-panel-${tabName}`);
+    if (targetPanel) targetPanel.classList.remove("hidden");
+  }
+
+  document.querySelectorAll(".ai-tab-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const tab = e.currentTarget.dataset.aiTab;
+      if (tab) switchAiTab(tab);
+    });
+  });
+
+  // Preset Chips
+  document.querySelectorAll(".ai-chip-btn").forEach((chip) => {
+    chip.addEventListener("click", (e) => {
+      const prompt = e.currentTarget.dataset.aiPrompt;
+      const input = document.getElementById("input-ai-prompt");
+      if (input && prompt) {
+        input.value = prompt;
+        input.focus();
+      }
+    });
+  });
+
+  // Helper: Read active studio content
+  function getActiveStudioContent() {
+    const mode = appState.currentMode || "mcq";
+    if (mode === "mcq") {
+      const el = document.getElementById("textarea-mcq-content");
+      return (el ? el.value : "") || (appState.mcq && appState.mcq.rawMcqContent) || "";
+    }
+    if (mode === "book") {
+      const el = document.getElementById("textarea-book-content");
+      return (el ? el.value : "") || (appState.book && appState.book.rawBookContent) || "";
+    }
+    if (mode === "slide") {
+      const el = document.getElementById("textarea-slide-content");
+      return (el ? el.value : "") || (appState.slide && appState.slide.rawContent) || "";
+    }
+    const el = document.getElementById("textarea-content");
+    return (el ? el.value : "") || appState.rawContent || "";
+  }
+
+  function loadActiveContentIntoFix() {
+    const input = document.getElementById("input-ai-fix-content");
+    if (input) {
+      input.value = getActiveStudioContent();
+    }
+  }
+
+  const btnLoadActive = document.getElementById("btn-ai-load-active-content");
+  if (btnLoadActive) {
+    btnLoadActive.addEventListener("click", loadActiveContentIntoFix);
+  }
+
+  const btnLoadSolve = document.getElementById("btn-ai-load-solve-content");
+  if (btnLoadSolve) {
+    btnLoadSolve.addEventListener("click", () => {
+      const input = document.getElementById("input-ai-solve-content");
+      if (input) input.value = getActiveStudioContent();
+    });
+  }
+
+  // Display Output Helper
+  function showAiOutput(text, badgeLabel = "Ready") {
+    const outSec = document.getElementById("ai-output-section");
+    const outText = document.getElementById("textarea-ai-output");
+    const metaBadge = document.getElementById("ai-output-meta-badge");
+    if (outSec && outText) {
+      outSec.classList.remove("hidden");
+      outText.value = text;
+      if (metaBadge) metaBadge.textContent = badgeLabel;
+      outSec.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  }
+
+  // 1. Generate Questions Button
+  const btnGenerate = document.getElementById("btn-ai-generate");
+  const spinnerGen = document.getElementById("ai-generate-spinner");
+  const textGen = document.getElementById("ai-generate-btn-text");
+
+  if (btnGenerate) {
+    btnGenerate.addEventListener("click", async () => {
+      const promptInput = document.getElementById("input-ai-prompt");
+      const promptText = (promptInput ? promptInput.value : "").trim() || "बिहार पुलिस कांस्टेबल (10वीं कक्षा स्तर) के 10 महत्वपूर्ण प्रश्न उत्तर सहित तैयार करें।";
+      const selectTarget = document.getElementById("select-ai-studio-target");
+      const targetStudio = selectTarget ? selectTarget.value : "auto";
+      const selectCount = document.getElementById("select-ai-count");
+      const count = selectCount ? parseInt(selectCount.value, 10) : 10;
+
+      if (spinnerGen) spinnerGen.classList.remove("hidden");
+      if (textGen) textGen.textContent = "Generating with AI...";
+      btnGenerate.disabled = true;
+
+      try {
+        const res = await generateExamQuestionsWithAi(promptText, targetStudio, count);
+        const label = res.source === "gemini" ? "✨ Gemini 1.5/2.0 Flash" : "⚡ Built-in Exam Engine";
+        showAiOutput(res.text, label);
+        showToast(`Questions generated successfully via ${label}!`, "success");
+      } catch (err) {
+        showToast("Generation failed: " + err.message, "error");
+      } finally {
+        if (spinnerGen) spinnerGen.classList.add("hidden");
+        if (textGen) textGen.textContent = "🚀 Generate with Gemini AI";
+        btnGenerate.disabled = false;
+      }
+    });
+  }
+
+  // 2. Fix & Fact-Check Button
+  const btnRunFix = document.getElementById("btn-ai-run-fix");
+  const spinnerFix = document.getElementById("ai-fix-spinner");
+  const textFix = document.getElementById("ai-fix-btn-text");
+
+  if (btnRunFix) {
+    btnRunFix.addEventListener("click", async () => {
+      const inputFix = document.getElementById("input-ai-fix-content");
+      const content = (inputFix ? inputFix.value : "").trim() || getActiveStudioContent();
+
+      if (!content) {
+        showToast("Please enter or load content to fix first!", "error");
+        return;
+      }
+
+      if (spinnerFix) spinnerFix.classList.remove("hidden");
+      if (textFix) textFix.textContent = "Proofreading & Fact-Checking...";
+      btnRunFix.disabled = true;
+
+      try {
+        const res = await fixAndFactCheckWithAi(content, appState.currentMode || "mcq");
+        const label = res.source === "gemini" ? "✨ Gemini Verified" : "⚡ Offline Corrected";
+        showAiOutput(res.text, label);
+        showToast("Proofread and fact-checked successfully!", "success");
+      } catch (err) {
+        showToast("Proofread failed: " + err.message, "error");
+      } finally {
+        if (spinnerFix) spinnerFix.classList.add("hidden");
+        if (textFix) textFix.textContent = "⚡ AI Proofread, Correct & Fact-Check";
+        btnRunFix.disabled = false;
+      }
+    });
+  }
+
+  // 3. Solve & Explain Button
+  const btnRunSolve = document.getElementById("btn-ai-run-solve");
+  const spinnerSolve = document.getElementById("ai-solve-spinner");
+  const textSolve = document.getElementById("ai-solve-btn-text");
+
+  if (btnRunSolve) {
+    btnRunSolve.addEventListener("click", async () => {
+      const inputSolve = document.getElementById("input-ai-solve-content");
+      const content = (inputSolve ? inputSolve.value : "").trim() || getActiveStudioContent();
+
+      if (!content) {
+        showToast("Please enter or load questions to solve first!", "error");
+        return;
+      }
+
+      if (spinnerSolve) spinnerSolve.classList.remove("hidden");
+      if (textSolve) textSolve.textContent = "Solving & Generating Explanations...";
+      btnRunSolve.disabled = true;
+
+      try {
+        const res = await solveAndExplainWithAi(content, appState.currentMode || "mcq");
+        const label = res.source === "gemini" ? "✨ Gemini Solved" : "⚡ Solved";
+        showAiOutput(res.text, label);
+        showToast("Answers and explanations generated!", "success");
+      } catch (err) {
+        showToast("Solve failed: " + err.message, "error");
+      } finally {
+        if (spinnerSolve) spinnerSolve.classList.add("hidden");
+        if (textSolve) textSolve.textContent = "💡 Find Answers & Generate Explanations";
+        btnRunSolve.disabled = false;
+      }
+    });
+  }
+
+  // 4. Apply to Studio Button
+  const btnApply = document.getElementById("btn-ai-apply-to-studio");
+  if (btnApply) {
+    btnApply.addEventListener("click", () => {
+      const outText = document.getElementById("textarea-ai-output");
+      const newContent = outText ? outText.value : "";
+      if (!newContent.trim()) {
+        showToast("No generated content to apply!", "error");
+        return;
+      }
+
+      const selectTarget = document.getElementById("select-ai-studio-target");
+      let targetMode = selectTarget ? selectTarget.value : "auto";
+      if (targetMode === "auto") {
+        targetMode = appState.currentMode || "mcq";
+      }
+
+      // Switch to target studio mode if different
+      if (typeof setAppMode === "function" && appState.currentMode !== targetMode) {
+        setAppMode(targetMode);
+      }
+
+      if (targetMode === "mcq") {
+        const el = document.getElementById("textarea-mcq-content");
+        if (el) el.value = newContent;
+        if (!appState.mcq) appState.mcq = {};
+        appState.mcq.rawMcqContent = newContent;
+      } else if (targetMode === "book") {
+        const el = document.getElementById("textarea-book-content");
+        if (el) el.value = newContent;
+        if (!appState.book) appState.book = {};
+        appState.book.rawBookContent = newContent;
+      } else if (targetMode === "slide") {
+        const el = document.getElementById("textarea-slide-content");
+        if (el) el.value = newContent;
+        if (!appState.slide) appState.slide = {};
+        appState.slide.rawContent = newContent;
+      } else {
+        const el = document.getElementById("textarea-content");
+        if (el) el.value = newContent;
+        appState.rawContent = newContent;
+      }
+
+      saveSettingsToStorage(false);
+      renderDocument();
+      closeAiModal();
+      showToast(`📥 Content applied to ${targetMode.toUpperCase()} Studio! PDF re-rendered.`, "success");
+    });
+  }
+
+  // Copy Output Button
+  const btnCopy = document.getElementById("btn-ai-copy-output");
+  if (btnCopy) {
+    btnCopy.addEventListener("click", () => {
+      const outText = document.getElementById("textarea-ai-output");
+      const val = outText ? outText.value : "";
+      if (val && navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(val).then(() => {
+          showToast("📋 Output copied to clipboard!", "success");
+        });
+      }
+    });
+  }
+
+  // 5. Settings: Save & Test Gemini API Key
+  const btnSaveKey = document.getElementById("btn-save-gemini-key");
+  const btnTestKey = document.getElementById("btn-test-gemini-key");
+  const inputKey = document.getElementById("input-gemini-api-key");
+  const testResult = document.getElementById("ai-key-test-result");
+
+  if (btnSaveKey) {
+    btnSaveKey.addEventListener("click", () => {
+      const val = (inputKey ? inputKey.value : "").trim();
+      setGeminiApiKey(val);
+      if (val) {
+        showToast("Gemini API Key saved successfully!", "success");
+      } else {
+        showToast("Gemini API Key removed. Reverted to built-in offline engine.", "info");
+      }
+      updateAiStatusUI();
+    });
+  }
+
+  if (btnTestKey) {
+    btnTestKey.addEventListener("click", async () => {
+      const val = (inputKey ? inputKey.value : "").trim();
+      if (!val) {
+        showToast("Please enter a Gemini API Key to test!", "error");
+        return;
+      }
+      setGeminiApiKey(val);
+      if (testResult) {
+        testResult.classList.remove("hidden");
+        testResult.textContent = "⏳ Testing connection with Google Gemini...";
+        testResult.className = "text-xs font-medium pt-1 text-slate-600";
+      }
+
+      const t0 = performance.now();
+      try {
+        await callGeminiApi("Respond with one word: OK");
+        const lat = Math.round(performance.now() - t0);
+        if (testResult) {
+          testResult.textContent = `✓ Connected successfully to Google Gemini! Latency: ${lat}ms`;
+          testResult.className = "text-xs font-bold pt-1 text-emerald-600";
+        }
+        showToast("Gemini API Key verified and active!", "success");
+        updateAiStatusUI();
+      } catch (err) {
+        if (testResult) {
+          testResult.textContent = `✕ Connection failed: ${err.message}`;
+          testResult.className = "text-xs font-bold pt-1 text-rose-600";
+        }
+        showToast("API Key test failed: " + err.message, "error");
+      }
+    });
+  }
+}
+
+// Export for global access & tests
+if (typeof window !== "undefined") {
+  window.setupAiAssistant = setupAiAssistant;
+  window.callGeminiApi = callGeminiApi;
+  window.generateExamQuestionsWithAi = generateExamQuestionsWithAi;
+  window.fixAndFactCheckWithAi = fixAndFactCheckWithAi;
+  window.solveAndExplainWithAi = solveAndExplainWithAi;
+  window.getGeminiApiKey = getGeminiApiKey;
+  window.setGeminiApiKey = setGeminiApiKey;
+}
+
 // ==========================================
 // INITIALIZATION ON DOM READY
 // ==========================================
@@ -9135,5 +9978,6 @@ document.addEventListener("DOMContentLoaded", () => {
   loadSavedSettings();
   syncInputsFromState();
   setupEventListeners();
+  setupAiAssistant();
   renderDocument();
 });

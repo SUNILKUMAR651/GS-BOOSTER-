@@ -2815,3 +2815,113 @@ sup {
   }
 
 }
+
+/* ==========================================================================
+   GEMINI AI ASSISTANT MODAL & CONTROLS
+   ========================================================================== */
+.ai-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: aiModalFadeIn 0.2s ease-out;
+}
+
+@keyframes aiModalFadeIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.ai-modal-container {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 820px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  font-family: var(--font-ui);
+}
+
+.ai-tab-btn {
+  padding: 8px 14px;
+  font-size: 11.5px;
+  font-weight: 700;
+  border-bottom: 2px solid transparent;
+  color: #64748b;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.ai-tab-btn:hover {
+  color: #7c3aed;
+  background-color: #f8fafc;
+}
+
+.ai-tab-btn.active {
+  color: #7c3aed;
+  border-bottom-color: #7c3aed;
+  background-color: #f5f3ff;
+}
+
+.ai-chip-btn {
+  padding: 5px 10px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ai-chip-btn:hover {
+  background-color: #f5f3ff;
+  border-color: #c4b5fd;
+  color: #6d28d9;
+  transform: translateY(-1px);
+}
+
+.ai-chip-btn:active {
+  transform: translateY(0);
+}
+
+@keyframes pulseSubtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.94; transform: scale(1.02); }
+}
+
+.animate-pulse-subtle {
+  animation: pulseSubtle 2.5s infinite ease-in-out;
+}
+
+.ai-glow-border {
+  border: 1.5px solid transparent;
+  background-image: linear-gradient(white, white), linear-gradient(135deg, #7c3aed, #ec4899, #3b82f6);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+@media print {
+  .ai-modal-overlay {
+    display: none !important;
+  }
+}
