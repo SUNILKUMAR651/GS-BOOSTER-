@@ -1032,6 +1032,119 @@ sup {
 }
 
 /* ==========================================================================
+   AUTHENTIC END-OF-TEST DETAILED SOLUTIONS (Image 4 - Rukmini/Platform Exam Book Style)
+   ========================================================================== */
+.mcq-solutions-section-header {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: #ffffff;
+  padding: 4.5px 10px;
+  border-radius: 4px;
+  margin-bottom: 2.5mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 4.5px solid #dc2626;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.mcq-solutions-badge-row {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+
+.mcq-solutions-tag {
+  font-weight: 900;
+  font-size: 12.5px;
+  letter-spacing: 0.3px;
+  color: #ffffff;
+}
+
+.mcq-solutions-subtag {
+  font-size: 8.5px;
+  color: #94a3b8;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.mcq-solutions-meta {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mcq-solutions-set {
+  background-color: #dc2626;
+  color: #ffffff !important;
+  padding: 0.5px 6px;
+  border-radius: 3px;
+  font-size: 9.5px;
+  font-weight: 900;
+  letter-spacing: 0.3px;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* MCQ End-of-Test Solution Card (Image 4) */
+.mcq-end-solution-card {
+  margin-bottom: 4px;
+  padding: 2.5px 0 3.5px 0;
+  border-bottom: 1px dashed #cbd5e1;
+  font-family: var(--mcq-font-family, var(--font-devanagari));
+  font-size: var(--mcq-font-size, 11px);
+  line-height: var(--mcq-line-height, 1.35);
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+  -webkit-column-break-inside: avoid !important;
+}
+
+.mcq-end-solution-card:last-child {
+  border-bottom: none;
+}
+
+.mcq-end-solution-head {
+  display: inline;
+  font-weight: 800;
+  margin-right: 4px;
+}
+
+.mcq-end-sol-num {
+  font-weight: 900;
+  color: var(--mcq-qnum-color, #dc2626);
+  font-size: 1.05em;
+  margin-right: 2px;
+}
+
+.mcq-end-sol-badge {
+  display: inline-block;
+  background-color: #dc2626 !important;
+  color: #ffffff !important;
+  font-weight: 900;
+  padding: 0.2px 4px;
+  border-radius: 2px;
+  font-size: 0.9em;
+  letter-spacing: 0.2px;
+  vertical-align: baseline;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.mcq-end-solution-body {
+  display: inline;
+  color: #0f172a;
+  font-weight: var(--mcq-option-weight, 500);
+  text-align: justify;
+  line-height: inherit;
+  word-break: break-word;
+}
+
+/* ==========================================================================
    SMART BOOK & NOTES STUDIO STYLES (Class Notes & Complete Booklet)
    ========================================================================== */
 
@@ -2720,7 +2833,10 @@ sup {
   }
   .gs-qa-item,
   .mcq-item,
+  .mcq-options-container,
+  .mcq-opt-item,
   .mcq-solution-box,
+  .mcq-end-solution-card,
   .pointer-block,
   .book-item-block,
   .book-bullet-item,

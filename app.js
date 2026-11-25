@@ -1189,7 +1189,7 @@ const DEFAULT_STATE = {
     optionsLayout: "auto", // "auto", "grid2x2", "inline4", "stacked"
     colDivider: "solid", // "solid", "dashed", "none"
     includeAnswerKey: true,
-    showSolutions: "below", // "below" (show below question), "hide" (questions only)
+    showSolutions: "end", // "end" (Solutions at End of Test - Exam Book Style), "below" (below question), "hide" (questions only)
     fontFamily: "'Noto Sans Devanagari', 'Inter', sans-serif",
     boldMode: "default",
     questionWeight: "700",
@@ -1318,10 +1318,14 @@ function loadSavedSettings() {
     if (saved) {
       const parsed = JSON.parse(saved);
       const baseDefault = JSON.parse(JSON.stringify(DEFAULT_STATE));
+      const savedStudio = localStorage.getItem("edupublish_active_studio_mode");
+      const activeMode = (savedStudio && ["pointer", "mcq", "book", "slide"].includes(savedStudio))
+        ? savedStudio
+        : (parsed.currentMode || DEFAULT_STATE.currentMode || "pointer");
       appState = {
         ...baseDefault,
         ...parsed,
-        currentMode: parsed.currentMode || DEFAULT_STATE.currentMode || "pointer",
+        currentMode: activeMode,
         fullA4Photos: {
           topPages: (parsed.fullA4Photos && parsed.fullA4Photos.topPages) || [],
           bottomPages: (parsed.fullA4Photos && parsed.fullA4Photos.bottomPages) || []
@@ -3127,20 +3131,82 @@ function renderMcqDocument() {
     container.appendChild(createFullPagePhotoElement(photo, `Top Poster #${idx + 1}`));
   });
 
-  // 2. Render MCQ Question Pages
+  // 2. Render MCQ Content (Questions, Answer Key, and Detailed Solutions)
   let questionPagesCount = 0;
+  let solutionPagesCount = 0;
+  let dedicatedAnswerKeyPagesCount = 0;
+
   if (items.length > 0) {
     const pageChunks = packMcqItemsAutoFit(items);
     questionPagesCount = Math.max(1, pageChunks.length);
     const startPageNum = parseInt(appState.mcq.startingPageNumber) || 99;
 
+    const answerKeyHtml = buildMcqAnswerKeyHtml(items);
+    const hasAnswerKey = Boolean(answerKeyHtml);
+    const answerKeyHeightPx = getAnswerKeyHeightPx(items.filter(it => it.answer).length);
+
+    // Check headroom on the last question page:
+    // Can the Answer Key fit on the last question page without overflowing or clipping Q93's options?
+    const lastPageChunk = pageChunks[questionPagesCount - 1];
+    const maxLastColHeight = Math.max((lastPageChunk && lastPageChunk.leftHeight) || 0, (lastPageChunk && lastPageChunk.rightHeight) || 0);
+    // Standard max column capacity is ~864px (~228mm)
+    const maxColCapacityPx = 864;
+    const canFitAnswerKeyOnLastQPage = hasAnswerKey && ((maxLastColHeight + answerKeyHeightPx) <= maxColCapacityPx);
+
+    const isEndSolutionsMode = (appState.mcq && appState.mcq.showSolutions === "end");
+    const solutionItems = isEndSolutionsMode
+      ? items.filter(it => it.solution && it.solution.trim())
+      : [];
+
+    // Render Question Pages
     for (let pageIdx = 0; pageIdx < questionPagesCount; pageIdx++) {
       const pageChunk = pageChunks[pageIdx] || { leftItems: [], rightItems: [] };
       const currentPageNum = startPageNum + pageIdx;
       const isLast = (pageIdx === questionPagesCount - 1);
+      // Only include Answer Key on this page if it's the last page AND it safely fits without clipping questions/options!
+      const includeAnswerKeyOnThisPage = (isLast && canFitAnswerKeyOnLastQPage);
 
-      const pageElement = createMcqA4PageElement(pageChunk, currentPageNum, questionPagesCount, isLast, items);
+      const pageElement = createMcqA4PageElement(
+        pageChunk,
+        currentPageNum,
+        questionPagesCount,
+        isLast,
+        items,
+        includeAnswerKeyOnThisPage,
+        answerKeyHtml
+      );
       container.appendChild(pageElement);
+    }
+
+    let runningPageNum = startPageNum + questionPagesCount;
+
+    // 2B. Detailed Solutions & Explanations at End of Test (Image 4 - Rukmini/Platform Exam Book Style)
+    if (isEndSolutionsMode && solutionItems.length > 0) {
+      // If Answer Key couldn't safely fit on the question page, it starts at the top of the first Solutions page!
+      const placeAnswerKeyOnSolPage1 = (hasAnswerKey && !canFitAnswerKeyOnLastQPage);
+      const solPageChunks = packMcqSolutionsAutoFit(solutionItems, placeAnswerKeyOnSolPage1 ? answerKeyHeightPx : 0);
+      solutionPagesCount = solPageChunks.length;
+
+      for (let sIdx = 0; sIdx < solutionPagesCount; sIdx++) {
+        const sChunk = solPageChunks[sIdx];
+        const isFirstSolPage = (sIdx === 0);
+        const solPageEl = createMcqSolutionPageElement(
+          sChunk,
+          runningPageNum,
+          isFirstSolPage,
+          placeAnswerKeyOnSolPage1,
+          answerKeyHtml
+        );
+        container.appendChild(solPageEl);
+        runningPageNum++;
+      }
+    } else if (hasAnswerKey && !canFitAnswerKeyOnLastQPage) {
+      // In 'below' or 'hide' mode, but Answer Key did not fit on question page:
+      // Render dedicated Answer Key page so questions/options are NEVER clipped!
+      dedicatedAnswerKeyPagesCount = 1;
+      const ansPageEl = createDedicatedAnswerKeyPageElement(runningPageNum, answerKeyHtml);
+      container.appendChild(ansPageEl);
+      runningPageNum++;
     }
   } else if (topPhotos.length === 0 && bottomPhotos.length === 0) {
     container.innerHTML = `
@@ -3159,7 +3225,7 @@ function renderMcqDocument() {
     container.appendChild(createFullPagePhotoElement(photo, `Bottom Poster #${idx + 1}`));
   });
 
-  const grandTotal = topPhotos.length + questionPagesCount + bottomPhotos.length;
+  const grandTotal = topPhotos.length + questionPagesCount + solutionPagesCount + dedicatedAnswerKeyPagesCount + bottomPhotos.length;
   updateStatisticsBadge(items.length, grandTotal);
   applyZoomScale();
 }
@@ -3442,13 +3508,12 @@ function parseRawMcqContent(rawText) {
  * without artificially stretching sparse final pages.
  */
 function shouldApplyFullPackColumn(itemCount, usedHeightPx, capacityPx, forceStretch) {
+  // Never stretch unless user explicitly requested 'justify' full-page stretch
+  if (!forceStretch) return false;
   if (!capacityPx || capacityPx <= 0) return false;
   const fillRatio = usedHeightPx / capacityPx;
   const slackPx = capacityPx - usedHeightPx;
-  if (forceStretch) {
-    return itemCount >= 2 && fillRatio >= 0.60;
-  }
-  return itemCount >= 3 && fillRatio >= 0.90 && slackPx <= 35;
+  return itemCount >= 2 && fillRatio >= 0.70 && slackPx <= 40;
 }
 
 function packMcqItemsAutoFit(items) {
@@ -3573,6 +3638,8 @@ function packMcqItemsAutoFit(items) {
       }
       page.leftFullPack = shouldApplyFullPackColumn(page.leftItems.length, lH, maxColHeight, stretchFullCols);
       page.rightFullPack = shouldApplyFullPackColumn(page.rightItems.length, rH, maxColHeight, stretchFullCols);
+      page.leftHeight = lH;
+      page.rightHeight = rH;
       chunks.push(page);
     }
     return chunks;
@@ -3583,6 +3650,8 @@ function packMcqItemsAutoFit(items) {
   let currentPage = {
     leftItems: [],
     rightItems: [],
+    leftHeight: 0,
+    rightHeight: 0,
     leftFullPack: false,
     rightFullPack: false
   };
@@ -3610,11 +3679,15 @@ function packMcqItemsAutoFit(items) {
         currentRightHeight += h;
       } else {
         currentPage.rightFullPack = shouldApplyFullPackColumn(currentPage.rightItems.length, currentRightHeight, maxColHeight, stretchFullCols);
+        currentPage.leftHeight = currentLeftHeight;
+        currentPage.rightHeight = currentRightHeight;
         pages.push(currentPage);
 
         currentPage = {
           leftItems: [item],
           rightItems: [],
+          leftHeight: h,
+          rightHeight: 0,
           leftFullPack: false,
           rightFullPack: false
         };
@@ -3628,6 +3701,8 @@ function packMcqItemsAutoFit(items) {
   if (currentPage.leftItems.length > 0 || currentPage.rightItems.length > 0) {
     currentPage.leftFullPack = shouldApplyFullPackColumn(currentPage.leftItems.length, currentLeftHeight, maxColHeight, stretchFullCols);
     currentPage.rightFullPack = shouldApplyFullPackColumn(currentPage.rightItems.length, currentRightHeight, maxColHeight, stretchFullCols);
+    currentPage.leftHeight = currentLeftHeight;
+    currentPage.rightHeight = currentRightHeight;
     pages.push(currentPage);
   }
 
@@ -4064,8 +4139,8 @@ function createMcqDomElement(item) {
   }
 
   let solutionHtml = "";
-  const showSolutions = !(appState.mcq && appState.mcq.showSolutions === "hide");
-  if (item.solution && showSolutions) {
+  const showInlineSolutions = !(appState.mcq && (appState.mcq.showSolutions === "hide" || appState.mcq.showSolutions === "end"));
+  if (item.solution && showInlineSolutions) {
     const formattedSol = highlightFormattedText(item.solution);
     solutionHtml =
       '<div class="mcq-solution-box">' +
@@ -4092,9 +4167,41 @@ function createMcqDomElement(item) {
 }
 
 /**
+ * Builds authentic Answer Key grid table (Platform / Rukmini style)
+ */
+function buildMcqAnswerKeyHtml(allItems) {
+  if (!appState.mcq || !appState.mcq.includeAnswerKey || !allItems || allItems.length === 0) return "";
+  const answered = allItems.filter(it => it.answer);
+  if (answered.length === 0) return "";
+
+  let rowsHtml = "";
+  const colsPerRow = (answered.length > 25) ? 15 : 10;
+  for (let r = 0; r < answered.length; r += colsPerRow) {
+    const slice = answered.slice(r, r + colsPerRow);
+    rowsHtml += `<tr>${slice.map(a => `<th>Q${a.qNum}</th>`).join("")}</tr>`;
+    rowsHtml += `<tr>${slice.map(a => `<td>${a.answer}</td>`).join("")}</tr>`;
+  }
+  return `
+    <div class="mcq-answer-key-section">
+      <div class="mcq-answer-key-title">उत्तरमाला / ANSWER KEY (SET ${escapeHtml(appState.mcq.setNumber || "06")})</div>
+      <table class="mcq-answer-key-table">
+        <tbody>${rowsHtml}</tbody>
+      </table>
+    </div>
+  `;
+}
+
+function getAnswerKeyHeightPx(answeredCount) {
+  if (!answeredCount || answeredCount <= 0) return 0;
+  const colsPerRow = (answeredCount > 25) ? 15 : 10;
+  const numRows = Math.ceil(answeredCount / colsPerRow);
+  return 34 + (numRows * 38) + 16;
+}
+
+/**
  * Creates authentic Platform / Rukmini A4 Page with Set Ribbon Header and Center Rule
  */
-function createMcqA4PageElement(pageChunk, pageNum, totalPages, isLastPage, allItems) {
+function createMcqA4PageElement(pageChunk, pageNum, totalPages, isLastPage, allItems, includeAnswerKeyOnThisPage = false, answerKeyHtml = "") {
   const sheet = document.createElement("div");
   const outerFrame = (appState.mcq && appState.mcq.outerFrame) || "none";
   const frameClass = outerFrame === "single" ? "frame-single" : (outerFrame === "double" ? "frame-double" : "");
@@ -4167,28 +4274,10 @@ function createMcqA4PageElement(pageChunk, pageNum, totalPages, isLastPage, allI
   if (colDivider === "dashed") dividerClass = "divider-dashed";
   else if (colDivider === "none") dividerClass = "divider-none";
 
-  // Answer Key Section if on last page
-  let answerKeyHtml = "";
-  if (isLastPage && appState.mcq.includeAnswerKey && allItems && allItems.length > 0) {
-    const answered = allItems.filter(it => it.answer);
-    if (answered.length > 0) {
-      let rowsHtml = "";
-      const colsPerRow = (answered.length > 25) ? 15 : 10;
-      for (let r = 0; r < answered.length; r += colsPerRow) {
-        const slice = answered.slice(r, r + colsPerRow);
-        rowsHtml += `<tr>${slice.map(a => `<th>Q${a.qNum}</th>`).join("")}</tr>`;
-        rowsHtml += `<tr>${slice.map(a => `<td>${a.answer}</td>`).join("")}</tr>`;
-      }
-      answerKeyHtml = `
-        <div class="mcq-answer-key-section">
-          <div class="mcq-answer-key-title">उत्तरमाला / ANSWER KEY (SET ${escapeHtml(appState.mcq.setNumber || "06")})</div>
-          <table class="mcq-answer-key-table">
-            <tbody>${rowsHtml}</tbody>
-          </table>
-        </div>
-      `;
-    }
-  }
+  // Answer Key Section if enabled and safely fits on this question page
+  const answerKeySectionHtml = (includeAnswerKeyOnThisPage && answerKeyHtml)
+    ? answerKeyHtml
+    : "";
 
   const footerHtml = `
     <div class="mcq-footer-box">
@@ -4227,8 +4316,355 @@ function createMcqA4PageElement(pageChunk, pageNum, totalPages, isLastPage, allI
           ${rightItemsHtml}
         </div>
       </div>
-      ${answerKeyHtml}
+      ${answerKeySectionHtml}
       ${inPageFooterBanner}
+      ${footerHtml}
+    </div>
+  `;
+
+  return sheet;
+}
+
+/**
+ * Creates individual solution card DOM element for End-of-Test detailed solutions (Image 4)
+ */
+function createMcqSolutionCardDom(item) {
+  const div = document.createElement("div");
+  div.className = "mcq-end-solution-card gs-document-font";
+  const qNum = item.qNum;
+  const ans = item.answer || "";
+  const solText = highlightFormattedText(item.solution || "");
+  div.innerHTML = `
+    <div class="mcq-end-solution-head">
+      <span class="mcq-end-sol-num" style="color: ${escapeHtml(appState.mcq.qNumColor || '#dc2626')};">${qNum}.</span>
+      ${ans ? `<span class="mcq-end-sol-badge">(${escapeHtml(ans)})</span>` : ""}
+    </div>
+    <div class="mcq-end-solution-body">${solText}</div>
+  `;
+  return div;
+}
+
+/**
+ * Packs detailed solution items into 2-column A4 pages with auto-fit headroom
+ */
+function packMcqSolutionsAutoFit(solutionItems, answerKeyOnFirstPageHeightPx = 0) {
+  if (!solutionItems || solutionItems.length === 0) return [];
+
+  if (typeof document === "undefined" || !document.body) {
+    const chunks = [];
+    const perPage = 10;
+    for (let i = 0; i < solutionItems.length; i += perPage) {
+      const slice = solutionItems.slice(i, i + perPage);
+      const half = Math.ceil(slice.length / 2);
+      chunks.push({
+        leftItems: slice.slice(0, half),
+        rightItems: slice.slice(half)
+      });
+    }
+    return chunks;
+  }
+
+  let measureSandbox = document.getElementById("gs-measure-sandbox");
+  if (!measureSandbox) {
+    measureSandbox = document.createElement("div");
+    measureSandbox.id = "gs-measure-sandbox";
+    document.body.appendChild(measureSandbox);
+  }
+
+  const dividerStyle = (appState.mcq && appState.mcq.colDivider) || "solid";
+  const colWidthMm = dividerStyle === "none" ? "89mm" : "91.5mm";
+  const mcqFont = (appState.mcq && appState.mcq.fontFamily) || "var(--font-devanagari)";
+  const fontSize = appState.mcq.fontSize || 11.5;
+  const lineHeight = appState.mcq.lineHeight || 1.35;
+
+  measureSandbox.style.cssText = `
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    width: ${colWidthMm};
+    display: flex;
+    flex-direction: column;
+    visibility: hidden;
+    pointer-events: none;
+    box-sizing: border-box;
+    font-family: ${mcqFont};
+    font-size: ${fontSize}px;
+    line-height: ${lineHeight};
+    padding: 0;
+    margin: 0;
+  `;
+
+  let baseColHeightMm = 236;
+  baseColHeightMm -= 14; // section header allowance
+  if (
+    (appState.mcq.topAppBannerText && appState.mcq.topAppBannerText.trim()) ||
+    (appState.mcq.topAppPillText && appState.mcq.topAppPillText.trim())
+  ) {
+    baseColHeightMm -= 6;
+  }
+  if (appState.inPageBanners && appState.inPageBanners.headerBanner) {
+    baseColHeightMm -= 25;
+  }
+  if (appState.inPageBanners && appState.inPageBanners.footerBanner) {
+    baseColHeightMm -= 25;
+  }
+
+  const heightProbe = document.createElement("div");
+  heightProbe.style.height = `${baseColHeightMm}mm`;
+  heightProbe.style.margin = "0";
+  heightProbe.style.padding = "0";
+  measureSandbox.appendChild(heightProbe);
+  const baseColCapacityPx = (heightProbe.offsetHeight && heightProbe.offsetHeight > 400) ? heightProbe.offsetHeight : Math.round(baseColHeightMm * 3.7795);
+  measureSandbox.removeChild(heightProbe);
+
+  const defaultMaxColHeight = baseColCapacityPx - 16;
+  const firstPageMaxColHeight = answerKeyOnFirstPageHeightPx > 0
+    ? Math.max(140, defaultMaxColHeight - answerKeyOnFirstPageHeightPx - 14)
+    : defaultMaxColHeight;
+
+  // Measure all solution items
+  measureSandbox.innerHTML = "";
+  const frag = document.createDocumentFragment();
+  for (let i = 0; i < solutionItems.length; i++) {
+    const cardEl = createMcqSolutionCardDom(solutionItems[i]);
+    frag.appendChild(cardEl);
+  }
+  measureSandbox.appendChild(frag);
+
+  const children = measureSandbox.children;
+  const itemHeights = [];
+  for (let i = 0; i < children.length; i++) {
+    const h = children[i].offsetHeight + 5;
+    itemHeights.push(Math.max(20, h));
+  }
+  measureSandbox.innerHTML = "";
+
+  const pages = [];
+  let currentCapacity = firstPageMaxColHeight;
+  let currentPage = {
+    leftItems: [],
+    rightItems: []
+  };
+  let currentLeftHeight = 0;
+  let currentRightHeight = 0;
+  let isFillingRight = false;
+
+  for (let i = 0; i < solutionItems.length; i++) {
+    const item = solutionItems[i];
+    const h = itemHeights[i] || 40;
+
+    if (!isFillingRight) {
+      if (currentLeftHeight + h <= currentCapacity || currentPage.leftItems.length === 0) {
+        currentPage.leftItems.push(item);
+        currentLeftHeight += h;
+      } else {
+        isFillingRight = true;
+        currentPage.rightItems.push(item);
+        currentRightHeight += h;
+      }
+    } else {
+      if (currentRightHeight + h <= currentCapacity || currentPage.rightItems.length === 0) {
+        currentPage.rightItems.push(item);
+        currentRightHeight += h;
+      } else {
+        pages.push(currentPage);
+        currentCapacity = defaultMaxColHeight;
+        currentPage = {
+          leftItems: [item],
+          rightItems: []
+        };
+        currentLeftHeight = h;
+        currentRightHeight = 0;
+        isFillingRight = false;
+      }
+    }
+  }
+
+  if (currentPage.leftItems.length > 0 || currentPage.rightItems.length > 0) {
+    pages.push(currentPage);
+  }
+
+  return pages;
+}
+
+/**
+ * Creates authentic Solutions A4 Sheet (Image 4 - विस्तृत हल एवं व्याख्या)
+ */
+function createMcqSolutionPageElement(chunk, pageNum, isFirstSolutionPage, showAnswerKeyHere, answerKeyHtml) {
+  const sheet = document.createElement("div");
+  const outerFrame = (appState.mcq && appState.mcq.outerFrame) || "none";
+  const frameClass = outerFrame === "single" ? "frame-single" : (outerFrame === "double" ? "frame-double" : "");
+  sheet.className = `a4-sheet ${frameClass}`.trim();
+  sheet.dataset.page = pageNum;
+
+  const watermarkHtml = buildWatermarkHtml({
+    text: appState.mcq.watermarkText,
+    logo: appState.mcq.watermarkLogo,
+    mode: appState.mcq.watermarkMode || "logo-text",
+    pos: appState.mcq.watermarkPos || "center",
+    opacity: appState.mcq.watermarkOpacity || 0.14,
+    size: appState.mcq.watermarkSize || 110,
+    fontFamily: appState.mcq.fontFamily
+  });
+
+  const topAppText = (appState.mcq.topAppBannerText || "").trim();
+  const topAppPillRaw = appState.mcq.topAppPillText;
+  const topAppPill = (topAppPillRaw === undefined ? "📱 Rukmini's Exam Prep App" : topAppPillRaw).trim();
+  const topAppUrl = (appState.mcq.topAppBannerUrl || "").trim() || "#";
+  const hasTopBanner = Boolean(topAppText || topAppPill);
+  const pillHtml = topAppPill
+    ? (topAppUrl !== "#"
+        ? `<a class="app-pill" href="${escapeHtml(topAppUrl)}" target="_blank">${escapeHtml(topAppPill)}</a>`
+        : `<span class="app-pill">${escapeHtml(topAppPill)}</span>`)
+    : "";
+  const leftPromoHtml = topAppText
+    ? `<span><a href="${escapeHtml(topAppUrl)}" target="_blank">${escapeHtml(topAppText)}</a></span>`
+    : `<span></span>`;
+  const topBannerHtml = hasTopBanner ? `
+    <div class="mcq-top-app-banner">
+      ${leftPromoHtml}
+      ${pillHtml}
+    </div>
+  ` : "";
+
+  const sectionHeaderHtml = `
+    <div class="mcq-solutions-section-header">
+      <div class="mcq-solutions-badge-row">
+        <span class="mcq-solutions-tag">विस्तृत हल एवं व्याख्या</span>
+        <span class="mcq-solutions-subtag">DETAILED SOLUTIONS &amp; EXPLANATIONS</span>
+      </div>
+      <div class="mcq-solutions-meta">
+        <span class="mcq-solutions-exam">${escapeHtml(appState.mcq.examTitle || "Bihar Police Constable Exam.")}</span>
+        <span class="mcq-solutions-set">SET - ${escapeHtml(appState.mcq.setNumber || "06")}</span>
+      </div>
+    </div>
+  `;
+
+  const leftItems = chunk.leftItems || [];
+  const rightItems = chunk.rightItems || [];
+
+  let leftHtml = "";
+  for (const it of leftItems) {
+    const card = createMcqSolutionCardDom(it);
+    leftHtml += card.outerHTML;
+  }
+
+  let rightHtml = "";
+  for (const it of rightItems) {
+    const card = createMcqSolutionCardDom(it);
+    rightHtml += card.outerHTML;
+  }
+
+  const colDivider = appState.mcq.colDivider || "solid";
+  let dividerClass = "";
+  if (colDivider === "dashed") dividerClass = "divider-dashed";
+  else if (colDivider === "none") dividerClass = "divider-none";
+
+  const footerHtml = `
+    <div class="mcq-footer-box">
+      <div class="mcq-footer-left">
+        <a href="${escapeHtml(appState.mcq.footerWebUrl || '#')}" target="_blank">🌐 ${escapeHtml(appState.mcq.footerWebText || "www.rukminiprakashan.com")}</a>
+      </div>
+      <div class="mcq-footer-center">
+        ◆ ${escapeHtml(appState.mcq.footerExamText || "BIHAR POLICE CONSTABLE EXAM., TEST SERIES VOL.-1")} ◆
+      </div>
+      <div class="mcq-footer-right">
+        ◆ ${pageNum} ◆
+      </div>
+    </div>
+  `;
+
+  const inPageHeaderBanner = (appState.inPageBanners && appState.inPageBanners.headerBanner)
+    ? `<div class="mcq-inpage-banner"><img src="${appState.inPageBanners.headerBanner}" alt="Header Promo Banner"></div>`
+    : "";
+  const inPageFooterBanner = (appState.inPageBanners && appState.inPageBanners.footerBanner)
+    ? `<div class="mcq-inpage-banner"><img src="${appState.inPageBanners.footerBanner}" alt="Footer Promo Banner"></div>`
+    : "";
+
+  const answerKeySectionHtml = (isFirstSolutionPage && showAnswerKeyHere && answerKeyHtml)
+    ? answerKeyHtml
+    : "";
+
+  sheet.innerHTML = `
+    ${watermarkHtml}
+    <div class="a4-sheet-inner">
+      ${topBannerHtml}
+      ${inPageHeaderBanner}
+      ${sectionHeaderHtml}
+      ${answerKeySectionHtml}
+      <div class="mcq-two-column-layout">
+        <div class="mcq-col mcq-col-left">
+          ${leftHtml}
+        </div>
+        <div class="mcq-col-divider ${dividerClass}"></div>
+        <div class="mcq-col mcq-col-right">
+          ${rightHtml}
+        </div>
+      </div>
+      ${inPageFooterBanner}
+      ${footerHtml}
+    </div>
+  `;
+
+  return sheet;
+}
+
+/**
+ * Creates dedicated Answer Key A4 sheet when Answer Key cannot fit on question page
+ */
+function createDedicatedAnswerKeyPageElement(pageNum, answerKeyHtml) {
+  const sheet = document.createElement("div");
+  const outerFrame = (appState.mcq && appState.mcq.outerFrame) || "none";
+  const frameClass = outerFrame === "single" ? "frame-single" : (outerFrame === "double" ? "frame-double" : "");
+  sheet.className = `a4-sheet ${frameClass}`.trim();
+  sheet.dataset.page = pageNum;
+
+  const watermarkHtml = buildWatermarkHtml({
+    text: appState.mcq.watermarkText,
+    logo: appState.mcq.watermarkLogo,
+    mode: appState.mcq.watermarkMode || "logo-text",
+    pos: appState.mcq.watermarkPos || "center",
+    opacity: appState.mcq.watermarkOpacity || 0.14,
+    size: appState.mcq.watermarkSize || 110,
+    fontFamily: appState.mcq.fontFamily
+  });
+
+  const headerHtml = `
+    <div class="mcq-header-box">
+      <div class="mcq-header-left">
+        <div class="series-sub">${escapeHtml(appState.mcq.seriesSubtitle || "Test Series for")}</div>
+        <div class="exam-main">${escapeHtml(appState.mcq.examTitle || "Bihar Police Constable Exam.")}</div>
+      </div>
+      <div class="mcq-header-right">
+        <div class="mcq-set-badge">
+          <div class="set-tag">SET</div>
+          <div class="set-number">${escapeHtml(appState.mcq.setNumber || "06")}</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const footerHtml = `
+    <div class="mcq-footer-box">
+      <div class="mcq-footer-left">
+        <a href="${escapeHtml(appState.mcq.footerWebUrl || '#')}" target="_blank">🌐 ${escapeHtml(appState.mcq.footerWebText || "www.rukminiprakashan.com")}</a>
+      </div>
+      <div class="mcq-footer-center">
+        ◆ ${escapeHtml(appState.mcq.footerExamText || "BIHAR POLICE CONSTABLE EXAM., TEST SERIES VOL.-1")} ◆
+      </div>
+      <div class="mcq-footer-right">
+        ◆ ${pageNum} ◆
+      </div>
+    </div>
+  `;
+
+  sheet.innerHTML = `
+    ${watermarkHtml}
+    <div class="a4-sheet-inner">
+      ${headerHtml}
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: flex-start; padding-top: 8mm;">
+        ${answerKeyHtml}
+      </div>
       ${footerHtml}
     </div>
   `;
@@ -6407,7 +6843,7 @@ function syncInputsFromState() {
   setValue("select-mcq-bold-mode", appState.mcq.boldMode || "default");
   setValue("select-mcq-q-weight", appState.mcq.questionWeight || "700");
   setValue("select-mcq-opt-weight", appState.mcq.optionWeight || "500");
-  setValue("select-mcq-solutions-display", (appState.mcq && appState.mcq.showSolutions) || "below");
+  setValue("select-mcq-solutions-display", (appState.mcq && appState.mcq.showSolutions) || "end");
   setValue("select-mcq-pagination-mode", appState.mcq.paginationMode || "autofit");
   setValue("input-mcq-items-per-page", appState.mcq.itemsPerPage || 16);
   setText("val-mcq-items-per-page", String(appState.mcq.itemsPerPage || 16));
@@ -7353,7 +7789,14 @@ function setupEventListeners() {
     });
   });
 
-  // Dual Engine Mode Switcher
+  // Studio Category Selector Dropdown & Mode Switcher
+  const selectActiveStudio = document.getElementById("select-active-studio");
+  if (selectActiveStudio) {
+    selectActiveStudio.addEventListener("change", (e) => {
+      setAppMode(e.target.value, true);
+    });
+  }
+
   const btnModePointer = document.getElementById("btn-mode-pointer");
   if (btnModePointer) {
     btnModePointer.addEventListener("click", () => setAppMode("pointer"));
@@ -8328,6 +8771,18 @@ function switchTab(tabName) {
 // ==========================================
 function updateModeView(mode) {
   appState.currentMode = mode;
+
+  // Sync Category Studio Dropdown and Header Icon
+  const selectActiveStudio = document.getElementById("select-active-studio");
+  if (selectActiveStudio && selectActiveStudio.value !== mode) {
+    selectActiveStudio.value = mode;
+  }
+  const activeStudioIcon = document.getElementById("active-studio-icon");
+  if (activeStudioIcon) {
+    const icons = { pointer: "📖", mcq: "📝", book: "📚", slide: "📺" };
+    activeStudioIcon.textContent = icons[mode] || "📖";
+  }
+
   const btnPointer = document.getElementById("btn-mode-pointer");
   const btnMcq = document.getElementById("btn-mode-mcq");
   const btnBook = document.getElementById("btn-mode-book");
@@ -8381,6 +8836,9 @@ function updateModeView(mode) {
 function setAppMode(mode, showNotification = true) {
   appState.currentMode = mode;
   appState.currentViewPage = 1;
+  try {
+    localStorage.setItem("edupublish_active_studio_mode", mode);
+  } catch (err) {}
   updateModeView(mode);
   if (mode === "slide") {
     updateSlidePagePrintStyle(appState.slide && appState.slide.orientation ? appState.slide.orientation : "landscape");

@@ -80,20 +80,30 @@
         </div>
       </div>
 
-      <!-- Center: 3-Mode Switcher Tabs (Pointer vs MCQ vs Book) -->
-      <div class="flex items-center bg-slate-800/90 p-1 rounded-xl border border-slate-700 shadow-inner">
-        <button type="button" id="btn-mode-pointer" class="mode-tab-btn active px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-white bg-blue-600">
-          <span>📖</span> <span class="hidden sm:inline">GS Pointer</span><span class="sm:hidden">Pointer</span>
-        </button>
-        <button type="button" id="btn-mode-mcq" class="mode-tab-btn px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
-          <span>📝</span> <span class="hidden sm:inline">MCQ Series</span><span class="sm:hidden">MCQ</span>
-        </button>
-        <button type="button" id="btn-mode-book" class="mode-tab-btn px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
-          <span>📚</span> <span class="hidden sm:inline">Book & Notes</span><span class="sm:hidden">Book</span>
-        </button>
-        <button type="button" id="btn-mode-slide" class="mode-tab-btn px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white" title="Digital Board / PPT MCQ Slides Studio">
-          <span>📺</span> <span class="hidden sm:inline">MCQ Slide PPT</span><span class="sm:hidden">Slides</span>
-        </button>
+      <!-- Center: Studio / Category Selector Dropdown (Executive Professional Style) -->
+      <div class="flex items-center bg-slate-800/95 px-2.5 py-1 rounded-xl border border-slate-700/80 shadow-md gap-2">
+        <label for="select-active-studio" class="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5 select-none">
+          <span id="active-studio-icon" class="text-sm">📖</span>
+          <span class="hidden md:inline">Category Studio:</span>
+        </label>
+        <div class="relative">
+          <select id="select-active-studio" class="appearance-none bg-slate-900/95 text-white font-bold text-xs pl-2.5 pr-8 py-1.5 rounded-lg border border-slate-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer shadow-inner">
+            <option value="pointer">📖 GS Pointer (One-Liner Studio)</option>
+            <option value="mcq">📝 MCQ Test Practice (Platform / Rukmini Exam Style)</option>
+            <option value="book">📚 Smart Book & Notes (Class Notes & Complete Booklet)</option>
+            <option value="slide">📺 Digital Board MCQ Slide (PPT Studio)</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
+            <svg class="fill-current h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+            </svg>
+          </div>
+        </div>
+        <!-- Hidden button stubs for legacy test/script compatibility -->
+        <button type="button" id="btn-mode-pointer" class="hidden" aria-hidden="true"></button>
+        <button type="button" id="btn-mode-mcq" class="hidden" aria-hidden="true"></button>
+        <button type="button" id="btn-mode-book" class="hidden" aria-hidden="true"></button>
+        <button type="button" id="btn-mode-slide" class="hidden" aria-hidden="true"></button>
       </div>
 
       <!-- Right: Mobile View Switcher, Live Stats & Primary PDF Action -->
@@ -1413,8 +1423,9 @@
                 <span class="text-[9px] bg-red-600 text-white px-1.5 py-0.2 rounded font-bold">NEW</span>
               </label>
               <select id="select-mcq-solutions-display" class="w-full text-xs p-2 border border-red-300 rounded bg-white font-semibold text-slate-800">
-                <option value="below" selected>Show Below Question (Authentic Practice Set with Solution)</option>
-                <option value="hide">Hide Solutions (Questions & Options Only)</option>
+                <option value="end" selected>📄 Solutions at End of Test (Real Exam Book Style: Questions First + Answer Key + Detailed Solutions at End)</option>
+                <option value="below">💡 Show Below Each Question (Practice Set Mode)</option>
+                <option value="hide">🙈 Hide Solutions (Questions &amp; Answer Key Only)</option>
               </select>
               <p class="text-[10px] text-slate-500 mt-1.5">
                 Automatically formats solutions/explanations with red badge, clean borders, and bullet points. Never overlaps options!
