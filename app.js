@@ -1404,7 +1404,7 @@ function saveSettingsToStorage(showNotice = false, customMsg = "") {
         slide: { ...appState.slide, rawContent: "" }
       };
       localStorage.setItem(TEMPLATE_CONFIG_KEY, JSON.stringify(templateConfig));
-    } catch (e) {}
+    } catch (e) { }
 
     updateSaveIndicatorUI(true);
 
@@ -1436,7 +1436,7 @@ function saveSettingsToStorage(showNotice = false, customMsg = "") {
 
 function resetSettingsToDefault() {
   if (confirm("Reset all settings and content back to standard defaults?")) {
-    try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    try { localStorage.removeItem(STORAGE_KEY); } catch (e) { }
     appState = JSON.parse(JSON.stringify(DEFAULT_STATE));
     const searchInput = document.getElementById("input-preview-search");
     const btnClearSearch = document.getElementById("btn-clear-search");
@@ -1561,7 +1561,7 @@ async function translateSingleText(text, fromLang, toLang) {
   if (!text || !text.trim()) return text;
   const clean = text.trim();
   const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(clean)}&langpair=${fromLang}|${toLang}`;
-  
+
   try {
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -1720,29 +1720,29 @@ async function convertLanguageBatch(fromLang, toLang) {
 // ==========================================
 const POINTER_THEMES = {
   classic: { bannerBg: "#424242", headerBorder: "#000000" },
-  navy:    { bannerBg: "#1e3a8a", headerBorder: "#1e3a8a" },
+  navy: { bannerBg: "#1e3a8a", headerBorder: "#1e3a8a" },
   emerald: { bannerBg: "#065f46", headerBorder: "#065f46" },
   crimson: { bannerBg: "#991b1b", headerBorder: "#991b1b" }
 };
 
 const BOLD_PRESETS = {
   pointer: {
-    default:     { qKey: "questionWeight", qVal: "500", aKey: "answerWeight", aVal: "700" },
+    default: { qKey: "questionWeight", qVal: "500", aKey: "answerWeight", aVal: "700" },
     "both-bold": { qKey: "questionWeight", qVal: "700", aKey: "answerWeight", aVal: "700" },
-    "ans-bold":  { qKey: "questionWeight", qVal: "400", aKey: "answerWeight", aVal: "700" },
-    "q-bold":    { qKey: "questionWeight", qVal: "700", aKey: "answerWeight", aVal: "400" }
+    "ans-bold": { qKey: "questionWeight", qVal: "400", aKey: "answerWeight", aVal: "700" },
+    "q-bold": { qKey: "questionWeight", qVal: "700", aKey: "answerWeight", aVal: "400" }
   },
   mcq: {
-    default:     { qKey: "questionWeight", qVal: "700", aKey: "optionWeight", aVal: "500" },
+    default: { qKey: "questionWeight", qVal: "700", aKey: "optionWeight", aVal: "500" },
     "both-bold": { qKey: "questionWeight", qVal: "700", aKey: "optionWeight", aVal: "700" },
-    "q-bold":    { qKey: "questionWeight", qVal: "700", aKey: "optionWeight", aVal: "400" },
-    "ans-bold":  { qKey: "questionWeight", qVal: "400", aKey: "optionWeight", aVal: "700" }
+    "q-bold": { qKey: "questionWeight", qVal: "700", aKey: "optionWeight", aVal: "400" },
+    "ans-bold": { qKey: "questionWeight", qVal: "400", aKey: "optionWeight", aVal: "700" }
   },
   book: {
-    default:     { qKey: "textWeight", qVal: "500", aKey: "answerWeight", aVal: "800" },
+    default: { qKey: "textWeight", qVal: "500", aKey: "answerWeight", aVal: "800" },
     "both-bold": { qKey: "textWeight", qVal: "700", aKey: "answerWeight", aVal: "800" },
-    "ans-bold":  { qKey: "textWeight", qVal: "400", aKey: "answerWeight", aVal: "800" },
-    "q-bold":    { qKey: "textWeight", qVal: "700", aKey: "answerWeight", aVal: "500" }
+    "ans-bold": { qKey: "textWeight", qVal: "400", aKey: "answerWeight", aVal: "800" },
+    "q-bold": { qKey: "textWeight", qVal: "700", aKey: "answerWeight", aVal: "500" }
   }
 };
 
@@ -2878,9 +2878,9 @@ function startDigitalBoardPresentation() {
   // Attempt HTML5 Fullscreen
   try {
     if (document.documentElement.requestFullscreen) {
-      document.documentElement.requestFullscreen().catch(() => {});
+      document.documentElement.requestFullscreen().catch(() => { });
     }
-  } catch (e) {}
+  } catch (e) { }
 
   updatePresentationStage();
   showToast("🖥️ Started Fullscreen Presentation! (Use Arrow Keys ← → to navigate)", "info");
@@ -2967,14 +2967,14 @@ function exitDigitalBoardPresentation() {
   }
   try {
     if (document.fullscreenElement && document.exitFullscreen) {
-      document.exitFullscreen().catch(() => {});
+      document.exitFullscreen().catch(() => { });
     }
-  } catch (e) {}
+  } catch (e) { }
 }
 
 // Global click handler for inline reveal button
 if (typeof window !== "undefined") {
-  window.toggleSlideAnswerReveal = function(btn) {
+  window.toggleSlideAnswerReveal = function (btn) {
     if (!btn) return;
     const parent = btn.closest(".slide-answer-section");
     if (!parent) return;
@@ -4060,7 +4060,7 @@ function formatMcqQuestionBody(rawQuestion) {
 
   function formatStatementOrPlainLine(line, idx, allLines) {
     const arMatch = line.match(/^((?:अभिकथन|कारण|कथन)\s*(?:\([A-Za-z0-9]+\)|[A-Za-z0-9]+)\s*[:\-\—]?)\s*(.*)$/i) ||
-                    line.match(/^((?:Assertion|Reason|Statement)\s*(?:\([A-Za-z0-9]+\)|[A-Za-z0-9]+)\s*[:\-\—]?)\s*(.*)$/i);
+      line.match(/^((?:Assertion|Reason|Statement)\s*(?:\([A-Za-z0-9]+\)|[A-Za-z0-9]+)\s*[:\-\—]?)\s*(.*)$/i);
     // Recognizes "1. X", "1) X", "(1) X", "1- X", "1 X", "१. X" (only numbers 1-12, never years like 1940)
     const numStmtMatch = line.match(/^(?:(?:\(([1-9\u0967-\u096F]|1[0-2])\)|([1-9\u0967-\u096F]|1[0-2])[\.\)\:\-]?))\s+(.*)$/);
     const romanStmtMatch = (romanLineCount >= 2 || /^(?:I|II|III|IV|V|VI)[\.\)]\s+/.test(line))
@@ -4105,10 +4105,10 @@ function formatMcqQuestionBody(rawQuestion) {
 
     const tableHtml =
       '<div class="mcq-match-table-wrapper">' +
-        '<table class="mcq-match-table">' +
-          '<thead><tr><th>' + highlightFormattedText(matchTableData.headerLeft) + '</th><th>' + highlightFormattedText(matchTableData.headerRight) + '</th></tr></thead>' +
-          '<tbody>' + rowsHtml + '</tbody>' +
-        '</table>' +
+      '<table class="mcq-match-table">' +
+      '<thead><tr><th>' + highlightFormattedText(matchTableData.headerLeft) + '</th><th>' + highlightFormattedText(matchTableData.headerRight) + '</th></tr></thead>' +
+      '<tbody>' + rowsHtml + '</tbody>' +
+      '</table>' +
       '</div>';
     formattedBlocks.push(tableHtml);
 
@@ -4155,16 +4155,16 @@ function createMcqDomElement(item) {
     const gridTemplate = "40px repeat(" + colCount + ", minmax(20px, auto))";
     optionsHtml =
       '<div class="mcq-code-matrix">' +
-        '<div class="mcq-code-matrix-row mcq-code-matrix-head" style="grid-template-columns: ' + gridTemplate + ';">' +
-          '<span class="mcq-code-matrix-label">कूट :</span>' +
-          codeMatrix.colLabels.map(lbl => '<span class="mcq-code-matrix-cell">' + highlightFormattedText(lbl) + '</span>').join("") +
-        '</div>' +
-        codeMatrix.rows.map(row =>
-          '<div class="mcq-code-matrix-row" style="grid-template-columns: ' + gridTemplate + ';">' +
-            '<span class="mcq-opt-label">(' + escapeHtml(row.label) + ')</span>' +
-            row.cols.map(c => '<span class="mcq-code-matrix-cell">' + highlightFormattedText(c) + '</span>').join("") +
-          '</div>'
-        ).join("") +
+      '<div class="mcq-code-matrix-row mcq-code-matrix-head" style="grid-template-columns: ' + gridTemplate + ';">' +
+      '<span class="mcq-code-matrix-label">कूट :</span>' +
+      codeMatrix.colLabels.map(lbl => '<span class="mcq-code-matrix-cell">' + highlightFormattedText(lbl) + '</span>').join("") +
+      '</div>' +
+      codeMatrix.rows.map(row =>
+        '<div class="mcq-code-matrix-row" style="grid-template-columns: ' + gridTemplate + ';">' +
+        '<span class="mcq-opt-label">(' + escapeHtml(row.label) + ')</span>' +
+        row.cols.map(c => '<span class="mcq-code-matrix-cell">' + highlightFormattedText(c) + '</span>').join("") +
+        '</div>'
+      ).join("") +
       '</div>';
   } else if (item.options && item.options.length > 0) {
     let optLayoutClass = "mcq-options-grid2x2";
@@ -4189,12 +4189,12 @@ function createMcqDomElement(item) {
 
     optionsHtml =
       '<div class="mcq-options-container ' + optLayoutClass + '">' +
-        item.options.map(opt =>
-          '<div class="mcq-opt-item">' +
-            '<span class="mcq-opt-label">(' + escapeHtml(opt.label) + ')</span>' +
-            '<span class="mcq-opt-text">' + highlightFormattedText(opt.text) + '</span>' +
-          '</div>'
-        ).join("") +
+      item.options.map(opt =>
+        '<div class="mcq-opt-item">' +
+        '<span class="mcq-opt-label">(' + escapeHtml(opt.label) + ')</span>' +
+        '<span class="mcq-opt-text">' + highlightFormattedText(opt.text) + '</span>' +
+        '</div>'
+      ).join("") +
       '</div>';
   }
 
@@ -4202,7 +4202,7 @@ function createMcqDomElement(item) {
   if (diagramUrl) {
     diagramHtml =
       '<div class="mcq-diagram-wrapper">' +
-        '<img src="' + diagramUrl + '" class="mcq-diagram-img" alt="Diagram for Q' + qNum + '">' +
+      '<img src="' + diagramUrl + '" class="mcq-diagram-img" alt="Diagram for Q' + qNum + '">' +
       '</div>';
   }
 
@@ -4212,23 +4212,23 @@ function createMcqDomElement(item) {
     const formattedSol = highlightFormattedText(item.solution);
     solutionHtml =
       '<div class="mcq-solution-box">' +
-        '<div class="mcq-solution-header">' +
-          (item.answer ? '<span class="mcq-solution-ans-badge">उत्तर : (' + escapeHtml(item.answer) + ')</span>' : '') +
-          '<span class="mcq-solution-title">💡 व्याख्या / Solution :</span>' +
-        '</div>' +
-        '<div class="mcq-solution-body">' + formattedSol + '</div>' +
+      '<div class="mcq-solution-header">' +
+      (item.answer ? '<span class="mcq-solution-ans-badge">उत्तर : (' + escapeHtml(item.answer) + ')</span>' : '') +
+      '<span class="mcq-solution-title">💡 व्याख्या / Solution :</span>' +
+      '</div>' +
+      '<div class="mcq-solution-body">' + formattedSol + '</div>' +
       '</div>';
   }
 
   div.innerHTML =
     '<div class="mcq-q-row">' +
-      '<span class="mcq-qnum" style="color: ' + escapeHtml(appState.mcq.qNumColor || '#dc2626') + ';">' + qNum + '.</span>' +
-      '<div class="mcq-q-content">' +
-        '<div class="mcq-qtext">' + questionBodyHtml + '</div>' +
-        diagramHtml +
-        optionsHtml +
-        solutionHtml +
-      '</div>' +
+    '<span class="mcq-qnum" style="color: ' + escapeHtml(appState.mcq.qNumColor || '#dc2626') + ';">' + qNum + '.</span>' +
+    '<div class="mcq-q-content">' +
+    '<div class="mcq-qtext">' + questionBodyHtml + '</div>' +
+    diagramHtml +
+    optionsHtml +
+    solutionHtml +
+    '</div>' +
     '</div>';
 
   return div;
@@ -4239,7 +4239,11 @@ function createMcqDomElement(item) {
  */
 function buildMcqAnswerKeyHtml(allItems) {
   if (!appState.mcq || !appState.mcq.includeAnswerKey || !allItems || allItems.length === 0) return "";
-  const answered = allItems.filter(it => it.answer);
+  // Ensure all questions are included sequentially so rows and badge grids never desync or shift
+  const answered = allItems.map(it => ({
+    qNum: it.qNum,
+    answer: it.answer ? it.answer.trim() : "-"
+  }));
   if (answered.length === 0) return "";
 
   const style = (appState.mcq && appState.mcq.answerKeyStyle) || "badges";
@@ -4319,8 +4323,8 @@ function createMcqA4PageElement(pageChunk, pageNum, totalPages, isLastPage, allI
   const hasTopBanner = Boolean(topAppText || topAppPill);
   const pillHtml = topAppPill
     ? (topAppUrl !== "#"
-        ? `<a class="app-pill" href="${escapeHtml(topAppUrl)}" target="_blank">${escapeHtml(topAppPill)}</a>`
-        : `<span class="app-pill">${escapeHtml(topAppPill)}</span>`)
+      ? `<a class="app-pill" href="${escapeHtml(topAppUrl)}" target="_blank">${escapeHtml(topAppPill)}</a>`
+      : `<span class="app-pill">${escapeHtml(topAppPill)}</span>`)
     : "";
   const leftPromoHtml = topAppText
     ? `<span><a href="${escapeHtml(topAppUrl)}" target="_blank">${escapeHtml(topAppText)}</a></span>`
@@ -4488,19 +4492,19 @@ function packMcqSolutionsAutoFit(solutionItems, answerKeyOnFirstPageHeightPx = 0
     margin: 0;
   `;
 
-  let baseColHeightMm = 236;
+  let baseColHeightMm = 256;
   baseColHeightMm -= 14; // section header allowance
   if (
     (appState.mcq.topAppBannerText && appState.mcq.topAppBannerText.trim()) ||
     (appState.mcq.topAppPillText && appState.mcq.topAppPillText.trim())
   ) {
-    baseColHeightMm -= 6;
+    baseColHeightMm -= 5.5;
   }
   if (appState.inPageBanners && appState.inPageBanners.headerBanner) {
-    baseColHeightMm -= 25;
+    baseColHeightMm -= 22;
   }
   if (appState.inPageBanners && appState.inPageBanners.footerBanner) {
-    baseColHeightMm -= 25;
+    baseColHeightMm -= 22;
   }
 
   const heightProbe = document.createElement("div");
@@ -4511,9 +4515,9 @@ function packMcqSolutionsAutoFit(solutionItems, answerKeyOnFirstPageHeightPx = 0
   const baseColCapacityPx = (heightProbe.offsetHeight && heightProbe.offsetHeight > 400) ? heightProbe.offsetHeight : Math.round(baseColHeightMm * 3.7795);
   measureSandbox.removeChild(heightProbe);
 
-  const defaultMaxColHeight = baseColCapacityPx - 16;
+  const defaultMaxColHeight = baseColCapacityPx - 4;
   const firstPageMaxColHeight = answerKeyOnFirstPageHeightPx > 0
-    ? Math.max(140, defaultMaxColHeight - answerKeyOnFirstPageHeightPx - 14)
+    ? Math.max(140, defaultMaxColHeight - answerKeyOnFirstPageHeightPx - 10)
     : defaultMaxColHeight;
 
   // Measure all solution items
@@ -4635,8 +4639,8 @@ function createMcqSolutionPageElement(chunk, pageNum, isFirstSolutionPage, showA
   const hasTopBanner = Boolean(topAppText || topAppPill);
   const pillHtml = topAppPill
     ? (topAppUrl !== "#"
-        ? `<a class="app-pill" href="${escapeHtml(topAppUrl)}" target="_blank">${escapeHtml(topAppPill)}</a>`
-        : `<span class="app-pill">${escapeHtml(topAppPill)}</span>`)
+      ? `<a class="app-pill" href="${escapeHtml(topAppUrl)}" target="_blank">${escapeHtml(topAppPill)}</a>`
+      : `<span class="app-pill">${escapeHtml(topAppPill)}</span>`)
     : "";
   const leftPromoHtml = topAppText
     ? `<span><a href="${escapeHtml(topAppUrl)}" target="_blank">${escapeHtml(topAppText)}</a></span>`
@@ -4901,14 +4905,14 @@ function createBookA4PageElement(pageChunk, pageNum, totalPages, isLastPage, all
       <div class="book-frame-box" style="${frameBorderCss}">
         <!-- Watermark -->
         ${buildWatermarkHtml({
-          text: appState.book.watermarkText,
-          logo: appState.book.watermarkLogo,
-          mode: appState.book.watermarkMode || "logo-text",
-          pos: appState.book.watermarkPos || "center",
-          opacity: appState.book.watermarkOpacity || 0.14,
-          size: appState.book.watermarkSize || 110,
-          fontFamily: appState.book.fontFamily
-        })}
+    text: appState.book.watermarkText,
+    logo: appState.book.watermarkLogo,
+    mode: appState.book.watermarkMode || "logo-text",
+    pos: appState.book.watermarkPos || "center",
+    opacity: appState.book.watermarkOpacity || 0.14,
+    size: appState.book.watermarkSize || 110,
+    fontFamily: appState.book.fontFamily
+  })}
 
         <!-- Top Dark Navy Blue Header Bar -->
         <div class="book-header-bar" style="background-color: ${escapeHtml(appState.book.headerBgColor || '#0b2545')};">
@@ -5484,8 +5488,8 @@ function parseRawBookContent(rawText) {
       const rawTag = tagM[1].toUpperCase();
       const color = rawTag.startsWith("BLUE") ? "blue"
         : rawTag.startsWith("PURPLE") ? "purple"
-        : (rawTag.startsWith("PINK") || rawTag.startsWith("ROSE")) ? "pink"
-        : "teal";
+          : (rawTag.startsWith("PINK") || rawTag.startsWith("ROSE")) ? "pink"
+            : "teal";
       items.push({ type: "sub_pill", color, text: tagM[2].trim() });
       prevBlank = false;
       continue;
@@ -6103,8 +6107,8 @@ function createCoverPageElement() {
   sheet.className = "a4-cover-sheet";
   sheet.dataset.isCover = "true";
 
-  const logoImg = appState.instituteLogo 
-    ? `<img src="${appState.instituteLogo}" class="cover-logo-center" alt="Institute Logo">` 
+  const logoImg = appState.instituteLogo
+    ? `<img src="${appState.instituteLogo}" class="cover-logo-center" alt="Institute Logo">`
     : `<div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-700 to-indigo-600 text-white font-black text-2xl flex items-center justify-center mx-auto mb-3 shadow-lg shadow-blue-500/20">GS</div>`;
 
   const topPromo = appState.topBannerText.trim()
@@ -8969,7 +8973,7 @@ function setAppMode(mode, showNotification = true) {
   appState.currentViewPage = 1;
   try {
     localStorage.setItem("edupublish_active_studio_mode", mode);
-  } catch (err) {}
+  } catch (err) { }
   updateModeView(mode);
   if (mode === "slide") {
     updateSlidePagePrintStyle(appState.slide && appState.slide.orientation ? appState.slide.orientation : "landscape");
@@ -9103,7 +9107,7 @@ function renderFullA4PhotosList() {
       topListEl.innerHTML = topPages.map((photo, idx) => `
         <div class="flex items-center justify-between p-1.5 bg-white border border-red-200 rounded-lg shadow-xs">
           <div class="flex items-center gap-2">
-            <img src="${photo.dataUrl}" class="w-8 h-11 object-cover rounded border border-slate-300 shadow-xs" alt="Poster ${idx+1}">
+            <img src="${photo.dataUrl}" class="w-8 h-11 object-cover rounded border border-slate-300 shadow-xs" alt="Poster ${idx + 1}">
             <div>
               <span class="text-xs font-bold text-red-600 block">Top Poster Page #${idx + 1}</span>
               <span class="text-[10px] text-slate-500 truncate max-w-[140px] block">${escapeHtml(photo.name || 'Cover Poster')}</span>
@@ -9126,7 +9130,7 @@ function renderFullA4PhotosList() {
       bottomListEl.innerHTML = bottomPages.map((photo, idx) => `
         <div class="flex items-center justify-between p-1.5 bg-white border border-red-200 rounded-lg shadow-xs">
           <div class="flex items-center gap-2">
-            <img src="${photo.dataUrl}" class="w-8 h-11 object-cover rounded border border-slate-300 shadow-xs" alt="Poster ${idx+1}">
+            <img src="${photo.dataUrl}" class="w-8 h-11 object-cover rounded border border-slate-300 shadow-xs" alt="Poster ${idx + 1}">
             <div>
               <span class="text-xs font-bold text-red-600 block">Bottom Poster Page #${idx + 1}</span>
               <span class="text-[10px] text-slate-500 truncate max-w-[140px] block">${escapeHtml(photo.name || 'Back Poster')}</span>
@@ -9222,537 +9226,537 @@ function renderInPageBannersPreview() {
 // ==========================================
 function setupSlideEventListeners() {
   // ==========================================
-    // DIGITAL BOARD & MCQ SLIDE EVENT LISTENERS
-    // ==========================================
-    // Mode Button
-    const btnModeSlide = document.getElementById("btn-mode-slide");
-    if (btnModeSlide) {
-      btnModeSlide.addEventListener("click", () => setAppMode("slide"));
-    }
-  
-    // Slide Tabs
-    document.querySelectorAll(".slide-tab-button").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        const tabName = e.currentTarget.dataset.slideTab;
-        if (tabName) switchSlideTab(tabName);
-      });
+  // DIGITAL BOARD & MCQ SLIDE EVENT LISTENERS
+  // ==========================================
+  // Mode Button
+  const btnModeSlide = document.getElementById("btn-mode-slide");
+  if (btnModeSlide) {
+    btnModeSlide.addEventListener("click", () => setAppMode("slide"));
+  }
+
+  // Slide Tabs
+  document.querySelectorAll(".slide-tab-button").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const tabName = e.currentTarget.dataset.slideTab;
+      if (tabName) switchSlideTab(tabName);
     });
-  
-    // Slide Textarea Live Input
-    const textareaSlideContent = document.getElementById("textarea-slide-content");
-    if (textareaSlideContent) {
-      textareaSlideContent.addEventListener("input", (e) => {
-        if (!appState.slide) appState.slide = {};
-        appState.slide.rawContent = e.target.value;
-        saveSettingsToStorage();
-        renderDocument();
-      });
-    }
-  
-    // 1-Click Paste
-    const btnSlidePaste = document.getElementById("btn-slide-paste");
-    if (btnSlidePaste) {
-      btnSlidePaste.addEventListener("click", async () => {
-        try {
-          if (!navigator.clipboard || !navigator.clipboard.readText) {
-            showToast("Clipboard access denied. Please paste manually.", "error");
-            return;
-          }
-          const text = await navigator.clipboard.readText();
-          if (!text || !text.trim()) {
-            showToast("Clipboard is empty!", "info");
-            return;
-          }
-          if (!appState.slide) appState.slide = {};
-          appState.slide.rawContent = text;
-          setValue("textarea-slide-content", text);
-          saveSettingsToStorage();
-          renderDocument();
-          showToast("📋 Pasted into MCQ Slides successfully!", "success");
-        } catch (err) {
-          showToast("Could not access clipboard. Please paste manually.", "error");
-        }
-      });
-    }
-  
-    // Clear Content
-    const btnClearSlideContent = document.getElementById("btn-clear-slide-content");
-    if (btnClearSlideContent) {
-      btnClearSlideContent.addEventListener("click", () => {
-        if (confirm("Clear all slide questions?")) {
-          if (!appState.slide) appState.slide = {};
-          appState.slide.rawContent = "";
-          setValue("textarea-slide-content", "");
-          saveSettingsToStorage();
-          renderDocument();
-          showToast("Slide content cleared.", "info");
-        }
-      });
-    }
-  
-    // Auto-Format Formulas (Math Squares & Chemistry)
-    const btnSlideAutoFormat = document.getElementById("btn-slide-auto-format");
-    if (btnSlideAutoFormat) {
-      btnSlideAutoFormat.addEventListener("click", () => {
-        if (!appState.slide || !appState.slide.rawContent) {
-          showToast("Please enter or paste questions first!", "info");
+  });
+
+  // Slide Textarea Live Input
+  const textareaSlideContent = document.getElementById("textarea-slide-content");
+  if (textareaSlideContent) {
+    textareaSlideContent.addEventListener("input", (e) => {
+      if (!appState.slide) appState.slide = {};
+      appState.slide.rawContent = e.target.value;
+      saveSettingsToStorage();
+      renderDocument();
+    });
+  }
+
+  // 1-Click Paste
+  const btnSlidePaste = document.getElementById("btn-slide-paste");
+  if (btnSlidePaste) {
+    btnSlidePaste.addEventListener("click", async () => {
+      try {
+        if (!navigator.clipboard || !navigator.clipboard.readText) {
+          showToast("Clipboard access denied. Please paste manually.", "error");
           return;
         }
-        let formatted = formatScienceFormulas(appState.slide.rawContent);
-        if (typeof runFullCorrections === "function") {
-          const res = runFullCorrections(formatted);
-          formatted = res.text;
+        const text = await navigator.clipboard.readText();
+        if (!text || !text.trim()) {
+          showToast("Clipboard is empty!", "info");
+          return;
         }
-        appState.slide.rawContent = formatted;
-        setValue("textarea-slide-content", formatted);
-        saveSettingsToStorage();
-        renderDocument();
-        showToast("✨ Auto-formatted math powers ((A+B)²) & chemical formulas (Ca(OH)₂)!", "success");
-      });
-    }
-  
-    // 1-Click Ready Sample Presets
-    window.loadSlidePreset = function(presetKey) {
-      if (SAMPLE_SLIDE_DATASETS[presetKey]) {
         if (!appState.slide) appState.slide = {};
-        appState.slide.rawContent = SAMPLE_SLIDE_DATASETS[presetKey];
-        if (presetKey === "science") {
-          appState.slide.subjectTag = "GENERAL SCIENCE";
-          appState.slide.topicTitle = "महत्वपूर्ण प्रश्नोत्तरी (Live Class)";
-        } else if (presetKey === "polity") {
-          appState.slide.subjectTag = "INDIAN POLITY";
-          appState.slide.topicTitle = "संविधान एवं राजव्यवस्था (Special Batch)";
-        } else if (presetKey === "biharPolice") {
-          appState.slide.subjectTag = "GENERAL STUDIES";
-          appState.slide.topicTitle = "Bihar Police & All Competitive Exams";
-        }
-        syncInputsFromState();
+        appState.slide.rawContent = text;
+        setValue("textarea-slide-content", text);
         saveSettingsToStorage();
         renderDocument();
-        showToast(`⚡ Loaded ${presetKey.toUpperCase()} sample slide deck!`, "success");
+        showToast("📋 Pasted into MCQ Slides successfully!", "success");
+      } catch (err) {
+        showToast("Could not access clipboard. Please paste manually.", "error");
       }
-    };
-  
-    document.querySelectorAll("[data-slide-preset]").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        const presetKey = e.currentTarget.dataset.slidePreset;
-        if (presetKey) loadSlidePreset(presetKey);
-      });
     });
-  
-    // Docx / Txt File Upload
-    const inputSlideFileUpload = document.getElementById("input-slide-file-upload");
-    if (inputSlideFileUpload) {
-      inputSlideFileUpload.addEventListener("change", (e) => {
-        const file = e.target.files && e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        if (file.name.endsWith(".txt")) {
+  }
+
+  // Clear Content
+  const btnClearSlideContent = document.getElementById("btn-clear-slide-content");
+  if (btnClearSlideContent) {
+    btnClearSlideContent.addEventListener("click", () => {
+      if (confirm("Clear all slide questions?")) {
+        if (!appState.slide) appState.slide = {};
+        appState.slide.rawContent = "";
+        setValue("textarea-slide-content", "");
+        saveSettingsToStorage();
+        renderDocument();
+        showToast("Slide content cleared.", "info");
+      }
+    });
+  }
+
+  // Auto-Format Formulas (Math Squares & Chemistry)
+  const btnSlideAutoFormat = document.getElementById("btn-slide-auto-format");
+  if (btnSlideAutoFormat) {
+    btnSlideAutoFormat.addEventListener("click", () => {
+      if (!appState.slide || !appState.slide.rawContent) {
+        showToast("Please enter or paste questions first!", "info");
+        return;
+      }
+      let formatted = formatScienceFormulas(appState.slide.rawContent);
+      if (typeof runFullCorrections === "function") {
+        const res = runFullCorrections(formatted);
+        formatted = res.text;
+      }
+      appState.slide.rawContent = formatted;
+      setValue("textarea-slide-content", formatted);
+      saveSettingsToStorage();
+      renderDocument();
+      showToast("✨ Auto-formatted math powers ((A+B)²) & chemical formulas (Ca(OH)₂)!", "success");
+    });
+  }
+
+  // 1-Click Ready Sample Presets
+  window.loadSlidePreset = function (presetKey) {
+    if (SAMPLE_SLIDE_DATASETS[presetKey]) {
+      if (!appState.slide) appState.slide = {};
+      appState.slide.rawContent = SAMPLE_SLIDE_DATASETS[presetKey];
+      if (presetKey === "science") {
+        appState.slide.subjectTag = "GENERAL SCIENCE";
+        appState.slide.topicTitle = "महत्वपूर्ण प्रश्नोत्तरी (Live Class)";
+      } else if (presetKey === "polity") {
+        appState.slide.subjectTag = "INDIAN POLITY";
+        appState.slide.topicTitle = "संविधान एवं राजव्यवस्था (Special Batch)";
+      } else if (presetKey === "biharPolice") {
+        appState.slide.subjectTag = "GENERAL STUDIES";
+        appState.slide.topicTitle = "Bihar Police & All Competitive Exams";
+      }
+      syncInputsFromState();
+      saveSettingsToStorage();
+      renderDocument();
+      showToast(`⚡ Loaded ${presetKey.toUpperCase()} sample slide deck!`, "success");
+    }
+  };
+
+  document.querySelectorAll("[data-slide-preset]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const presetKey = e.currentTarget.dataset.slidePreset;
+      if (presetKey) loadSlidePreset(presetKey);
+    });
+  });
+
+  // Docx / Txt File Upload
+  const inputSlideFileUpload = document.getElementById("input-slide-file-upload");
+  if (inputSlideFileUpload) {
+    inputSlideFileUpload.addEventListener("change", (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      if (file.name.endsWith(".txt")) {
+        reader.onload = (re) => {
+          if (!appState.slide) appState.slide = {};
+          appState.slide.rawContent = re.target.result;
+          setValue("textarea-slide-content", re.target.result);
+          saveSettingsToStorage();
+          renderDocument();
+          showToast(`📁 Imported ${file.name} successfully!`, "success");
+        };
+        reader.readAsText(file);
+      } else if (file.name.endsWith(".docx") || file.name.endsWith(".doc")) {
+        if (typeof mammoth !== "undefined" && mammoth.extractRawText) {
+          reader.onload = (re) => {
+            mammoth.extractRawText({ arrayBuffer: re.target.result }).then((res) => {
+              if (!appState.slide) appState.slide = {};
+              appState.slide.rawContent = res.value;
+              setValue("textarea-slide-content", res.value);
+              saveSettingsToStorage();
+              renderDocument();
+              showToast(`📁 Extracted ${file.name} successfully!`, "success");
+            }).catch(() => {
+              showToast("Could not parse DOCX. Please paste text directly.", "error");
+            });
+          };
+          reader.readAsArrayBuffer(file);
+        } else {
           reader.onload = (re) => {
             if (!appState.slide) appState.slide = {};
             appState.slide.rawContent = re.target.result;
             setValue("textarea-slide-content", re.target.result);
             saveSettingsToStorage();
             renderDocument();
-            showToast(`📁 Imported ${file.name} successfully!`, "success");
+            showToast(`📁 Imported ${file.name}!`, "success");
           };
           reader.readAsText(file);
-        } else if (file.name.endsWith(".docx") || file.name.endsWith(".doc")) {
-          if (typeof mammoth !== "undefined" && mammoth.extractRawText) {
-            reader.onload = (re) => {
-              mammoth.extractRawText({ arrayBuffer: re.target.result }).then((res) => {
-                if (!appState.slide) appState.slide = {};
-                appState.slide.rawContent = res.value;
-                setValue("textarea-slide-content", res.value);
-                saveSettingsToStorage();
-                renderDocument();
-                showToast(`📁 Extracted ${file.name} successfully!`, "success");
-              }).catch(() => {
-                showToast("Could not parse DOCX. Please paste text directly.", "error");
-              });
-            };
-            reader.readAsArrayBuffer(file);
-          } else {
-            reader.onload = (re) => {
-              if (!appState.slide) appState.slide = {};
-              appState.slide.rawContent = re.target.result;
-              setValue("textarea-slide-content", re.target.result);
-              saveSettingsToStorage();
-              renderDocument();
-              showToast(`📁 Imported ${file.name}!`, "success");
-            };
-            reader.readAsText(file);
-          }
         }
-      });
-    }
-  
-    // Header & Branding inputs
-    function bindSlideInput(id, key) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.addEventListener("input", (e) => {
-        if (!appState.slide) appState.slide = {};
-        appState.slide[key] = e.target.value;
-        saveSettingsToStorage();
-        renderDocument();
-      });
-    }
-  
-    bindSlideInput("input-slide-institute", "instituteName");
-    bindSlideInput("input-slide-subject", "subjectTag");
-    bindSlideInput("input-slide-topic", "topicTitle");
-    bindSlideInput("input-slide-footer-text", "footerText");
-    bindSlideInput("input-slide-watermark-text", "watermarkText");
-  
-    // Logo file upload
-    const inputSlideLogo = document.getElementById("input-slide-logo");
-    if (inputSlideLogo) {
-      inputSlideLogo.addEventListener("change", (e) => {
-        const file = e.target.files && e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (re) => {
-          if (!appState.slide) appState.slide = {};
-          appState.slide.instituteLogo = re.target.result;
-          saveSettingsToStorage();
-          renderDocument();
-          showToast("🏛️ Slide Header Logo updated!", "success");
-        };
-        reader.readAsDataURL(file);
-      });
-    }
-  
-    // 1-Click Sync Main Logo
-    const btnSlideUseMainLogo = document.getElementById("btn-slide-use-main-logo");
-    if (btnSlideUseMainLogo) {
-      btnSlideUseMainLogo.addEventListener("click", () => {
-        if (!appState.slide) appState.slide = {};
-        if (appState.instituteLogo) {
-          appState.slide.instituteLogo = appState.instituteLogo;
-        }
-        if (appState.leftBrandText && !appState.slide.instituteName) {
-          appState.slide.instituteName = appState.leftBrandText;
-          setValue("input-slide-institute", appState.slide.instituteName);
-        }
-        saveSettingsToStorage();
-        renderDocument();
-        showToast("🔄 Synced main branding to Slide Header!", "success");
-      });
-    }
-  
-    // Top Header Banner Upload & Clear
-    const inputSlideHeaderBanner = document.getElementById("input-slide-header-banner");
-    if (inputSlideHeaderBanner) {
-      inputSlideHeaderBanner.addEventListener("change", (e) => {
-        const file = e.target.files && e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (re) => {
-          if (!appState.slide) appState.slide = {};
-          appState.slide.headerBanner = re.target.result;
-          saveSettingsToStorage();
-          renderDocument();
-          showToast("🖼️ Top Slide Photo Banner updated!", "success");
-        };
-        reader.readAsDataURL(file);
-      });
-    }
-  
-    const btnSlideClearBanner = document.getElementById("btn-slide-clear-banner");
-    if (btnSlideClearBanner) {
-      btnSlideClearBanner.addEventListener("click", () => {
-        if (!appState.slide) appState.slide = {};
-        appState.slide.headerBanner = "";
-        const bannerInput = document.getElementById("input-slide-header-banner");
-        if (bannerInput) bannerInput.value = "";
-        saveSettingsToStorage();
-        renderDocument();
-        showToast("Banner removed from slides.", "info");
-      });
-    }
-  
-    // Header Background Colors
-    document.querySelectorAll("[data-slide-header-color]").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        const col = e.currentTarget.dataset.slideHeaderColor;
-        if (!appState.slide) appState.slide = {};
-        appState.slide.headerBgColor = col;
-        setValue("input-slide-header-bg", col);
-        saveSettingsToStorage();
-        renderDocument();
-      });
+      }
     });
-  
-    const inputSlideHeaderBg = document.getElementById("input-slide-header-bg");
-    if (inputSlideHeaderBg) {
-      inputSlideHeaderBg.addEventListener("input", (e) => {
-        if (!appState.slide) appState.slide = {};
-        appState.slide.headerBgColor = e.target.value;
-        saveSettingsToStorage();
-        renderDocument();
-      });
-    }
-  
-    // Answer Colors
-    document.querySelectorAll("[data-slide-ans-color]").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        const col = e.currentTarget.dataset.slideAnsColor;
-        if (!appState.slide) appState.slide = {};
-        appState.slide.answerColor = col;
-        saveSettingsToStorage();
-        renderDocument();
-      });
+  }
+
+  // Header & Branding inputs
+  function bindSlideInput(id, key) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener("input", (e) => {
+      if (!appState.slide) appState.slide = {};
+      appState.slide[key] = e.target.value;
+      saveSettingsToStorage();
+      renderDocument();
     });
-  
-    // Watermark Opacity & Sync
-    const rangeSlideWatermarkOpacity = document.getElementById("range-slide-watermark-opacity");
-    if (rangeSlideWatermarkOpacity) {
-      rangeSlideWatermarkOpacity.addEventListener("input", (e) => {
-        const val = parseFloat(e.target.value);
+  }
+
+  bindSlideInput("input-slide-institute", "instituteName");
+  bindSlideInput("input-slide-subject", "subjectTag");
+  bindSlideInput("input-slide-topic", "topicTitle");
+  bindSlideInput("input-slide-footer-text", "footerText");
+  bindSlideInput("input-slide-watermark-text", "watermarkText");
+
+  // Logo file upload
+  const inputSlideLogo = document.getElementById("input-slide-logo");
+  if (inputSlideLogo) {
+    inputSlideLogo.addEventListener("change", (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (re) => {
         if (!appState.slide) appState.slide = {};
-        appState.slide.watermarkOpacity = val;
-        const lbl = document.getElementById("label-slide-watermark-opacity");
-        if (lbl) lbl.textContent = Math.round(val * 100) + "%";
+        appState.slide.instituteLogo = re.target.result;
         saveSettingsToStorage();
         renderDocument();
-      });
-    }
-
-    // Question Text Color Picker & Presets (User requested: "aur question red jo color chahiye voo kar sakte h mannually")
-    const inputSlideQColor = document.getElementById("input-slide-qcolor");
-    if (inputSlideQColor) {
-      inputSlideQColor.addEventListener("input", (e) => {
-        if (!appState.slide) appState.slide = {};
-        appState.slide.questionColor = e.target.value;
-        saveSettingsToStorage();
-        renderDocument();
-      });
-    }
-
-    document.querySelectorAll("[data-slide-qcolor]").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        const color = e.currentTarget.dataset.slideQcolor;
-        if (color) {
-          if (!appState.slide) appState.slide = {};
-          appState.slide.questionColor = color;
-          setValue("input-slide-qcolor", color);
-          saveSettingsToStorage();
-          renderDocument();
-          showToast(`🎨 Question color set to ${color}`, "success");
-        }
-      });
+        showToast("🏛️ Slide Header Logo updated!", "success");
+      };
+      reader.readAsDataURL(file);
     });
+  }
 
-    // Question Font Weight
-    const selectSlideQWeight = document.getElementById("select-slide-qweight");
-    if (selectSlideQWeight) {
-      selectSlideQWeight.addEventListener("change", (e) => {
-        if (!appState.slide) appState.slide = {};
-        appState.slide.questionWeight = e.target.value;
-        saveSettingsToStorage();
-        renderDocument();
-      });
-    }
+  // 1-Click Sync Main Logo
+  const btnSlideUseMainLogo = document.getElementById("btn-slide-use-main-logo");
+  if (btnSlideUseMainLogo) {
+    btnSlideUseMainLogo.addEventListener("click", () => {
+      if (!appState.slide) appState.slide = {};
+      if (appState.instituteLogo) {
+        appState.slide.instituteLogo = appState.instituteLogo;
+      }
+      if (appState.leftBrandText && !appState.slide.instituteName) {
+        appState.slide.instituteName = appState.leftBrandText;
+        setValue("input-slide-institute", appState.slide.instituteName);
+      }
+      saveSettingsToStorage();
+      renderDocument();
+      showToast("🔄 Synced main branding to Slide Header!", "success");
+    });
+  }
 
-    // Distance Below Question (User requested: "question and option thora gap ho es types ka")
-    const rangeSlideOptTopMargin = document.getElementById("range-slide-opt-top-margin");
-    if (rangeSlideOptTopMargin) {
-      rangeSlideOptTopMargin.addEventListener("input", (e) => {
-        const val = parseInt(e.target.value, 10) || 32;
+  // Top Header Banner Upload & Clear
+  const inputSlideHeaderBanner = document.getElementById("input-slide-header-banner");
+  if (inputSlideHeaderBanner) {
+    inputSlideHeaderBanner.addEventListener("change", (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (re) => {
         if (!appState.slide) appState.slide = {};
-        appState.slide.optionsTopMargin = val;
-        const tmLabel = document.getElementById("label-slide-opt-top-margin");
-        if (tmLabel) tmLabel.textContent = val + "px";
+        appState.slide.headerBanner = re.target.result;
         saveSettingsToStorage();
         renderDocument();
-      });
-    }
+        showToast("🖼️ Top Slide Photo Banner updated!", "success");
+      };
+      reader.readAsDataURL(file);
+    });
+  }
 
-    // Options Spacing Range Slider (User requested: "option na thora niche rkho aur charo ko space rkho")
-    const rangeSlideOptGap = document.getElementById("range-slide-opt-gap");
-    if (rangeSlideOptGap) {
-      rangeSlideOptGap.addEventListener("input", (e) => {
-        const val = parseInt(e.target.value, 10) || 24;
+  const btnSlideClearBanner = document.getElementById("btn-slide-clear-banner");
+  if (btnSlideClearBanner) {
+    btnSlideClearBanner.addEventListener("click", () => {
+      if (!appState.slide) appState.slide = {};
+      appState.slide.headerBanner = "";
+      const bannerInput = document.getElementById("input-slide-header-banner");
+      if (bannerInput) bannerInput.value = "";
+      saveSettingsToStorage();
+      renderDocument();
+      showToast("Banner removed from slides.", "info");
+    });
+  }
+
+  // Header Background Colors
+  document.querySelectorAll("[data-slide-header-color]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const col = e.currentTarget.dataset.slideHeaderColor;
+      if (!appState.slide) appState.slide = {};
+      appState.slide.headerBgColor = col;
+      setValue("input-slide-header-bg", col);
+      saveSettingsToStorage();
+      renderDocument();
+    });
+  });
+
+  const inputSlideHeaderBg = document.getElementById("input-slide-header-bg");
+  if (inputSlideHeaderBg) {
+    inputSlideHeaderBg.addEventListener("input", (e) => {
+      if (!appState.slide) appState.slide = {};
+      appState.slide.headerBgColor = e.target.value;
+      saveSettingsToStorage();
+      renderDocument();
+    });
+  }
+
+  // Answer Colors
+  document.querySelectorAll("[data-slide-ans-color]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const col = e.currentTarget.dataset.slideAnsColor;
+      if (!appState.slide) appState.slide = {};
+      appState.slide.answerColor = col;
+      saveSettingsToStorage();
+      renderDocument();
+    });
+  });
+
+  // Watermark Opacity & Sync
+  const rangeSlideWatermarkOpacity = document.getElementById("range-slide-watermark-opacity");
+  if (rangeSlideWatermarkOpacity) {
+    rangeSlideWatermarkOpacity.addEventListener("input", (e) => {
+      const val = parseFloat(e.target.value);
+      if (!appState.slide) appState.slide = {};
+      appState.slide.watermarkOpacity = val;
+      const lbl = document.getElementById("label-slide-watermark-opacity");
+      if (lbl) lbl.textContent = Math.round(val * 100) + "%";
+      saveSettingsToStorage();
+      renderDocument();
+    });
+  }
+
+  // Question Text Color Picker & Presets (User requested: "aur question red jo color chahiye voo kar sakte h mannually")
+  const inputSlideQColor = document.getElementById("input-slide-qcolor");
+  if (inputSlideQColor) {
+    inputSlideQColor.addEventListener("input", (e) => {
+      if (!appState.slide) appState.slide = {};
+      appState.slide.questionColor = e.target.value;
+      saveSettingsToStorage();
+      renderDocument();
+    });
+  }
+
+  document.querySelectorAll("[data-slide-qcolor]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const color = e.currentTarget.dataset.slideQcolor;
+      if (color) {
         if (!appState.slide) appState.slide = {};
-        appState.slide.optionsGap = val;
-        const gapLabel = document.getElementById("label-slide-opt-gap");
-        if (gapLabel) gapLabel.textContent = val + "px";
+        appState.slide.questionColor = color;
+        setValue("input-slide-qcolor", color);
         saveSettingsToStorage();
         renderDocument();
-      });
-    }
-  
-    const btnSyncSlideWatermark = document.getElementById("btn-sync-slide-watermark");
-    if (btnSyncSlideWatermark) {
-      btnSyncSlideWatermark.addEventListener("click", () => {
-        if (!appState.slide) appState.slide = {};
-        appState.slide.watermarkText = appState.watermarkText || appState.slide.instituteName;
-        if (appState.watermarkLogo) appState.slide.watermarkLogo = appState.watermarkLogo;
-        setValue("input-slide-watermark-text", appState.slide.watermarkText);
-        saveSettingsToStorage();
-        renderDocument();
-        showToast("🔄 Synced watermark settings to Slide Studio!", "success");
-      });
-    }
-  
-    // Layout Selects
-    const selectSlideOrientation = document.getElementById("select-slide-orientation");
-    if (selectSlideOrientation) {
-      selectSlideOrientation.addEventListener("change", (e) => {
-        if (!appState.slide) appState.slide = {};
-        appState.slide.orientation = e.target.value;
-        updateSlidePagePrintStyle(appState.slide.orientation);
-        saveSettingsToStorage();
-        renderDocument();
-      });
-    }
-  
-    const selectSlideOptionsLayout = document.getElementById("select-slide-options-layout");
-    if (selectSlideOptionsLayout) {
-      selectSlideOptionsLayout.addEventListener("change", (e) => {
-        if (!appState.slide) appState.slide = {};
-        appState.slide.optionsLayout = e.target.value;
-        saveSettingsToStorage();
-        renderDocument();
-      });
-    }
-  
-    const selectSlideAnswerMode = document.getElementById("select-slide-answer-mode");
-    if (selectSlideAnswerMode) {
-      selectSlideAnswerMode.addEventListener("change", (e) => {
-        if (!appState.slide) appState.slide = {};
-        appState.slide.answerMode = e.target.value;
-        saveSettingsToStorage();
-        renderDocument();
-      });
-    }
-  
-    const checkSlideShowExplanation = document.getElementById("check-slide-show-explanation");
-    if (checkSlideShowExplanation) {
-      checkSlideShowExplanation.addEventListener("change", (e) => {
-        if (!appState.slide) appState.slide = {};
-        appState.slide.showExplanation = e.target.checked;
-        saveSettingsToStorage();
-        renderDocument();
-      });
-    }
-  
-    const checkSlideFinalAnswerKey = document.getElementById("check-slide-final-answer-key");
-    if (checkSlideFinalAnswerKey) {
-      checkSlideFinalAnswerKey.addEventListener("change", (e) => {
-        if (!appState.slide) appState.slide = {};
-        appState.slide.showFinalAnswerKey = e.target.checked;
-        saveSettingsToStorage();
-        renderDocument();
-      });
-    }
-  
-    const rangeSlideFontSize = document.getElementById("range-slide-font-size");
-    if (rangeSlideFontSize) {
-      rangeSlideFontSize.addEventListener("input", (e) => {
-        const sz = parseInt(e.target.value, 10);
-        if (!appState.slide) appState.slide = {};
-        appState.slide.fontSize = sz;
-        const lbl = document.getElementById("label-slide-font-size");
-        if (lbl) lbl.textContent = sz + "px";
-        document.documentElement.style.setProperty("--slide-font-size", sz + "px");
-        document.documentElement.style.setProperty("--slide-opt-font-size", (sz - 3) + "px");
-        saveSettingsToStorage();
-        renderDocument();
-      });
-    }
-  
-    // Slide Export & Digital Board Buttons
-    const btnSlideStartPres = document.getElementById("btn-slide-start-presentation");
-    if (btnSlideStartPres) {
-      btnSlideStartPres.addEventListener("click", startDigitalBoardPresentation);
-    }
-  
-    const btnQuickPresent = document.getElementById("btn-quick-present");
-    if (btnQuickPresent) {
-      btnQuickPresent.addEventListener("click", startDigitalBoardPresentation);
-    }
-  
-    const btnSlideDownloadDoc = document.getElementById("btn-slide-download-doc");
-    if (btnSlideDownloadDoc) {
-      btnSlideDownloadDoc.addEventListener("click", downloadSlideWordDoc);
-    }
-  
-    const btnQuickDownloadDoc = document.getElementById("btn-quick-download-doc");
-    if (btnQuickDownloadDoc) {
-      btnQuickDownloadDoc.addEventListener("click", downloadSlideWordDoc);
-    }
-  
-    const btnSlideDownloadPdf = document.getElementById("btn-slide-download-pdf");
-    if (btnSlideDownloadPdf) {
-      btnSlideDownloadPdf.addEventListener("click", triggerPrintEngine);
-    }
-  
-    const btnSlideCopyText = document.getElementById("btn-slide-copy-text");
-    if (btnSlideCopyText) {
-      btnSlideCopyText.addEventListener("click", () => {
-        const cfg = appState.slide || {};
-        const questions = parseRawMcqContent(cfg.rawContent || "");
-        if (!questions.length) {
-          showToast("No questions to copy!", "error");
-          return;
-        }
-        let copyText = "";
-        questions.forEach((q, idx) => {
-          copyText += `${idx + 1}. ${q.question}\n`;
-          (q.options || []).forEach(opt => {
-            copyText += `(${opt.label}) ${opt.text}\n`;
-          });
-          copyText += `उत्तर - ${q.answer || '—'}\n`;
-          if (q.solution) copyText += `व्याख्या: ${q.solution}\n`;
-          copyText += "\n";
+        showToast(`🎨 Question color set to ${color}`, "success");
+      }
+    });
+  });
+
+  // Question Font Weight
+  const selectSlideQWeight = document.getElementById("select-slide-qweight");
+  if (selectSlideQWeight) {
+    selectSlideQWeight.addEventListener("change", (e) => {
+      if (!appState.slide) appState.slide = {};
+      appState.slide.questionWeight = e.target.value;
+      saveSettingsToStorage();
+      renderDocument();
+    });
+  }
+
+  // Distance Below Question (User requested: "question and option thora gap ho es types ka")
+  const rangeSlideOptTopMargin = document.getElementById("range-slide-opt-top-margin");
+  if (rangeSlideOptTopMargin) {
+    rangeSlideOptTopMargin.addEventListener("input", (e) => {
+      const val = parseInt(e.target.value, 10) || 32;
+      if (!appState.slide) appState.slide = {};
+      appState.slide.optionsTopMargin = val;
+      const tmLabel = document.getElementById("label-slide-opt-top-margin");
+      if (tmLabel) tmLabel.textContent = val + "px";
+      saveSettingsToStorage();
+      renderDocument();
+    });
+  }
+
+  // Options Spacing Range Slider (User requested: "option na thora niche rkho aur charo ko space rkho")
+  const rangeSlideOptGap = document.getElementById("range-slide-opt-gap");
+  if (rangeSlideOptGap) {
+    rangeSlideOptGap.addEventListener("input", (e) => {
+      const val = parseInt(e.target.value, 10) || 24;
+      if (!appState.slide) appState.slide = {};
+      appState.slide.optionsGap = val;
+      const gapLabel = document.getElementById("label-slide-opt-gap");
+      if (gapLabel) gapLabel.textContent = val + "px";
+      saveSettingsToStorage();
+      renderDocument();
+    });
+  }
+
+  const btnSyncSlideWatermark = document.getElementById("btn-sync-slide-watermark");
+  if (btnSyncSlideWatermark) {
+    btnSyncSlideWatermark.addEventListener("click", () => {
+      if (!appState.slide) appState.slide = {};
+      appState.slide.watermarkText = appState.watermarkText || appState.slide.instituteName;
+      if (appState.watermarkLogo) appState.slide.watermarkLogo = appState.watermarkLogo;
+      setValue("input-slide-watermark-text", appState.slide.watermarkText);
+      saveSettingsToStorage();
+      renderDocument();
+      showToast("🔄 Synced watermark settings to Slide Studio!", "success");
+    });
+  }
+
+  // Layout Selects
+  const selectSlideOrientation = document.getElementById("select-slide-orientation");
+  if (selectSlideOrientation) {
+    selectSlideOrientation.addEventListener("change", (e) => {
+      if (!appState.slide) appState.slide = {};
+      appState.slide.orientation = e.target.value;
+      updateSlidePagePrintStyle(appState.slide.orientation);
+      saveSettingsToStorage();
+      renderDocument();
+    });
+  }
+
+  const selectSlideOptionsLayout = document.getElementById("select-slide-options-layout");
+  if (selectSlideOptionsLayout) {
+    selectSlideOptionsLayout.addEventListener("change", (e) => {
+      if (!appState.slide) appState.slide = {};
+      appState.slide.optionsLayout = e.target.value;
+      saveSettingsToStorage();
+      renderDocument();
+    });
+  }
+
+  const selectSlideAnswerMode = document.getElementById("select-slide-answer-mode");
+  if (selectSlideAnswerMode) {
+    selectSlideAnswerMode.addEventListener("change", (e) => {
+      if (!appState.slide) appState.slide = {};
+      appState.slide.answerMode = e.target.value;
+      saveSettingsToStorage();
+      renderDocument();
+    });
+  }
+
+  const checkSlideShowExplanation = document.getElementById("check-slide-show-explanation");
+  if (checkSlideShowExplanation) {
+    checkSlideShowExplanation.addEventListener("change", (e) => {
+      if (!appState.slide) appState.slide = {};
+      appState.slide.showExplanation = e.target.checked;
+      saveSettingsToStorage();
+      renderDocument();
+    });
+  }
+
+  const checkSlideFinalAnswerKey = document.getElementById("check-slide-final-answer-key");
+  if (checkSlideFinalAnswerKey) {
+    checkSlideFinalAnswerKey.addEventListener("change", (e) => {
+      if (!appState.slide) appState.slide = {};
+      appState.slide.showFinalAnswerKey = e.target.checked;
+      saveSettingsToStorage();
+      renderDocument();
+    });
+  }
+
+  const rangeSlideFontSize = document.getElementById("range-slide-font-size");
+  if (rangeSlideFontSize) {
+    rangeSlideFontSize.addEventListener("input", (e) => {
+      const sz = parseInt(e.target.value, 10);
+      if (!appState.slide) appState.slide = {};
+      appState.slide.fontSize = sz;
+      const lbl = document.getElementById("label-slide-font-size");
+      if (lbl) lbl.textContent = sz + "px";
+      document.documentElement.style.setProperty("--slide-font-size", sz + "px");
+      document.documentElement.style.setProperty("--slide-opt-font-size", (sz - 3) + "px");
+      saveSettingsToStorage();
+      renderDocument();
+    });
+  }
+
+  // Slide Export & Digital Board Buttons
+  const btnSlideStartPres = document.getElementById("btn-slide-start-presentation");
+  if (btnSlideStartPres) {
+    btnSlideStartPres.addEventListener("click", startDigitalBoardPresentation);
+  }
+
+  const btnQuickPresent = document.getElementById("btn-quick-present");
+  if (btnQuickPresent) {
+    btnQuickPresent.addEventListener("click", startDigitalBoardPresentation);
+  }
+
+  const btnSlideDownloadDoc = document.getElementById("btn-slide-download-doc");
+  if (btnSlideDownloadDoc) {
+    btnSlideDownloadDoc.addEventListener("click", downloadSlideWordDoc);
+  }
+
+  const btnQuickDownloadDoc = document.getElementById("btn-quick-download-doc");
+  if (btnQuickDownloadDoc) {
+    btnQuickDownloadDoc.addEventListener("click", downloadSlideWordDoc);
+  }
+
+  const btnSlideDownloadPdf = document.getElementById("btn-slide-download-pdf");
+  if (btnSlideDownloadPdf) {
+    btnSlideDownloadPdf.addEventListener("click", triggerPrintEngine);
+  }
+
+  const btnSlideCopyText = document.getElementById("btn-slide-copy-text");
+  if (btnSlideCopyText) {
+    btnSlideCopyText.addEventListener("click", () => {
+      const cfg = appState.slide || {};
+      const questions = parseRawMcqContent(cfg.rawContent || "");
+      if (!questions.length) {
+        showToast("No questions to copy!", "error");
+        return;
+      }
+      let copyText = "";
+      questions.forEach((q, idx) => {
+        copyText += `${idx + 1}. ${q.question}\n`;
+        (q.options || []).forEach(opt => {
+          copyText += `(${opt.label}) ${opt.text}\n`;
         });
-        navigator.clipboard.writeText(copyText).then(() => {
-          showToast("📋 All slide questions & answers copied to clipboard!", "success");
-        }).catch(() => {
-          showToast("Clipboard access denied.", "error");
-        });
+        copyText += `उत्तर - ${q.answer || '—'}\n`;
+        if (q.solution) copyText += `व्याख्या: ${q.solution}\n`;
+        copyText += "\n";
       });
-    }
-  
-    // Fullscreen Presentation Controls
-    const btnPresPrev = document.getElementById("btn-pres-prev");
-    if (btnPresPrev) btnPresPrev.addEventListener("click", prevPresentationSlide);
-  
-    const btnPresNext = document.getElementById("btn-pres-next");
-    if (btnPresNext) btnPresNext.addEventListener("click", nextPresentationSlide);
-  
-    const btnPresToggleAns = document.getElementById("btn-pres-toggle-ans");
-    if (btnPresToggleAns) btnPresToggleAns.addEventListener("click", togglePresentationAnswerReveal);
-  
-    const btnPresTimer = document.getElementById("btn-pres-timer");
-    if (btnPresTimer) btnPresTimer.addEventListener("click", togglePresentationTimer);
-  
-    const btnPresClose = document.getElementById("btn-pres-close");
-    if (btnPresClose) btnPresClose.addEventListener("click", exitDigitalBoardPresentation);
-  
-    // Global Keyboard Navigation for Digital Board Presentation
-    if (typeof window !== "undefined" && typeof window.addEventListener === "function") {
-      window.addEventListener("keydown", (e) => {
-        const modal = document.getElementById("slide-presentation-modal");
-        if (!modal || modal.classList.contains("hidden")) return;
-  
-        if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") {
-          e.preventDefault();
-          nextPresentationSlide();
-        } else if (e.key === "ArrowLeft" || e.key === "PageUp") {
-          e.preventDefault();
-          prevPresentationSlide();
-        } else if (e.key === "Escape") {
-          exitDigitalBoardPresentation();
-        } else if (e.key === "a" || e.key === "A") {
-          togglePresentationAnswerReveal();
-        } else if (e.key === "t" || e.key === "T") {
-          togglePresentationTimer();
-        }
+      navigator.clipboard.writeText(copyText).then(() => {
+        showToast("📋 All slide questions & answers copied to clipboard!", "success");
+      }).catch(() => {
+        showToast("Clipboard access denied.", "error");
       });
-    }
+    });
+  }
+
+  // Fullscreen Presentation Controls
+  const btnPresPrev = document.getElementById("btn-pres-prev");
+  if (btnPresPrev) btnPresPrev.addEventListener("click", prevPresentationSlide);
+
+  const btnPresNext = document.getElementById("btn-pres-next");
+  if (btnPresNext) btnPresNext.addEventListener("click", nextPresentationSlide);
+
+  const btnPresToggleAns = document.getElementById("btn-pres-toggle-ans");
+  if (btnPresToggleAns) btnPresToggleAns.addEventListener("click", togglePresentationAnswerReveal);
+
+  const btnPresTimer = document.getElementById("btn-pres-timer");
+  if (btnPresTimer) btnPresTimer.addEventListener("click", togglePresentationTimer);
+
+  const btnPresClose = document.getElementById("btn-pres-close");
+  if (btnPresClose) btnPresClose.addEventListener("click", exitDigitalBoardPresentation);
+
+  // Global Keyboard Navigation for Digital Board Presentation
+  if (typeof window !== "undefined" && typeof window.addEventListener === "function") {
+    window.addEventListener("keydown", (e) => {
+      const modal = document.getElementById("slide-presentation-modal");
+      if (!modal || modal.classList.contains("hidden")) return;
+
+      if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") {
+        e.preventDefault();
+        nextPresentationSlide();
+      } else if (e.key === "ArrowLeft" || e.key === "PageUp") {
+        e.preventDefault();
+        prevPresentationSlide();
+      } else if (e.key === "Escape") {
+        exitDigitalBoardPresentation();
+      } else if (e.key === "a" || e.key === "A") {
+        togglePresentationAnswerReveal();
+      } else if (e.key === "t" || e.key === "T") {
+        togglePresentationTimer();
+      }
+    });
+  }
 }
 
 // ==========================================================================
@@ -9772,7 +9776,7 @@ function getGeminiApiKey() {
 function setGeminiApiKey(key) {
   try {
     localStorage.setItem(GEMINI_STORAGE_KEY, (key || "").trim());
-  } catch (e) {}
+  } catch (e) { }
   updateAiStatusUI();
 }
 
