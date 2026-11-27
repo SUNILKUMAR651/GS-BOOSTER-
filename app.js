@@ -1198,7 +1198,7 @@ const DEFAULT_STATE = {
     fontSize: 11.5,
     paginationMode: "autofit", // "autofit" (100% full page pack) or "manual" (slider)
     itemsPerPage: 16,
-    itemSpacing: "standard", // "tight", "standard", "relaxed", "justify"
+    itemSpacing: "justify", // "tight", "standard", "relaxed", "justify"
     lineHeight: "1.35", // "1.25", "1.35", "1.48"
     outerFrame: "none", // "none", "single", "double"
     rawMcqContent: SAMPLE_MCQ_DATASETS.biharPolice,
@@ -3510,17 +3510,17 @@ function shouldApplyFullPackColumn(itemCount, usedHeightPx, capacityPx, forceStr
   if (itemCount < 2) return false;
   const fillRatio = usedHeightPx / capacityPx;
 
-  if (forceStretch) {
-    if (isLastPageOfSection) {
-      // On the sparse final page, stretch only if reasonably filled (>= 50%)
-      return fillRatio >= 0.50;
-    }
-    // On all full pages, stretch 100% to eliminate ALL bottom gaps!
+  // On ALL standard/intermediate pages (not the final page), ALWAYS full-pack stretch
+  // to completely eliminate bottom blank gaps and align cleanly with the footer border!
+  if (!isLastPageOfSection) {
     return true;
   }
 
-  // When not in forced justify stretch: auto-stretch if already near bottom (>= 88%)
-  return fillRatio >= 0.88;
+  // On the final page of a section:
+  if (forceStretch) {
+    return fillRatio >= 0.40;
+  }
+  return fillRatio >= 0.65;
 }
 
 function packMcqItemsAutoFit(items) {
@@ -5833,7 +5833,7 @@ function packBookItemsAutoFit(items) {
         currentPage.leftItems.push(item);
         currentLeftHeight += h;
       } else {
-        currentPage.leftFullPack = shouldApplyFullPackColumn(currentPage.leftItems.length, currentLeftHeight, maxColHeight, false);
+        currentPage.leftFullPack = shouldApplyFullPackColumn(currentPage.leftItems.length, currentLeftHeight, maxColHeight, true, false);
         isFillingRight = true;
         currentPage.rightItems.push(item);
         currentRightHeight += h;
@@ -5843,7 +5843,7 @@ function packBookItemsAutoFit(items) {
         currentPage.rightItems.push(item);
         currentRightHeight += h;
       } else {
-        currentPage.rightFullPack = shouldApplyFullPackColumn(currentPage.rightItems.length, currentRightHeight, maxColHeight, false);
+        currentPage.rightFullPack = shouldApplyFullPackColumn(currentPage.rightItems.length, currentRightHeight, maxColHeight, true, false);
         pages.push(currentPage);
 
         pageIdx++;
@@ -5862,8 +5862,8 @@ function packBookItemsAutoFit(items) {
   }
 
   if (currentPage.leftItems.length > 0 || currentPage.rightItems.length > 0) {
-    currentPage.leftFullPack = shouldApplyFullPackColumn(currentPage.leftItems.length, currentLeftHeight, maxColHeight, false);
-    currentPage.rightFullPack = shouldApplyFullPackColumn(currentPage.rightItems.length, currentRightHeight, maxColHeight, false);
+    currentPage.leftFullPack = shouldApplyFullPackColumn(currentPage.leftItems.length, currentLeftHeight, maxColHeight, false, true);
+    currentPage.rightFullPack = shouldApplyFullPackColumn(currentPage.rightItems.length, currentRightHeight, maxColHeight, false, true);
     pages.push(currentPage);
   }
 
@@ -6316,7 +6316,7 @@ function packItemsAutoFit(items) {
         currentPage.leftItems.push(item);
         leftHeight += h;
       } else {
-        currentPage.leftFullPack = shouldApplyFullPackColumn(currentPage.leftItems.length, leftHeight, maxColHeight, false);
+        currentPage.leftFullPack = shouldApplyFullPackColumn(currentPage.leftItems.length, leftHeight, maxColHeight, true, false);
         isFillingRight = true;
         currentPage.rightItems.push(item);
         rightHeight += h;
@@ -6326,7 +6326,7 @@ function packItemsAutoFit(items) {
         currentPage.rightItems.push(item);
         rightHeight += h;
       } else {
-        currentPage.rightFullPack = shouldApplyFullPackColumn(currentPage.rightItems.length, rightHeight, maxColHeight, false);
+        currentPage.rightFullPack = shouldApplyFullPackColumn(currentPage.rightItems.length, rightHeight, maxColHeight, true, false);
         pages.push(currentPage);
 
         currentPage = { leftItems: [item], rightItems: [], leftFullPack: false, rightFullPack: false };
@@ -6338,8 +6338,8 @@ function packItemsAutoFit(items) {
   }
 
   if (currentPage.leftItems.length > 0 || currentPage.rightItems.length > 0) {
-    currentPage.leftFullPack = shouldApplyFullPackColumn(currentPage.leftItems.length, leftHeight, maxColHeight, false);
-    currentPage.rightFullPack = shouldApplyFullPackColumn(currentPage.rightItems.length, rightHeight, maxColHeight, false);
+    currentPage.leftFullPack = shouldApplyFullPackColumn(currentPage.leftItems.length, leftHeight, maxColHeight, false, true);
+    currentPage.rightFullPack = shouldApplyFullPackColumn(currentPage.rightItems.length, rightHeight, maxColHeight, false, true);
     pages.push(currentPage);
   }
 
