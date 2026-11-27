@@ -1463,15 +1463,22 @@
               </select>
             </div>
 
-            <!-- Answer Key Toggle -->
-            <div class="bg-slate-50 border border-slate-200 rounded-lg p-3">
+            <!-- Answer Key Toggle & Format -->
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 space-y-2">
               <label class="flex items-start gap-2.5 cursor-pointer">
                 <input type="checkbox" id="check-mcq-answer-key" class="w-4 h-4 text-red-600 rounded border-slate-300 focus:ring-red-500 mt-0.5" checked>
                 <div>
                   <span class="text-xs font-bold text-slate-800">Generate Compact Answer Key Grid</span>
-                  <p class="text-[11px] text-slate-500">Automatically creates an exam answer table (1-B, 2-B, 3-A...) at the end of the test booklet.</p>
+                  <p class="text-[11px] text-slate-500">Automatically creates an exam answer table (1.B, 2.C, 3.A... without Q) at the end of the test booklet.</p>
                 </div>
               </label>
+              <div>
+                <label for="select-mcq-answerkey-style" class="block text-[11px] font-semibold text-slate-700 mb-1">Answer Key Style / Format</label>
+                <select id="select-mcq-answerkey-style" class="w-full text-xs p-1.5 border border-slate-300 rounded bg-white font-medium">
+                  <option value="badges" selected>1.B, 2.C, 3.A... (Compact Badges - As Requested)</option>
+                  <option value="table">1, 2, 3... / B, C, A... (Table Grid without Q)</option>
+                </select>
+              </div>
             </div>
 
           </div>

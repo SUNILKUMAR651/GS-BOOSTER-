@@ -1189,6 +1189,7 @@ const DEFAULT_STATE = {
     optionsLayout: "auto", // "auto", "grid2x2", "inline4", "stacked"
     colDivider: "solid", // "solid", "dashed", "none"
     includeAnswerKey: true,
+    answerKeyStyle: "badges", // "badges" (1.B, 2.C, 3.A without Q) or "table" (table grid without Q)
     showSolutions: "end", // "end" (Solutions at End of Test - Exam Book Style), "below" (below question), "hide" (questions only)
     fontFamily: "'Noto Sans Devanagari', 'Inter', sans-serif",
     boldMode: "default",
@@ -3143,7 +3144,7 @@ function renderMcqDocument() {
 
     const answerKeyHtml = buildMcqAnswerKeyHtml(items);
     const hasAnswerKey = Boolean(answerKeyHtml);
-    const answerKeyHeightPx = getAnswerKeyHeightPx(items.filter(it => it.answer).length);
+    const answerKeyHeightPx = getAnswerKeyHeightPx(items.length);
 
     // Check headroom on the last question page:
     // Can the Answer Key fit on the last question page without overflowing or clipping Q93's options?
@@ -3151,7 +3152,7 @@ function renderMcqDocument() {
     const maxLastColHeight = Math.max((lastPageChunk && lastPageChunk.leftHeight) || 0, (lastPageChunk && lastPageChunk.rightHeight) || 0);
     // Standard max column capacity is ~864px (~228mm)
     const maxColCapacityPx = 864;
-    const canFitAnswerKeyOnLastQPage = hasAnswerKey && ((maxLastColHeight + answerKeyHeightPx) <= maxColCapacityPx);
+    const canFitAnswerKeyOnLastQPage = hasAnswerKey && ((maxLastColHeight + answerKeyHeightPx + 40) <= maxColCapacityPx);
 
     const isEndSolutionsMode = (appState.mcq && appState.mcq.showSolutions === "end");
     const solutionItems = isEndSolutionsMode
@@ -3507,13 +3508,22 @@ function parseRawMcqContent(rawText) {
  * Evaluates whether a packed column has enough content to justify bottom-stretch
  * without artificially stretching sparse final pages.
  */
-function shouldApplyFullPackColumn(itemCount, usedHeightPx, capacityPx, forceStretch) {
-  // Never stretch unless user explicitly requested 'justify' full-page stretch
-  if (!forceStretch) return false;
+function shouldApplyFullPackColumn(itemCount, usedHeightPx, capacityPx, forceStretch, isLastPageOfSection = false) {
   if (!capacityPx || capacityPx <= 0) return false;
+  if (itemCount < 2) return false;
   const fillRatio = usedHeightPx / capacityPx;
-  const slackPx = capacityPx - usedHeightPx;
-  return itemCount >= 2 && fillRatio >= 0.70 && slackPx <= 40;
+
+  if (forceStretch) {
+    if (isLastPageOfSection) {
+      // On the sparse final page, stretch only if reasonably filled (>= 50%)
+      return fillRatio >= 0.50;
+    }
+    // On all full pages, stretch 100% to eliminate ALL bottom gaps!
+    return true;
+  }
+
+  // When not in forced justify stretch: auto-stretch if already near bottom (>= 88%)
+  return fillRatio >= 0.88;
 }
 
 function packMcqItemsAutoFit(items) {
@@ -3527,6 +3537,8 @@ function packMcqItemsAutoFit(items) {
       chunks.push({
         leftItems: slice.slice(0, half),
         rightItems: slice.slice(half),
+        leftHeight: 0,
+        rightHeight: 0,
         leftFullPack: false,
         rightFullPack: false
       });
@@ -3567,19 +3579,19 @@ function packMcqItemsAutoFit(items) {
     margin: 0;
   `;
 
-  // Reserve generous clearance headroom preventing footer overlap & line cut
-  let colHeightMm = 236;
+  // Maximum printable height in A4 (297mm - 12mm margins - 12mm header - 7.5mm footer - 3mm layout margin = ~262.5mm)
+  let colHeightMm = 256;
   if (
     (appState.mcq.topAppBannerText && appState.mcq.topAppBannerText.trim()) ||
     (appState.mcq.topAppPillText && appState.mcq.topAppPillText.trim())
   ) {
-    colHeightMm -= 6;
+    colHeightMm -= 5.5;
   }
   if (appState.inPageBanners && appState.inPageBanners.headerBanner) {
-    colHeightMm -= 25;
+    colHeightMm -= 22;
   }
   if (appState.inPageBanners && appState.inPageBanners.footerBanner) {
-    colHeightMm -= 25;
+    colHeightMm -= 22;
   }
 
   const heightProbe = document.createElement("div");
@@ -3590,8 +3602,8 @@ function packMcqItemsAutoFit(items) {
   const colCapacityPx = (heightProbe.offsetHeight && heightProbe.offsetHeight > 500) ? heightProbe.offsetHeight : Math.round(colHeightMm * 3.7795);
   measureSandbox.removeChild(heightProbe);
 
-  // 16px safety cushion ensures zero text clipping or footer collision
-  const maxColHeight = colCapacityPx - 16;
+  // 4px micro-clearance ensures zero bottom line clip while utilizing 100% of printable space
+  const maxColHeight = colCapacityPx - 4;
 
   measureSandbox.innerHTML = "";
   const frag = document.createDocumentFragment();
@@ -3615,95 +3627,117 @@ function packMcqItemsAutoFit(items) {
     for (let i = 0; i < items.length; i += perPage) {
       const slice = items.slice(i, i + perPage);
       const sliceHeights = itemHeights.slice(i, i + perPage);
-      const page = { leftItems: [], rightItems: [], leftFullPack: false, rightFullPack: false };
-      let lH = 0;
-      let rH = 0;
-      let inR = false;
-      for (let j = 0; j < slice.length; j++) {
-        const it = slice[j];
-        const h = sliceHeights[j] || 45;
-        if (!inR) {
-          if (lH + h <= maxColHeight || page.leftItems.length === 0) {
-            page.leftItems.push(it);
-            lH += h;
-          } else {
-            inR = true;
-            page.rightItems.push(it);
-            rH += h;
-          }
-        } else {
-          page.rightItems.push(it);
-          rH += h;
+      const isLastChunk = (i + perPage >= items.length);
+
+      // Find balanced split point m
+      const totalH = sliceHeights.reduce((a, b) => a + b, 0);
+      const targetHalf = totalH / 2;
+      let optM = Math.ceil(slice.length / 2);
+      let optDiff = Infinity;
+      let curLH = 0;
+
+      for (let m = 1; m < slice.length; m++) {
+        curLH += sliceHeights[m - 1] || 45;
+        const curRH = totalH - curLH;
+        const diff = Math.abs(curLH - curRH);
+        if (diff < optDiff) {
+          optDiff = diff;
+          optM = m;
         }
       }
-      page.leftFullPack = shouldApplyFullPackColumn(page.leftItems.length, lH, maxColHeight, stretchFullCols);
-      page.rightFullPack = shouldApplyFullPackColumn(page.rightItems.length, rH, maxColHeight, stretchFullCols);
-      page.leftHeight = lH;
-      page.rightHeight = rH;
-      chunks.push(page);
+
+      const lSlice = slice.slice(0, optM);
+      const rSlice = slice.slice(optM);
+      const lH = sliceHeights.slice(0, optM).reduce((a, b) => a + b, 0);
+      const rH = sliceHeights.slice(optM).reduce((a, b) => a + b, 0);
+
+      chunks.push({
+        leftItems: lSlice,
+        rightItems: rSlice,
+        leftHeight: lH,
+        rightHeight: rH,
+        leftFullPack: shouldApplyFullPackColumn(lSlice.length, lH, maxColHeight, stretchFullCols, isLastChunk),
+        rightFullPack: shouldApplyFullPackColumn(rSlice.length, rH, maxColHeight, stretchFullCols, isLastChunk)
+      });
     }
     return chunks;
   }
 
-  // Left fills 100% top-to-bottom first, then Right fills 100%, then next page starts
+  // 100% Full-Page Balanced 2-Column Auto-Packing Engine:
+  // Maximizes questions per page, perfectly balances left & right columns,
+  // and eliminates large bottom blank gaps completely!
   const pages = [];
-  let currentPage = {
-    leftItems: [],
-    rightItems: [],
-    leftHeight: 0,
-    rightHeight: 0,
-    leftFullPack: false,
-    rightFullPack: false
-  };
-  let currentLeftHeight = 0;
-  let currentRightHeight = 0;
-  let isFillingRight = false;
+  let i = 0;
 
-  for (let i = 0; i < items.length; i++) {
-    const item = items[i];
-    const h = itemHeights[i] || 45;
+  while (i < items.length) {
+    let bestJ = i + 1;
+    let bestM = i + 1;
+    let bestDiff = Infinity;
+    let bestLeftH = itemHeights[i] || 45;
+    let bestRightH = 0;
 
-    if (!isFillingRight) {
-      if (currentLeftHeight + h <= maxColHeight || currentPage.leftItems.length === 0) {
-        currentPage.leftItems.push(item);
-        currentLeftHeight += h;
-      } else {
-        currentPage.leftFullPack = shouldApplyFullPackColumn(currentPage.leftItems.length, currentLeftHeight, maxColHeight, stretchFullCols);
-        isFillingRight = true;
-        currentPage.rightItems.push(item);
-        currentRightHeight += h;
+    for (let j = i + 1; j <= items.length; j++) {
+      let foundValidSplit = false;
+      let optM = -1;
+      let optDiff = Infinity;
+      let optLH = 0;
+      let optRH = 0;
+
+      // Find balanced split point m from i+1 to j
+      // Left gets items [i..m-1], Right gets items [m..j-1]
+      // Left must have at least 1 item (m >= i + 1)
+      let lH = 0;
+      for (let m = i + 1; m <= j; m++) {
+        if (m === i + 1) {
+          lH = itemHeights[i] || 45;
+        } else {
+          lH += itemHeights[m - 1] || 45;
+        }
+        if (lH > maxColHeight) break;
+
+        let rH = 0;
+        for (let k = m; k < j; k++) {
+          rH += itemHeights[k] || 45;
+        }
+
+        if (rH <= maxColHeight) {
+          foundValidSplit = true;
+          const diff = Math.abs(lH - rH);
+          if (diff < optDiff) {
+            optDiff = diff;
+            optM = m;
+            optLH = lH;
+            optRH = rH;
+          }
+        }
       }
-    } else {
-      if (currentRightHeight + h <= maxColHeight || currentPage.rightItems.length === 0) {
-        currentPage.rightItems.push(item);
-        currentRightHeight += h;
-      } else {
-        currentPage.rightFullPack = shouldApplyFullPackColumn(currentPage.rightItems.length, currentRightHeight, maxColHeight, stretchFullCols);
-        currentPage.leftHeight = currentLeftHeight;
-        currentPage.rightHeight = currentRightHeight;
-        pages.push(currentPage);
 
-        currentPage = {
-          leftItems: [item],
-          rightItems: [],
-          leftHeight: h,
-          rightHeight: 0,
-          leftFullPack: false,
-          rightFullPack: false
-        };
-        currentLeftHeight = h;
-        currentRightHeight = 0;
-        isFillingRight = false;
+      if (foundValidSplit) {
+        bestJ = j;
+        bestM = optM;
+        bestDiff = optDiff;
+        bestLeftH = optLH;
+        bestRightH = optRH;
+      } else {
+        // Items i..j cannot fit in 2 columns of maxColHeight, stop expanding page
+        break;
       }
     }
-  }
 
-  if (currentPage.leftItems.length > 0 || currentPage.rightItems.length > 0) {
-    currentPage.leftFullPack = shouldApplyFullPackColumn(currentPage.leftItems.length, currentLeftHeight, maxColHeight, stretchFullCols);
-    currentPage.rightFullPack = shouldApplyFullPackColumn(currentPage.rightItems.length, currentRightHeight, maxColHeight, stretchFullCols);
-    currentPage.leftHeight = currentLeftHeight;
-    currentPage.rightHeight = currentRightHeight;
-    pages.push(currentPage);
+    const isLastPage = (bestJ >= items.length);
+    const leftSlice = items.slice(i, bestM);
+    const rightSlice = items.slice(bestM, bestJ);
+
+    pages.push({
+      leftItems: leftSlice,
+      rightItems: rightSlice,
+      leftHeight: bestLeftH,
+      rightHeight: bestRightH,
+      leftFullPack: shouldApplyFullPackColumn(leftSlice.length, bestLeftH, maxColHeight, stretchFullCols, isLastPage),
+      rightFullPack: shouldApplyFullPackColumn(rightSlice.length, bestRightH, maxColHeight, stretchFullCols, isLastPage)
+    });
+
+    i = bestJ;
   }
 
   return pages;
@@ -4167,35 +4201,65 @@ function createMcqDomElement(item) {
 }
 
 /**
- * Builds authentic Answer Key grid table (Platform / Rukmini style)
+ * Builds authentic Answer Key grid table or compact badges (1.B, 2.C without Q - User Requested)
  */
 function buildMcqAnswerKeyHtml(allItems) {
   if (!appState.mcq || !appState.mcq.includeAnswerKey || !allItems || allItems.length === 0) return "";
-  const answered = allItems.filter(it => it.answer);
+  // Ensure all questions are included sequentially so rows and badge grids never desync or shift
+  const answered = allItems.map(it => ({
+    qNum: it.qNum,
+    answer: it.answer ? it.answer.trim() : "-"
+  }));
   if (answered.length === 0) return "";
 
-  let rowsHtml = "";
-  const colsPerRow = (answered.length > 25) ? 15 : 10;
-  for (let r = 0; r < answered.length; r += colsPerRow) {
-    const slice = answered.slice(r, r + colsPerRow);
-    rowsHtml += `<tr>${slice.map(a => `<th>Q${a.qNum}</th>`).join("")}</tr>`;
-    rowsHtml += `<tr>${slice.map(a => `<td>${a.answer}</td>`).join("")}</tr>`;
+  const style = (appState.mcq && appState.mcq.answerKeyStyle) || "badges";
+
+  if (style === "table") {
+    // Table Grid Format - Header is numbers only (1, 2, 3), strictly NO "Q"
+    let rowsHtml = "";
+    const colsPerRow = (answered.length > 25) ? 15 : 10;
+    for (let r = 0; r < answered.length; r += colsPerRow) {
+      const slice = answered.slice(r, r + colsPerRow);
+      rowsHtml += `<tr>${slice.map(a => `<th>${a.qNum}</th>`).join("")}</tr>`;
+      rowsHtml += `<tr>${slice.map(a => `<td>${escapeHtml(a.answer)}</td>`).join("")}</tr>`;
+    }
+    return `
+      <div class="mcq-answer-key-section">
+        <div class="mcq-answer-key-title">उत्तरमाला / ANSWER KEY (SET ${escapeHtml(appState.mcq.setNumber || "06")})</div>
+        <table class="mcq-answer-key-table">
+          <tbody>${rowsHtml}</tbody>
+        </table>
+      </div>
+    `;
   }
+
+  // Badges Format - 1.B, 2.C, 3.A... with strictly NO "Q" (User Requested Style)
+  const badgesHtml = answered.map(a => `
+    <div class="mcq-ak-badge-item">
+      <span class="mcq-ak-badge-num">${a.qNum}.</span><span class="mcq-ak-badge-ans">${escapeHtml(a.answer)}</span>
+    </div>
+  `).join("");
+
   return `
     <div class="mcq-answer-key-section">
       <div class="mcq-answer-key-title">उत्तरमाला / ANSWER KEY (SET ${escapeHtml(appState.mcq.setNumber || "06")})</div>
-      <table class="mcq-answer-key-table">
-        <tbody>${rowsHtml}</tbody>
-      </table>
+      <div class="mcq-answer-key-badges-grid">
+        ${badgesHtml}
+      </div>
     </div>
   `;
 }
 
 function getAnswerKeyHeightPx(answeredCount) {
   if (!answeredCount || answeredCount <= 0) return 0;
+  const style = (appState.mcq && appState.mcq.answerKeyStyle) || "badges";
+  if (style === "badges") {
+    const numRows = Math.ceil(answeredCount / 10);
+    return 30 + (numRows * 22) + 8;
+  }
   const colsPerRow = (answeredCount > 25) ? 15 : 10;
   const numRows = Math.ceil(answeredCount / colsPerRow);
-  return 34 + (numRows * 38) + 16;
+  return 30 + (numRows * 36) + 10;
 }
 
 /**
@@ -4394,19 +4458,19 @@ function packMcqSolutionsAutoFit(solutionItems, answerKeyOnFirstPageHeightPx = 0
     margin: 0;
   `;
 
-  let baseColHeightMm = 236;
+  let baseColHeightMm = 256;
   baseColHeightMm -= 14; // section header allowance
   if (
     (appState.mcq.topAppBannerText && appState.mcq.topAppBannerText.trim()) ||
     (appState.mcq.topAppPillText && appState.mcq.topAppPillText.trim())
   ) {
-    baseColHeightMm -= 6;
+    baseColHeightMm -= 5.5;
   }
   if (appState.inPageBanners && appState.inPageBanners.headerBanner) {
-    baseColHeightMm -= 25;
+    baseColHeightMm -= 22;
   }
   if (appState.inPageBanners && appState.inPageBanners.footerBanner) {
-    baseColHeightMm -= 25;
+    baseColHeightMm -= 22;
   }
 
   const heightProbe = document.createElement("div");
@@ -4417,9 +4481,9 @@ function packMcqSolutionsAutoFit(solutionItems, answerKeyOnFirstPageHeightPx = 0
   const baseColCapacityPx = (heightProbe.offsetHeight && heightProbe.offsetHeight > 400) ? heightProbe.offsetHeight : Math.round(baseColHeightMm * 3.7795);
   measureSandbox.removeChild(heightProbe);
 
-  const defaultMaxColHeight = baseColCapacityPx - 16;
+  const defaultMaxColHeight = baseColCapacityPx - 4;
   const firstPageMaxColHeight = answerKeyOnFirstPageHeightPx > 0
-    ? Math.max(140, defaultMaxColHeight - answerKeyOnFirstPageHeightPx - 14)
+    ? Math.max(140, defaultMaxColHeight - answerKeyOnFirstPageHeightPx - 10)
     : defaultMaxColHeight;
 
   // Measure all solution items
@@ -4440,48 +4504,75 @@ function packMcqSolutionsAutoFit(solutionItems, answerKeyOnFirstPageHeightPx = 0
   measureSandbox.innerHTML = "";
 
   const pages = [];
-  let currentCapacity = firstPageMaxColHeight;
-  let currentPage = {
-    leftItems: [],
-    rightItems: []
-  };
-  let currentLeftHeight = 0;
-  let currentRightHeight = 0;
-  let isFillingRight = false;
+  let itemIdx = 0;
+  const isForceStretch = (appState.mcq && appState.mcq.itemSpacing === "justify");
 
-  for (let i = 0; i < solutionItems.length; i++) {
-    const item = solutionItems[i];
-    const h = itemHeights[i] || 40;
+  while (itemIdx < solutionItems.length) {
+    const isFirstPage = (pages.length === 0);
+    const pageCapacity = isFirstPage ? firstPageMaxColHeight : defaultMaxColHeight;
 
-    if (!isFillingRight) {
-      if (currentLeftHeight + h <= currentCapacity || currentPage.leftItems.length === 0) {
-        currentPage.leftItems.push(item);
-        currentLeftHeight += h;
-      } else {
-        isFillingRight = true;
-        currentPage.rightItems.push(item);
-        currentRightHeight += h;
+    let bestCount = 1;
+    let bestSplit = 1;
+    let bestDiff = Infinity;
+    let bestLH = itemHeights[itemIdx] || 40;
+    let bestRH = 0;
+
+    for (let count = 1; itemIdx + count <= solutionItems.length; count++) {
+      const sliceHeights = itemHeights.slice(itemIdx, itemIdx + count);
+      const totalH = sliceHeights.reduce((a, b) => a + b, 0);
+
+      if (totalH > 2 * pageCapacity && count > 1) {
+        break;
       }
-    } else {
-      if (currentRightHeight + h <= currentCapacity || currentPage.rightItems.length === 0) {
-        currentPage.rightItems.push(item);
-        currentRightHeight += h;
-      } else {
-        pages.push(currentPage);
-        currentCapacity = defaultMaxColHeight;
-        currentPage = {
-          leftItems: [item],
-          rightItems: []
-        };
-        currentLeftHeight = h;
-        currentRightHeight = 0;
-        isFillingRight = false;
+
+      let feasible = false;
+      let optM = 1;
+      let optLH = 0;
+      let optRH = 0;
+      let optDiff = Infinity;
+      let curLH = 0;
+
+      for (let m = 1; m <= count; m++) {
+        curLH += sliceHeights[m - 1];
+        const curRH = totalH - curLH;
+        if (curLH <= pageCapacity && curRH <= pageCapacity) {
+          feasible = true;
+          const diff = Math.abs(curLH - curRH);
+          if (diff < optDiff) {
+            optDiff = diff;
+            optM = m;
+            optLH = curLH;
+            optRH = curRH;
+          }
+        }
+      }
+
+      if (feasible) {
+        bestCount = count;
+        bestSplit = optM;
+        bestDiff = optDiff;
+        bestLH = optLH;
+        bestRH = optRH;
+      } else if (count > 1) {
+        break;
       }
     }
-  }
 
-  if (currentPage.leftItems.length > 0 || currentPage.rightItems.length > 0) {
-    pages.push(currentPage);
+    const slice = solutionItems.slice(itemIdx, itemIdx + bestCount);
+    const leftItems = slice.slice(0, bestSplit);
+    const rightItems = slice.slice(bestSplit);
+    const isLastPage = (itemIdx + bestCount >= solutionItems.length);
+
+    pages.push({
+      leftItems,
+      rightItems,
+      leftHeight: bestLH,
+      rightHeight: bestRH,
+      leftFullPack: shouldApplyFullPackColumn(leftItems.length, bestLH, pageCapacity, isForceStretch, isLastPage),
+      rightFullPack: shouldApplyFullPackColumn(rightItems.length, bestRH, pageCapacity, isForceStretch, isLastPage)
+    });
+
+    itemIdx += bestCount;
   }
 
   return pages;
@@ -4593,11 +4684,11 @@ function createMcqSolutionPageElement(chunk, pageNum, isFirstSolutionPage, showA
       ${sectionHeaderHtml}
       ${answerKeySectionHtml}
       <div class="mcq-two-column-layout">
-        <div class="mcq-col mcq-col-left">
+        <div class="mcq-col mcq-col-left${chunk && chunk.leftFullPack ? " col-full-pack" : ""}">
           ${leftHtml}
         </div>
         <div class="mcq-col-divider ${dividerClass}"></div>
-        <div class="mcq-col mcq-col-right">
+        <div class="mcq-col mcq-col-right${chunk && chunk.rightFullPack ? " col-full-pack" : ""}">
           ${rightHtml}
         </div>
       </div>
@@ -6837,6 +6928,7 @@ function syncInputsFromState() {
   setValue("select-mcq-qnum-color", appState.mcq.qNumColor || "#dc2626");
   setValue("select-mcq-col-divider", appState.mcq.colDivider || "solid");
   setChecked("check-mcq-answer-key", appState.mcq.includeAnswerKey !== false);
+  setValue("select-mcq-answerkey-style", (appState.mcq && appState.mcq.answerKeyStyle) || "badges");
   setValue("input-mcq-font-size", appState.mcq.fontSize || 11.5);
   setText("val-mcq-font-size", `${appState.mcq.fontSize || 11.5}px`);
   setValue("select-mcq-font-family", appState.mcq.fontFamily || "'Noto Sans Devanagari', 'Inter', sans-serif");
@@ -8003,6 +8095,15 @@ function setupEventListeners() {
     checkAnswerKey.addEventListener("change", (e) => {
       if (!appState.mcq) appState.mcq = {};
       appState.mcq.includeAnswerKey = e.target.checked;
+      renderDocument();
+    });
+  }
+
+  const selectAnswerKeyStyle = document.getElementById("select-mcq-answerkey-style");
+  if (selectAnswerKeyStyle) {
+    selectAnswerKeyStyle.addEventListener("change", (e) => {
+      if (!appState.mcq) appState.mcq = {};
+      appState.mcq.answerKeyStyle = e.target.value;
       renderDocument();
     });
   }

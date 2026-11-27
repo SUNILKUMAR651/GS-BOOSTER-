@@ -683,7 +683,7 @@ sup {
   box-sizing: border-box;
   margin-top: 1.5mm;
   margin-bottom: 1.5mm;
-  padding-bottom: 5mm; /* Essential clearance buffer preventing footer overlap */
+  padding-bottom: 2mm; /* Optimized to maximize full-page printable space */
 }
 
 .mcq-col {
@@ -695,8 +695,8 @@ sup {
   flex-direction: column;
   justify-content: flex-start;
   align-items: stretch;
-  padding-bottom: 3mm;
-  overflow: hidden;
+  padding-bottom: 1.5mm;
+  overflow: visible;
 }
 
 .mcq-col-left {
@@ -1718,6 +1718,43 @@ sup {
   font-weight: 700;
 }
 
+/* MCQ Answer Key Compact Badges (1.B, 2.C, 3.A... - User Requested Format Without Q) */
+.mcq-answer-key-badges-grid {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 2.5px 4px;
+  width: 100%;
+  margin-top: 3px;
+  box-sizing: border-box;
+}
+
+.mcq-ak-badge-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 3px;
+  padding: 1.5px 3px;
+  font-size: 9.5px;
+  font-weight: 700;
+  line-height: 1.25;
+  box-sizing: border-box;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.mcq-ak-badge-num {
+  color: #0f172a;
+  font-weight: 800;
+  margin-right: 2px;
+}
+
+.mcq-ak-badge-ans {
+  color: #dc2626;
+  font-weight: 900;
+}
+
 /* Page Footer */
 .mcq-footer-box {
   display: flex;
@@ -1809,7 +1846,7 @@ sup {
 .mcq-col.col-full-pack,
 .book-col.col-full-pack {
   justify-content: space-between;
-  padding-bottom: 4mm;
+  padding-bottom: 2mm;
 }
 .col-full-pack > :last-child {
   margin-bottom: 0 !important;
@@ -2826,7 +2863,7 @@ sup {
   .mcq-col.col-full-pack,
   .book-col.col-full-pack {
     justify-content: space-between !important;
-    padding-bottom: 4mm !important;
+    padding-bottom: 2mm !important;
   }
   .col-full-pack > :last-child {
     margin-bottom: 0 !important;
@@ -2837,6 +2874,7 @@ sup {
   .mcq-opt-item,
   .mcq-solution-box,
   .mcq-end-solution-card,
+  .mcq-ak-badge-item,
   .pointer-block,
   .book-item-block,
   .book-bullet-item,
