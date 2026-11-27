@@ -1841,11 +1841,11 @@ sup {
   border-left: 1px solid #cbd5e1;
 }
 
-/* Full-Column Clean Bottom Fill (only on full columns so Q+A fill down to footer cleanly) */
+/* Full-Column Clean Bottom Fill - strictly keep flex-start so question gap never blows out (matches Picture 2 compact uniform spacing) */
 .gs-col.col-full-pack,
 .mcq-col.col-full-pack,
 .book-col.col-full-pack {
-  justify-content: space-between;
+  justify-content: flex-start;
   padding-bottom: 2mm;
 }
 .col-full-pack > :last-child {
@@ -2862,7 +2862,7 @@ sup {
   .gs-col.col-full-pack,
   .mcq-col.col-full-pack,
   .book-col.col-full-pack {
-    justify-content: space-between !important;
+    justify-content: flex-start !important;
     padding-bottom: 2mm !important;
   }
   .col-full-pack > :last-child {
