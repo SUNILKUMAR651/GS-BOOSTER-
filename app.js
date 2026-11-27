@@ -3295,8 +3295,8 @@ function parseRawMcqContent(rawText) {
       } else {
         const blockText = currentBlock.lines.join("\n");
         const isInsideMatchBlock = /(?:Column|List|कॉलम|सूची|स्तंभ|सुमेलित|Match)/i.test(blockText);
-        const hasUpperOptions = /(?:\([A-D]\)|(?:\r?\n\s*|\s{2,})[A-D][\.\)])[\s\S]*(?:\([B-D]\)|(?:\r?\n\s*|\s{2,})[B-D][\.\)])/.test(blockText);
-        const hasLowerOptions = !isInsideMatchBlock && /(?:\([a-d]\)|(?:\r?\n\s*|\s{2,})[a-d][\.\)])[\s\S]*(?:\([b-d]\)|(?:\r?\n\s*|\s{2,})[b-d][\.\)])/.test(blockText);
+        const hasUpperOptions = /(?:\([A-D]\)|(?:\r?\n\s*|\s+)[A-D][\.\)])[\s\S]*(?:\([B-D]\)|(?:\r?\n\s*|\s+)[B-D][\.\)])/.test(blockText);
+        const hasLowerOptions = !isInsideMatchBlock && /(?:\([a-d]\)|(?:\r?\n\s*|\s+)[a-d][\.\)])[\s\S]*(?:\([b-d]\)|(?:\r?\n\s*|\s+)[b-d][\.\)])/.test(blockText);
         const hasOptions = hasUpperOptions || hasLowerOptions;
         const hasAns = /(?:\b(?:Ans|Answer|Key)\b\s*[:\-\—\=]?|(?:^|[\s\r\n])उत्तर\s*[:\-\—\=]|(?:^|[\s\r\n])उत्तर\s*\([A-Ea-e1-5]\))/i.test(blockText);
 
@@ -3312,8 +3312,8 @@ function parseRawMcqContent(rawText) {
             aheadChunk += "\n" + l;
             scanned++;
           }
-          const hasAheadOpts = /(?:\([A-D]\)|(?:^|\n|\s{2,})[A-D][\.\)])[\s\S]*?(?:\([B-D]\)|(?:^|\n|\s{2,})[B-D][\.\)])/.test(aheadChunk) ||
-            (!/(?:Column|List|कॉलम|सूची|स्तंभ|सुमेलित|Match)/i.test(aheadChunk) && /(?:\([a-d]\)|(?:^|\n|\s{2,})[a-d][\.\)])[\s\S]*?(?:\([b-d]\)|(?:^|\n|\s{2,})[b-d][\.\)])/.test(aheadChunk));
+          const hasAheadOpts = /(?:\([A-D]\)|(?:^|\n|\s+)[A-D][\.\)])[\s\S]*?(?:\([B-D]\)|(?:^|\n|\s+)[B-D][\.\)])/.test(aheadChunk) ||
+            (!/(?:Column|List|कॉलम|सूची|स्तंभ|सुमेलित|Match)/i.test(aheadChunk) && /(?:\([a-d]\)|(?:^|\n|\s+)[a-d][\.\)])[\s\S]*?(?:\([b-d]\)|(?:^|\n|\s+)[b-d][\.\)])/.test(aheadChunk));
           const hasAheadAns = /(?:\b(?:Ans|Answer|Key)\b\s*[:\-\—\=]|(?:^|[\s\n])उत्तर\s*[:\-\—\=])/i.test(aheadChunk);
 
           if (hasAheadOpts || hasAheadAns || (currentQNum > 0 && parsedNum === currentQNum + 1 && !/^\s*1[\.\)\:\-]/.test(line))) {
@@ -3400,17 +3400,14 @@ function parseRawMcqContent(rawText) {
     fullText = fullText.replace(/_{2,}\s*(\([A-Ea-e1-5]\)|[A-Ea-e][\.\)])/g, " $1");
 
     // 3. Extract Options from fullText
-    // Prioritize UPPERCASE (A)-(E) or A.-E. (allows single space before (A)/(B)/(C)/(D));
-    // only use lowercase (a)-(d) if no uppercase sequence exists AND not inside Column A/B match items.
-    const markerRegex = /(?:(?:\r?\n\s*|^|\s+)\(([A-E])\)|(?:\r?\n\s*|^|\s{2,})(?:\(([a-e1-5])\)|([A-Ea-e])[\.\)]|\(([1-5])\))\s*)/g;
+    // Supports (A)-(E), A.-E., A), (1)-(5), 1.-5., whether on newlines or inline separated by space
+    const markerRegex = /(?:(?:\r?\n\s*|^|\s+)(?:\(([A-Ea-e1-5])\)|([A-Ea-e1-5])[\.\)])\s*)/g;
     const upperMatches = [];
     const lowerOrNumMatches = [];
     let m;
     while ((m = markerRegex.exec(fullText)) !== null) {
-      const upperCap = m[1];
-      const otherCap = m[2] || m[3] || m[4];
-      const rawChar = upperCap || otherCap;
-      const isUpper = Boolean(upperCap || (m[3] && m[3] === m[3].toUpperCase() && /[A-E]/.test(m[3])));
+      const rawChar = m[1] || m[2];
+      const isUpper = /[A-E]/.test(rawChar);
       const entry = {
         label: rawChar.toUpperCase(),
         index: m.index,
@@ -3763,7 +3760,7 @@ function getMatchLabelType(line) {
  * Handles Pattern 1 (same-line 2-column), Pattern 2 (interleaved lines), and Pattern 3 (block-by-block),
  * regardless of whether labels are a-d, 1-4, or I-IV on either side.
  */
-function detectAndExtractMatchTable(rawLines) {
+function detectAndExtractMatchTable(rawLines, fullQuestionText = "") {
   if (!rawLines || rawLines.length < 2) return null;
   const lines = rawLines.map(l => l.trim()).filter(Boolean);
   if (lines.length < 2) return null;
@@ -3776,16 +3773,24 @@ function detectAndExtractMatchTable(rawLines) {
     /^(?:कूट|कोड|Code|Codes|नीचे दिए|उपरोक्त)\b/i.test(s) ||
     /^\([A-D]\)\s/.test(s);
 
+  const hasExplicitMatchContext = /(?:सुमेलित|सूची|कॉलम|स्तंभ|Match|List|जोड़े|मिलाइए)/i.test(fullQuestionText || lines.join(" "));
+
   // Pattern 1: Same-line space/tab/pipe separated (e.g. "सूची-I (नदी)     सूची-II (उद्गम)")
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     const parts = line.split(/\s{2,}|\t|\s*\|\s*/).map(p => p.trim()).filter(Boolean);
     if (parts.length >= 2) {
+      const isFirstHeader = isMatchHeader(parts[0]) || isMatchHeader(parts[1]) || /(?:सूची|Column|List|कॉलम|स्तंभ)/i.test(line);
+
+      // Only treat as match table if headers exist OR question explicitly asks for matching
+      if (!isFirstHeader && !hasExplicitMatchContext) {
+        continue;
+      }
+
       const rows = [];
       let headerLeft = "";
       let headerRight = "";
       const startIndex = i;
-      const isFirstHeader = isMatchHeader(parts[0]) || isMatchHeader(parts[1]) || /(?:सूची|Column|List|कॉलम|स्तंभ)/i.test(line);
 
       let r = i;
       if (isFirstHeader) {
@@ -3800,6 +3805,10 @@ function detectAndExtractMatchTable(rawLines) {
 
         const curParts = curLine.split(/\s{2,}|\t|\s*\|\s*/).map(p => p.trim()).filter(Boolean);
         if (curParts.length >= 2) {
+          // If no explicit header, require valid match-list label on left
+          if (!isFirstHeader && !getMatchLabelType(curParts[0])) {
+            break;
+          }
           rows.push({
             left: curParts[0],
             right: curParts.slice(1).join(" ")
@@ -4019,10 +4028,32 @@ function extractCodeMatrixData(questionText, options) {
  * assertion-reason, and authentic borderless 2-column Match-The-Column layout.
  */
 function formatMcqQuestionBody(rawQuestion) {
-  let cleanQText = (rawQuestion || "").replace(/^\s*(?:Q\.?\s*\d+|\(\d+\)|\d+[\.\)\:\-])\s*/, "").trim();
+  let cleanQText = (rawQuestion || "")
+    .replace(/^\s*(?:Q\.?\s*\d+|\(\d+\)|\d+[\.\)\:\-])\s*[\.\:\-]?\s*/, "")
+    .trim();
   if (!cleanQText) return "";
 
-  const lines = cleanQText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  let lines = cleanQText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+
+  // Auto-number unnumbered statements before 'कूट:' / 'कोड:'
+  const codeIdx = lines.findIndex(l => /^(?:कूट|कोड|Code|Codes)\s*[:\-\—]?$/i.test(l.trim()));
+  if (codeIdx > 1) {
+    let startIdx = 0;
+    for (let i = 0; i < codeIdx; i++) {
+      if (/(?:व्यवस्थित कीजिए|कीजिए|चुनिए|क्या है|सत्य है|सही है|विचार कीजिए|कथनों पर)[\:\?]?\s*$/.test(lines[i])) {
+        startIdx = i + 1;
+      }
+    }
+    const candidateLines = lines.slice(startIdx, codeIdx);
+    if (candidateLines.length >= 2 && candidateLines.length <= 6) {
+      const hasNumbers = candidateLines.some(l => /^(?:(?:\([0-9IVXivx]+\)|[0-9IVXivx]+[\.\)\:\-]?))\s+/.test(l.trim()));
+      if (!hasNumbers) {
+        for (let j = 0; j < candidateLines.length; j++) {
+          lines[startIdx + j] = (j + 1) + ". " + candidateLines[j];
+        }
+      }
+    }
+  }
 
   // Check whether there are multiple Roman numeral statements (I, II, III, IV)
   const romanLineCount = lines.filter(l => /^(?:I|II|III|IV|V|VI)[\.\)]?\s+/.test(l)).length;
@@ -4030,7 +4061,8 @@ function formatMcqQuestionBody(rawQuestion) {
   function formatStatementOrPlainLine(line, idx, allLines) {
     const arMatch = line.match(/^((?:अभिकथन|कारण|कथन)\s*(?:\([A-Za-z0-9]+\)|[A-Za-z0-9]+)\s*[:\-\—]?)\s*(.*)$/i) ||
                     line.match(/^((?:Assertion|Reason|Statement)\s*(?:\([A-Za-z0-9]+\)|[A-Za-z0-9]+)\s*[:\-\—]?)\s*(.*)$/i);
-    const numStmtMatch = line.match(/^(\d+[\.\)])\s+(.*)$/);
+    // Recognizes "1. X", "1) X", "(1) X", "1- X", "1 X", "१. X" (only numbers 1-12, never years like 1940)
+    const numStmtMatch = line.match(/^(?:(?:\(([1-9\u0967-\u096F]|1[0-2])\)|([1-9\u0967-\u096F]|1[0-2])[\.\)\:\-]?))\s+(.*)$/);
     const romanStmtMatch = (romanLineCount >= 2 || /^(?:I|II|III|IV|V|VI)[\.\)]\s+/.test(line))
       ? line.match(/^(I|II|III|IV|V|VI)([\.\)]?)\s+(.*)$/)
       : null;
@@ -4039,7 +4071,9 @@ function formatMcqQuestionBody(rawQuestion) {
       return '<div class="mcq-assertion-row"><span class="badge-ar">' + escapeHtml(arMatch[1]) + '</span><span>' + highlightFormattedText(arMatch[2]) + '</span></div>';
     }
     if (numStmtMatch && (idx > 0 || allLines.length > 2)) {
-      return '<div class="mcq-stmt-row"><span class="badge-stmt">' + escapeHtml(numStmtMatch[1]) + '</span><span>' + highlightFormattedText(numStmtMatch[2]) + '</span></div>';
+      const n = numStmtMatch[1] || numStmtMatch[2];
+      const lbl = numStmtMatch[1] ? '(' + n + ')' : n + '.';
+      return '<div class="mcq-stmt-row"><span class="badge-stmt">' + escapeHtml(lbl) + '</span><span>' + highlightFormattedText(numStmtMatch[3]) + '</span></div>';
     }
     if (romanStmtMatch && (idx > 0 || allLines.length > 2)) {
       const lbl = romanStmtMatch[1] + (romanStmtMatch[2] || ".");
@@ -4052,7 +4086,7 @@ function formatMcqQuestionBody(rawQuestion) {
   }
 
   // 1. Detect and render Match-The-Column (सुमेलित कीजिए / Column A vs Column B)
-  const matchTableData = detectAndExtractMatchTable(lines);
+  const matchTableData = detectAndExtractMatchTable(lines, cleanQText);
   if (matchTableData) {
     const formattedBlocks = [];
 
@@ -4205,11 +4239,7 @@ function createMcqDomElement(item) {
  */
 function buildMcqAnswerKeyHtml(allItems) {
   if (!appState.mcq || !appState.mcq.includeAnswerKey || !allItems || allItems.length === 0) return "";
-  // Ensure all questions are included sequentially so rows and badge grids never desync or shift
-  const answered = allItems.map(it => ({
-    qNum: it.qNum,
-    answer: it.answer ? it.answer.trim() : "-"
-  }));
+  const answered = allItems.filter(it => it.answer);
   if (answered.length === 0) return "";
 
   const style = (appState.mcq && appState.mcq.answerKeyStyle) || "badges";
@@ -4458,19 +4488,19 @@ function packMcqSolutionsAutoFit(solutionItems, answerKeyOnFirstPageHeightPx = 0
     margin: 0;
   `;
 
-  let baseColHeightMm = 256;
+  let baseColHeightMm = 236;
   baseColHeightMm -= 14; // section header allowance
   if (
     (appState.mcq.topAppBannerText && appState.mcq.topAppBannerText.trim()) ||
     (appState.mcq.topAppPillText && appState.mcq.topAppPillText.trim())
   ) {
-    baseColHeightMm -= 5.5;
+    baseColHeightMm -= 6;
   }
   if (appState.inPageBanners && appState.inPageBanners.headerBanner) {
-    baseColHeightMm -= 22;
+    baseColHeightMm -= 25;
   }
   if (appState.inPageBanners && appState.inPageBanners.footerBanner) {
-    baseColHeightMm -= 22;
+    baseColHeightMm -= 25;
   }
 
   const heightProbe = document.createElement("div");
@@ -4481,9 +4511,9 @@ function packMcqSolutionsAutoFit(solutionItems, answerKeyOnFirstPageHeightPx = 0
   const baseColCapacityPx = (heightProbe.offsetHeight && heightProbe.offsetHeight > 400) ? heightProbe.offsetHeight : Math.round(baseColHeightMm * 3.7795);
   measureSandbox.removeChild(heightProbe);
 
-  const defaultMaxColHeight = baseColCapacityPx - 4;
+  const defaultMaxColHeight = baseColCapacityPx - 16;
   const firstPageMaxColHeight = answerKeyOnFirstPageHeightPx > 0
-    ? Math.max(140, defaultMaxColHeight - answerKeyOnFirstPageHeightPx - 10)
+    ? Math.max(140, defaultMaxColHeight - answerKeyOnFirstPageHeightPx - 14)
     : defaultMaxColHeight;
 
   // Measure all solution items
